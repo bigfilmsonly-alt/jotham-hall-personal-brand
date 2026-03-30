@@ -1,0 +1,7 @@
+# Security Policy for jothamhall.com
+# https://securitytxt.org/
+
+Contact: mailto:contact@jothamhall.com
+Expires: 2027-12-31T23:59:00.000Z
+Preferred-Languages: en
+Canonical: https://jothamhall.com/.well-known/security.txt
