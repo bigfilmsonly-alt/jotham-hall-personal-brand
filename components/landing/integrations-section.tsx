@@ -43,10 +43,8 @@ export function IntegrationsSection() {
           }`}
         >
           <span className="inline-flex items-center gap-3 text-sm font-mono text-muted-foreground mb-6">
-            <span className="w-8 h-px bg-foreground/30" />
-            Tools & Technologies
-            <span className="w-8 h-px bg-foreground/30" />
-          </span>
+                        Tools & Technologies
+                      </span>
           <h2 className="text-3xl sm:text-4xl lg:text-6xl font-display tracking-tight mb-6">
             I build with the best
             <br />

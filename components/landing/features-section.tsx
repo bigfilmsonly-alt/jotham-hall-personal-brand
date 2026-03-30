@@ -324,8 +324,7 @@ export function FeaturesSection() {
         {/* Header */}
         <div className="mb-16 lg:mb-24 text-center lg:text-left">
           <span className="inline-flex items-center justify-center lg:justify-start gap-3 text-sm font-mono text-muted-foreground mb-6">
-            <span className="w-8 h-px bg-foreground/30" />
-            What I Bring to the Table
+                        What I Bring to the Table
           </span>
           <h2
             className={`text-3xl sm:text-4xl lg:text-6xl font-display tracking-tight transition-all duration-700 ${

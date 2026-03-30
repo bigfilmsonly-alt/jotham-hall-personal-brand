@@ -88,8 +88,7 @@ export function HowItWorksSection() {
         {/* Header */}
         <div className="mb-16 lg:mb-24 text-center lg:text-left">
           <span className="inline-flex items-center justify-center lg:justify-start gap-3 text-sm font-mono text-background/50 mb-6">
-            <span className="w-8 h-px bg-background/30" />
-            The Partnership Process
+                        The Partnership Process
           </span>
           <h2
             className={`text-3xl sm:text-4xl lg:text-6xl font-display tracking-tight transition-all duration-700 ${

@@ -62,7 +62,7 @@ export function HeroSection() {
         ))}
       </div>
       
-      <div className="relative z-10 max-w-[1400px] mx-auto px-6 lg:px-12 pt-32 pb-48 lg:py-40 text-center lg:text-left">
+      <div className="relative z-10 max-w-[1400px] mx-auto px-6 lg:px-12 pt-32 pb-28 lg:py-40 text-center lg:text-left">
         {/* Hidden H1 for SEO - Primary keyword */}
         <h1 className="sr-only">Jotham Hall - Entrepreneur, Television Producer, Founder of SuccessUpgrade.ai</h1>
         
@@ -135,14 +135,6 @@ export function HeroSection() {
             >
               Book a Strategy Call
               <ArrowRight className="w-4 h-4 ml-2 transition-transform group-hover:translate-x-1" />
-            </Button>
-            <Button 
-              size="lg" 
-              variant="outline" 
-              className="h-14 px-8 text-base rounded-full border-foreground/20 hover:bg-foreground/5"
-              asChild
-            >
-              <a href="#features">See My Work</a>
             </Button>
           </div>
         </div>

@@ -92,25 +92,6 @@ export function MobileTabBar() {
   const pathname = usePathname();
   const [activeSubmenu, setActiveSubmenu] = useState<string | null>(null);
   const [isContactOpen, setIsContactOpen] = useState(false);
-  const [isVisible, setIsVisible] = useState(true);
-  const [lastScrollY, setLastScrollY] = useState(0);
-
-  // Hide tab bar when scrolling down fast, show when scrolling up
-  useEffect(() => {
-    const handleScroll = () => {
-      const currentScrollY = window.scrollY;
-      if (currentScrollY > lastScrollY && currentScrollY > 100) {
-        setIsVisible(false);
-        setActiveSubmenu(null);
-      } else {
-        setIsVisible(true);
-      }
-      setLastScrollY(currentScrollY);
-    };
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [lastScrollY]);
-
   // Close submenu on route change
   useEffect(() => {
     setActiveSubmenu(null);
@@ -199,11 +180,9 @@ export function MobileTabBar() {
         </div>
       </div>
 
-      {/* Tab Bar */}
+      {/* Tab Bar — always visible */}
       <nav
-        className={`md:hidden fixed bottom-0 left-0 right-0 z-[999] transition-transform duration-300 ${
-          isVisible ? "translate-y-0" : "translate-y-full"
-        }`}
+        className="md:hidden fixed bottom-0 left-0 right-0 z-[999]"
       >
         <div
           className="bg-background/90 backdrop-blur-xl border-t border-foreground/10"
