@@ -31,8 +31,8 @@ export function HeroSection() {
       <meta itemProp="jobTitle" content="Entrepreneur, Television Producer, Founder of SuccessUpgrade.ai" />
       <meta itemProp="description" content="Jotham Hall is an entrepreneur, television producer, and technology founder known for his work in reality television production, creative media, and artificial intelligence systems for business automation." />
       <link itemProp="url" href="https://jothamhall.com" />
-      {/* Animated sphere background — large to fill hero space */}
-      <div className="absolute right-1/2 translate-x-1/2 sm:right-0 sm:translate-x-0 top-[15%] w-[500px] h-[500px] sm:w-[700px] sm:h-[700px] lg:w-[900px] lg:h-[900px] opacity-25 sm:opacity-35 lg:opacity-40 pointer-events-none">
+      {/* Animated sphere background — positioned below CTAs */}
+      <div className="absolute right-1/2 translate-x-1/2 sm:right-0 sm:translate-x-0 top-[55%] sm:top-[40%] lg:top-[15%] w-[500px] h-[500px] sm:w-[700px] sm:h-[700px] lg:w-[900px] lg:h-[900px] opacity-25 sm:opacity-35 lg:opacity-40 pointer-events-none">
         <AnimatedSphere />
       </div>
       
