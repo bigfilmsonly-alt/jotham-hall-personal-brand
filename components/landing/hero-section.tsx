@@ -32,7 +32,7 @@ export function HeroSection() {
       <meta itemProp="description" content="Jotham Hall is an entrepreneur, television producer, and technology founder known for his work in reality television production, creative media, and artificial intelligence systems for business automation." />
       <link itemProp="url" href="https://jothamhall.com" />
       {/* Animated sphere background — positioned below CTAs */}
-      <div className="absolute right-1/2 translate-x-1/2 sm:right-0 sm:translate-x-0 top-[22%] sm:top-[25%] lg:top-[15%] w-[450px] h-[450px] sm:w-[700px] sm:h-[700px] lg:w-[900px] lg:h-[900px] opacity-25 sm:opacity-35 lg:opacity-40 pointer-events-none">
+      <div className="absolute right-1/2 translate-x-1/2 sm:right-0 sm:translate-x-0 top-[45%] sm:top-[35%] lg:top-[15%] w-[450px] h-[450px] sm:w-[700px] sm:h-[700px] lg:w-[900px] lg:h-[900px] opacity-25 sm:opacity-35 lg:opacity-40 pointer-events-none">
         <AnimatedSphere />
       </div>
       
@@ -141,7 +141,7 @@ export function HeroSection() {
 
         {/* Secondary CTA line */}
         <p
-          className={`mt-12 text-center lg:text-left text-base sm:text-lg font-display text-foreground/60 transition-all duration-700 delay-500 ${
+          className={`mt-6 text-center lg:text-left text-base sm:text-lg font-display text-foreground/60 transition-all duration-700 delay-500 ${
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
           }`}
         >
@@ -150,9 +150,9 @@ export function HeroSection() {
 
       </div>
 
-      {/* Stats marquee - positioned lower for visibility */}
-      <div 
-        className={`absolute bottom-4 md:bottom-6 left-0 right-0 transition-all duration-700 delay-500 overflow-hidden ${
+      {/* Stats marquee */}
+      <div
+        className={`absolute bottom-12 md:bottom-6 left-0 right-0 transition-all duration-700 delay-500 overflow-hidden ${
           isVisible ? "opacity-100" : "opacity-0"
         }`}
       >
