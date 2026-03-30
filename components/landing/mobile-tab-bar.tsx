@@ -77,7 +77,7 @@ const tabs = [
       { name: "About", href: "/about" },
       { name: "Who is Jotham Hall", href: "/who-is-jotham-hall" },
       { name: "Speaking", href: "/speaking" },
-      { name: "Television", href: "/television" },
+      { name: "TV Credits", href: "/tv-credits" },
       { name: "Contact", href: "/contact" },
     ],
   },

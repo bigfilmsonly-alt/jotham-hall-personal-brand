@@ -74,7 +74,7 @@ export function HeroSection() {
         >
           <span className="inline-flex items-center justify-center lg:justify-start gap-3 text-sm font-mono text-muted-foreground">
             <span className="w-8 h-px bg-foreground/30" />
-            Entrepreneur • Television Producer • Founder of SuccessUpgrade.ai
+            I turn founders into brands that print revenue on autopilot
           </span>
         </div>
         
