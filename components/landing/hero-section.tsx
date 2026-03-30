@@ -146,9 +146,18 @@ export function HeroSection() {
             </Button>
           </div>
         </div>
-        
+
+        {/* Secondary CTA line */}
+        <p
+          className={`mt-12 text-center lg:text-left text-base sm:text-lg font-display text-foreground/60 transition-all duration-700 delay-500 ${
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+          }`}
+        >
+          50+ founders scaled. Zero guesswork. Your system is one call away.
+        </p>
+
       </div>
-      
+
       {/* Stats marquee - positioned lower for visibility */}
       <div 
         className={`absolute bottom-4 md:bottom-6 left-0 right-0 transition-all duration-700 delay-500 overflow-hidden ${
