@@ -136,9 +136,9 @@ export default function RootLayout({
         <meta name="author" content="Jotham Hall" />
         <meta name="geo.region" content="US-FL" />
         <meta name="geo.placename" content="Miami Beach" />
+        <StructuredData />
       </head>
       <body className={`${instrumentSans.variable} ${instrumentSerif.variable} ${jetbrainsMono.variable} font-sans antialiased`}>
-        <StructuredData />
         {children}
         <MobileTabBar />
         <Analytics />
