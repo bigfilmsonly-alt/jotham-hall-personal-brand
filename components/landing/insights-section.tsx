@@ -279,7 +279,7 @@ export function InsightsSection() {
           <div className="flex flex-col lg:flex-row items-center lg:items-end justify-between mb-10 text-center lg:text-left">
             <div>
               <span className="inline-flex items-center justify-center lg:justify-start gap-3 text-xs font-mono text-muted-foreground mb-3">
-                <span className="hidden lg:block w-6 h-px bg-foreground/30" />
+                <span className="w-6 h-px bg-foreground/30" />
                 From the Founder
               </span>
               <h2

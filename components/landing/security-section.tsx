@@ -55,7 +55,7 @@ export function SecuritySection() {
             }`}
           >
             <span className="inline-flex items-center justify-center lg:justify-start gap-3 text-sm font-mono text-muted-foreground mb-6">
-              <span className="hidden lg:block w-8 h-px bg-foreground/30" />
+              <span className="w-8 h-px bg-foreground/30" />
               Why Jotham Hall
             </span>
             <h2 className="text-3xl sm:text-4xl lg:text-6xl font-display tracking-tight mb-8">

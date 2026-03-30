@@ -32,7 +32,7 @@ export function HeroSection() {
       <meta itemProp="description" content="Jotham Hall is an entrepreneur, television producer, and technology founder known for his work in reality television production, creative media, and artificial intelligence systems for business automation." />
       <link itemProp="url" href="https://jothamhall.com" />
       {/* Animated sphere background */}
-      <div className="absolute right-0 top-1/2 -translate-y-1/2 w-[600px] h-[600px] lg:w-[800px] lg:h-[800px] opacity-40 pointer-events-none">
+      <div className="absolute right-0 top-1/2 -translate-y-1/2 w-[300px] h-[300px] sm:w-[500px] sm:h-[500px] lg:w-[800px] lg:h-[800px] opacity-30 sm:opacity-40 pointer-events-none">
         <AnimatedSphere />
       </div>
       
@@ -73,7 +73,7 @@ export function HeroSection() {
           }`}
         >
           <span className="inline-flex items-center justify-center lg:justify-start gap-3 text-sm font-mono text-muted-foreground">
-            <span className="hidden lg:block w-8 h-px bg-foreground/30" />
+            <span className="w-8 h-px bg-foreground/30" />
             Entrepreneur • Television Producer • Founder of SuccessUpgrade.ai
           </span>
         </div>

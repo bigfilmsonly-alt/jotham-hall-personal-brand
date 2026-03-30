@@ -24,12 +24,21 @@ export function CtaSection() {
     return () => observer.disconnect();
   }, []);
 
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    const rect = e.currentTarget.getBoundingClientRect();
+  const updatePosition = (clientX: number, clientY: number, target: HTMLElement) => {
+    const rect = target.getBoundingClientRect();
     setMousePosition({
-      x: ((e.clientX - rect.left) / rect.width) * 100,
-      y: ((e.clientY - rect.top) / rect.height) * 100,
+      x: ((clientX - rect.left) / rect.width) * 100,
+      y: ((clientY - rect.top) / rect.height) * 100,
     });
+  };
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    updatePosition(e.clientX, e.clientY, e.currentTarget);
+  };
+
+  const handleTouchMove = (e: React.TouchEvent<HTMLDivElement>) => {
+    const touch = e.touches[0];
+    updatePosition(touch.clientX, touch.clientY, e.currentTarget);
   };
 
   return (
@@ -40,6 +49,7 @@ export function CtaSection() {
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
           }`}
           onMouseMove={handleMouseMove}
+          onTouchMove={handleTouchMove}
         >
           {/* Spotlight effect */}
           <div 
@@ -78,7 +88,7 @@ export function CtaSection() {
               </div>
 
               {/* Right animation */}
-              <div className="hidden lg:flex items-center justify-center w-[500px] h-[500px] -mr-16">
+              <div className="flex items-center justify-center w-[250px] h-[250px] mx-auto sm:w-[350px] sm:h-[350px] lg:w-[500px] lg:h-[500px] lg:-mr-16">
                 <AnimatedTetrahedron />
               </div>
             </div>

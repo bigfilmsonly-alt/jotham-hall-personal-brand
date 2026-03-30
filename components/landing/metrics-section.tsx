@@ -101,7 +101,7 @@ export function MetricsSection() {
         <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8 mb-16 lg:mb-24 text-center lg:text-left">
           <div>
             <span className="inline-flex items-center justify-center lg:justify-start gap-3 text-sm font-mono text-muted-foreground mb-6">
-              <span className="hidden lg:block w-8 h-px bg-foreground/30" />
+              <span className="w-8 h-px bg-foreground/30" />
               Track Record
             </span>
             <h2

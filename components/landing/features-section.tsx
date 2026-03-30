@@ -278,7 +278,7 @@ function FeatureCard({ feature, index }: { feature: typeof features[0]; index: n
         {/* Content */}
         <div className="flex-1 grid lg:grid-cols-2 gap-4 lg:gap-8 items-center">
           <div>
-            <h3 className="text-2xl lg:text-4xl font-display mb-2 lg:mb-4 lg:group-hover:translate-x-2 transition-transform duration-500">
+            <h3 className="text-2xl lg:text-4xl font-display mb-2 lg:mb-4 group-hover:translate-x-2 transition-transform duration-500">
               {feature.title}
             </h3>
             <p className="text-sm lg:text-lg text-muted-foreground leading-relaxed">
@@ -286,9 +286,9 @@ function FeatureCard({ feature, index }: { feature: typeof features[0]; index: n
             </p>
           </div>
           
-          {/* Visual - hidden on mobile */}
-          <div className="hidden lg:flex justify-center lg:justify-end">
-            <div className="w-48 h-40 text-foreground">
+          {/* Animated Visual */}
+          <div className="flex justify-center lg:justify-end">
+            <div className="w-32 h-28 sm:w-40 sm:h-32 lg:w-48 lg:h-40 text-foreground">
               <AnimatedVisual type={feature.visual} />
             </div>
           </div>
@@ -324,7 +324,7 @@ export function FeaturesSection() {
         {/* Header */}
         <div className="mb-16 lg:mb-24 text-center lg:text-left">
           <span className="inline-flex items-center justify-center lg:justify-start gap-3 text-sm font-mono text-muted-foreground mb-6">
-            <span className="hidden lg:block w-8 h-px bg-foreground/30" />
+            <span className="w-8 h-px bg-foreground/30" />
             What I Bring to the Table
           </span>
           <h2

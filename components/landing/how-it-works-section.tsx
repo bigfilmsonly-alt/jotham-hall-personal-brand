@@ -88,7 +88,7 @@ export function HowItWorksSection() {
         {/* Header */}
         <div className="mb-16 lg:mb-24 text-center lg:text-left">
           <span className="inline-flex items-center justify-center lg:justify-start gap-3 text-sm font-mono text-background/50 mb-6">
-            <span className="hidden lg:block w-8 h-px bg-background/30" />
+            <span className="w-8 h-px bg-background/30" />
             The Partnership Process
           </span>
           <h2
@@ -118,7 +118,7 @@ export function HowItWorksSection() {
                 <div className="flex flex-col lg:flex-row items-center lg:items-start gap-3 lg:gap-6">
                   <span className="font-display text-2xl lg:text-3xl text-background/30">{step.number}</span>
                   <div className="flex-1 px-2 lg:px-0">
-                    <h3 className="text-xl lg:text-3xl font-display mb-2 lg:mb-3 lg:group-hover:translate-x-2 transition-transform duration-300">
+                    <h3 className="text-xl lg:text-3xl font-display mb-2 lg:mb-3 group-hover:translate-x-2 transition-transform duration-300">
                       {step.title}
                     </h3>
                     <p className="text-sm lg:text-base text-background/60 leading-relaxed">
@@ -143,7 +143,7 @@ export function HowItWorksSection() {
           </div>
 
           {/* Code display */}
-          <div className="lg:sticky lg:top-32 self-start hidden lg:block">
+          <div className="lg:sticky lg:top-32 self-start">
             <div className="border border-background/10 overflow-hidden">
               {/* Window header */}
               <div className="px-6 py-4 border-b border-background/10 flex items-center justify-between">
