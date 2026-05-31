@@ -68,6 +68,13 @@ const tabs = [
     name: "Insights",
     href: "/insights",
     icon: Newspaper,
+    submenu: [
+      { name: "All Articles", href: "/insights" },
+      { name: "Paradise Protocol", href: "/insights/how-i-built-ai-first-ecosystem-paradise-protocol" },
+      { name: "Vibe Coding", href: "/insights/vibe-coding-future-ai-assisted-development" },
+      { name: "AI Agents", href: "/insights/ai-agents-future-of-work" },
+      { name: "Founder OS", href: "/insights/founder-os-operating-system-thinking" },
+    ],
   },
   {
     name: "About",
@@ -76,9 +83,8 @@ const tabs = [
     submenu: [
       { name: "About", href: "/about" },
       { name: "Who is Jotham Hall", href: "/who-is-jotham-hall" },
-      { name: "Speaking", href: "/speaking" },
       { name: "TV Credits", href: "/tv-credits" },
-      { name: "Contact", href: "/contact" },
+      { name: "Speaking", href: "/speaking" },
     ],
   },
   {
