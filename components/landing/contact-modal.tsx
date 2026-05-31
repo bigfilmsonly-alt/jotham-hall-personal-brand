@@ -62,14 +62,12 @@ function ChipSelect({
   options,
   value,
   onChange,
-  required,
   multi,
 }: {
   label: string;
   options: string[];
   value: string | string[];
   onChange: (val: string | string[]) => void;
-  required?: boolean;
   multi?: boolean;
 }) {
   const isSelected = (opt: string) =>
@@ -87,7 +85,7 @@ function ChipSelect({
   return (
     <div>
       <p className="text-xs font-mono text-muted-foreground uppercase tracking-wider mb-2">
-        {label} {required && "*"}
+        {label}
       </p>
       <div className="flex flex-wrap gap-2">
         {options.map((opt) => (
@@ -98,7 +96,7 @@ function ChipSelect({
             className={`px-3 py-2 text-xs font-medium border transition-all duration-150 active:scale-95 ${
               isSelected(opt)
                 ? "bg-foreground text-background border-foreground"
-                : "bg-foreground/5 text-foreground/70 border-foreground/10 hover:border-foreground/30"
+                : "bg-foreground/5 text-foreground/70 border-foreground/10"
             }`}
           >
             {opt}
@@ -127,9 +125,9 @@ export function ContactModal({ isOpen, onClose }: ContactModalProps) {
     if (isOpen) {
       document.body.style.overflow = "hidden";
     } else {
-      document.body.style.overflow = "unset";
+      document.body.style.overflow = "";
     }
-    return () => { document.body.style.overflow = "unset"; };
+    return () => { document.body.style.overflow = ""; };
   }, [isOpen]);
 
   useEffect(() => {
@@ -147,7 +145,6 @@ export function ContactModal({ isOpen, onClose }: ContactModalProps) {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (status === "loading") return;
-    if (!form.service || !form.revenue_range || form.bottlenecks.length === 0 || !form.budget) return;
 
     setStatus("loading");
     const { error } = await supabase.from("contact_submissions").insert({
@@ -156,10 +153,10 @@ export function ContactModal({ isOpen, onClose }: ContactModalProps) {
       phone: form.phone || null,
       company: form.company || null,
       website: null,
-      service: form.service,
-      revenue_range: form.revenue_range,
-      challenge: form.bottlenecks.join(", "),
-      budget: form.budget,
+      service: form.service || null,
+      revenue_range: form.revenue_range || null,
+      challenge: form.bottlenecks.length > 0 ? form.bottlenecks.join(", ") : null,
+      budget: form.budget || null,
       how_found: form.how_found || null,
     });
 
@@ -178,7 +175,7 @@ export function ContactModal({ isOpen, onClose }: ContactModalProps) {
 
   if (!isOpen) return null;
 
-  const inputClass = "w-full px-4 py-3 bg-foreground/5 border border-foreground/10 text-foreground placeholder-muted-foreground focus:outline-none focus:border-foreground/30 transition-colors text-sm rounded-none";
+  const inputClass = "w-full px-4 py-3 bg-foreground/5 border border-foreground/10 text-foreground placeholder-muted-foreground focus:outline-none focus:border-foreground/30 transition-colors text-sm";
   const labelClass = "text-xs font-mono text-muted-foreground uppercase tracking-wider mb-1.5 block";
 
   return (
@@ -188,141 +185,127 @@ export function ContactModal({ isOpen, onClose }: ContactModalProps) {
         onClick={onClose}
       />
 
-      <div className="relative z-10 h-full flex flex-col">
-        {/* Fixed header */}
-        <div className="shrink-0 flex items-center justify-between px-5 py-4 border-b border-foreground/10 bg-background">
-          <div>
-            <p className="font-mono text-[10px] tracking-widest text-muted-foreground uppercase">Apply to Work Together</p>
-            <h3 className="font-display text-lg tracking-tight mt-0.5">Tell me about your business</h3>
-          </div>
-          <button
-            onClick={status === "success" ? resetForm : onClose}
-            className="p-2 text-muted-foreground hover:text-foreground transition-colors"
-            aria-label="Close"
-          >
-            <X className="w-5 h-5" />
-          </button>
-        </div>
-
-        {/* Scrollable content */}
-        <div className="flex-1 overflow-y-auto">
-          <div className="px-5 py-5 pb-8">
-            {status === "success" ? (
-              <div className="text-center py-12">
-                <div className="w-16 h-16 mx-auto mb-6 border border-foreground/20 flex items-center justify-center">
-                  <Check className="w-8 h-8 text-foreground" />
-                </div>
-                <h3 className="font-display text-2xl tracking-tight mb-3">Application received.</h3>
-                <p className="text-muted-foreground text-sm max-w-xs mx-auto">
-                  I review every submission personally. Expect a response within 24 hours.
-                </p>
-                <button
-                  onClick={resetForm}
-                  className="mt-8 px-6 py-3 bg-foreground text-background text-sm font-medium hover:bg-foreground/90 transition-colors"
-                >
-                  Done
-                </button>
-              </div>
-            ) : (
-              <form onSubmit={handleSubmit} className="space-y-5">
-                {/* Name + Email */}
-                <div>
-                  <label htmlFor="name" className={labelClass}>Full Name *</label>
-                  <input id="name" name="name" type="text" required value={form.name} onChange={handleChange} placeholder="Your full name" className={inputClass} />
-                </div>
-                <div>
-                  <label htmlFor="email" className={labelClass}>Email *</label>
-                  <input id="email" name="email" type="email" required value={form.email} onChange={handleChange} placeholder="you@company.com" className={inputClass} />
-                </div>
-
-                {/* Phone + Company */}
-                <div className="grid grid-cols-2 gap-3">
-                  <div>
-                    <label htmlFor="phone" className={labelClass}>Phone</label>
-                    <input id="phone" name="phone" type="tel" value={form.phone} onChange={handleChange} placeholder="(555) 000-0000" className={inputClass} />
-                  </div>
-                  <div>
-                    <label htmlFor="company" className={labelClass}>Company</label>
-                    <input id="company" name="company" type="text" value={form.company} onChange={handleChange} placeholder="Your brand" className={inputClass} />
-                  </div>
-                </div>
-
-                {/* Service - Tappable */}
-                <ChipSelect
-                  label="What do you need?"
-                  options={services}
-                  value={form.service}
-                  onChange={(val) => setForm((prev) => ({ ...prev, service: val as string }))}
-                  required
-                />
-
-                {/* Bottlenecks - Multi-select tappable */}
-                <ChipSelect
-                  label="Biggest bottleneck (tap all that apply)"
-                  options={bottlenecks}
-                  value={form.bottlenecks}
-                  onChange={(val) => setForm((prev) => ({ ...prev, bottlenecks: val as string[] }))}
-                  required
-                  multi
-                />
-
-                {/* Revenue - Tappable */}
-                <ChipSelect
-                  label="Annual Revenue"
-                  options={revenueRanges}
-                  value={form.revenue_range}
-                  onChange={(val) => setForm((prev) => ({ ...prev, revenue_range: val as string }))}
-                  required
-                />
-
-                {/* Budget - Tappable */}
-                <ChipSelect
-                  label="What's your budget?"
-                  options={budgets}
-                  value={form.budget}
-                  onChange={(val) => setForm((prev) => ({ ...prev, budget: val as string }))}
-                  required
-                />
-
-                {/* How found - Tappable */}
-                <ChipSelect
-                  label="How did you find me?"
-                  options={sources}
-                  value={form.how_found}
-                  onChange={(val) => setForm((prev) => ({ ...prev, how_found: val as string }))}
-                />
-
-                {status === "error" && (
-                  <p className="text-xs text-red-400 font-mono">Something went wrong. Try again.</p>
-                )}
-              </form>
-            )}
+      {status === "success" ? (
+        <div className="relative z-10 h-full flex items-center justify-center px-6">
+          <div className="text-center">
+            <div className="w-16 h-16 mx-auto mb-6 border border-foreground/20 flex items-center justify-center">
+              <Check className="w-8 h-8 text-foreground" />
+            </div>
+            <h3 className="font-display text-2xl tracking-tight mb-3">Application received.</h3>
+            <p className="text-muted-foreground text-sm max-w-xs mx-auto">
+              I review every submission personally. Expect a response within 24 hours.
+            </p>
+            <button
+              onClick={resetForm}
+              className="mt-8 px-8 py-3 bg-foreground text-background text-sm font-medium hover:bg-foreground/90 transition-colors"
+            >
+              Done
+            </button>
           </div>
         </div>
-
-        {/* Fixed submit button at bottom */}
-        {status !== "success" && (
-          <div className="shrink-0 px-5 py-4 border-t border-foreground/10 bg-background safe-bottom">
+      ) : (
+        <form
+          onSubmit={handleSubmit}
+          className="relative z-10 h-full flex flex-col"
+        >
+          {/* Fixed header */}
+          <div className="shrink-0 flex items-center justify-between px-5 py-3 border-b border-foreground/10 bg-background">
+            <div>
+              <p className="font-mono text-[10px] tracking-widest text-muted-foreground uppercase">Apply to Work Together</p>
+              <h3 className="font-display text-base tracking-tight">Tell me about your business</h3>
+            </div>
             <button
               type="button"
-              onClick={(e) => {
-                const formEl = document.querySelector("form");
-                if (formEl) {
-                  formEl.requestSubmit();
-                }
-              }}
+              onClick={onClose}
+              className="p-2 text-muted-foreground hover:text-foreground transition-colors"
+              aria-label="Close"
+            >
+              <X className="w-5 h-5" />
+            </button>
+          </div>
+
+          {/* Scrollable fields */}
+          <div className="flex-1 overflow-y-auto overscroll-contain">
+            <div className="px-5 py-5 space-y-5">
+              <div>
+                <label htmlFor="name" className={labelClass}>Full Name *</label>
+                <input id="name" name="name" type="text" required value={form.name} onChange={handleChange} placeholder="Your full name" className={inputClass} />
+              </div>
+
+              <div>
+                <label htmlFor="email" className={labelClass}>Email *</label>
+                <input id="email" name="email" type="email" required value={form.email} onChange={handleChange} placeholder="you@company.com" className={inputClass} />
+              </div>
+
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label htmlFor="phone" className={labelClass}>Phone</label>
+                  <input id="phone" name="phone" type="tel" value={form.phone} onChange={handleChange} placeholder="(555) 000-0000" className={inputClass} />
+                </div>
+                <div>
+                  <label htmlFor="company" className={labelClass}>Company</label>
+                  <input id="company" name="company" type="text" value={form.company} onChange={handleChange} placeholder="Your brand" className={inputClass} />
+                </div>
+              </div>
+
+              <ChipSelect
+                label="What do you need?"
+                options={services}
+                value={form.service}
+                onChange={(val) => setForm((prev) => ({ ...prev, service: val as string }))}
+              />
+
+              <ChipSelect
+                label="Biggest bottleneck (tap all that apply)"
+                options={bottlenecks}
+                value={form.bottlenecks}
+                onChange={(val) => setForm((prev) => ({ ...prev, bottlenecks: val as string[] }))}
+                multi
+              />
+
+              <ChipSelect
+                label="Annual Revenue"
+                options={revenueRanges}
+                value={form.revenue_range}
+                onChange={(val) => setForm((prev) => ({ ...prev, revenue_range: val as string }))}
+              />
+
+              <ChipSelect
+                label="What's your budget?"
+                options={budgets}
+                value={form.budget}
+                onChange={(val) => setForm((prev) => ({ ...prev, budget: val as string }))}
+              />
+
+              <ChipSelect
+                label="How did you find me?"
+                options={sources}
+                value={form.how_found}
+                onChange={(val) => setForm((prev) => ({ ...prev, how_found: val as string }))}
+              />
+
+              {status === "error" && (
+                <p className="text-xs text-red-400 font-mono">Something went wrong. Try again.</p>
+              )}
+            </div>
+          </div>
+
+          {/* Fixed submit button */}
+          <div className="shrink-0 px-5 pt-3 pb-5 border-t border-foreground/10 bg-background" style={{ paddingBottom: "calc(1.25rem + env(safe-area-inset-bottom, 0px))" }}>
+            <button
+              type="submit"
               disabled={status === "loading"}
-              className="w-full py-4 bg-foreground text-background font-medium hover:bg-foreground/90 transition-colors text-sm flex items-center justify-center gap-2 group disabled:opacity-50 active:scale-[0.98]"
+              className="w-full py-4 bg-foreground text-background font-medium hover:bg-foreground/90 transition-colors text-sm flex items-center justify-center gap-2 active:scale-[0.98] disabled:opacity-50"
             >
               {status === "loading" ? "Submitting..." : "Submit Application"}
-              {status !== "loading" && <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />}
+              {status !== "loading" && <ArrowRight className="w-4 h-4" />}
             </button>
             <p className="text-center text-[10px] text-muted-foreground font-mono mt-2">
-              Free consultation. No obligation. Response within 24 hours.
+              Free consultation. No obligation.
             </p>
           </div>
-        )}
-      </div>
+        </form>
+      )}
     </div>
   );
 }
