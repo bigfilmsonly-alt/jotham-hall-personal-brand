@@ -136,6 +136,16 @@ export function CaseStudiesIndex() {
             </Button>
           </div>
         </section>
+
+        {/* CTA */}
+        <section className="py-16 lg:py-24 border-t border-foreground/10">
+          <div className="max-w-[1400px] mx-auto px-6 lg:px-12 text-center">
+            <h2 className="text-2xl lg:text-3xl font-display tracking-tight mb-3">Want results like these?</h2>
+            <p className="text-sm text-muted-foreground mb-6 max-w-md mx-auto">Book a free strategy call. I will show you exactly how to get similar results for your business.</p>
+            <a href="/contact" className="inline-flex items-center gap-2 px-8 py-4 bg-foreground text-background text-sm font-medium hover:bg-foreground/90 transition-colors">Book Free Strategy Call</a>
+          </div>
+        </section>
+        <div className="h-[4.5rem]" />
       </div>
 
       <ContactModal isOpen={isContactOpen} onClose={() => setIsContactOpen(false)} />

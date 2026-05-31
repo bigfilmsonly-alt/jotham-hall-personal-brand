@@ -63,6 +63,10 @@ export default function ContactPage() {
             <span className="inline-flex items-center gap-3 text-sm font-mono text-muted-foreground mb-6">
               Contact
             </span>
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 border border-yellow-500/20 bg-yellow-500/5 mb-6">
+              <span className="animate-pulse w-2 h-2 bg-yellow-500 rounded-full" />
+              <span className="text-xs font-mono text-yellow-500/80">Currently accepting new clients</span>
+            </div>
             <h1
               className={`text-4xl sm:text-5xl lg:text-7xl font-display tracking-tight mb-8 transition-all duration-700 ${
                 isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
@@ -149,6 +153,14 @@ export default function ContactPage() {
               </div>
             ))}
           </div>
+        </div>
+      </section>
+
+      <section className="py-12 border-t border-foreground/10">
+        <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
+          <p className="text-xs font-mono text-muted-foreground text-center">
+            Response within 24 hours. Free 60-minute strategy call. No obligation.
+          </p>
         </div>
       </section>
 

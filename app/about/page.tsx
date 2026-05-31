@@ -251,24 +251,19 @@ export default function AboutPage() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 lg:py-32 border-t border-foreground/10">
+      <section className="py-16 lg:py-24 border-t border-foreground/10">
         <div className="max-w-[1400px] mx-auto px-6 lg:px-12 text-center">
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-display tracking-tight mb-8">
-            Ready to Build Your System?
-          </h2>
-          <p className="text-xl text-muted-foreground mb-12 max-w-2xl mx-auto">
-            Let us architect the infrastructure that lets you scale without the chaos.
-          </p>
-          <Button
-            size="lg"
-            onClick={() => setIsContactOpen(true)}
-            className="bg-foreground hover:bg-foreground/90 text-background px-12 h-16 text-lg rounded-none group"
-          >
-            Book a Strategy Call
-            <ArrowRight className="w-5 h-5 ml-3 transition-transform group-hover:translate-x-1" />
-          </Button>
+          <p className="text-xs font-mono text-yellow-500/80 uppercase tracking-widest mb-3">Limited Availability</p>
+          <h2 className="text-2xl lg:text-3xl font-display tracking-tight mb-3">Ready to work together?</h2>
+          <p className="text-sm text-muted-foreground mb-6 max-w-md mx-auto">Book a free strategy call. No pitch. No pressure. Just clarity on what your business needs.</p>
+          <div className="flex flex-col sm:flex-row gap-3 justify-center max-w-sm mx-auto">
+            <a href="/contact" className="flex-1 py-3.5 bg-foreground text-background text-sm font-medium hover:bg-foreground/90 transition-colors flex items-center justify-center gap-2">Book Free Strategy Call</a>
+            <a href="tel:+15106809100" className="flex-1 py-3.5 border border-foreground/20 text-sm font-medium hover:bg-foreground/5 transition-colors flex items-center justify-center">Call (510) 680-9100</a>
+          </div>
         </div>
       </section>
+      {/* Tab bar spacer */}
+      <div className="h-[4.5rem]" />
 
       <FooterSection />
       <ContactModal isOpen={isContactOpen} onClose={() => setIsContactOpen(false)} />
