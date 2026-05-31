@@ -62,7 +62,7 @@ export function HeroSection() {
         ))}
       </div>
       
-      <div className="relative z-10 max-w-[1400px] mx-auto px-6 lg:px-12 pt-32 pb-28 lg:py-40 text-center lg:text-left">
+      <div className="relative z-10 max-w-[1400px] mx-auto px-6 lg:px-12 pt-10 pb-28 lg:pt-16 lg:pb-40 text-center lg:text-left">
         {/* Hidden H1 for SEO - Primary keyword */}
         <h1 className="sr-only">Jotham Hall - Entrepreneur, Television Producer, Founder of SuccessUpgrade.ai</h1>
         
@@ -128,14 +128,15 @@ export function HeroSection() {
               isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
             }`}
           >
-            <Button 
-              size="lg" 
+            <Button
+              size="lg"
               className="bg-foreground hover:bg-foreground/90 text-background px-8 h-14 text-base rounded-full group"
               onClick={() => setIsContactOpen(true)}
             >
-              Book a Strategy Call
+              Claim Your Free Strategy Session
               <ArrowRight className="w-4 h-4 ml-2 transition-transform group-hover:translate-x-1" />
             </Button>
+            <p className="text-xs font-mono text-muted-foreground mt-3 sm:mt-0 sm:ml-4">Only 7 spots/month</p>
           </div>
         </div>
 
@@ -145,7 +146,7 @@ export function HeroSection() {
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
           }`}
         >
-          50+ founders scaled. Zero guesswork. Your system is one call away.
+          500+ founders scaled. Zero guesswork. Your system is one call away.
         </p>
 
       </div>

@@ -45,29 +45,29 @@ function AnimatedCounter({ end, suffix = "", prefix = "" }: { end: number; suffi
 }
 
 const metrics = [
-  { 
-    value: 100, 
-    suffix: "+", 
+  {
+    value: 500,
+    suffix: "+",
     prefix: "",
-    label: "Clients served across industries",
+    label: "Founders scaled",
   },
-  { 
-    value: 40, 
-    suffix: "%", 
+  {
+    value: 40,
+    suffix: "%",
     prefix: "",
     label: "Average overhead reduction",
   },
-  { 
-    value: 5, 
-    suffix: "+", 
+  {
+    value: 50,
+    suffix: "+",
     prefix: "",
-    label: "Active business ventures",
+    label: "TV shows produced",
   },
-  { 
-    value: 7, 
-    suffix: "-Fig", 
+  {
+    value: 3,
+    suffix: "x",
     prefix: "",
-    label: "Revenue systems architected",
+    label: "Average revenue growth",
   },
 ];
 

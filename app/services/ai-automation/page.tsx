@@ -61,7 +61,7 @@ export default function AIAutomationPage() {
       </nav>
 
       {/* Hero */}
-      <section className="pt-32 pb-20 lg:pt-40 lg:pb-32 px-6 lg:px-12">
+      <section className="pt-10 pb-20 lg:pt-16 lg:pb-32 px-6 lg:px-12">
         <div className="max-w-[1400px] mx-auto text-center lg:text-left">
           <span className="inline-flex items-center justify-center lg:justify-start gap-3 text-sm font-mono text-muted-foreground mb-6">
             <span className="hidden lg:block w-8 h-px bg-foreground/30" />

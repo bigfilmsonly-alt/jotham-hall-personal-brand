@@ -14,30 +14,30 @@ export const viewport: Viewport = {
   colorScheme: 'dark',
 }
 
-const instrumentSans = Instrument_Sans({ 
+const instrumentSans = Instrument_Sans({
   subsets: ["latin"],
   variable: '--font-instrument'
 });
 
-const instrumentSerif = Instrument_Serif({ 
+const instrumentSerif = Instrument_Serif({
   subsets: ["latin"],
   weight: "400",
   variable: '--font-instrument-serif'
 });
 
-const jetbrainsMono = JetBrains_Mono({ 
+const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin"],
   variable: '--font-jetbrains'
 });
 
 export const metadata: Metadata = {
   title: {
-    default: 'Jotham Hall | Entrepreneur, TV Producer & Founder of SuccessUpgrade.ai',
+    default: 'Jotham Hall | AI Systems Architect & TV Producer | 500+ Founders Scaled',
     template: '%s | Jotham Hall'
   },
-  description: 'Jotham Hall is an entrepreneur, television producer, and technology founder. Founder of SuccessUpgrade.ai and Big Films Only. TV credits include Finding Mr. Christmas, Ciao House, Temptation Island, and more.',
+  description: 'Jotham Hall helps founders build AI-powered revenue systems that scale. 15 years producing TV (Hallmark, Food Network, VH1, MTV). 500+ entrepreneurs mentored. 3x avg revenue growth. Book a free strategy call.',
   generator: 'v0.app',
-  keywords: ['Jotham Hall', 'Who is Jotham Hall', 'Jotham Hall entrepreneur', 'Jotham Hall television producer', 'Jotham Hall TV producer', 'Jotham Hall Miami', 'Jotham Hall Miami Beach', 'Jotham Hall Success Upgrade', 'Jotham Hall founder', 'SuccessUpgrade.ai', 'Big Films Only', 'Finding Mr Christmas', 'Ciao House', 'Temptation Island', 'Snake in the Grass', 'After Happily Ever After', 'reality TV producer', 'talent producer'],
+  keywords: ['Jotham Hall', 'Who is Jotham Hall', 'AI automation consultant', 'business systems architect', 'TV producer entrepreneur', 'Success Upgrade', 'SuccessUpgrade.ai', 'vibe coding', 'GoHighLevel consultant', 'Miami business consultant', 'revenue engineering', 'reality TV producer', 'Finding Mr Christmas producer', 'Ciao House producer', 'Jotham Hall Miami', 'Jotham Hall television producer'],
   authors: [{ name: 'Jotham Hall', url: 'https://jothamhall.com' }],
   creator: 'Jotham Hall',
   publisher: 'Jotham Hall',
@@ -51,8 +51,8 @@ export const metadata: Metadata = {
   manifest: '/manifest.json',
   category: 'Business Consulting',
   openGraph: {
-    title: 'Jotham Hall - Entrepreneur, Television Producer, Founder of SuccessUpgrade.ai',
-    description: 'Jotham Hall is an entrepreneur, television producer, and technology founder known for reality TV production (50+ shows) and AI systems for business automation. Founder of SuccessUpgrade.ai and Big Films Only.',
+    title: 'Jotham Hall | AI Systems Architect & TV Producer',
+    description: 'I help founders build AI-powered revenue systems that scale. 15 years producing TV. 500+ entrepreneurs mentored. Book a free strategy call.',
     type: 'profile',
     url: 'https://jothamhall.com',
     siteName: 'Jotham Hall',
@@ -65,7 +65,7 @@ export const metadata: Metadata = {
         url: '/og-image.jpg',
         width: 1200,
         height: 630,
-        alt: 'Jotham Hall - Entrepreneur, AI Strategist & Founder of Success Upgrade',
+        alt: 'Jotham Hall - AI Systems Architect and Television Producer',
         type: 'image/jpeg',
       },
     ],
@@ -74,11 +74,11 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     site: '@successupgrade_',
     creator: '@successupgrade_',
-    title: 'Jotham Hall - Entrepreneur, Television Producer, Founder',
-    description: 'Television producer with 50+ reality TV credits. Founder of SuccessUpgrade.ai and Big Films Only. Based in Miami Beach.',
+    title: 'Jotham Hall | AI Systems Architect & TV Producer',
+    description: 'I help founders build revenue systems that scale. 15 years TV. 500+ mentored. Book a free strategy call.',
     images: {
       url: '/og-image.jpg',
-      alt: 'Jotham Hall - Entrepreneur, AI Strategist & Founder of Success Upgrade',
+      alt: 'Jotham Hall - AI Systems Architect',
     },
   },
   icons: {
@@ -113,6 +113,11 @@ export const metadata: Metadata = {
     'msapplication-TileColor': '#0a0a0a',
     'apple-mobile-web-app-capable': 'yes',
     'apple-mobile-web-app-status-bar-style': 'black-translucent',
+    'geo.region': 'US-FL',
+    'geo.placename': 'Miami Beach',
+    'geo.position': '25.790654;-80.130045',
+    'ICBM': '25.790654, -80.130045',
+    'news_keywords': 'Jotham Hall, Success Upgrade, AI automation, vibe coding, reality TV producer',
   },
 }
 

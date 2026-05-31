@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 
 const testimonials = [
   {
-    quote: "Jotham Hall completely restructured how we think about growth. We went from chaotic hustle to systematic scaling in 90 days.",
+    quote: "Jotham completely restructured how we think about growth. We went from chaotic hustle to systematic scaling in 90 days.",
     author: "Marcus Thompson",
     role: "Founder",
     company: "Thompson Media Group",
@@ -30,6 +30,20 @@ const testimonials = [
     role: "Agency Owner",
     company: "Digital First Studio",
     metric: "5x faster delivery",
+  },
+  {
+    quote: "They automated my entire lead generation. I went from 5 clients to 47 in just 60 days. The ROI was immediate.",
+    author: "Jordan Pierce",
+    role: "Founder",
+    company: "Digital First Agency",
+    metric: "5 to 47 clients in 60 days",
+  },
+  {
+    quote: "The systems and frameworks here are things I never learned in business school. Real world success education that actually delivers.",
+    author: "Chris Blake",
+    role: "CEO",
+    company: "Apex Growth Partners",
+    metric: "Scaled to 6 figures",
   },
 ];
 

@@ -35,7 +35,7 @@ export function InsightsIndex() {
       </nav>
 
       {/* Hero */}
-      <section className="pt-32 pb-16 lg:pt-40 lg:pb-24 px-6 lg:px-12">
+      <section className="pt-10 pb-16 lg:pt-16 lg:pb-24 px-6 lg:px-12">
         <div className="max-w-[1400px] mx-auto text-center">
           <span className="inline-flex items-center gap-3 text-sm font-mono text-muted-foreground mb-6">
             From the Founder

@@ -63,27 +63,28 @@ export function CtaSection() {
             <div className="flex flex-col lg:flex-row items-center justify-between gap-12">
               {/* Left content */}
               <div className="flex-1 text-center lg:text-left">
+                <p className="text-xs font-mono text-yellow-500/80 uppercase tracking-widest mb-4 lg:mb-6">Limited Availability</p>
                 <h2 className="text-2xl sm:text-3xl lg:text-7xl font-display tracking-tight mb-6 lg:mb-8 leading-[0.95]">
-                  Ready to stop
+                  I only work with
                   <br />
-                  being the bottleneck?
+                  12 clients at a time.
                 </h2>
 
                 <p className="text-base lg:text-xl text-muted-foreground mb-8 lg:mb-12 leading-relaxed max-w-xl mx-auto lg:mx-0">
-                  Build systems that scale without chaos. Book a strategy call.
+                  Every engagement gets my full attention. That means limited spots. Book your free strategy call before they fill.
                 </p>
 
-                <Button 
+                <Button
                   size="lg"
                   onClick={() => setIsContactOpen(true)}
                   className="bg-foreground hover:bg-foreground/90 text-background px-8 lg:px-12 h-12 lg:h-16 text-base lg:text-lg rounded-none group w-full sm:w-auto"
                 >
-                  Get in Touch
+                  Check Availability
                   <ArrowRight className="w-5 h-5 ml-3 transition-transform group-hover:translate-x-1" />
                 </Button>
 
                 <p className="text-xs text-muted-foreground mt-8 font-mono tracking-wider uppercase text-center lg:text-left">
-                  Response within 24 hours
+                  Free 60-minute call. No obligation.
                 </p>
               </div>
 

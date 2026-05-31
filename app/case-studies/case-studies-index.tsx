@@ -70,7 +70,7 @@ export function CaseStudiesIndex() {
         </nav>
 
         {/* Hero */}
-        <section className="pt-32 pb-20 lg:pt-40 lg:pb-32 px-6 lg:px-12">
+        <section className="pt-10 pb-20 lg:pt-16 lg:pb-32 px-6 lg:px-12">
           <div className="max-w-[1400px] mx-auto text-center lg:text-left">
             <span className="text-sm font-mono text-muted-foreground uppercase tracking-wider block mb-6">
               Proven Results

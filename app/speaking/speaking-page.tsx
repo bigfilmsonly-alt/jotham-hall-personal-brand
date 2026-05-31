@@ -61,7 +61,7 @@ export function SpeakingPage() {
       />
       
       {/* Hero */}
-      <section className="pt-32 pb-20 lg:pt-40 lg:pb-32">
+      <section className="pt-10 pb-20 lg:pt-16 lg:pb-32">
         <div className="max-w-[1400px] mx-auto px-6 lg:px-12 text-center">
           <span className="inline-flex items-center gap-3 text-sm font-mono text-muted-foreground mb-8">
             <span className="w-8 h-px bg-foreground/30" />

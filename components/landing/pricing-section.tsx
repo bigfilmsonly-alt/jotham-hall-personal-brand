@@ -16,7 +16,7 @@ const plans = [
       "Revenue system assessment",
       "No commitment required",
     ],
-    cta: "Book free call",
+    cta: "Claim Your Free Call",
     popular: false,
   },
   {
@@ -32,7 +32,7 @@ const plans = [
       "Direct access to Jotham",
       "Priority communication",
     ],
-    cta: "Apply now",
+    cta: "Apply Now — 3 Spots Left",
     popular: true,
   },
   {
@@ -49,7 +49,7 @@ const plans = [
       "Fractional CTO/CMO support",
       "Revenue share options",
     ],
-    cta: "Let's talk",
+    cta: "Apply for Partnership",
     popular: false,
   },
 ];

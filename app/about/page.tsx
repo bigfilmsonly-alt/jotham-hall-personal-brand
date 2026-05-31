@@ -61,7 +61,7 @@ export default function AboutPage() {
   return (
     <main className="relative min-h-screen">
       {/* Hero Section */}
-      <section ref={sectionRef} className="relative pt-32 pb-20 lg:pt-40 lg:pb-32">
+      <section ref={sectionRef} className="relative pt-10 pb-20 lg:pt-16 lg:pb-32">
         <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
           <div className="text-center lg:text-left">
             <span className="inline-flex items-center justify-center lg:justify-start gap-3 text-sm font-mono text-muted-foreground mb-6">

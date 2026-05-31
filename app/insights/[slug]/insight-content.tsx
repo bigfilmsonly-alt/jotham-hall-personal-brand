@@ -83,7 +83,7 @@ export function InsightContent({ insight }: Props) {
       </nav>
 
       {/* Article Header */}
-      <article className="pt-32 pb-20 lg:pt-40 lg:pb-32">
+      <article className="pt-10 pb-20 lg:pt-16 lg:pb-32">
         <div className="max-w-3xl mx-auto px-6 lg:px-12">
           {/* Meta */}
           <div className={`flex flex-wrap items-center justify-center gap-4 mb-8 transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>

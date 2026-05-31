@@ -88,7 +88,7 @@ export function WhoIsJothamHall() {
       <ContactModal isOpen={isContactOpen} onClose={() => setIsContactOpen(false)} />
 
       {/* Hero Section */}
-      <section className="pt-32 pb-20 lg:pt-40 lg:pb-32 border-b border-foreground/10">
+      <section className="pt-10 pb-20 lg:pt-16 lg:pb-32 border-b border-foreground/10">
         <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
           <div className="max-w-4xl">
             <span className="text-sm font-mono text-muted-foreground mb-6 block">The Definitive Biography</span>

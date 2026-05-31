@@ -51,7 +51,7 @@ export function CaseStudyTemplate({
         </nav>
 
         {/* Hero */}
-        <section className="pt-32 pb-20 lg:pt-40 lg:pb-32 px-6 lg:px-12">
+        <section className="pt-10 pb-20 lg:pt-16 lg:pb-32 px-6 lg:px-12">
           <div className="max-w-[1400px] mx-auto">
             <div className="max-w-4xl mx-auto text-center lg:text-left">
               <div className="flex flex-wrap justify-center lg:justify-start gap-3 mb-8">

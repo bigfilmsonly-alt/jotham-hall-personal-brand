@@ -9,6 +9,9 @@ import { SecuritySection } from "@/components/landing/security-section";
 import { DevelopersSection } from "@/components/landing/developers-section";
 import { InsightsSection } from "@/components/landing/insights-section";
 import { TestimonialsSection } from "@/components/landing/testimonials-section";
+import { NetworkLogosSection } from "@/components/landing/network-logos-section";
+import { VideoSection } from "@/components/landing/video-section";
+import { LeadMagnetSection } from "@/components/landing/lead-magnet-section";
 import { PricingSection } from "@/components/landing/pricing-section";
 import { CtaSection } from "@/components/landing/cta-section";
 import { FooterSection } from "@/components/landing/footer-section";
@@ -21,6 +24,8 @@ export default function Home() {
       <ScrollToTop />
       <ExitIntentPopup />
       <HeroSection />
+      <NetworkLogosSection />
+      <VideoSection />
       <FeaturesSection />
       <HowItWorksSection />
       <InfrastructureSection />
@@ -30,6 +35,7 @@ export default function Home() {
       <DevelopersSection />
       <InsightsSection />
       <TestimonialsSection />
+      <LeadMagnetSection />
       <PricingSection />
       <CtaSection />
       <FooterSection />

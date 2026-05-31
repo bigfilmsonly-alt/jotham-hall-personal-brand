@@ -70,7 +70,7 @@ export function ServicePageTemplate({
     <main className="relative min-h-screen bg-background text-foreground">
 
       {/* Hero Section */}
-      <section className="relative pt-32 pb-20 lg:pt-40 lg:pb-32">
+      <section className="relative pt-10 pb-20 lg:pt-16 lg:pb-32">
         <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
           <div
             className={`max-w-4xl transition-all duration-700 ${

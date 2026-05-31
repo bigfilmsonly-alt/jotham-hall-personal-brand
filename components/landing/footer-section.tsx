@@ -185,7 +185,7 @@ export function FooterSection() {
         {/* Bottom Bar */}
         <div className="py-8 border-t border-foreground/10 flex flex-col md:flex-row items-center justify-center lg:justify-between gap-4 text-center">
           <p className="text-sm text-muted-foreground">
-            2025 Jotham Hall. All rights reserved.
+            {new Date().getFullYear()} Jotham Hall. All rights reserved.
           </p>
 
           <div className="flex items-center gap-4 text-sm text-muted-foreground">
