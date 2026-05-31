@@ -33,29 +33,29 @@ export function HomeScreen() {
 
       {/* Content */}
       <div className="relative z-10 flex-1 flex flex-col items-center justify-center px-6 text-center">
-        {/* Profile photo — large */}
+        {/* Profile photo */}
         <div className={`mb-5 transition-all duration-700 ${isVisible ? "opacity-100 scale-100" : "opacity-0 scale-90"}`}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src="https://www.successupgrade.ai/images/profile.jpeg"
             alt="Jotham Hall"
-            className="w-28 h-28 sm:w-36 sm:h-36 rounded-full object-cover border-2 border-foreground/10 shadow-2xl mx-auto"
+            className="w-32 h-32 sm:w-40 sm:h-40 rounded-full object-cover border-2 border-foreground/10 shadow-2xl mx-auto"
           />
         </div>
 
         {/* Name */}
-        <h2 className={`font-display text-3xl sm:text-4xl tracking-tight mb-1 transition-all duration-700 delay-100 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}>
+        <h2 className={`font-display text-3xl sm:text-4xl tracking-tight mb-2 transition-all duration-700 delay-100 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}>
           Jotham Hall
         </h2>
 
-        {/* Tagline */}
-        <p className={`text-xs sm:text-sm font-mono text-muted-foreground mb-6 transition-all duration-700 delay-200 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}>
-          AI Systems Architect · TV Producer · VibeCoding Pioneer
+        {/* Authority line */}
+        <p className={`text-[11px] sm:text-xs font-mono text-muted-foreground/60 mb-5 transition-all duration-700 delay-200 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}>
+          50 TV shows. 500 founders. I build what works.
         </p>
 
         {/* One-liner */}
-        <p className={`text-sm sm:text-base text-muted-foreground max-w-sm mb-8 leading-relaxed transition-all duration-700 delay-300 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}>
-          I turn founders into brands that print revenue on autopilot. 50+ TV credits. 500+ founders scaled.
+        <p className={`text-sm sm:text-base text-foreground/80 max-w-xs mb-8 leading-relaxed transition-all duration-700 delay-300 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}>
+          I build AI systems that scale businesses without scaling stress.
         </p>
 
         {/* CTAs */}
@@ -64,7 +64,7 @@ export function HomeScreen() {
             onClick={() => setIsContactOpen(true)}
             className="flex-1 py-3.5 bg-foreground text-background text-sm font-medium hover:bg-foreground/90 transition-colors flex items-center justify-center gap-2 active:scale-[0.97]"
           >
-            Book a Call
+            Book Your Free Strategy Call
             <ArrowRight className="w-4 h-4" />
           </button>
           <a
@@ -74,10 +74,16 @@ export function HomeScreen() {
             Call (510) 680-9100
           </a>
         </div>
+
+        {/* Scarcity */}
+        <p className={`text-[10px] font-mono text-muted-foreground/40 mt-4 transition-all duration-700 delay-500 ${isVisible ? "opacity-100" : "opacity-0"}`}>
+          Only 3 partnership spots per quarter
+        </p>
       </div>
 
       {/* Network logos at bottom */}
       <div className={`relative z-10 px-6 pb-3 transition-all duration-700 delay-500 ${isVisible ? "opacity-100" : "opacity-0"}`}>
+        <p className="text-[8px] font-mono text-muted-foreground/30 uppercase tracking-widest text-center mb-2">As Seen On</p>
         <div className="flex flex-wrap justify-center gap-x-4 gap-y-1">
           {networks.map((network) => (
             <span key={network} className="text-[10px] font-mono text-muted-foreground/40 uppercase tracking-wider">
