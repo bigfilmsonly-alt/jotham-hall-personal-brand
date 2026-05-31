@@ -96,23 +96,6 @@
     width: 100%;
     min-height: 100dvh;
   }
-  @media (min-width: 768px) {
-    html {
-      background: #000;
-    }
-    body {
-      max-width: 430px;
-      margin: 0 auto;
-      border-left: 8px solid #1a1a1a;
-      border-right: 8px solid #1a1a1a;
-      box-shadow: 0 0 60px rgba(0,0,0,0.5);
-      min-height: 100vh;
-    }
-    .phone-frame {
-      max-width: 430px;
-      min-height: 100vh;
-    }
-  }
 }
 
 @layer utilities {
