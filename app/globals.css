@@ -121,8 +121,7 @@
     .phone-frame {
       position: absolute !important;
       inset: 0;
-      overflow-y: auto;
-      overflow-x: hidden;
+      overflow: hidden;
     }
     /* Convert all fixed elements to absolute inside the frame */
     .phone-frame .fixed {
