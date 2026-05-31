@@ -91,6 +91,12 @@ const tabs = [
     name: "Contact",
     href: "contact-modal",
     icon: Phone,
+    submenu: [
+      { name: "Book a Call", href: "action:calendly" },
+      { name: "Text Me", href: "sms:+15106934083" },
+      { name: "Email Me", href: "mailto:jothamjhall@gmail.com" },
+      { name: "Schedule", href: "https://calendly.com/bigfilmsonly/30min" },
+    ],
   },
 ];
 
@@ -110,8 +116,8 @@ export function MobileTabBar() {
 
   const handleTabClick = (tab: (typeof tabs)[number]) => {
     if (tab.href === "contact-modal") {
-      setActiveSubmenu(null);
-      setIsContactOpen(true);
+      // Contact now has a submenu, toggle it
+      setActiveSubmenu(activeSubmenu === tab.name ? null : tab.name);
       return;
     }
 
@@ -170,8 +176,21 @@ export function MobileTabBar() {
                   {tab.submenu!.map((item) => (
                     <a
                       key={item.href}
-                      href={item.href}
-                      className={`px-3 py-2.5 rounded-xl text-sm transition-all ${
+                      href={item.href.startsWith("action:") ? undefined : item.href}
+                      onClick={(e) => {
+                        if (item.href === "action:calendly") {
+                          e.preventDefault();
+                          setActiveSubmenu(null);
+                          setIsContactOpen(true);
+                        } else if (item.href.startsWith("http")) {
+                          e.preventDefault();
+                          setActiveSubmenu(null);
+                          window.open(item.href, "_blank");
+                        } else {
+                          setActiveSubmenu(null);
+                        }
+                      }}
+                      className={`px-3 py-2.5 rounded-xl text-sm transition-all cursor-pointer ${
                         pathname === item.href
                           ? "bg-[#D4A853] text-[#0D0D0D] font-medium"
                           : "text-[#B8B0A8] hover:bg-[#252320] hover:text-[#FAF8F5] active:bg-[#3D3A35]"

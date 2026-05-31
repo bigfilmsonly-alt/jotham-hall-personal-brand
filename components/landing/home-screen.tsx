@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { ArrowRight, Phone, MessageSquare, Mail, BarChart3, Check, X } from "lucide-react";
+import Image from "next/image";
 import { ContactModal } from "./contact-modal";
 import { CalendlyModal } from "../calendly-modal";
 import { supabase } from "@/lib/supabase";
@@ -195,10 +196,13 @@ export function HomeScreen() {
       {/* Profile section */}
       <div className="relative z-10 flex-shrink-0 pt-6 pb-4 px-6 text-center">
         <div className={`transition-all duration-700 ${isVisible ? "opacity-100 scale-100" : "opacity-0 scale-90"}`}>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
+          <Image
             src="/jotham-hall.jpg"
             alt="Jotham Hall"
+            width={256}
+            height={256}
+            quality={100}
+            priority
             className="w-28 h-28 sm:w-32 sm:h-32 rounded-full object-cover border-2 border-[#D4A853]/30 shadow-[0_0_30px_rgba(212,168,83,0.15)] mx-auto mb-3"
           />
         </div>
