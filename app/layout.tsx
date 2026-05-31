@@ -153,6 +153,16 @@ export default function RootLayout({
         <meta name="geo.region" content="US-FL" />
         <meta name="geo.placename" content="Miami Beach" />
         <StructuredData />
+        {/* Google Tag Manager */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+            new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+            j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+            'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+            })(window,document,'script','dataLayer','GTM-NSML6K9F');`,
+          }}
+        />
         {/* Meta Pixel */}
         <script
           dangerouslySetInnerHTML={{
@@ -175,6 +185,7 @@ export default function RootLayout({
         </noscript>
       </head>
       <body className={`${instrumentSans.variable} ${instrumentSerif.variable} ${jetbrainsMono.variable} font-sans antialiased`}>
+        <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NSML6K9F" height="0" width="0" style={{ display: 'none', visibility: 'hidden' }} /></noscript>
         {children}
         <MobileTabBar />
         <Analytics />
