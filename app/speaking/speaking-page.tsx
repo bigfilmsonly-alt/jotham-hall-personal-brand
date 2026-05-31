@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { Navigation } from "@/components/landing/navigation";
 import { FooterSection } from "@/components/landing/footer-section";
 import { ContactModal } from "@/components/landing/contact-modal";
 import { Button } from "@/components/ui/button";
@@ -61,8 +60,6 @@ export function SpeakingPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(speakerSchema) }}
       />
       
-      <Navigation />
-
       {/* Hero */}
       <section className="pt-32 pb-20 lg:pt-40 lg:pb-32">
         <div className="max-w-[1400px] mx-auto px-6 lg:px-12 text-center">

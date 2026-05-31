@@ -3,7 +3,6 @@
 import { useState } from "react";
 import Link from "next/link";
 import { ArrowRight, Check } from "lucide-react";
-import { Navigation } from "@/components/landing/navigation";
 import { FooterSection } from "@/components/landing/footer-section";
 import { Button } from "@/components/ui/button";
 
@@ -69,7 +68,6 @@ export function ServicePageTemplate({
 
   return (
     <main className="relative min-h-screen bg-background text-foreground">
-      <Navigation />
 
       {/* Hero Section */}
       <section className="relative pt-32 pb-20 lg:pt-40 lg:pb-32">

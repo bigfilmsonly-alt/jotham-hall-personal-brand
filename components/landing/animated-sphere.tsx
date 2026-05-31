@@ -39,12 +39,11 @@ export function AnimatedSphere() {
       ctx.textAlign = "center";
       ctx.textBaseline = "middle";
 
-      const step = 12;
       const points: { x: number; y: number; z: number; char: string }[] = [];
 
-      // Generate sphere points
-      for (let phi = 0; phi < Math.PI * 2; phi += 0.15) {
-        for (let theta = 0; theta < Math.PI; theta += 0.15) {
+      // Generate sphere points — denser for a full, solid circle
+      for (let phi = 0; phi < Math.PI * 2; phi += 0.08) {
+        for (let theta = 0; theta < Math.PI; theta += 0.08) {
           const x = Math.sin(theta) * Math.cos(phi + time * 0.5);
           const y = Math.sin(theta) * Math.sin(phi + time * 0.5);
           const z = Math.cos(theta);
@@ -59,12 +58,21 @@ export function AnimatedSphere() {
           const newY = y * Math.cos(rotX) - newZ * Math.sin(rotX);
           const finalZ = y * Math.sin(rotX) + newZ * Math.cos(rotX);
 
+          // Only render front-facing points — removes gray specs
+          if (finalZ < -0.3) continue;
+
           const depth = (finalZ + 1) / 2;
           const charIndex = Math.floor(depth * (chars.length - 1));
 
+          // Ensure point is within sphere boundary
+          const px = centerX + newX * radius;
+          const py = centerY + newY * radius;
+          const dist = Math.sqrt((px - centerX) ** 2 + (py - centerY) ** 2);
+          if (dist > radius) continue;
+
           points.push({
-            x: centerX + newX * radius,
-            y: centerY + newY * radius,
+            x: px,
+            y: py,
             z: finalZ,
             char: chars[charIndex],
           });
@@ -76,7 +84,7 @@ export function AnimatedSphere() {
 
       // Draw points
       points.forEach((point) => {
-        const alpha = 0.2 + (point.z + 1) * 0.4;
+        const alpha = 0.4 + (point.z + 1) * 0.35;
         ctx.fillStyle = `rgba(0, 0, 0, ${alpha})`;
         ctx.fillText(point.char, point.x, point.y);
       });

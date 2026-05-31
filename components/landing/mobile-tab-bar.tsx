@@ -122,7 +122,7 @@ export function MobileTabBar() {
     <>
       {/* Submenu Panel */}
       <div
-        className={`md:hidden fixed bottom-0 left-0 right-0 z-[998] transition-all duration-300 ${
+        className={`fixed bottom-0 left-0 right-0 z-[998] transition-all duration-300 ${
           activeSubmenu
             ? "pointer-events-auto"
             : "pointer-events-none"
@@ -182,7 +182,7 @@ export function MobileTabBar() {
 
       {/* Tab Bar — always visible */}
       <nav
-        className="md:hidden fixed bottom-0 left-0 right-0 z-[999]"
+        className="fixed bottom-0 left-0 right-0 z-[999]"
       >
         <div
           className="bg-background/90 backdrop-blur-xl border-t border-foreground/10"

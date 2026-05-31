@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Navigation } from "@/components/landing/navigation";
 import { FooterSection } from "@/components/landing/footer-section";
 import { ContactModal } from "@/components/landing/contact-modal";
 import { Button } from "@/components/ui/button";
@@ -86,7 +85,6 @@ export function WhoIsJothamHall() {
 
   return (
     <main className="min-h-screen bg-background text-foreground">
-      <Navigation />
       <ContactModal isOpen={isContactOpen} onClose={() => setIsContactOpen(false)} />
 
       {/* Hero Section */}

@@ -1,5 +1,4 @@
 // Cache bust: v3 - Force full rebuild
-import { Navigation } from "@/components/landing/navigation";
 import { HeroSection } from "@/components/landing/hero-section";
 import { FeaturesSection } from "@/components/landing/features-section";
 import { HowItWorksSection } from "@/components/landing/how-it-works-section";
@@ -21,7 +20,6 @@ export default function Home() {
     <main className="relative min-h-screen overflow-x-hidden noise-overlay">
       <ScrollToTop />
       <ExitIntentPopup />
-      <Navigation />
       <HeroSection />
       <FeaturesSection />
       <HowItWorksSection />
@@ -35,8 +33,8 @@ export default function Home() {
       <PricingSection />
       <CtaSection />
       <FooterSection />
-      {/* Spacer for mobile tab bar */}
-      <div className="h-[4.5rem] md:hidden" />
+      {/* Spacer for tab bar */}
+      <div className="h-[4.5rem]" />
     </main>
   );
 }

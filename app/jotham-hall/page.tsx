@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Navigation } from "@/components/landing/navigation";
 import { FooterSection } from "@/components/landing/footer-section";
 import { ContactModal } from "@/components/landing/contact-modal";
 import { ArrowRight, ArrowUpRight, Quote } from "lucide-react";
@@ -76,8 +75,6 @@ export default function JothamHallPage() {
 
   return (
     <main className="relative min-h-screen">
-      <Navigation />
-      
       {/* Hero Section */}
       <section className="relative pt-32 pb-20 lg:pt-40 lg:pb-32">
         <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
