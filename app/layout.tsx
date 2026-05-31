@@ -4,6 +4,7 @@ import { Instrument_Sans, Instrument_Serif, JetBrains_Mono } from 'next/font/goo
 import { Analytics } from '@vercel/analytics/next'
 import { StructuredData } from '@/components/structured-data'
 import { MobileTabBar } from '@/components/landing/mobile-tab-bar'
+import { AnnouncementBar } from '@/components/landing/announcement-bar'
 import './globals.css'
 
 export const viewport: Viewport = {
@@ -32,12 +33,23 @@ const jetbrainsMono = JetBrains_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: 'Jotham Hall | AI Systems Architect & TV Producer | 500+ Founders Scaled',
+    default: 'Jotham Hall | AI Systems Architect & TV Producer | VibeCoding Pioneer | 500+ Founders',
     template: '%s | Jotham Hall'
   },
-  description: 'Jotham Hall helps founders build AI-powered revenue systems that scale. 15 years producing TV (Hallmark, Food Network, VH1, MTV). 500+ entrepreneurs mentored. 3x avg revenue growth. Book a free strategy call.',
+  description: 'Jotham Hall is an AI systems architect, television producer (50+ credits: Hallmark, Food Network, VH1, MTV, NBC), and pioneer of VibeCoding. Founder of Success Upgrade. Expert in ChatGPT, Claude AI, GoHighLevel. 500+ entrepreneurs mentored. 3x avg revenue growth.',
   generator: 'v0.app',
-  keywords: ['Jotham Hall', 'Who is Jotham Hall', 'AI automation consultant', 'business systems architect', 'TV producer entrepreneur', 'Success Upgrade', 'SuccessUpgrade.ai', 'vibe coding', 'GoHighLevel consultant', 'Miami business consultant', 'revenue engineering', 'reality TV producer', 'Finding Mr Christmas producer', 'Ciao House producer', 'Jotham Hall Miami', 'Jotham Hall television producer'],
+  keywords: [
+    'Jotham Hall', 'Who is Jotham Hall', 'Jotham Hall entrepreneur', 'Jotham Hall founder', 'Jotham Hall Miami',
+    'television producer', 'reality TV producer', 'talent producer', 'film producer', 'filmmaking', 'video production', 'media production', 'storytelling', 'content production',
+    'Hallmark producer', 'Food Network producer', 'VH1 producer', 'MTV producer', 'NBC producer', 'USA Network producer',
+    'Finding Mr Christmas', 'Ciao House', 'Temptation Island', 'Snake in the Grass', 'Flavor of Love', 'Rock of Love', 'I Love Money', 'From Gs to Gents',
+    'AI automation', 'AI systems architect', 'ChatGPT expert', 'Claude AI', 'AI business automation',
+    'vibe coding', 'VibeCoding', 'CodeVibe', 'no-code development', 'Say It Build It', 'v0 developer', 'Cursor AI',
+    'business systems architect', 'revenue engineering', 'startup consultant', 'founder coach', 'fractional COO',
+    'GoHighLevel expert', 'Make.com expert', 'Zapier automation',
+    'Success Upgrade', 'SuccessUpgrade.ai', 'Big Films Only',
+    'Miami entrepreneur', 'Miami AI consultant',
+  ],
   authors: [{ name: 'Jotham Hall', url: 'https://jothamhall.com' }],
   creator: 'Jotham Hall',
   publisher: 'Jotham Hall',
@@ -51,8 +63,8 @@ export const metadata: Metadata = {
   manifest: '/manifest.json',
   category: 'Business Consulting',
   openGraph: {
-    title: 'Jotham Hall | AI Systems Architect & TV Producer',
-    description: 'I help founders build AI-powered revenue systems that scale. 15 years producing TV. 500+ entrepreneurs mentored. Book a free strategy call.',
+    title: 'Jotham Hall | AI Systems Architect & TV Producer | VibeCoding Pioneer',
+    description: 'Television producer (50+ credits). AI systems architect. VibeCoding pioneer. 500+ entrepreneurs mentored. Book a free strategy call.',
     type: 'profile',
     url: 'https://jothamhall.com',
     siteName: 'Jotham Hall',
@@ -117,7 +129,7 @@ export const metadata: Metadata = {
     'geo.placename': 'Miami Beach',
     'geo.position': '25.790654;-80.130045',
     'ICBM': '25.790654, -80.130045',
-    'news_keywords': 'Jotham Hall, Success Upgrade, AI automation, vibe coding, reality TV producer',
+    'news_keywords': 'Jotham Hall, VibeCoding, AI automation, reality TV producer, ChatGPT, Claude AI, Success Upgrade',
   },
 }
 
@@ -144,6 +156,7 @@ export default function RootLayout({
         <StructuredData />
       </head>
       <body className={`${instrumentSans.variable} ${instrumentSerif.variable} ${jetbrainsMono.variable} font-sans antialiased`}>
+        <AnnouncementBar />
         {children}
         <MobileTabBar />
         <Analytics />

@@ -66,15 +66,26 @@ export function HeroSection() {
         {/* Hidden H1 for SEO - Primary keyword */}
         <h1 className="sr-only">Jotham Hall - Entrepreneur, Television Producer, Founder of SuccessUpgrade.ai</h1>
         
-        {/* Eyebrow */}
-        <div 
-          className={`mb-8 transition-all duration-700 ${
+        {/* Profile + Eyebrow */}
+        <div
+          className={`flex flex-col sm:flex-row items-center gap-4 sm:gap-5 mb-8 transition-all duration-700 ${
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
           }`}
         >
-          <span className="inline-flex items-center justify-center lg:justify-start text-sm font-mono text-muted-foreground">
-            I turn founders into brands that print revenue on autopilot
-          </span>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="https://www.successupgrade.ai/images/profile.jpeg"
+            alt="Jotham Hall"
+            className="w-16 h-16 sm:w-20 sm:h-20 rounded-full object-cover border-2 border-foreground/10 shadow-lg"
+          />
+          <div className="text-center sm:text-left">
+            <span className="block text-sm font-mono text-muted-foreground">
+              I turn founders into brands that print revenue on autopilot
+            </span>
+            <span className="block text-xs font-mono text-muted-foreground/60 mt-1">
+              AI Systems Architect · TV Producer · VibeCoding Pioneer
+            </span>
+          </div>
         </div>
         
         {/* Main headline */}
