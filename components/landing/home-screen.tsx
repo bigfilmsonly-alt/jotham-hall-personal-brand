@@ -193,34 +193,32 @@ export function HomeScreen() {
       <h1 className="sr-only">Jotham Hall - AI Systems Architect, Television Producer, Founder of SuccessUpgrade.ai</h1>
 
       {/* TOP: Profile card */}
-      <div className="relative z-10 flex-shrink-0 pt-6 pb-5 px-6 text-center border-b border-foreground/5">
+      <div className="relative z-10 flex-shrink-0 pt-4 pb-3 px-6 text-center">
         <div className={`transition-all duration-700 ${isVisible ? "opacity-100 scale-100" : "opacity-0 scale-90"}`}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="https://www.successupgrade.ai/images/profile.jpeg" alt="Jotham Hall" className="w-32 h-32 sm:w-40 sm:h-40 rounded-full object-cover border-2 border-foreground/10 shadow-2xl mx-auto mb-3" />
+          <img src="https://www.successupgrade.ai/images/profile.jpeg" alt="Jotham Hall" className="w-24 h-24 sm:w-32 sm:h-32 rounded-full object-cover border-2 border-foreground/10 shadow-2xl mx-auto mb-2" />
         </div>
-        <h2 className={`font-display text-2xl sm:text-3xl tracking-tight mb-1 transition-all duration-700 delay-100 ${isVisible ? "opacity-100" : "opacity-0"}`}>Jotham Hall</h2>
-        <p className={`text-[10px] sm:text-xs font-mono text-muted-foreground/50 mb-2 transition-all duration-700 delay-200 ${isVisible ? "opacity-100" : "opacity-0"}`}>
+        <h2 className={`font-display text-xl sm:text-2xl tracking-tight mb-0.5 transition-all duration-700 delay-100 ${isVisible ? "opacity-100" : "opacity-0"}`}>Jotham Hall</h2>
+        <p className={`text-[10px] sm:text-xs font-mono text-muted-foreground/50 mb-1.5 transition-all duration-700 delay-200 ${isVisible ? "opacity-100" : "opacity-0"}`}>
           50+ TV shows. $2.4M+ client revenue. I build what works.
         </p>
-        <p className={`text-xs sm:text-sm text-foreground/70 max-w-xs mx-auto transition-all duration-700 delay-300 ${isVisible ? "opacity-100" : "opacity-0"}`}>
+        <p className={`text-[11px] sm:text-sm text-foreground/70 max-w-xs mx-auto transition-all duration-700 delay-300 ${isVisible ? "opacity-100" : "opacity-0"}`}>
           I build AI systems that scale businesses without scaling stress.
         </p>
-        {/* As Seen On */}
-        <div className={`flex flex-wrap justify-center gap-x-3 mt-3 transition-all duration-700 delay-400 ${isVisible ? "opacity-100" : "opacity-0"}`}>
+        <div className={`flex flex-wrap justify-center gap-x-2.5 mt-2 transition-all duration-700 delay-400 ${isVisible ? "opacity-100" : "opacity-0"}`}>
           {networks.map((n) => (
-            <span key={n} className="text-xs sm:text-sm font-mono text-foreground/50 uppercase tracking-wider">{n}</span>
+            <span key={n} className="text-[10px] sm:text-xs font-mono text-foreground/50 uppercase tracking-wider">{n}</span>
           ))}
         </div>
       </div>
 
       {/* BOTTOM: Action zone */}
       <div className="relative z-10 flex-1 flex flex-col justify-center px-6">
-        {/* CTAs */}
-        <div className={`space-y-3 max-w-sm mx-auto w-full transition-all duration-700 delay-400 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}>
+        <div className={`space-y-2.5 max-w-sm mx-auto w-full transition-all duration-700 delay-400 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}>
           {/* Primary CTA — Calendly */}
           <button
             onClick={() => setIsCalendlyOpen(true)}
-            className="w-full py-4 bg-foreground text-background text-sm font-medium hover:bg-foreground/90 transition-colors flex items-center justify-center gap-2 active:scale-[0.97]"
+            className="w-full py-3.5 bg-foreground text-background text-sm font-medium hover:bg-foreground/90 transition-colors flex items-center justify-center gap-2 active:scale-[0.97]"
           >
             Book Your Free Strategy Call
             <ArrowRight className="w-4 h-4" />
@@ -229,7 +227,7 @@ export function HomeScreen() {
           {/* Call/Text/Email */}
           <button
             onClick={() => setShowContact(!showContact)}
-            className="w-full py-3.5 border border-foreground/20 text-sm font-medium hover:bg-foreground/5 transition-colors flex items-center justify-center gap-2 active:scale-[0.97]"
+            className="w-full py-3 border border-foreground/20 text-sm font-medium hover:bg-foreground/5 transition-colors flex items-center justify-center gap-2 active:scale-[0.97]"
           >
             <Phone className="w-3.5 h-3.5" />
             Call, Text, or Email
@@ -237,14 +235,14 @@ export function HomeScreen() {
 
           {/* Contact dropdown */}
           {showContact && (
-            <div className="space-y-1.5 animate-in fade-in slide-in-from-top-2 duration-200">
-              <a href="tel:+15106809100" className="flex items-center gap-3 px-4 py-3 border border-foreground/10 hover:border-foreground/30 transition-all active:scale-[0.98]">
+            <div className="space-y-1 animate-in fade-in slide-in-from-top-2 duration-200">
+              <a href="tel:+15106809100" className="flex items-center gap-3 px-4 py-2.5 border border-foreground/10 hover:border-foreground/30 transition-all active:scale-[0.98]">
                 <Phone className="w-4 h-4 text-muted-foreground" /><span className="text-sm">Call (510) 680-9100</span>
               </a>
-              <a href="sms:+15106934083" className="flex items-center gap-3 px-4 py-3 border border-foreground/10 hover:border-foreground/30 transition-all active:scale-[0.98]">
+              <a href="sms:+15106934083" className="flex items-center gap-3 px-4 py-2.5 border border-foreground/10 hover:border-foreground/30 transition-all active:scale-[0.98]">
                 <MessageSquare className="w-4 h-4 text-muted-foreground" /><span className="text-sm">Text (510) 693-4083</span>
               </a>
-              <a href="mailto:jothamjhall@gmail.com" className="flex items-center gap-3 px-4 py-3 border border-foreground/10 hover:border-foreground/30 transition-all active:scale-[0.98]">
+              <a href="mailto:jothamjhall@gmail.com" className="flex items-center gap-3 px-4 py-2.5 border border-foreground/10 hover:border-foreground/30 transition-all active:scale-[0.98]">
                 <Mail className="w-4 h-4 text-muted-foreground" /><span className="text-sm">jothamjhall@gmail.com</span>
               </a>
             </div>
@@ -253,14 +251,14 @@ export function HomeScreen() {
           {/* Quiz CTA */}
           <button
             onClick={() => setQuizActive(true)}
-            className="w-full py-3.5 border border-foreground/10 text-sm hover:bg-foreground/5 transition-colors flex items-center justify-center gap-2 active:scale-[0.97] text-muted-foreground hover:text-foreground"
+            className="w-full py-3 border border-foreground/10 text-sm hover:bg-foreground/5 transition-colors flex items-center justify-center gap-2 active:scale-[0.97] text-muted-foreground hover:text-foreground"
           >
             <BarChart3 className="w-3.5 h-3.5" />
             Take the Free Business Assessment
           </button>
 
           {/* Scarcity */}
-          <p className="text-[10px] font-mono text-foreground/60 text-center pt-1">
+          <p className="text-[10px] font-mono text-foreground/60 text-center">
             Only 3 partnership spots per quarter
           </p>
         </div>
