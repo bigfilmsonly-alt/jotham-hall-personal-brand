@@ -1,24 +1,22 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { X, ArrowRight, FileText } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { ContactModal } from "@/components/landing/contact-modal";
+import { X, ArrowRight } from "lucide-react";
+import { supabase } from "@/lib/supabase";
 
 export function ExitIntentPopup() {
   const [isOpen, setIsOpen] = useState(false);
   const [hasShown, setHasShown] = useState(false);
-  const [isContactOpen, setIsContactOpen] = useState(false);
+  const [email, setEmail] = useState("");
+  const [status, setStatus] = useState<"idle" | "loading" | "success">("idle");
 
   useEffect(() => {
-    // Check if already shown this session
     const shown = sessionStorage.getItem("exitIntentShown");
     if (shown) {
       setHasShown(true);
       return;
     }
 
-    // Desktop: Mouse leave detection
     const handleMouseLeave = (e: MouseEvent) => {
       if (e.clientY <= 0 && !hasShown) {
         setIsOpen(true);
@@ -27,11 +25,9 @@ export function ExitIntentPopup() {
       }
     };
 
-    // Mobile: Back button or scroll up detection
     let lastScrollY = window.scrollY;
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
-      // If user scrolls up quickly from below fold, show popup
       if (currentScrollY < lastScrollY - 200 && currentScrollY < 100 && !hasShown && lastScrollY > 500) {
         setIsOpen(true);
         setHasShown(true);
@@ -40,11 +36,10 @@ export function ExitIntentPopup() {
       lastScrollY = currentScrollY;
     };
 
-    // Delay adding listeners to avoid immediate trigger
     const timeout = setTimeout(() => {
       document.addEventListener("mouseleave", handleMouseLeave);
       window.addEventListener("scroll", handleScroll);
-    }, 5000); // Wait 5 seconds before enabling
+    }, 5000);
 
     return () => {
       clearTimeout(timeout);
@@ -53,23 +48,33 @@ export function ExitIntentPopup() {
     };
   }, [hasShown]);
 
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!email || status === "loading") return;
+    setStatus("loading");
+
+    await supabase.from("email_captures").upsert(
+      { email, source: "exit_intent" },
+      { onConflict: "email" }
+    );
+
+    setStatus("success");
+  };
+
   if (!isOpen) return null;
 
   return (
     <>
-      {/* Backdrop */}
-      <div 
-        className="fixed inset-0 bg-background/80 backdrop-blur-sm z-50 animate-in fade-in duration-300"
+      <div
+        className="fixed inset-0 bg-background/80 backdrop-blur-sm z-[1002] animate-in fade-in duration-300"
         onClick={() => setIsOpen(false)}
       />
-      
-      {/* Popup */}
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-4 pointer-events-none">
-        <div 
-          className="relative bg-background border border-foreground/10 max-w-lg w-full p-8 lg:p-12 pointer-events-auto animate-in zoom-in-95 fade-in duration-300"
+
+      <div className="fixed inset-0 z-[1002] flex items-center justify-center p-6 pointer-events-none">
+        <div
+          className="relative bg-background border border-foreground/10 max-w-md w-full p-8 pointer-events-auto animate-in zoom-in-95 fade-in duration-300"
           onClick={(e) => e.stopPropagation()}
         >
-          {/* Close button */}
           <button
             onClick={() => setIsOpen(false)}
             className="absolute top-4 right-4 text-muted-foreground hover:text-foreground transition-colors"
@@ -77,67 +82,65 @@ export function ExitIntentPopup() {
             <X className="w-5 h-5" />
           </button>
 
-          {/* Content */}
-          <div className="text-center">
-            {/* Icon */}
-            <div className="w-16 h-16 mx-auto mb-6 border border-foreground/20 flex items-center justify-center">
-              <FileText className="w-8 h-8 text-foreground/70" />
-            </div>
-
-            {/* Headline */}
-            <h2 className="text-2xl lg:text-3xl font-display tracking-tight mb-4">
-              Before you go...
-            </h2>
-
-            {/* Subhead */}
-            <p className="text-muted-foreground mb-8 leading-relaxed">
-              Get the free playbook I used to build multiple 7-figure systems. 
-              No fluff. Just the frameworks that actually work.
-            </p>
-
-            {/* Lead Magnet Title */}
-            <div className="border border-foreground/10 p-4 mb-8 bg-foreground/[0.02]">
-              <span className="text-xs font-mono text-muted-foreground uppercase tracking-wider block mb-2">
-                Free Download
-              </span>
-              <h3 className="font-display text-lg">
-                The 7-Figure Systems Playbook
-              </h3>
-              <p className="text-sm text-muted-foreground mt-1">
-                AI automation, revenue systems, and scaling strategies
-              </p>
-            </div>
-
-            {/* CTA Buttons */}
-            <div className="flex flex-col gap-3">
-              <Button
-                onClick={() => {
-                  setIsOpen(false);
-                  setIsContactOpen(true);
-                }}
-                className="w-full bg-foreground hover:bg-foreground/90 text-background h-14 text-base rounded-none group"
-              >
-                Get the Free Playbook
-                <ArrowRight className="w-4 h-4 ml-2 transition-transform group-hover:translate-x-1" />
-              </Button>
-              
+          {status === "success" ? (
+            <div className="text-center py-4">
+              <h3 className="font-display text-2xl tracking-tight mb-3">You&apos;re in.</h3>
+              <p className="text-muted-foreground text-sm mb-6">Check your inbox for the System Audit.</p>
               <button
                 onClick={() => setIsOpen(false)}
-                className="text-sm text-muted-foreground hover:text-foreground transition-colors py-2"
+                className="px-6 py-3 bg-foreground text-background text-sm font-medium hover:bg-foreground/90 transition-colors"
               >
-                No thanks, I will figure it out myself
+                Done
               </button>
             </div>
+          ) : (
+            <div className="text-center">
+              <p className="font-mono text-xs tracking-widest text-yellow-500/80 uppercase mb-4">
+                Before you go
+              </p>
+              <h2 className="text-xl sm:text-2xl font-display tracking-tight mb-3">
+                Grab the Free System Audit
+              </h2>
+              <p className="text-sm text-muted-foreground mb-6">
+                Find $50K+ in hidden revenue in 10 minutes. The same framework I use with every client.
+              </p>
 
-            {/* Trust indicator */}
-            <p className="text-xs text-muted-foreground mt-6 font-mono">
-              Join 500+ founders who downloaded this playbook
-            </p>
-          </div>
+              <form onSubmit={handleSubmit} className="space-y-3 max-w-xs mx-auto">
+                <input
+                  type="email"
+                  required
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="Your best email"
+                  className="w-full px-4 py-3.5 bg-foreground/5 border border-foreground/10 text-foreground placeholder-muted-foreground focus:outline-none focus:border-foreground/30 transition-colors text-sm"
+                  autoFocus
+                />
+                <button
+                  type="submit"
+                  disabled={status === "loading"}
+                  className="w-full py-3.5 bg-foreground text-background font-medium hover:bg-foreground/90 transition-colors text-sm flex items-center justify-center gap-2 disabled:opacity-50"
+                >
+                  {status === "loading" ? "Sending..." : "Get Free Access"}
+                  {status !== "loading" && <ArrowRight className="w-4 h-4" />}
+                </button>
+              </form>
+
+              <div className="flex items-center justify-center gap-4 mt-5 text-[10px] text-muted-foreground/50 font-mono">
+                <span>Instant download</span>
+                <span>No credit card</span>
+                <span>$500 value</span>
+              </div>
+
+              <button
+                onClick={() => setIsOpen(false)}
+                className="mt-4 text-xs text-muted-foreground/40 hover:text-muted-foreground transition-colors"
+              >
+                No thanks, I&apos;ll pass on the free audit
+              </button>
+            </div>
+          )}
         </div>
       </div>
-
-      <ContactModal isOpen={isContactOpen} onClose={() => setIsContactOpen(false)} />
     </>
   );
 }

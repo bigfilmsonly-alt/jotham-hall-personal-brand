@@ -2,11 +2,9 @@
 
 import { useState } from "react";
 import { X } from "lucide-react";
-import { ContactModal } from "./contact-modal";
 
 export function AnnouncementBar() {
   const [isVisible, setIsVisible] = useState(true);
-  const [isContactOpen, setIsContactOpen] = useState(false);
 
   if (!isVisible) return null;
 
@@ -18,16 +16,21 @@ export function AnnouncementBar() {
             <div className="flex items-center gap-2 min-w-0">
               <span className="animate-pulse w-2 h-2 bg-green-500 rounded-full shrink-0" />
               <span className="text-muted-foreground truncate">
-                <strong className="text-foreground">Only 3 spots left</strong>
-                <span className="hidden sm:inline"> for Q2 partnerships</span>
+                <strong className="text-foreground">Free:</strong>
+                <span className="hidden sm:inline"> The Founder&apos;s System Audit ($500 value)</span>
+                <span className="sm:hidden"> System Audit ($500 value)</span>
               </span>
             </div>
             <div className="flex items-center gap-2 shrink-0 ml-3">
               <button
-                onClick={() => setIsContactOpen(true)}
+                onClick={() => {
+                  setIsVisible(false);
+                  const el = document.getElementById("lead-magnet");
+                  if (el) el.scrollIntoView({ behavior: "smooth" });
+                }}
                 className="px-3 sm:px-4 py-1.5 bg-foreground text-background text-xs font-medium hover:bg-foreground/90 transition-colors whitespace-nowrap"
               >
-                Book Free Call
+                Download Free
               </button>
               <button
                 onClick={() => setIsVisible(false)}
@@ -40,7 +43,6 @@ export function AnnouncementBar() {
           </div>
         </div>
       </div>
-      <ContactModal isOpen={isContactOpen} onClose={() => setIsContactOpen(false)} />
     </>
   );
 }

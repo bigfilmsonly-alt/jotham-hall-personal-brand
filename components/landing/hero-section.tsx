@@ -147,7 +147,12 @@ export function HeroSection() {
               Claim Your Free Strategy Session
               <ArrowRight className="w-4 h-4 ml-2 transition-transform group-hover:translate-x-1" />
             </Button>
-            <p className="text-xs font-mono text-muted-foreground mt-3 sm:mt-0 sm:ml-4">Only 7 spots/month</p>
+            <a
+              href="#lead-magnet"
+              className="px-8 h-14 text-base rounded-full border border-foreground/20 text-foreground hover:bg-foreground/5 transition-colors flex items-center gap-2 justify-center"
+            >
+              Get Free System Audit
+            </a>
           </div>
         </div>
 

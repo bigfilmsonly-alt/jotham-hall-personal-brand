@@ -38,6 +38,55 @@ const socialLinks = [
   { name: "Facebook", href: "https://www.facebook.com/share/1DuisNbTVK/?mibextid=wwXIfr" },
 ];
 
+function FooterEmailForm() {
+  const [email, setEmail] = useState("");
+  const [status, setStatus] = useState<"idle" | "loading" | "done">("idle");
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!email || status === "loading") return;
+    setStatus("loading");
+
+    const { createClient } = await import("@supabase/supabase-js");
+    const supabase = createClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+    );
+
+    await supabase.from("email_captures").upsert(
+      { email, source: "footer_newsletter" },
+      { onConflict: "email" }
+    );
+
+    setEmail("");
+    setStatus("done");
+  };
+
+  if (status === "done") {
+    return <p className="text-sm text-foreground font-medium text-center lg:text-left">You&apos;re subscribed. Welcome.</p>;
+  }
+
+  return (
+    <form onSubmit={handleSubmit} className="flex gap-2">
+      <input
+        type="email"
+        required
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        placeholder="Enter email"
+        className="flex-1 px-4 py-2.5 bg-foreground/5 border border-foreground/10 text-foreground placeholder-muted-foreground text-sm focus:outline-none focus:border-foreground/30 transition-colors"
+      />
+      <button
+        type="submit"
+        disabled={status === "loading"}
+        className="px-4 py-2.5 bg-foreground text-background text-xs font-medium hover:bg-foreground/90 transition-colors whitespace-nowrap disabled:opacity-50"
+      >
+        {status === "loading" ? "..." : "Subscribe"}
+      </button>
+    </form>
+  );
+}
+
 export function FooterSection() {
   const [isSitemapOpen, setIsSitemapOpen] = useState(false);
 
@@ -179,6 +228,17 @@ export function FooterSection() {
                 <a href="https://www.linkedin.com/in/jotham-hall-b6b9491b2" target="_blank" rel="noopener noreferrer" className="block text-foreground/60 hover:text-foreground transition-colors py-1">LinkedIn</a>
               </div>
             </div>
+          </div>
+        </div>
+
+        {/* Newsletter Signup */}
+        <div className="py-10 border-t border-foreground/10">
+          <div className="max-w-md mx-auto lg:mx-0">
+            <h4 className="text-sm font-medium mb-2 text-center lg:text-left">Get Weekly Insights</h4>
+            <p className="text-xs text-muted-foreground mb-4 text-center lg:text-left">
+              AI automation tips from a TV producer who builds systems for 500+ founders.
+            </p>
+            <FooterEmailForm />
           </div>
         </div>
 
