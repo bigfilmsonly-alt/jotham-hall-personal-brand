@@ -14,28 +14,100 @@ const services = [
   "Revenue Systems",
   "Brand Strategy",
   "Fractional COO",
-  "VibeCoding / Say It Build It",
+  "VibeCoding",
   "Video Production",
   "Not sure yet",
 ];
 
+const bottlenecks = [
+  "No systems in place",
+  "Too many manual tasks",
+  "Can't scale past current revenue",
+  "No leads or pipeline",
+  "Team is overwhelmed",
+  "Brand isn't converting",
+  "Tech stack is a mess",
+  "I'm the bottleneck",
+];
+
 const revenueRanges = [
   "Pre-revenue",
-  "$0 - $50K/year",
-  "$50K - $250K/year",
-  "$250K - $1M/year",
-  "$1M - $5M/year",
-  "$5M+/year",
+  "$0 - $50K",
+  "$50K - $250K",
+  "$250K - $1M",
+  "$1M - $5M",
+  "$5M+",
+];
+
+const budgets = [
+  "Under $1K",
+  "$1K - $5K",
+  "$5K - $15K",
+  "$15K - $50K",
+  "$50K+",
+  "Not sure yet",
 ];
 
 const sources = [
-  "Google Search",
+  "Google",
   "Social Media",
   "Referral",
-  "TV / Entertainment",
+  "TV",
   "Podcast",
   "Other",
 ];
+
+function ChipSelect({
+  label,
+  options,
+  value,
+  onChange,
+  required,
+  multi,
+}: {
+  label: string;
+  options: string[];
+  value: string | string[];
+  onChange: (val: string | string[]) => void;
+  required?: boolean;
+  multi?: boolean;
+}) {
+  const isSelected = (opt: string) =>
+    multi ? (value as string[]).includes(opt) : value === opt;
+
+  const handleTap = (opt: string) => {
+    if (multi) {
+      const arr = value as string[];
+      onChange(arr.includes(opt) ? arr.filter((v) => v !== opt) : [...arr, opt]);
+    } else {
+      onChange(opt);
+    }
+  };
+
+  return (
+    <div>
+      <p className="text-xs font-mono text-muted-foreground uppercase tracking-wider mb-2">
+        {label} {required && "*"}
+      </p>
+      <div className="flex flex-wrap gap-2">
+        {options.map((opt) => (
+          <button
+            key={opt}
+            type="button"
+            onClick={() => handleTap(opt)}
+            className={`px-3 py-2 text-xs font-medium border transition-all duration-150 active:scale-95 ${
+              isSelected(opt)
+                ? "bg-foreground text-background border-foreground"
+                : "bg-foreground/5 text-foreground/70 border-foreground/10 hover:border-foreground/30"
+            }`}
+          >
+            {opt}
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+}
 
 export function ContactModal({ isOpen, onClose }: ContactModalProps) {
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
@@ -44,10 +116,10 @@ export function ContactModal({ isOpen, onClose }: ContactModalProps) {
     email: "",
     phone: "",
     company: "",
-    website: "",
     service: "",
+    bottlenecks: [] as string[],
     revenue_range: "",
-    challenge: "",
+    budget: "",
     how_found: "",
   });
 
@@ -57,9 +129,7 @@ export function ContactModal({ isOpen, onClose }: ContactModalProps) {
     } else {
       document.body.style.overflow = "unset";
     }
-    return () => {
-      document.body.style.overflow = "unset";
-    };
+    return () => { document.body.style.overflow = "unset"; };
   }, [isOpen]);
 
   useEffect(() => {
@@ -70,13 +140,14 @@ export function ContactModal({ isOpen, onClose }: ContactModalProps) {
     return () => window.removeEventListener("keydown", handleEscape);
   }, [onClose]);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (status === "loading") return;
+    if (!form.service || !form.revenue_range || form.bottlenecks.length === 0 || !form.budget) return;
 
     setStatus("loading");
     const { error } = await supabase.from("contact_submissions").insert({
@@ -84,10 +155,11 @@ export function ContactModal({ isOpen, onClose }: ContactModalProps) {
       email: form.email,
       phone: form.phone || null,
       company: form.company || null,
-      website: form.website || null,
+      website: null,
       service: form.service,
       revenue_range: form.revenue_range,
-      challenge: form.challenge,
+      challenge: form.bottlenecks.join(", "),
+      budget: form.budget,
       how_found: form.how_found || null,
     });
 
@@ -99,157 +171,157 @@ export function ContactModal({ isOpen, onClose }: ContactModalProps) {
   };
 
   const resetForm = () => {
-    setForm({ name: "", email: "", phone: "", company: "", website: "", service: "", revenue_range: "", challenge: "", how_found: "" });
+    setForm({ name: "", email: "", phone: "", company: "", service: "", bottlenecks: [], revenue_range: "", budget: "", how_found: "" });
     setStatus("idle");
     onClose();
   };
 
   if (!isOpen) return null;
 
-  const inputClass = "w-full px-4 py-3 bg-foreground/5 border border-foreground/10 text-foreground placeholder-muted-foreground focus:outline-none focus:border-foreground/30 transition-colors text-sm";
-  const labelClass = "block text-xs font-mono text-muted-foreground uppercase tracking-wider mb-1.5";
-  const selectClass = `${inputClass} appearance-none cursor-pointer`;
+  const inputClass = "w-full px-4 py-3 bg-foreground/5 border border-foreground/10 text-foreground placeholder-muted-foreground focus:outline-none focus:border-foreground/30 transition-colors text-sm rounded-none";
+  const labelClass = "text-xs font-mono text-muted-foreground uppercase tracking-wider mb-1.5 block";
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center">
+    <div className="fixed inset-0 z-[100]">
       <div
         className="absolute inset-0 bg-background/95 backdrop-blur-sm"
         onClick={onClose}
       />
 
-      <div className="relative z-10 w-full max-w-lg mx-4 max-h-[90vh] overflow-y-auto no-scrollbar animate-in fade-in zoom-in-95 duration-200">
-        <div className="bg-background border border-foreground/20 p-6 sm:p-8">
+      <div className="relative z-10 h-full flex flex-col">
+        {/* Fixed header */}
+        <div className="shrink-0 flex items-center justify-between px-5 py-4 border-b border-foreground/10 bg-background">
+          <div>
+            <p className="font-mono text-[10px] tracking-widest text-muted-foreground uppercase">Apply to Work Together</p>
+            <h3 className="font-display text-lg tracking-tight mt-0.5">Tell me about your business</h3>
+          </div>
           <button
             onClick={status === "success" ? resetForm : onClose}
-            className="absolute top-4 right-4 p-2 text-muted-foreground hover:text-foreground transition-colors"
+            className="p-2 text-muted-foreground hover:text-foreground transition-colors"
             aria-label="Close"
           >
             <X className="w-5 h-5" />
           </button>
+        </div>
 
-          {status === "success" ? (
-            <div className="text-center py-8">
-              <div className="w-16 h-16 mx-auto mb-6 border border-foreground/20 flex items-center justify-center">
-                <Check className="w-8 h-8 text-foreground" />
-              </div>
-              <h3 className="font-display text-2xl tracking-tight mb-3">Application received.</h3>
-              <p className="text-muted-foreground text-sm max-w-xs mx-auto">
-                I review every submission personally. Expect a response within 24 hours.
-              </p>
-              <button
-                onClick={resetForm}
-                className="mt-8 px-6 py-3 bg-foreground text-background text-sm font-medium hover:bg-foreground/90 transition-colors"
-              >
-                Done
-              </button>
-            </div>
-          ) : (
-            <>
-              <div className="text-center mb-6">
-                <span className="font-mono text-xs tracking-widest text-muted-foreground uppercase block mb-2">
-                  Apply to Work Together
-                </span>
-                <h3 className="font-display text-xl sm:text-2xl tracking-tight">
-                  Tell me about your business
-                </h3>
-                <p className="text-xs text-muted-foreground mt-2">
-                  The more detail you share, the better I can diagnose what you need.
+        {/* Scrollable content */}
+        <div className="flex-1 overflow-y-auto">
+          <div className="px-5 py-5 pb-8">
+            {status === "success" ? (
+              <div className="text-center py-12">
+                <div className="w-16 h-16 mx-auto mb-6 border border-foreground/20 flex items-center justify-center">
+                  <Check className="w-8 h-8 text-foreground" />
+                </div>
+                <h3 className="font-display text-2xl tracking-tight mb-3">Application received.</h3>
+                <p className="text-muted-foreground text-sm max-w-xs mx-auto">
+                  I review every submission personally. Expect a response within 24 hours.
                 </p>
+                <button
+                  onClick={resetForm}
+                  className="mt-8 px-6 py-3 bg-foreground text-background text-sm font-medium hover:bg-foreground/90 transition-colors"
+                >
+                  Done
+                </button>
               </div>
-
-              <form onSubmit={handleSubmit} className="space-y-4">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div>
-                    <label htmlFor="name" className={labelClass}>Full Name *</label>
-                    <input id="name" name="name" type="text" required value={form.name} onChange={handleChange} placeholder="Jotham Hall" className={inputClass} />
-                  </div>
-                  <div>
-                    <label htmlFor="email" className={labelClass}>Email *</label>
-                    <input id="email" name="email" type="email" required value={form.email} onChange={handleChange} placeholder="you@company.com" className={inputClass} />
-                  </div>
+            ) : (
+              <form onSubmit={handleSubmit} className="space-y-5">
+                {/* Name + Email */}
+                <div>
+                  <label htmlFor="name" className={labelClass}>Full Name *</label>
+                  <input id="name" name="name" type="text" required value={form.name} onChange={handleChange} placeholder="Your full name" className={inputClass} />
+                </div>
+                <div>
+                  <label htmlFor="email" className={labelClass}>Email *</label>
+                  <input id="email" name="email" type="email" required value={form.email} onChange={handleChange} placeholder="you@company.com" className={inputClass} />
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {/* Phone + Company */}
+                <div className="grid grid-cols-2 gap-3">
                   <div>
                     <label htmlFor="phone" className={labelClass}>Phone</label>
-                    <input id="phone" name="phone" type="tel" value={form.phone} onChange={handleChange} placeholder="+1 (555) 000-0000" className={inputClass} />
+                    <input id="phone" name="phone" type="tel" value={form.phone} onChange={handleChange} placeholder="(555) 000-0000" className={inputClass} />
                   </div>
                   <div>
-                    <label htmlFor="company" className={labelClass}>Company / Brand</label>
-                    <input id="company" name="company" type="text" value={form.company} onChange={handleChange} placeholder="Your company name" className={inputClass} />
+                    <label htmlFor="company" className={labelClass}>Company</label>
+                    <input id="company" name="company" type="text" value={form.company} onChange={handleChange} placeholder="Your brand" className={inputClass} />
                   </div>
                 </div>
 
-                <div>
-                  <label htmlFor="website" className={labelClass}>Website</label>
-                  <input id="website" name="website" type="url" value={form.website} onChange={handleChange} placeholder="https://yoursite.com" className={inputClass} />
-                </div>
+                {/* Service - Tappable */}
+                <ChipSelect
+                  label="What do you need?"
+                  options={services}
+                  value={form.service}
+                  onChange={(val) => setForm((prev) => ({ ...prev, service: val as string }))}
+                  required
+                />
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div>
-                    <label htmlFor="service" className={labelClass}>What do you need? *</label>
-                    <select id="service" name="service" required value={form.service} onChange={handleChange} className={selectClass}>
-                      <option value="" disabled>Select a service</option>
-                      {services.map((s) => (
-                        <option key={s} value={s}>{s}</option>
-                      ))}
-                    </select>
-                  </div>
-                  <div>
-                    <label htmlFor="revenue_range" className={labelClass}>Annual Revenue *</label>
-                    <select id="revenue_range" name="revenue_range" required value={form.revenue_range} onChange={handleChange} className={selectClass}>
-                      <option value="" disabled>Select range</option>
-                      {revenueRanges.map((r) => (
-                        <option key={r} value={r}>{r}</option>
-                      ))}
-                    </select>
-                  </div>
-                </div>
+                {/* Bottlenecks - Multi-select tappable */}
+                <ChipSelect
+                  label="Biggest bottleneck (tap all that apply)"
+                  options={bottlenecks}
+                  value={form.bottlenecks}
+                  onChange={(val) => setForm((prev) => ({ ...prev, bottlenecks: val as string[] }))}
+                  required
+                  multi
+                />
 
-                <div>
-                  <label htmlFor="challenge" className={labelClass}>What&apos;s your biggest challenge right now? *</label>
-                  <textarea
-                    id="challenge"
-                    name="challenge"
-                    required
-                    value={form.challenge}
-                    onChange={handleChange}
-                    placeholder="Be specific. What's broken, what's slowing you down, and what does success look like for you?"
-                    rows={4}
-                    className={`${inputClass} resize-none`}
-                  />
-                </div>
+                {/* Revenue - Tappable */}
+                <ChipSelect
+                  label="Annual Revenue"
+                  options={revenueRanges}
+                  value={form.revenue_range}
+                  onChange={(val) => setForm((prev) => ({ ...prev, revenue_range: val as string }))}
+                  required
+                />
 
-                <div>
-                  <label htmlFor="how_found" className={labelClass}>How did you find me?</label>
-                  <select id="how_found" name="how_found" value={form.how_found} onChange={handleChange} className={selectClass}>
-                    <option value="">Select one</option>
-                    {sources.map((s) => (
-                      <option key={s} value={s}>{s}</option>
-                    ))}
-                  </select>
-                </div>
+                {/* Budget - Tappable */}
+                <ChipSelect
+                  label="What's your budget?"
+                  options={budgets}
+                  value={form.budget}
+                  onChange={(val) => setForm((prev) => ({ ...prev, budget: val as string }))}
+                  required
+                />
+
+                {/* How found - Tappable */}
+                <ChipSelect
+                  label="How did you find me?"
+                  options={sources}
+                  value={form.how_found}
+                  onChange={(val) => setForm((prev) => ({ ...prev, how_found: val as string }))}
+                />
 
                 {status === "error" && (
                   <p className="text-xs text-red-400 font-mono">Something went wrong. Try again.</p>
                 )}
-
-                <button
-                  type="submit"
-                  disabled={status === "loading"}
-                  className="w-full py-4 bg-foreground text-background font-medium hover:bg-foreground/90 transition-colors text-sm flex items-center justify-center gap-2 group disabled:opacity-50"
-                >
-                  {status === "loading" ? "Submitting..." : "Submit Application"}
-                  {status !== "loading" && <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />}
-                </button>
-
-                <p className="text-center text-xs text-muted-foreground font-mono">
-                  Free consultation. No obligation. Response within 24 hours.
-                </p>
               </form>
-            </>
-          )}
+            )}
+          </div>
         </div>
+
+        {/* Fixed submit button at bottom */}
+        {status !== "success" && (
+          <div className="shrink-0 px-5 py-4 border-t border-foreground/10 bg-background safe-bottom">
+            <button
+              type="button"
+              onClick={(e) => {
+                const formEl = document.querySelector("form");
+                if (formEl) {
+                  formEl.requestSubmit();
+                }
+              }}
+              disabled={status === "loading"}
+              className="w-full py-4 bg-foreground text-background font-medium hover:bg-foreground/90 transition-colors text-sm flex items-center justify-center gap-2 group disabled:opacity-50 active:scale-[0.98]"
+            >
+              {status === "loading" ? "Submitting..." : "Submit Application"}
+              {status !== "loading" && <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />}
+            </button>
+            <p className="text-center text-[10px] text-muted-foreground font-mono mt-2">
+              Free consultation. No obligation. Response within 24 hours.
+            </p>
+          </div>
+        )}
       </div>
     </div>
   );
