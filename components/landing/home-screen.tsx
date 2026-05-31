@@ -225,6 +225,21 @@ export function HomeScreen() {
             <span key={n} className="text-[10px] sm:text-[11px] font-display text-[#5C5750] uppercase tracking-[0.15em] hover:text-[#D4A853] transition-colors">{n}</span>
           ))}
         </div>
+
+        {/* Stats */}
+        <div className={`grid grid-cols-4 gap-2 mt-4 pt-4 border-t border-[#3D3A35]/50 transition-all duration-700 delay-500 ${isVisible ? "opacity-100" : "opacity-0"}`}>
+          {[
+            { value: "500+", label: "Clients" },
+            { value: "40%", label: "Overhead Cut" },
+            { value: "5+", label: "Ventures" },
+            { value: "7-Fig", label: "Systems" },
+          ].map((s) => (
+            <div key={s.label} className="text-center">
+              <p className="font-display text-sm sm:text-base text-[#FAF8F5] tracking-wide">{s.value}</p>
+              <p className="text-[8px] sm:text-[9px] text-[#5C5750] uppercase tracking-[0.1em]">{s.label}</p>
+            </div>
+          ))}
+        </div>
       </div>
 
       {/* Action zone */}
