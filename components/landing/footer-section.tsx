@@ -171,7 +171,7 @@ export function FooterSection() {
           </button>
           
           <div className={`overflow-hidden transition-all duration-500 ease-in-out ${isSitemapOpen ? 'max-h-[1200px] opacity-100 mt-6' : 'max-h-0 opacity-0'}`}>
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6 text-xs">
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-7 gap-6 text-xs">
               <div>
                 <span className="text-muted-foreground block mb-3 font-medium">Main</span>
                 <a href="/" className="block text-foreground/60 hover:text-foreground transition-colors py-1">Home</a>
@@ -226,6 +226,19 @@ export function FooterSection() {
                 <a href="sms:+15106934083" className="block text-foreground/60 hover:text-foreground transition-colors py-1">Text</a>
                 <a href="mailto:jothamjhall@gmail.com" className="block text-foreground/60 hover:text-foreground transition-colors py-1">Email</a>
                 <a href="https://www.linkedin.com/in/jotham-hall-b6b9491b2" target="_blank" rel="noopener noreferrer" className="block text-foreground/60 hover:text-foreground transition-colors py-1">LinkedIn</a>
+              </div>
+              <div>
+                <span className="text-muted-foreground block mb-3 font-medium">Cities</span>
+                <a href="/new-york" className="block text-foreground/60 hover:text-foreground transition-colors py-1">New York</a>
+                <a href="/san-francisco" className="block text-foreground/60 hover:text-foreground transition-colors py-1">San Francisco</a>
+                <a href="/los-angeles" className="block text-foreground/60 hover:text-foreground transition-colors py-1">Los Angeles</a>
+                <a href="/miami" className="block text-foreground/60 hover:text-foreground transition-colors py-1">Miami</a>
+                <a href="/atlanta" className="block text-foreground/60 hover:text-foreground transition-colors py-1">Atlanta</a>
+                <a href="/austin" className="block text-foreground/60 hover:text-foreground transition-colors py-1">Austin</a>
+                <a href="/chicago" className="block text-foreground/60 hover:text-foreground transition-colors py-1">Chicago</a>
+                <a href="/dallas" className="block text-foreground/60 hover:text-foreground transition-colors py-1">Dallas</a>
+                <a href="/houston" className="block text-foreground/60 hover:text-foreground transition-colors py-1">Houston</a>
+                <a href="/boston" className="block text-foreground/60 hover:text-foreground transition-colors py-1">Boston</a>
               </div>
             </div>
           </div>
