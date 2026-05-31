@@ -136,7 +136,7 @@ export function MobileTabBar() {
       >
         {/* Backdrop */}
         <div
-          className={`fixed inset-0 bg-background/60 backdrop-blur-sm transition-opacity duration-300 ${
+          className={`fixed inset-0 bg-[#0D0D0D]/60 backdrop-blur-sm transition-opacity duration-300 ${
             activeSubmenu ? "opacity-100" : "opacity-0"
           }`}
           onClick={() => setActiveSubmenu(null)}
@@ -144,7 +144,7 @@ export function MobileTabBar() {
 
         {/* Submenu Content */}
         <div
-          className={`relative bg-background border-t border-foreground/10 rounded-t-2xl shadow-2xl transition-all duration-300 ${
+          className={`relative bg-[#1A1A1A] border-t border-[#3D3A35] rounded-t-2xl shadow-2xl transition-all duration-300 ${
             activeSubmenu
               ? "translate-y-0 opacity-100"
               : "translate-y-full opacity-0"
@@ -173,8 +173,8 @@ export function MobileTabBar() {
                       href={item.href}
                       className={`px-3 py-2.5 rounded-xl text-sm transition-all ${
                         pathname === item.href
-                          ? "bg-foreground text-background font-medium"
-                          : "text-foreground/70 hover:bg-foreground/5 hover:text-foreground active:bg-foreground/10"
+                          ? "bg-[#D4A853] text-[#0D0D0D] font-medium"
+                          : "text-[#B8B0A8] hover:bg-[#252320] hover:text-[#FAF8F5] active:bg-[#3D3A35]"
                       }`}
                     >
                       {item.name}
@@ -189,7 +189,7 @@ export function MobileTabBar() {
       {/* Tab Bar */}
       <nav className="fixed bottom-0 left-0 right-0 z-[999]">
         <div
-          className="bg-background border-t border-foreground/10"
+          className="bg-[#0D0D0D] border-t border-[#3D3A35]"
           style={{ paddingBottom: "env(safe-area-inset-bottom)" }}
         >
           <div className="flex items-center justify-around h-20 px-2">
@@ -207,8 +207,8 @@ export function MobileTabBar() {
                   onClick={() => handleTabClick(tab)}
                   className={`relative flex flex-col items-center justify-center gap-1 flex-1 h-full transition-all duration-300 active:scale-90 ${
                     active
-                      ? "text-foreground"
-                      : "text-foreground/60 hover:text-foreground/80"
+                      ? "text-[#D4A853]"
+                      : "text-[#5C5750] hover:text-[#B8B0A8]"
                   }`}
                 >
                   <div className="relative">
@@ -218,12 +218,12 @@ export function MobileTabBar() {
                       }`}
                     />
                     {active && (
-                      <div className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-foreground" />
+                      <div className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-[#D4A853]" />
                     )}
                   </div>
                   <span
                     className={`text-[11px] tracking-wide transition-all duration-300 ${
-                      active ? "font-medium opacity-100" : "font-normal opacity-70"
+                      active ? "font-medium" : "font-normal"
                     }`}
                   >
                     {tab.name}

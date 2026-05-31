@@ -192,58 +192,69 @@ export function HomeScreen() {
       </div>
       <h1 className="sr-only">Jotham Hall - AI Systems Architect, Television Producer, Founder of SuccessUpgrade.ai</h1>
 
-      {/* TOP: Profile card */}
-      <div className="relative z-10 flex-shrink-0 pt-4 pb-3 px-6 text-center">
+      {/* Profile section */}
+      <div className="relative z-10 flex-shrink-0 pt-6 pb-4 px-6 text-center">
         <div className={`transition-all duration-700 ${isVisible ? "opacity-100 scale-100" : "opacity-0 scale-90"}`}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="https://www.successupgrade.ai/images/profile.jpeg" alt="Jotham Hall" className="w-24 h-24 sm:w-28 sm:h-28 rounded-full object-cover border-2 border-foreground/[0.08] shadow-2xl mx-auto mb-2" />
+          <img
+            src="/jotham-hall.jpg"
+            alt="Jotham Hall"
+            className="w-28 h-28 sm:w-32 sm:h-32 rounded-full object-cover border-2 border-[#D4A853]/30 shadow-[0_0_30px_rgba(212,168,83,0.15)] mx-auto mb-3"
+          />
         </div>
-        <h2 className={`font-display text-2xl sm:text-3xl tracking-tight mb-1 transition-all duration-700 delay-100 ${isVisible ? "opacity-100" : "opacity-0"}`}>Jotham Hall</h2>
-        <p className={`text-[11px] sm:text-xs font-mono text-muted-foreground/40 mb-2 transition-all duration-700 delay-200 ${isVisible ? "opacity-100" : "opacity-0"}`}>
-          50+ TV shows. $2.4M+ client revenue. I build what works.
+
+        <h2 className={`font-display text-2xl sm:text-3xl tracking-[0.12em] uppercase mb-1 transition-all duration-700 delay-100 ${isVisible ? "opacity-100" : "opacity-0"}`}>
+          Jotham Hall
+        </h2>
+
+        <p className={`text-[11px] sm:text-xs font-sans text-[#D4A853] tracking-[0.15em] uppercase mb-2 transition-all duration-700 delay-200 ${isVisible ? "opacity-100" : "opacity-0"}`}>
+          AI Systems Architect · App Developer · Strategist
         </p>
-        <p className={`text-xs sm:text-sm text-foreground/60 max-w-[280px] mx-auto leading-relaxed transition-all duration-700 delay-300 ${isVisible ? "opacity-100" : "opacity-0"}`}>
-          I build AI systems that scale businesses without scaling stress.
+
+        <p className={`text-xs sm:text-sm text-[#B8B0A8] max-w-[280px] mx-auto leading-relaxed transition-all duration-700 delay-300 ${isVisible ? "opacity-100" : "opacity-0"}`}>
+          Build systems once. Let them work forever.
         </p>
+
+        {/* Network logos */}
         <div className={`flex flex-wrap justify-center gap-x-3 mt-3 transition-all duration-700 delay-400 ${isVisible ? "opacity-100" : "opacity-0"}`}>
           {networks.map((n) => (
-            <span key={n} className="text-[10px] sm:text-[11px] font-mono text-foreground/40 uppercase tracking-[0.15em]">{n}</span>
+            <span key={n} className="text-[10px] sm:text-[11px] font-display text-[#5C5750] uppercase tracking-[0.15em] hover:text-[#D4A853] transition-colors">{n}</span>
           ))}
         </div>
       </div>
 
-      {/* BOTTOM: Action zone */}
+      {/* Action zone */}
       <div className="relative z-10 flex-1 flex flex-col justify-center px-6">
-        <div className={`space-y-2 max-w-[320px] mx-auto w-full transition-all duration-700 delay-400 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}>
-          {/* Primary CTA — Calendly */}
+        <div className={`space-y-2.5 max-w-[320px] mx-auto w-full transition-all duration-700 delay-400 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}>
+
+          {/* Primary CTA */}
           <button
             onClick={() => setIsCalendlyOpen(true)}
-            className="w-full py-3.5 bg-foreground text-background text-sm font-medium hover:bg-foreground/90 transition-colors flex items-center justify-center gap-2 active:scale-[0.97]"
+            className="w-full py-3.5 bg-[#D4A853] text-[#0D0D0D] text-sm font-medium tracking-wide hover:bg-[#E8C97A] transition-colors flex items-center justify-center gap-2 active:scale-[0.97]"
           >
-            Book Your Free Strategy Call
+            Book Your Strategy Call
             <ArrowRight className="w-4 h-4" />
           </button>
 
           {/* Call/Text/Email */}
           <button
             onClick={() => setShowContact(!showContact)}
-            className="w-full py-3 border border-foreground/20 text-sm font-medium hover:bg-foreground/5 transition-colors flex items-center justify-center gap-2 active:scale-[0.97]"
+            className="w-full py-3 border border-[#3D3A35] text-sm font-medium text-[#B8B0A8] hover:border-[#D4A853]/40 hover:text-foreground transition-all flex items-center justify-center gap-2 active:scale-[0.97]"
           >
             <Phone className="w-3.5 h-3.5" />
             Call, Text, or Email
           </button>
 
-          {/* Contact dropdown */}
           {showContact && (
             <div className="space-y-1 animate-in fade-in slide-in-from-top-2 duration-200">
-              <a href="tel:+15106809100" className="flex items-center gap-3 px-4 py-2.5 border border-foreground/10 hover:border-foreground/30 transition-all active:scale-[0.98]">
-                <Phone className="w-4 h-4 text-muted-foreground" /><span className="text-sm">Call (510) 680-9100</span>
+              <a href="tel:+15106809100" className="flex items-center gap-3 px-4 py-2.5 border border-[#3D3A35] hover:border-[#D4A853]/30 transition-all active:scale-[0.98]">
+                <Phone className="w-4 h-4 text-[#D4A853]" /><span className="text-sm text-[#B8B0A8]">Call (510) 680-9100</span>
               </a>
-              <a href="sms:+15106934083" className="flex items-center gap-3 px-4 py-2.5 border border-foreground/10 hover:border-foreground/30 transition-all active:scale-[0.98]">
-                <MessageSquare className="w-4 h-4 text-muted-foreground" /><span className="text-sm">Text (510) 693-4083</span>
+              <a href="sms:+15106934083" className="flex items-center gap-3 px-4 py-2.5 border border-[#3D3A35] hover:border-[#D4A853]/30 transition-all active:scale-[0.98]">
+                <MessageSquare className="w-4 h-4 text-[#D4A853]" /><span className="text-sm text-[#B8B0A8]">Text (510) 693-4083</span>
               </a>
-              <a href="mailto:jothamjhall@gmail.com" className="flex items-center gap-3 px-4 py-2.5 border border-foreground/10 hover:border-foreground/30 transition-all active:scale-[0.98]">
-                <Mail className="w-4 h-4 text-muted-foreground" /><span className="text-sm">jothamjhall@gmail.com</span>
+              <a href="mailto:jothamjhall@gmail.com" className="flex items-center gap-3 px-4 py-2.5 border border-[#3D3A35] hover:border-[#D4A853]/30 transition-all active:scale-[0.98]">
+                <Mail className="w-4 h-4 text-[#D4A853]" /><span className="text-sm text-[#B8B0A8]">jothamjhall@gmail.com</span>
               </a>
             </div>
           )}
@@ -251,14 +262,14 @@ export function HomeScreen() {
           {/* Quiz CTA */}
           <button
             onClick={() => setQuizActive(true)}
-            className="w-full py-3 border border-foreground/10 text-sm hover:bg-foreground/5 transition-colors flex items-center justify-center gap-2 active:scale-[0.97] text-muted-foreground hover:text-foreground"
+            className="w-full py-3 border border-[#3D3A35] text-sm text-[#5C5750] hover:border-[#D4A853]/30 hover:text-[#B8B0A8] transition-all flex items-center justify-center gap-2 active:scale-[0.97]"
           >
             <BarChart3 className="w-3.5 h-3.5" />
             Take the Free Business Assessment
           </button>
 
           {/* Scarcity */}
-          <p className="text-[10px] font-mono text-foreground/60 text-center">
+          <p className="text-[10px] tracking-[0.15em] uppercase text-[#D4A853]/60 text-center">
             Only 3 partnership spots per quarter
           </p>
         </div>

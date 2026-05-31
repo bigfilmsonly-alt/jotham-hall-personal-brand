@@ -1,6 +1,6 @@
 import React from "react"
 import type { Metadata, Viewport } from 'next'
-import { Instrument_Sans, Instrument_Serif, JetBrains_Mono } from 'next/font/google'
+import { Cinzel, Inter } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 import { StructuredData } from '@/components/structured-data'
 import { MobileTabBar } from '@/components/landing/mobile-tab-bar'
@@ -16,20 +16,15 @@ export const viewport: Viewport = {
   colorScheme: 'dark',
 }
 
-const instrumentSans = Instrument_Sans({
+const cinzel = Cinzel({
   subsets: ["latin"],
-  variable: '--font-instrument'
+  variable: '--font-cinzel',
+  weight: ["400", "500", "600", "700"],
 });
 
-const instrumentSerif = Instrument_Serif({
+const inter = Inter({
   subsets: ["latin"],
-  weight: "400",
-  variable: '--font-instrument-serif'
-});
-
-const jetbrainsMono = JetBrains_Mono({
-  subsets: ["latin"],
-  variable: '--font-jetbrains'
+  variable: '--font-inter',
 });
 
 export const metadata: Metadata = {
@@ -186,7 +181,7 @@ export default function RootLayout({
           <img height="1" width="1" style={{ display: 'none' }} src="https://www.facebook.com/tr?id=1385537246449316&ev=PageView&noscript=1" alt="" />
         </noscript>
       </head>
-      <body className={`${instrumentSans.variable} ${instrumentSerif.variable} ${jetbrainsMono.variable} font-sans antialiased`}>
+      <body className={`${cinzel.variable} ${inter.variable} antialiased`}>
         <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NSML6K9F" height="0" width="0" style={{ display: 'none', visibility: 'hidden' }} /></noscript>
         {children}
         <MobileTabBar />
