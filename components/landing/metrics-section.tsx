@@ -45,30 +45,10 @@ function AnimatedCounter({ end, suffix = "", prefix = "" }: { end: number; suffi
 }
 
 const metrics = [
-  {
-    value: 500,
-    suffix: "+",
-    prefix: "",
-    label: "Founders scaled",
-  },
-  {
-    value: 40,
-    suffix: "%",
-    prefix: "",
-    label: "Average overhead reduction",
-  },
-  {
-    value: 50,
-    suffix: "+",
-    prefix: "",
-    label: "TV shows produced",
-  },
-  {
-    value: 3,
-    suffix: "x",
-    prefix: "",
-    label: "Average revenue growth",
-  },
+  { value: "500+", label: "Clients served across industries" },
+  { value: "40%", label: "Average overhead reduction" },
+  { value: "5+", label: "Active business ventures" },
+  { value: "7-Fig", label: "Revenue systems architected" },
 ];
 
 export function MetricsSection() {
@@ -124,21 +104,19 @@ export function MetricsSection() {
         </div>
         
         {/* Metrics Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-foreground/10">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
           {metrics.map((metric, index) => (
             <div
               key={metric.label}
-              className={`bg-background p-8 lg:p-12 text-center lg:text-left transition-all duration-700 ${
+              className={`text-center transition-all duration-700 ${
                 isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
               }`}
               style={{ transitionDelay: `${index * 100}ms` }}
             >
-              <AnimatedCounter 
-                end={typeof metric.value === 'number' ? metric.value : 0} 
-                suffix={metric.suffix} 
-                prefix={metric.prefix}
-              />
-              <div className="mt-4 text-lg text-muted-foreground">{metric.label}</div>
+              <p className="text-4xl sm:text-5xl lg:text-6xl font-display tracking-wide text-foreground">
+                {metric.value}
+              </p>
+              <p className="mt-3 text-sm text-muted-foreground">{metric.label}</p>
             </div>
           ))}
         </div>
