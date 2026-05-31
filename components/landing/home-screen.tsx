@@ -170,8 +170,8 @@ export function HomeScreen() {
                   <a href="sms:+15106934083" className="w-full flex items-center justify-between px-5 py-3.5 border border-foreground/10 hover:border-foreground/30 transition-all text-left active:scale-[0.98]">
                     <div><span className="text-sm font-medium block">Send a text</span><span className="text-xs text-muted-foreground">(510) 693-4083</span></div><ArrowRight className="w-4 h-4 text-muted-foreground" />
                   </a>
-                  <a href="mailto:jothamjhall@gmail.com" className="w-full flex items-center justify-between px-5 py-3.5 border border-foreground/10 hover:border-foreground/30 transition-all text-left active:scale-[0.98]">
-                    <div><span className="text-sm font-medium block">Email me</span><span className="text-xs text-muted-foreground">jothamjhall@gmail.com</span></div><ArrowRight className="w-4 h-4 text-muted-foreground" />
+                  <a href="mailto:bigfilmsonly@gmail.com" className="w-full flex items-center justify-between px-5 py-3.5 border border-foreground/10 hover:border-foreground/30 transition-all text-left active:scale-[0.98]">
+                    <div><span className="text-sm font-medium block">Email me</span><span className="text-xs text-muted-foreground">bigfilmsonly@gmail.com</span></div><ArrowRight className="w-4 h-4 text-muted-foreground" />
                   </a>
                 </div>
                 <button onClick={resetQuiz} className="px-8 py-3 border border-foreground/20 text-foreground text-sm font-medium hover:bg-foreground/5 transition-colors active:scale-[0.97]">Close</button>
@@ -257,8 +257,8 @@ export function HomeScreen() {
               <a href="sms:+15106934083" className="flex items-center gap-3 px-4 py-2.5 border border-[#3D3A35] hover:border-[#D4A853]/30 transition-all active:scale-[0.98]">
                 <MessageSquare className="w-4 h-4 text-[#D4A853]" /><span className="text-sm text-[#B8B0A8]">Text (510) 693-4083</span>
               </a>
-              <a href="mailto:jothamjhall@gmail.com" className="flex items-center gap-3 px-4 py-2.5 border border-[#3D3A35] hover:border-[#D4A853]/30 transition-all active:scale-[0.98]">
-                <Mail className="w-4 h-4 text-[#D4A853]" /><span className="text-sm text-[#B8B0A8]">jothamjhall@gmail.com</span>
+              <a href="mailto:bigfilmsonly@gmail.com" className="flex items-center gap-3 px-4 py-2.5 border border-[#3D3A35] hover:border-[#D4A853]/30 transition-all active:scale-[0.98]">
+                <Mail className="w-4 h-4 text-[#D4A853]" /><span className="text-sm text-[#B8B0A8]">bigfilmsonly@gmail.com</span>
               </a>
             </div>
           )}

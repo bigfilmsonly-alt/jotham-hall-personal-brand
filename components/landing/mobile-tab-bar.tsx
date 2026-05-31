@@ -95,7 +95,7 @@ const tabs = [
       { name: "Book a Call", href: "action:calendly" },
       { name: "Schedule", href: "action:calendly" },
       { name: "Text Me", href: "sms:+15106934083" },
-      { name: "Email Me", href: "mailto:jothamjhall@gmail.com" },
+      { name: "Email Me", href: "mailto:bigfilmsonly@gmail.com" },
     ],
   },
 ];

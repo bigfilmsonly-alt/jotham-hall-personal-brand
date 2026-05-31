@@ -23,7 +23,7 @@ const contactMethods = [
     icon: Mail,
     label: "Email",
     description: "Detailed inquiries and proposals",
-    action: "mailto:jothamjhall@gmail.com",
+    action: "mailto:bigfilmsonly@gmail.com",
     cta: "Send Email",
   },
 ];

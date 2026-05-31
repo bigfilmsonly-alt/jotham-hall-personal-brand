@@ -130,9 +130,9 @@ export function ServicePageContent({ city, service }: Props) {
               <MessageSquare className="w-4 h-4 text-muted-foreground shrink-0" />
               <div className="flex-1"><span className="text-sm font-medium">Text</span> <span className="text-xs text-muted-foreground">(510) 693-4083</span></div>
             </a>
-            <a href="mailto:jothamjhall@gmail.com" className="flex items-center gap-3 p-3.5 border border-foreground/10 hover:border-foreground/30 transition-all active:scale-[0.98]">
+            <a href="mailto:bigfilmsonly@gmail.com" className="flex items-center gap-3 p-3.5 border border-foreground/10 hover:border-foreground/30 transition-all active:scale-[0.98]">
               <Mail className="w-4 h-4 text-muted-foreground shrink-0" />
-              <div className="flex-1"><span className="text-sm font-medium">Email</span> <span className="text-xs text-muted-foreground">jothamjhall@gmail.com</span></div>
+              <div className="flex-1"><span className="text-sm font-medium">Email</span> <span className="text-xs text-muted-foreground">bigfilmsonly@gmail.com</span></div>
             </a>
           </div>
         </div>

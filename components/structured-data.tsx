@@ -78,7 +78,7 @@ export function StructuredData() {
         "foundingDate": "2023",
         "founder": { "@id": "https://jothamhall.com/#person" },
         "address": { "@type": "PostalAddress", "addressLocality": "Miami Beach", "addressRegion": "FL", "addressCountry": "US" },
-        "contactPoint": { "@type": "ContactPoint", "telephone": "+1-510-680-9100", "email": "jothamjhall@gmail.com", "contactType": "customer service" }
+        "contactPoint": { "@type": "ContactPoint", "telephone": "+1-510-680-9100", "email": "bigfilmsonly@gmail.com", "contactType": "customer service" }
       },
       {
         "@type": "Organization",

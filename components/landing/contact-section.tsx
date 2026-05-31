@@ -65,7 +65,7 @@ export function ContactSection() {
             </a>
 
             <a
-              href="mailto:jothamjhall@gmail.com"
+              href="mailto:bigfilmsonly@gmail.com"
               className="group flex items-center gap-4 px-5 py-4 border border-foreground/10 hover:border-foreground/30 transition-all active:scale-[0.98]"
             >
               <div className="w-11 h-11 flex items-center justify-center border border-foreground/10 group-hover:border-foreground/30 transition-colors shrink-0">
@@ -73,7 +73,7 @@ export function ContactSection() {
               </div>
               <div className="flex-1">
                 <span className="block text-sm font-medium">Email</span>
-                <span className="block text-xs text-muted-foreground">jothamjhall@gmail.com</span>
+                <span className="block text-xs text-muted-foreground">bigfilmsonly@gmail.com</span>
               </div>
               <ArrowRight className="w-4 h-4 text-muted-foreground group-hover:text-foreground transition-colors" />
             </a>

@@ -329,12 +329,12 @@ export function QuizSection() {
                       <ArrowRight className="w-4 h-4 text-muted-foreground" />
                     </a>
                     <a
-                      href="mailto:jothamjhall@gmail.com"
+                      href="mailto:bigfilmsonly@gmail.com"
                       className="w-full flex items-center justify-between px-5 py-3.5 border border-foreground/10 hover:border-foreground/30 transition-all text-left active:scale-[0.98]"
                     >
                       <div>
                         <span className="text-sm font-medium block">Email me</span>
-                        <span className="text-xs text-muted-foreground">jothamjhall@gmail.com</span>
+                        <span className="text-xs text-muted-foreground">bigfilmsonly@gmail.com</span>
                       </div>
                       <ArrowRight className="w-4 h-4 text-muted-foreground" />
                     </a>

@@ -26,7 +26,7 @@ const footerLinks = {
   Connect: [
     { name: "Call", href: "tel:+15106809100" },
     { name: "Text", href: "sms:+15106934083" },
-    { name: "Email", href: "mailto:jothamjhall@gmail.com" },
+    { name: "Email", href: "mailto:bigfilmsonly@gmail.com" },
   ],
 };
 
@@ -224,7 +224,7 @@ export function FooterSection() {
                 <span className="text-muted-foreground block mb-3 font-medium">Connect</span>
                 <a href="tel:+15106809100" className="block text-foreground/60 hover:text-foreground transition-colors py-1">Call</a>
                 <a href="sms:+15106934083" className="block text-foreground/60 hover:text-foreground transition-colors py-1">Text</a>
-                <a href="mailto:jothamjhall@gmail.com" className="block text-foreground/60 hover:text-foreground transition-colors py-1">Email</a>
+                <a href="mailto:bigfilmsonly@gmail.com" className="block text-foreground/60 hover:text-foreground transition-colors py-1">Email</a>
                 <a href="https://www.linkedin.com/in/jotham-hall-b6b9491b2" target="_blank" rel="noopener noreferrer" className="block text-foreground/60 hover:text-foreground transition-colors py-1">LinkedIn</a>
               </div>
               <div>

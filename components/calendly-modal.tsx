@@ -106,13 +106,13 @@ export function CalendlyModal({ isOpen, onClose }: CalendlyModalProps) {
               </a>
 
               <a
-                href="mailto:jothamjhall@gmail.com"
+                href="mailto:bigfilmsonly@gmail.com"
                 className="flex items-center gap-3 px-5 py-3.5 border border-[#3D3A35] hover:border-[#D4A853]/30 transition-all active:scale-[0.98]"
               >
                 <Mail className="w-4 h-4 text-[#D4A853]" />
                 <div className="flex-1">
                   <span className="text-sm text-[#FAF8F5] font-medium block">Email me</span>
-                  <span className="text-xs text-[#5C5750]">jothamjhall@gmail.com</span>
+                  <span className="text-xs text-[#5C5750]">bigfilmsonly@gmail.com</span>
                 </div>
                 <ArrowRight className="w-4 h-4 text-[#3D3A35]" />
               </a>
