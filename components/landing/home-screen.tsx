@@ -5,7 +5,7 @@ import { ArrowRight, Phone, MessageSquare, Mail, BarChart3, Check, X } from "luc
 import { ContactModal } from "./contact-modal";
 import { supabase } from "@/lib/supabase";
 
-const networks = ["Hallmark", "Food Network", "VH1", "MTV", "NBC", "USA Network", "BET"];
+const networks = ["Hallmark", "Food Network", "VH1", "MTV", "USA Network"];
 
 const questions = [
   {
@@ -192,7 +192,7 @@ export function HomeScreen() {
       <div className="relative z-10 flex-shrink-0 pt-6 pb-5 px-6 text-center border-b border-foreground/5">
         <div className={`transition-all duration-700 ${isVisible ? "opacity-100 scale-100" : "opacity-0 scale-90"}`}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="https://www.successupgrade.ai/images/profile.jpeg" alt="Jotham Hall" className="w-24 h-24 sm:w-28 sm:h-28 rounded-full object-cover border-2 border-foreground/10 shadow-2xl mx-auto mb-3" />
+          <img src="https://www.successupgrade.ai/images/profile.jpeg" alt="Jotham Hall" className="w-32 h-32 sm:w-40 sm:h-40 rounded-full object-cover border-2 border-foreground/10 shadow-2xl mx-auto mb-3" />
         </div>
         <h2 className={`font-display text-2xl sm:text-3xl tracking-tight mb-1 transition-all duration-700 delay-100 ${isVisible ? "opacity-100" : "opacity-0"}`}>Jotham Hall</h2>
         <p className={`text-[10px] sm:text-xs font-mono text-muted-foreground/50 mb-2 transition-all duration-700 delay-200 ${isVisible ? "opacity-100" : "opacity-0"}`}>
@@ -204,7 +204,7 @@ export function HomeScreen() {
         {/* As Seen On */}
         <div className={`flex flex-wrap justify-center gap-x-3 mt-3 transition-all duration-700 delay-400 ${isVisible ? "opacity-100" : "opacity-0"}`}>
           {networks.map((n) => (
-            <span key={n} className="text-[8px] font-mono text-muted-foreground/30 uppercase tracking-wider">{n}</span>
+            <span key={n} className="text-[11px] sm:text-xs font-mono text-muted-foreground/60 uppercase tracking-wider">{n}</span>
           ))}
         </div>
       </div>
