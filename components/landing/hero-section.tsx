@@ -78,11 +78,11 @@ export function HeroSection() {
             alt="Jotham Hall"
             className="w-16 h-16 sm:w-20 sm:h-20 rounded-full object-cover border-2 border-foreground/10 shadow-lg"
           />
-          <div className="text-center sm:text-left">
-            <span className="block text-sm font-mono text-muted-foreground">
+          <div className="text-center sm:text-left min-w-0">
+            <span className="block text-[11px] sm:text-sm font-mono text-muted-foreground whitespace-nowrap">
               I turn founders into brands that print revenue on autopilot
             </span>
-            <span className="block text-xs font-mono text-muted-foreground/60 mt-1">
+            <span className="block text-[10px] sm:text-xs font-mono text-muted-foreground/60 mt-1 whitespace-nowrap">
               AI Systems Architect · TV Producer · VibeCoding Pioneer
             </span>
           </div>
