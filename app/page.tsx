@@ -6,6 +6,7 @@ import { QuizSection } from "@/components/landing/quiz-section";
 import { MetricsSection } from "@/components/landing/metrics-section";
 import { TestimonialsSection } from "@/components/landing/testimonials-section";
 import { PricingSection } from "@/components/landing/pricing-section";
+import { ContactSection } from "@/components/landing/contact-section";
 import { CtaSection } from "@/components/landing/cta-section";
 import { FooterSection } from "@/components/landing/footer-section";
 import { ScrollToTop } from "@/components/scroll-to-top";
@@ -23,6 +24,7 @@ export default function Home() {
       <MetricsSection />
       <TestimonialsSection />
       <PricingSection />
+      <ContactSection />
       <CtaSection />
       <FooterSection />
       {/* Spacer for tab bar */}

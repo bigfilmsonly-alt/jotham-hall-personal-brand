@@ -306,16 +306,45 @@ export function QuizSection() {
                     </div>
                   </div>
 
+                  {/* Direct contact options */}
+                  <div className="space-y-2 mb-6 max-w-sm mx-auto">
+                    <a
+                      href="tel:+15106809100"
+                      className="w-full flex items-center justify-between px-5 py-3.5 border border-foreground/10 hover:border-foreground/30 transition-all text-left active:scale-[0.98]"
+                    >
+                      <div>
+                        <span className="text-sm font-medium block">Call me directly</span>
+                        <span className="text-xs text-muted-foreground">(510) 680-9100</span>
+                      </div>
+                      <ArrowRight className="w-4 h-4 text-muted-foreground" />
+                    </a>
+                    <a
+                      href="sms:+15106934083"
+                      className="w-full flex items-center justify-between px-5 py-3.5 border border-foreground/10 hover:border-foreground/30 transition-all text-left active:scale-[0.98]"
+                    >
+                      <div>
+                        <span className="text-sm font-medium block">Send a text</span>
+                        <span className="text-xs text-muted-foreground">(510) 693-4083</span>
+                      </div>
+                      <ArrowRight className="w-4 h-4 text-muted-foreground" />
+                    </a>
+                    <a
+                      href="mailto:jothamjhall@gmail.com"
+                      className="w-full flex items-center justify-between px-5 py-3.5 border border-foreground/10 hover:border-foreground/30 transition-all text-left active:scale-[0.98]"
+                    >
+                      <div>
+                        <span className="text-sm font-medium block">Email me</span>
+                        <span className="text-xs text-muted-foreground">jothamjhall@gmail.com</span>
+                      </div>
+                      <ArrowRight className="w-4 h-4 text-muted-foreground" />
+                    </a>
+                  </div>
+
                   <button
-                    onClick={() => {
-                      handleClose();
-                      const contactBtn = document.querySelector('[data-contact-trigger]') as HTMLButtonElement;
-                      if (contactBtn) contactBtn.click();
-                    }}
-                    className="px-8 py-4 bg-foreground text-background text-sm font-medium hover:bg-foreground/90 transition-colors inline-flex items-center gap-2 active:scale-[0.97]"
+                    onClick={handleClose}
+                    className="px-8 py-3 border border-foreground/20 text-foreground text-sm font-medium hover:bg-foreground/5 transition-colors active:scale-[0.97]"
                   >
-                    Book Your Free Strategy Call
-                    <ArrowRight className="w-4 h-4" />
+                    Close
                   </button>
                   <p className="text-[10px] text-muted-foreground/50 font-mono mt-4">
                     Results sent to {email}
