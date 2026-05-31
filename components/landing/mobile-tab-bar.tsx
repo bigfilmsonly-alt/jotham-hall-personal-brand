@@ -13,7 +13,7 @@ import {
   ChevronUp,
   X,
 } from "lucide-react";
-import { ContactModal } from "./contact-modal";
+import { CalendlyModal } from "../calendly-modal";
 
 const tabs = [
   {
@@ -244,7 +244,7 @@ export function MobileTabBar() {
         </div>
       </nav>
 
-      <ContactModal isOpen={isContactOpen} onClose={() => setIsContactOpen(false)} />
+      <CalendlyModal isOpen={isContactOpen} onClose={() => setIsContactOpen(false)} />
     </>
   );
 }

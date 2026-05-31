@@ -149,6 +149,9 @@ importers:
       react:
         specifier: 19.2.0
         version: 19.2.0
+      react-calendly:
+        specifier: ^4.4.0
+        version: 4.4.0(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
       react-day-picker:
         specifier: 9.8.0
         version: 9.8.0(react@19.2.0)
@@ -3622,6 +3625,13 @@ packages:
   range-parser@1.2.1:
     resolution: {integrity: sha512-Hrgsx+orqoygnmhFbKaHE6c296J+HTAQXoxEF6gNupROmmGJRoyzfG3ccAveqCBrwr/2yxQ5BVd/GTl5agOwSg==}
     engines: {node: '>= 0.6'}
+
+  react-calendly@4.4.0:
+    resolution: {integrity: sha512-kMd8fEby0plL5aCebhjq9aesOJ6YWcmR3Pjs3bufncykrp7b6TryaCnWGoq4xZc/oipyudAVCIRgPVUjUEr8nQ==}
+    engines: {node: '>=8', npm: '>=5'}
+    peerDependencies:
+      react: '>=16.8.0'
+      react-dom: '>=16.8.0'
 
   react-day-picker@9.8.0:
     resolution: {integrity: sha512-E0yhhg7R+pdgbl/2toTb0xBhsEAtmAx1l7qjIWYfcxOy8w4rTSVfbtBoSzVVhPwKP/5E9iL38LivzoE3AQDhCQ==}
@@ -8132,6 +8142,11 @@ snapshots:
       inherits: 2.0.4
 
   range-parser@1.2.1: {}
+
+  react-calendly@4.4.0(react-dom@19.2.0(react@19.2.0))(react@19.2.0):
+    dependencies:
+      react: 19.2.0
+      react-dom: 19.2.0(react@19.2.0)
 
   react-day-picker@9.8.0(react@19.2.0):
     dependencies:

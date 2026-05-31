@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { ArrowRight, Phone, MessageSquare, Mail, BarChart3, Check, X } from "lucide-react";
 import { ContactModal } from "./contact-modal";
+import { CalendlyModal } from "../calendly-modal";
 import { supabase } from "@/lib/supabase";
 
 const networks = ["Hallmark", "Food Network", "VH1", "MTV", "USA Network"];
@@ -65,6 +66,7 @@ const results = [
 export function HomeScreen() {
   const [isVisible, setIsVisible] = useState(false);
   const [isContactOpen, setIsContactOpen] = useState(false);
+  const [isCalendlyOpen, setIsCalendlyOpen] = useState(false);
   const [showContact, setShowContact] = useState(false);
 
   // Quiz state
@@ -213,9 +215,9 @@ export function HomeScreen() {
       <div className="relative z-10 flex-1 flex flex-col justify-center px-6">
         {/* CTAs */}
         <div className={`space-y-3 max-w-sm mx-auto w-full transition-all duration-700 delay-400 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}>
-          {/* Primary CTA */}
+          {/* Primary CTA — Calendly */}
           <button
-            onClick={() => setIsContactOpen(true)}
+            onClick={() => setIsCalendlyOpen(true)}
             className="w-full py-4 bg-foreground text-background text-sm font-medium hover:bg-foreground/90 transition-colors flex items-center justify-center gap-2 active:scale-[0.97]"
           >
             Book Your Free Strategy Call
@@ -262,6 +264,7 @@ export function HomeScreen() {
         </div>
       </div>
 
+      <CalendlyModal isOpen={isCalendlyOpen} onClose={() => setIsCalendlyOpen(false)} />
       <ContactModal isOpen={isContactOpen} onClose={() => setIsContactOpen(false)} />
     </main>
   );
