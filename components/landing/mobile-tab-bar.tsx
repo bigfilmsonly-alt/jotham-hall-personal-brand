@@ -149,7 +149,7 @@ export function MobileTabBar() {
               ? "translate-y-0 opacity-100"
               : "translate-y-full opacity-0"
           }`}
-          style={{ paddingBottom: "calc(4.5rem + env(safe-area-inset-bottom))" }}
+          style={{ paddingBottom: "calc(5rem + env(safe-area-inset-bottom))" }}
         >
           {tabs
             .filter((t) => t.submenu && t.name === activeSubmenu)
@@ -186,15 +186,13 @@ export function MobileTabBar() {
         </div>
       </div>
 
-      {/* Tab Bar — always visible */}
-      <nav
-        className="fixed bottom-0 left-0 right-0 z-[999]"
-      >
+      {/* Tab Bar */}
+      <nav className="fixed bottom-0 left-0 right-0 z-[999]">
         <div
-          className="bg-background/90 backdrop-blur-xl border-t border-foreground/10"
+          className="bg-background/95 backdrop-blur-2xl border-t border-foreground/[0.06]"
           style={{ paddingBottom: "env(safe-area-inset-bottom)" }}
         >
-          <div className="flex items-center justify-around h-[4.5rem] px-1">
+          <div className="flex items-center justify-around h-20 px-2">
             {tabs.map((tab) => {
               const Icon = tab.icon;
               const active =
@@ -207,32 +205,32 @@ export function MobileTabBar() {
                 <button
                   key={tab.name}
                   onClick={() => handleTabClick(tab)}
-                  className={`relative flex flex-col items-center justify-center gap-0.5 flex-1 h-full transition-all duration-200 active:scale-95 ${
+                  className={`relative flex flex-col items-center justify-center gap-1 flex-1 h-full transition-all duration-300 active:scale-90 ${
                     active
                       ? "text-foreground"
-                      : "text-muted-foreground"
+                      : "text-foreground/30 hover:text-foreground/60"
                   }`}
                 >
                   <div className="relative">
                     <Icon
-                      className={`w-5 h-5 transition-all duration-200 ${
-                        active ? "stroke-[2.5px]" : "stroke-[1.5px]"
+                      className={`w-6 h-6 transition-all duration-300 ${
+                        active ? "stroke-[2px]" : "stroke-[1.5px]"
                       }`}
                     />
                     {active && (
-                      <div className="absolute -top-1 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-foreground" />
+                      <div className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-foreground" />
                     )}
                   </div>
                   <span
-                    className={`text-[10px] leading-tight transition-all duration-200 ${
-                      active ? "font-semibold" : "font-normal"
+                    className={`text-[11px] tracking-wide transition-all duration-300 ${
+                      active ? "font-medium opacity-100" : "font-normal opacity-70"
                     }`}
                   >
                     {tab.name}
                   </span>
                   {tab.submenu && (
                     <ChevronUp
-                      className={`absolute top-1.5 right-1 w-2.5 h-2.5 transition-transform duration-200 ${
+                      className={`absolute top-2 right-0.5 w-2.5 h-2.5 opacity-30 transition-transform duration-200 ${
                         submenuOpen ? "rotate-180" : ""
                       }`}
                     />

@@ -183,7 +183,7 @@ export function HomeScreen() {
   }
 
   return (
-    <main className="fixed inset-0 flex flex-col bg-background text-foreground overflow-hidden" style={{ paddingBottom: "calc(4.5rem + env(safe-area-inset-bottom, 0px))" }}>
+    <main className="fixed inset-0 flex flex-col bg-background text-foreground overflow-hidden" style={{ paddingBottom: "calc(5rem + env(safe-area-inset-bottom, 0px))" }}>
       <div itemScope itemType="https://schema.org/Person" className="sr-only">
         <meta itemProp="name" content="Jotham Hall" />
         <meta itemProp="jobTitle" content="AI Systems Architect, Television Producer, Founder" />
@@ -193,28 +193,28 @@ export function HomeScreen() {
       <h1 className="sr-only">Jotham Hall - AI Systems Architect, Television Producer, Founder of SuccessUpgrade.ai</h1>
 
       {/* TOP: Profile card */}
-      <div className="relative z-10 flex-shrink-0 pt-4 pb-3 px-6 text-center">
+      <div className="relative z-10 flex-shrink-0 pt-8 pb-4 px-6 text-center">
         <div className={`transition-all duration-700 ${isVisible ? "opacity-100 scale-100" : "opacity-0 scale-90"}`}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="https://www.successupgrade.ai/images/profile.jpeg" alt="Jotham Hall" className="w-24 h-24 sm:w-32 sm:h-32 rounded-full object-cover border-2 border-foreground/10 shadow-2xl mx-auto mb-2" />
+          <img src="https://www.successupgrade.ai/images/profile.jpeg" alt="Jotham Hall" className="w-28 h-28 sm:w-32 sm:h-32 rounded-full object-cover border-2 border-foreground/[0.08] shadow-2xl mx-auto mb-3" />
         </div>
-        <h2 className={`font-display text-xl sm:text-2xl tracking-tight mb-0.5 transition-all duration-700 delay-100 ${isVisible ? "opacity-100" : "opacity-0"}`}>Jotham Hall</h2>
-        <p className={`text-[10px] sm:text-xs font-mono text-muted-foreground/50 mb-1.5 transition-all duration-700 delay-200 ${isVisible ? "opacity-100" : "opacity-0"}`}>
+        <h2 className={`font-display text-2xl sm:text-3xl tracking-tight mb-1 transition-all duration-700 delay-100 ${isVisible ? "opacity-100" : "opacity-0"}`}>Jotham Hall</h2>
+        <p className={`text-[11px] sm:text-xs font-mono text-muted-foreground/40 mb-2 transition-all duration-700 delay-200 ${isVisible ? "opacity-100" : "opacity-0"}`}>
           50+ TV shows. $2.4M+ client revenue. I build what works.
         </p>
-        <p className={`text-[11px] sm:text-sm text-foreground/70 max-w-xs mx-auto transition-all duration-700 delay-300 ${isVisible ? "opacity-100" : "opacity-0"}`}>
+        <p className={`text-xs sm:text-sm text-foreground/60 max-w-[280px] mx-auto leading-relaxed transition-all duration-700 delay-300 ${isVisible ? "opacity-100" : "opacity-0"}`}>
           I build AI systems that scale businesses without scaling stress.
         </p>
-        <div className={`flex flex-wrap justify-center gap-x-2.5 mt-2 transition-all duration-700 delay-400 ${isVisible ? "opacity-100" : "opacity-0"}`}>
+        <div className={`flex flex-wrap justify-center gap-x-3 mt-3 transition-all duration-700 delay-400 ${isVisible ? "opacity-100" : "opacity-0"}`}>
           {networks.map((n) => (
-            <span key={n} className="text-[10px] sm:text-xs font-mono text-foreground/50 uppercase tracking-wider">{n}</span>
+            <span key={n} className="text-[10px] sm:text-[11px] font-mono text-foreground/40 uppercase tracking-[0.15em]">{n}</span>
           ))}
         </div>
       </div>
 
       {/* BOTTOM: Action zone */}
       <div className="relative z-10 flex-1 flex flex-col justify-center px-6">
-        <div className={`space-y-2.5 max-w-sm mx-auto w-full transition-all duration-700 delay-400 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}>
+        <div className={`space-y-2 max-w-[320px] mx-auto w-full transition-all duration-700 delay-400 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}>
           {/* Primary CTA — Calendly */}
           <button
             onClick={() => setIsCalendlyOpen(true)}
