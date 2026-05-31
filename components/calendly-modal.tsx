@@ -3,6 +3,7 @@
 import { useEffect } from "react";
 import { X } from "lucide-react";
 import { InlineWidget } from "react-calendly";
+import { trackEvent } from "@/lib/tracking";
 
 interface CalendlyModalProps {
   isOpen: boolean;
@@ -26,6 +27,10 @@ export function CalendlyModal({ isOpen, onClose }: CalendlyModalProps) {
     window.addEventListener("keydown", handleEscape);
     return () => window.removeEventListener("keydown", handleEscape);
   }, [onClose]);
+
+  useEffect(() => {
+    if (isOpen) trackEvent.schedule("Calendly Modal");
+  }, [isOpen]);
 
   if (!isOpen) return null;
 

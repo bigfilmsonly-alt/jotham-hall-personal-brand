@@ -5,6 +5,7 @@ import { ArrowRight, Phone, MessageSquare, Mail, BarChart3, Check, X } from "luc
 import { ContactModal } from "./contact-modal";
 import { CalendlyModal } from "../calendly-modal";
 import { supabase } from "@/lib/supabase";
+import { trackEvent } from "@/lib/tracking";
 
 const networks = ["Hallmark", "Food Network", "VH1", "MTV", "USA Network"];
 
@@ -100,6 +101,7 @@ export function HomeScreen() {
     await supabase.from("quiz_results").insert({ email: quizEmail, name: quizName || null, score: finalScore, result_type: finalResult.type, answers: { responses: answers.map((a, i) => ({ question: questions[i].question, score: a })) } });
     await supabase.from("email_captures").upsert({ email: quizEmail, source: "quiz" }, { onConflict: "email" });
     setQuizStatus("result");
+    trackEvent.quizComplete(finalScore, finalResult.type);
   };
 
   const resetQuiz = () => {

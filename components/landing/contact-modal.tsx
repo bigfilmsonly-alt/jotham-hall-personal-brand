@@ -3,6 +3,7 @@
 import { useEffect, useState, useRef } from "react";
 import { X, ArrowRight, ArrowLeft, Check, Send } from "lucide-react";
 import { supabase } from "@/lib/supabase";
+import { trackEvent } from "@/lib/tracking";
 
 interface ContactModalProps {
   isOpen: boolean;
@@ -162,6 +163,7 @@ export function ContactModal({ isOpen, onClose }: ContactModalProps) {
       setStatus("error");
     } else {
       setStatus("success");
+      trackEvent.formSubmit("Contact Application");
     }
   };
 

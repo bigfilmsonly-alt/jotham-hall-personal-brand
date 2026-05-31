@@ -4,6 +4,8 @@ import { Instrument_Sans, Instrument_Serif, JetBrains_Mono } from 'next/font/goo
 import { Analytics } from '@vercel/analytics/next'
 import { StructuredData } from '@/components/structured-data'
 import { MobileTabBar } from '@/components/landing/mobile-tab-bar'
+import { SocialProofToast } from '@/components/social-proof-toast'
+import { FloatingCTA } from '@/components/floating-cta'
 import './globals.css'
 
 export const viewport: Viewport = {
@@ -188,6 +190,8 @@ export default function RootLayout({
         <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NSML6K9F" height="0" width="0" style={{ display: 'none', visibility: 'hidden' }} /></noscript>
         {children}
         <MobileTabBar />
+        <SocialProofToast />
+        <FloatingCTA />
         <Analytics />
       </body>
     </html>
