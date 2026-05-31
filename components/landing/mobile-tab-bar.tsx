@@ -189,7 +189,7 @@ export function MobileTabBar() {
       {/* Tab Bar */}
       <nav className="fixed bottom-0 left-0 right-0 z-[999]">
         <div
-          className="bg-background/95 backdrop-blur-2xl border-t border-foreground/[0.06]"
+          className="bg-background border-t border-foreground/10"
           style={{ paddingBottom: "env(safe-area-inset-bottom)" }}
         >
           <div className="flex items-center justify-around h-20 px-2">
@@ -208,7 +208,7 @@ export function MobileTabBar() {
                   className={`relative flex flex-col items-center justify-center gap-1 flex-1 h-full transition-all duration-300 active:scale-90 ${
                     active
                       ? "text-foreground"
-                      : "text-foreground/30 hover:text-foreground/60"
+                      : "text-foreground/60 hover:text-foreground/80"
                   }`}
                 >
                   <div className="relative">

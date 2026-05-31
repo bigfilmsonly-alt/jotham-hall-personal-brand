@@ -183,7 +183,7 @@ export function HomeScreen() {
   }
 
   return (
-    <main className="fixed inset-0 flex flex-col bg-background text-foreground overflow-hidden" style={{ paddingBottom: "calc(5rem + env(safe-area-inset-bottom, 0px))" }}>
+    <main className="fixed inset-0 flex flex-col bg-background text-foreground overflow-hidden" style={{ paddingBottom: "calc(5.5rem + env(safe-area-inset-bottom, 0px))" }}>
       <div itemScope itemType="https://schema.org/Person" className="sr-only">
         <meta itemProp="name" content="Jotham Hall" />
         <meta itemProp="jobTitle" content="AI Systems Architect, Television Producer, Founder" />
@@ -193,10 +193,10 @@ export function HomeScreen() {
       <h1 className="sr-only">Jotham Hall - AI Systems Architect, Television Producer, Founder of SuccessUpgrade.ai</h1>
 
       {/* TOP: Profile card */}
-      <div className="relative z-10 flex-shrink-0 pt-8 pb-4 px-6 text-center">
+      <div className="relative z-10 flex-shrink-0 pt-4 pb-3 px-6 text-center">
         <div className={`transition-all duration-700 ${isVisible ? "opacity-100 scale-100" : "opacity-0 scale-90"}`}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="https://www.successupgrade.ai/images/profile.jpeg" alt="Jotham Hall" className="w-28 h-28 sm:w-32 sm:h-32 rounded-full object-cover border-2 border-foreground/[0.08] shadow-2xl mx-auto mb-3" />
+          <img src="https://www.successupgrade.ai/images/profile.jpeg" alt="Jotham Hall" className="w-24 h-24 sm:w-28 sm:h-28 rounded-full object-cover border-2 border-foreground/[0.08] shadow-2xl mx-auto mb-2" />
         </div>
         <h2 className={`font-display text-2xl sm:text-3xl tracking-tight mb-1 transition-all duration-700 delay-100 ${isVisible ? "opacity-100" : "opacity-0"}`}>Jotham Hall</h2>
         <p className={`text-[11px] sm:text-xs font-mono text-muted-foreground/40 mb-2 transition-all duration-700 delay-200 ${isVisible ? "opacity-100" : "opacity-0"}`}>
