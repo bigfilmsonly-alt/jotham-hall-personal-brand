@@ -187,7 +187,7 @@ export function HomeScreen() {
       <div itemScope itemType="https://schema.org/Person" className="sr-only">
         <meta itemProp="name" content="Jotham Hall" />
         <meta itemProp="jobTitle" content="AI Systems Architect, Television Producer, Founder" />
-        <meta itemProp="description" content="Jotham Hall is an entrepreneur, television producer, and technology founder. 50+ TV credits. 500+ founders scaled." />
+        <meta itemProp="description" content="Jotham Hall is an entrepreneur, television producer, and technology founder. 50+ TV credits. AI systems architect. VibeCoding pioneer." />
         <link itemProp="url" href="https://jothamhall.com" />
       </div>
       <h1 className="sr-only">Jotham Hall - AI Systems Architect, Television Producer, Founder of SuccessUpgrade.ai</h1>
@@ -200,7 +200,7 @@ export function HomeScreen() {
         </div>
         <h2 className={`font-display text-2xl sm:text-3xl tracking-tight mb-1 transition-all duration-700 delay-100 ${isVisible ? "opacity-100" : "opacity-0"}`}>Jotham Hall</h2>
         <p className={`text-[10px] sm:text-xs font-mono text-muted-foreground/50 mb-2 transition-all duration-700 delay-200 ${isVisible ? "opacity-100" : "opacity-0"}`}>
-          50 TV shows. 500 founders. I build what works.
+          50+ TV shows. $2.4M+ client revenue. I build what works.
         </p>
         <p className={`text-xs sm:text-sm text-foreground/70 max-w-xs mx-auto transition-all duration-700 delay-300 ${isVisible ? "opacity-100" : "opacity-0"}`}>
           I build AI systems that scale businesses without scaling stress.
@@ -208,7 +208,7 @@ export function HomeScreen() {
         {/* As Seen On */}
         <div className={`flex flex-wrap justify-center gap-x-3 mt-3 transition-all duration-700 delay-400 ${isVisible ? "opacity-100" : "opacity-0"}`}>
           {networks.map((n) => (
-            <span key={n} className="text-[11px] sm:text-xs font-mono text-muted-foreground/60 uppercase tracking-wider">{n}</span>
+            <span key={n} className="text-xs sm:text-sm font-mono text-foreground/50 uppercase tracking-wider">{n}</span>
           ))}
         </div>
       </div>
@@ -260,7 +260,7 @@ export function HomeScreen() {
           </button>
 
           {/* Scarcity */}
-          <p className="text-[10px] font-mono text-muted-foreground/30 text-center pt-1">
+          <p className="text-[10px] font-mono text-foreground/60 text-center pt-1">
             Only 3 partnership spots per quarter
           </p>
         </div>

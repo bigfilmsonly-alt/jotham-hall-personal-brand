@@ -188,10 +188,12 @@ export default function RootLayout({
       </head>
       <body className={`${instrumentSans.variable} ${instrumentSerif.variable} ${jetbrainsMono.variable} font-sans antialiased`}>
         <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NSML6K9F" height="0" width="0" style={{ display: 'none', visibility: 'hidden' }} /></noscript>
-        {children}
-        <MobileTabBar />
-        <SocialProofToast />
-        <FloatingCTA />
+        <div className="phone-frame">
+          {children}
+          <MobileTabBar />
+          <SocialProofToast />
+          <FloatingCTA />
+        </div>
         <Analytics />
       </body>
     </html>
