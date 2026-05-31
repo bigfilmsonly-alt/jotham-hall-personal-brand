@@ -15,7 +15,7 @@ const STEPS = [
   { id: "email", type: "text", label: "What's the best email to reach you?", placeholder: "you@company.com", field: "email", inputType: "email", required: true },
   { id: "phone", type: "text", label: "Phone number?", subtitle: "Optional, but helpful for quick follow up", placeholder: "(555) 000-0000", field: "phone", inputType: "tel" },
   { id: "company", type: "text", label: "What's your company or brand?", placeholder: "Company name", field: "company" },
-  { id: "website", type: "text", label: "What's your website?", subtitle: "So I can take a look before our call", placeholder: "https://yoursite.com", field: "website", inputType: "url" },
+  { id: "website", type: "text", label: "What's your website?", subtitle: "So I can take a look before our call", placeholder: "successupgrade.ai", field: "website" },
   { id: "social", type: "text", label: "Drop your main social handle", subtitle: "Instagram, X, LinkedIn, or TikTok", placeholder: "@yourbrand", field: "social" },
   {
     id: "service", type: "select", label: "What do you need?", field: "service",
