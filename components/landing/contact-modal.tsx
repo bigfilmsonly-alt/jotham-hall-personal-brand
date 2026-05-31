@@ -15,6 +15,8 @@ const STEPS = [
   { id: "email", type: "text", label: "What's the best email to reach you?", placeholder: "you@company.com", field: "email", inputType: "email", required: true },
   { id: "phone", type: "text", label: "Phone number?", subtitle: "Optional, but helpful for quick follow up", placeholder: "(555) 000-0000", field: "phone", inputType: "tel" },
   { id: "company", type: "text", label: "What's your company or brand?", placeholder: "Company name", field: "company" },
+  { id: "website", type: "text", label: "What's your website?", subtitle: "So I can take a look before our call", placeholder: "https://yoursite.com", field: "website", inputType: "url" },
+  { id: "social", type: "text", label: "Drop your main social handle", subtitle: "Instagram, X, LinkedIn, or TikTok", placeholder: "@yourbrand", field: "social" },
   {
     id: "service", type: "select", label: "What do you need?", field: "service",
     options: ["AI Automation", "Revenue Systems", "Brand Strategy", "Fractional COO", "VibeCoding", "Video Production", "Full Business Overhaul", "Not sure yet"],
@@ -50,6 +52,8 @@ export function ContactModal({ isOpen, onClose }: ContactModalProps) {
     email: "",
     phone: "",
     company: "",
+    website: "",
+    social: "",
     service: "",
     bottlenecks: [] as string[],
     revenue_range: "",
@@ -87,7 +91,7 @@ export function ContactModal({ isOpen, onClose }: ContactModalProps) {
   }, []);
 
   const handleClose = () => {
-    setForm({ name: "", email: "", phone: "", company: "", service: "", bottlenecks: [], revenue_range: "", budget: "", how_found: "" });
+    setForm({ name: "", email: "", phone: "", company: "", website: "", social: "", service: "", bottlenecks: [], revenue_range: "", budget: "", how_found: "" });
     setStep(0);
     setStatus("idle");
     onClose();
@@ -145,7 +149,8 @@ export function ContactModal({ isOpen, onClose }: ContactModalProps) {
       email: form.email,
       phone: form.phone || null,
       company: form.company || null,
-      website: null,
+      website: form.website || null,
+      social_media: form.social || null,
       service: form.service || null,
       revenue_range: form.revenue_range || null,
       challenge: form.bottlenecks.length > 0 ? form.bottlenecks.join(", ") : null,
@@ -300,7 +305,7 @@ export function ContactModal({ isOpen, onClose }: ContactModalProps) {
                 Continue
                 <ArrowRight className="w-4 h-4" />
               </button>
-              {"required" in current && !current.required && (
+              {!("required" in current && current.required) && (
                 <button
                   type="button"
                   onClick={goNext}
@@ -412,6 +417,12 @@ export function ContactModal({ isOpen, onClose }: ContactModalProps) {
                   <span className="text-muted-foreground">Email</span>
                   <span className="font-medium truncate ml-4">{form.email}</span>
                 </div>
+                {form.website && (
+                  <div className="px-4 py-3 flex justify-between">
+                    <span className="text-muted-foreground">Website</span>
+                    <span className="font-medium truncate ml-4">{form.website}</span>
+                  </div>
+                )}
                 {form.service && (
                   <div className="px-4 py-3 flex justify-between">
                     <span className="text-muted-foreground">Service</span>
