@@ -148,10 +148,10 @@ export function HeroSection() {
               <ArrowRight className="w-4 h-4 ml-2 transition-transform group-hover:translate-x-1" />
             </Button>
             <a
-              href="#lead-magnet"
+              href="#quiz"
               className="px-8 h-14 text-base rounded-full border border-foreground/20 text-foreground hover:bg-foreground/5 transition-colors flex items-center gap-2 justify-center"
             >
-              Get Free System Audit
+              Take the Free Assessment
             </a>
           </div>
         </div>

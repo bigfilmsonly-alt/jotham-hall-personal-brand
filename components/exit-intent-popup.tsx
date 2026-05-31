@@ -99,10 +99,10 @@ export function ExitIntentPopup() {
                 Before you go
               </p>
               <h2 className="text-xl sm:text-2xl font-display tracking-tight mb-3">
-                Grab the Free System Audit
+                Get on the insider list
               </h2>
               <p className="text-sm text-muted-foreground mb-6">
-                Find $50K+ in hidden revenue in 10 minutes. The same framework I use with every client.
+                Weekly AI strategies, system breakdowns, and founder insights. Join 500+ entrepreneurs already inside.
               </p>
 
               <form onSubmit={handleSubmit} className="space-y-3 max-w-xs mx-auto">
@@ -126,16 +126,16 @@ export function ExitIntentPopup() {
               </form>
 
               <div className="flex items-center justify-center gap-4 mt-5 text-[10px] text-muted-foreground/50 font-mono">
-                <span>Instant download</span>
-                <span>No credit card</span>
-                <span>$500 value</span>
+                <span>Free forever</span>
+                <span>No spam</span>
+                <span>Unsubscribe anytime</span>
               </div>
 
               <button
                 onClick={() => setIsOpen(false)}
                 className="mt-4 text-xs text-muted-foreground/40 hover:text-muted-foreground transition-colors"
               >
-                No thanks, I&apos;ll pass on the free audit
+                No thanks, I&apos;ll figure it out alone
               </button>
             </div>
           )}

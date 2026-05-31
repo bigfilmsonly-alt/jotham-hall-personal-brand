@@ -4,7 +4,6 @@ import { Instrument_Sans, Instrument_Serif, JetBrains_Mono } from 'next/font/goo
 import { Analytics } from '@vercel/analytics/next'
 import { StructuredData } from '@/components/structured-data'
 import { MobileTabBar } from '@/components/landing/mobile-tab-bar'
-import { AnnouncementBar } from '@/components/landing/announcement-bar'
 import './globals.css'
 
 export const viewport: Viewport = {
@@ -156,7 +155,6 @@ export default function RootLayout({
         <StructuredData />
       </head>
       <body className={`${instrumentSans.variable} ${instrumentSerif.variable} ${jetbrainsMono.variable} font-sans antialiased`}>
-        <AnnouncementBar />
         {children}
         <MobileTabBar />
         <Analytics />

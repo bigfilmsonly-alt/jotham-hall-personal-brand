@@ -1,18 +1,10 @@
-// Cache bust: v3 - Force full rebuild
+// Cache bust: v4 - Streamlined funnel
 import { HeroSection } from "@/components/landing/hero-section";
-import { FeaturesSection } from "@/components/landing/features-section";
-import { HowItWorksSection } from "@/components/landing/how-it-works-section";
-import { InfrastructureSection } from "@/components/landing/infrastructure-section";
-import { MetricsSection } from "@/components/landing/metrics-section";
-import { QuizSection } from "@/components/landing/quiz-section";
-import { IntegrationsSection } from "@/components/landing/integrations-section";
-import { SecuritySection } from "@/components/landing/security-section";
-import { DevelopersSection } from "@/components/landing/developers-section";
-import { InsightsSection } from "@/components/landing/insights-section";
-import { TestimonialsSection } from "@/components/landing/testimonials-section";
 import { NetworkLogosSection } from "@/components/landing/network-logos-section";
-import { VideoSection } from "@/components/landing/video-section";
-import { LeadMagnetSection } from "@/components/landing/lead-magnet-section";
+import { FeaturesSection } from "@/components/landing/features-section";
+import { QuizSection } from "@/components/landing/quiz-section";
+import { MetricsSection } from "@/components/landing/metrics-section";
+import { TestimonialsSection } from "@/components/landing/testimonials-section";
 import { PricingSection } from "@/components/landing/pricing-section";
 import { CtaSection } from "@/components/landing/cta-section";
 import { FooterSection } from "@/components/landing/footer-section";
@@ -26,18 +18,10 @@ export default function Home() {
       <ExitIntentPopup />
       <HeroSection />
       <NetworkLogosSection />
-      <VideoSection />
       <FeaturesSection />
-      <HowItWorksSection />
-      <InfrastructureSection />
-      <MetricsSection />
       <QuizSection />
-      <IntegrationsSection />
-      <SecuritySection />
-      <DevelopersSection />
-      <InsightsSection />
+      <MetricsSection />
       <TestimonialsSection />
-      <LeadMagnetSection />
       <PricingSection />
       <CtaSection />
       <FooterSection />

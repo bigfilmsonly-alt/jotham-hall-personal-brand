@@ -162,7 +162,7 @@ export function QuizSection() {
   return (
     <>
       {/* Section on homepage */}
-      <section ref={sectionRef} className="py-20 lg:py-32 border-t border-foreground/10">
+      <section id="quiz" ref={sectionRef} className="py-20 lg:py-32 border-t border-foreground/10">
         <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
           <div className={`max-w-3xl mx-auto text-center transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
             <span className="font-mono text-xs tracking-widest text-muted-foreground uppercase block mb-4">

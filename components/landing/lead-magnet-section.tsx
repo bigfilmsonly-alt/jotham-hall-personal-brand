@@ -2,10 +2,12 @@
 
 import { useEffect, useRef, useState } from "react";
 import { supabase } from "@/lib/supabase";
+import { ArrowRight } from "lucide-react";
 
 export function LeadMagnetSection() {
   const [isVisible, setIsVisible] = useState(false);
   const [email, setEmail] = useState("");
+  const [name, setName] = useState("");
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const sectionRef = useRef<HTMLElement>(null);
 
@@ -27,18 +29,13 @@ export function LeadMagnetSection() {
     setStatus("loading");
     const { error } = await supabase
       .from("email_captures")
-      .insert({ email, source: "lead_magnet" });
+      .upsert({ email, source: "inline_capture" }, { onConflict: "email" });
 
     if (error) {
-      if (error.code === "23505") {
-        setStatus("success");
-      } else {
-        setStatus("error");
-      }
+      setStatus("error");
     } else {
       setStatus("success");
     }
-    setEmail("");
   };
 
   return (
@@ -46,20 +43,22 @@ export function LeadMagnetSection() {
       <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
         <div className={`max-w-2xl mx-auto text-center transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
           <span className="font-mono text-xs tracking-widest text-muted-foreground uppercase block mb-4">
-            Free Download
+            Stay Connected
           </span>
           <h2 className="text-2xl sm:text-3xl lg:text-4xl font-display tracking-tight mb-4">
-            The Founder&apos;s System Audit Checklist
+            Get insider access to AI strategies,
+            <br />
+            <span className="text-muted-foreground">systems, and founder insights.</span>
           </h2>
           <p className="text-muted-foreground mb-8 max-w-lg mx-auto">
-            The same 10-point framework I use to find hidden revenue, eliminate bottlenecks,
-            and identify automation opportunities. Yours free.
+            Join 500+ founders getting weekly insights on AI automation,
+            revenue systems, and scaling without burnout.
           </p>
 
           {status === "success" ? (
             <div className="py-4">
-              <p className="text-foreground font-medium">You&apos;re in. Check your inbox.</p>
-              <p className="text-xs text-muted-foreground mt-2 font-mono">Welcome to the 500+ club.</p>
+              <p className="text-foreground font-display text-lg">You&apos;re in. Welcome to the inner circle.</p>
+              <p className="text-xs text-muted-foreground mt-2 font-mono">Check your inbox for a welcome message.</p>
             </div>
           ) : (
             <form className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto" onSubmit={handleSubmit}>
@@ -75,9 +74,10 @@ export function LeadMagnetSection() {
               <button
                 type="submit"
                 disabled={status === "loading"}
-                className="px-6 py-3.5 bg-foreground text-background font-medium hover:bg-foreground/90 transition-colors whitespace-nowrap text-sm disabled:opacity-50"
+                className="px-6 py-3.5 bg-foreground text-background font-medium hover:bg-foreground/90 transition-colors whitespace-nowrap text-sm flex items-center justify-center gap-2 disabled:opacity-50"
               >
-                {status === "loading" ? "Sending..." : "Get the Checklist"}
+                {status === "loading" ? "Joining..." : "Join Free"}
+                {status !== "loading" && <ArrowRight className="w-4 h-4" />}
               </button>
             </form>
           )}
@@ -86,8 +86,8 @@ export function LeadMagnetSection() {
             <p className="text-xs text-red-400 mt-3 font-mono">Something went wrong. Try again.</p>
           )}
 
-          <p className="text-xs text-muted-foreground/60 mt-4 font-mono">
-            Join 500+ founders. No spam. Unsubscribe anytime.
+          <p className="text-xs text-muted-foreground/50 mt-4 font-mono">
+            No spam. Unsubscribe anytime.
           </p>
         </div>
       </div>
