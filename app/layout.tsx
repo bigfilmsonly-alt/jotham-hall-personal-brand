@@ -159,6 +159,16 @@ export default function RootLayout({
             })(window,document,'script','dataLayer','GTM-NSML6K9F');`,
           }}
         />
+        {/* GA4 */}
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-EMVN7JM8E5" />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-EMVN7JM8E5');`,
+          }}
+        />
         {/* Meta Pixel */}
         <script
           dangerouslySetInnerHTML={{
