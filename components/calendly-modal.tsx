@@ -17,6 +17,11 @@ export function CalendlyModal({ isOpen, onClose }: CalendlyModalProps) {
     onEventScheduled: () => {
       setBooked(true);
       trackEvent.formSubmit("Calendly Booking");
+      fetch("/api/notify", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ type: "calendly", data: {} }),
+      }).catch(() => {});
     },
   });
 
