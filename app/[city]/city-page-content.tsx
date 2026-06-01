@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { ArrowRight, Phone, MessageSquare, Mail, Check, BarChart3 } from "lucide-react";
 import { ContactModal } from "@/components/landing/contact-modal";
+import { supabase } from "@/lib/supabase";
 import type { CityData } from "@/lib/city-data";
 
 interface Props {
@@ -19,6 +20,22 @@ const testimonials = [
 
 export function CityPageContent({ city, services }: Props) {
   const [isContactOpen, setIsContactOpen] = useState(false);
+  const [captureEmail, setCaptureEmail] = useState("");
+  const [captureStatus, setCaptureStatus] = useState<"idle" | "loading" | "done">("idle");
+
+  const handleCapture = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!captureEmail || captureStatus === "loading") return;
+    setCaptureStatus("loading");
+    await supabase.from("email_captures").upsert({ email: captureEmail, source: `city_${city.slug}` }, { onConflict: "email" });
+    fetch("/api/notify", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ type: "email_capture", data: { email: captureEmail, source: `city_${city.slug}` } }),
+    }).catch(() => {});
+    setCaptureEmail("");
+    setCaptureStatus("done");
+  };
 
   return (
     <main className="min-h-screen bg-background text-foreground">
@@ -144,6 +161,40 @@ export function CityPageContent({ city, services }: Props) {
           >
             Check Availability <ArrowRight className="w-4 h-4" />
           </button>
+        </div>
+      </section>
+
+      {/* Email Capture */}
+      <section className="py-12 lg:py-20 border-t border-foreground/10">
+        <div className="max-w-[1400px] mx-auto px-6 lg:px-12 text-center">
+          <p className="text-[10px] tracking-[0.15em] uppercase text-[#D4A853] mb-3">Stay Connected</p>
+          <h2 className="text-xl lg:text-2xl font-display tracking-wide uppercase text-foreground mb-3">
+            Get AI strategies for {city.name}
+          </h2>
+          <p className="text-xs text-muted-foreground mb-6 max-w-md mx-auto">
+            Weekly insights on automation, revenue systems, and scaling. Join 500+ founders.
+          </p>
+          {captureStatus === "done" ? (
+            <p className="text-sm text-[#D4A853] font-medium">You&apos;re in. Welcome.</p>
+          ) : (
+            <form onSubmit={handleCapture} className="flex flex-col sm:flex-row gap-2 max-w-sm mx-auto">
+              <input
+                type="email"
+                required
+                value={captureEmail}
+                onChange={(e) => setCaptureEmail(e.target.value)}
+                placeholder="Enter your email"
+                className="flex-1 px-4 py-3 bg-[#1A1A1A] border border-[#3D3A35] text-foreground placeholder-[#5C5750] text-sm focus:outline-none focus:border-[#D4A853]/40 transition-colors"
+              />
+              <button
+                type="submit"
+                disabled={captureStatus === "loading"}
+                className="px-5 py-3 bg-[#D4A853] text-[#0D0D0D] text-sm font-medium hover:bg-[#E8C97A] transition-colors disabled:opacity-50"
+              >
+                {captureStatus === "loading" ? "..." : "Join Free"}
+              </button>
+            </form>
+          )}
         </div>
       </section>
 

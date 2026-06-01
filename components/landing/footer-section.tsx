@@ -59,6 +59,11 @@ function FooterEmailForm() {
     );
 
     setEmail("");
+    fetch("/api/notify", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ type: "email_capture", data: { email, source: "footer_newsletter" } }),
+    }).catch(() => {});
     setStatus("done");
   };
 

@@ -69,6 +69,46 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error }, { status: 500 });
     }
 
+    // Send confirmation to the lead (contact form only)
+    if (type === "contact" && data.email) {
+      await resend.emails.send({
+        from: "Jotham Hall <jotham@jothamhall.com>",
+        to: data.email,
+        subject: "Got your application — Jotham Hall",
+        html: `
+          <div style="font-family: sans-serif; max-width: 600px; color: #B8B0A8; background: #0D0D0D; padding: 40px; border: 1px solid #3D3A35;">
+            <h2 style="color: #FAF8F5; font-size: 24px; margin-bottom: 8px;">Got it, ${data.name}.</h2>
+            <p style="color: #D4A853; font-size: 14px; margin-bottom: 24px;">I review every application personally.</p>
+            <p style="font-size: 15px; line-height: 1.6;">
+              Thanks for reaching out. I received your application and I will get back to you within 24 hours with next steps.
+            </p>
+            <p style="font-size: 15px; line-height: 1.6; margin-top: 16px;">
+              In the meantime, feel free to reach me directly:
+            </p>
+            <ul style="list-style: none; padding: 0; margin: 16px 0;">
+              <li style="padding: 8px 0; border-bottom: 1px solid #3D3A35;">
+                <strong style="color: #FAF8F5;">Call:</strong> <a href="tel:+15106809100" style="color: #D4A853;">(510) 680-9100</a>
+              </li>
+              <li style="padding: 8px 0; border-bottom: 1px solid #3D3A35;">
+                <strong style="color: #FAF8F5;">Text:</strong> <a href="sms:+15106934083" style="color: #D4A853;">(510) 693-4083</a>
+              </li>
+              <li style="padding: 8px 0;">
+                <strong style="color: #FAF8F5;">Email:</strong> <a href="mailto:bigfilmsonly@gmail.com" style="color: #D4A853;">bigfilmsonly@gmail.com</a>
+              </li>
+            </ul>
+            <p style="font-size: 15px; line-height: 1.6; margin-top: 24px; color: #FAF8F5;">
+              Talk soon,<br/>
+              <strong>Jotham Hall</strong>
+            </p>
+            <p style="font-size: 11px; color: #5C5750; margin-top: 32px; border-top: 1px solid #3D3A35; padding-top: 16px;">
+              AI Systems Architect · App Developer · Strategist<br/>
+              jothamhall.com
+            </p>
+          </div>
+        `,
+      }).catch(() => {});
+    }
+
     return NextResponse.json({ success: true });
   } catch {
     return NextResponse.json({ error: "Failed to send" }, { status: 500 });
