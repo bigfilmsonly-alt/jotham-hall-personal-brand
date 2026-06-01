@@ -59,7 +59,7 @@ export async function POST(req: NextRequest) {
     }
 
     const { error } = await resend.emails.send({
-      from: "JothamHall.com <onboarding@resend.dev>",
+      from: "Jotham Hall <jotham@jothamhall.com>",
       to: "bigfilmsonly@gmail.com",
       subject,
       html,
