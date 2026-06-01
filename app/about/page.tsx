@@ -75,7 +75,7 @@ export default function AboutPage() {
 
             <div className="mt-10 p-6 border border-[#3D3A35] bg-[#1A1A1A]">
               <p className="text-[#D4A853] text-lg font-display tracking-wide leading-relaxed">
-                Build systems once. Let them work forever.
+                Do what you love and love what you do.
               </p>
             </div>
           </div>
