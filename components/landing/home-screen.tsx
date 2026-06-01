@@ -274,15 +274,15 @@ export function HomeScreen() {
 
           {showContact && (
             <div className="space-y-1 animate-in fade-in slide-in-from-top-2 duration-200">
-              <a href="tel:+15106809100" className="flex items-center gap-3 px-4 py-2.5 border border-[#3D3A35] hover:border-[#D4A853]/30 transition-all active:scale-[0.98]">
+              <button onClick={() => { window.location.href = "tel:+15106809100"; }} className="w-full flex items-center gap-3 px-4 py-2.5 border border-[#3D3A35] hover:border-[#D4A853]/30 transition-all active:scale-[0.98]">
                 <Phone className="w-4 h-4 text-[#D4A853]" /><span className="text-sm text-[#B8B0A8]">Call (510) 680-9100</span>
-              </a>
-              <a href="sms:+15106934083" className="flex items-center gap-3 px-4 py-2.5 border border-[#3D3A35] hover:border-[#D4A853]/30 transition-all active:scale-[0.98]">
+              </button>
+              <button onClick={() => { window.location.href = "sms:+15106934083"; }} className="w-full flex items-center gap-3 px-4 py-2.5 border border-[#3D3A35] hover:border-[#D4A853]/30 transition-all active:scale-[0.98]">
                 <MessageSquare className="w-4 h-4 text-[#D4A853]" /><span className="text-sm text-[#B8B0A8]">Text (510) 693-4083</span>
-              </a>
-              <a href="mailto:bigfilmsonly@gmail.com" className="flex items-center gap-3 px-4 py-2.5 border border-[#3D3A35] hover:border-[#D4A853]/30 transition-all active:scale-[0.98]">
+              </button>
+              <button onClick={() => { window.location.href = "mailto:bigfilmsonly@gmail.com"; }} className="w-full flex items-center gap-3 px-4 py-2.5 border border-[#3D3A35] hover:border-[#D4A853]/30 transition-all active:scale-[0.98]">
                 <Mail className="w-4 h-4 text-[#D4A853]" /><span className="text-sm text-[#B8B0A8]">bigfilmsonly@gmail.com</span>
-              </a>
+              </button>
             </div>
           )}
 
