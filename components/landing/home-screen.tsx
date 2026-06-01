@@ -103,6 +103,14 @@ export function HomeScreen() {
     await supabase.from("email_captures").upsert({ email: quizEmail, source: "quiz" }, { onConflict: "email" });
     setQuizStatus("result");
     trackEvent.quizComplete(finalScore, finalResult.type);
+    fetch("/api/notify", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        type: "quiz",
+        data: { name: quizName, email: quizEmail, score: finalScore, result_type: finalResult.type },
+      }),
+    }).catch(() => {});
   };
 
   const resetQuiz = () => {

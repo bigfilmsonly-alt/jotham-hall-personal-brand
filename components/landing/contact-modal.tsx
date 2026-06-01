@@ -164,6 +164,26 @@ export function ContactModal({ isOpen, onClose }: ContactModalProps) {
     } else {
       setStatus("success");
       trackEvent.formSubmit("Contact Application");
+      fetch("/api/notify", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          type: "contact",
+          data: {
+            name: form.name,
+            email: form.email,
+            phone: form.phone,
+            company: form.company,
+            website: form.website,
+            social_media: form.social,
+            service: form.service,
+            challenge: form.bottlenecks.join(", "),
+            revenue_range: form.revenue_range,
+            budget: form.budget,
+            how_found: form.how_found,
+          },
+        }),
+      }).catch(() => {});
     }
   };
 
