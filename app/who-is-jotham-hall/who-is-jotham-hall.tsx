@@ -37,41 +37,14 @@ const expertise = [
   "Sustainability & Eco-Friendly Housing"
 ];
 
-const notableAchievements = [
-  "Contributed to the creative process of over 50 hit reality TV shows at 51 Minds Entertainment",
-  "Managed top 40 music artists as a talent producer in Hollywood",
-  "Finding Mr. Christmas - Hallmark Channel (Season 1 & 2)",
-  "Ciao House - Food Network (Season 1 & 2, filmed in Italy)",
-  "Temptation Island - USA Network",
-  "Snake in the Grass - NBC",
-  "After Happily Ever After - BET (hosted by Bow Wow)",
-  "From G's to Gents - MTV",
-  "Flavor of Love - VH1",
-  "I Love Money - VH1",
-  "Founded Big Films Only - Black-owned independent production company (2015)",
-  "Founded SuccessUpgrade.ai - AI-powered platform for entrepreneurs"
-];
-
-const timeline = [
-  { year: "Present", event: "Based in Miami Beach, FL - Leading Success Upgrade, Big Films Only, and Say It Build It" },
-  { year: "2024", event: "Launched Success Upgrade AI ecosystem for entrepreneurs" },
-  { year: "2023", event: "Founded Say It Build It - AI development platform" },
-  { year: "2015", event: "Moved to Hawaii - Founded Big Films Only, a black-owned independent production company" },
-  { year: "2008-2015", event: "Hollywood - Talent producer at 51 Minds Entertainment, contributed to 50+ reality TV shows, managed top 40 artists" },
-  { year: "2008", event: "Moved to Hollywood to pursue career in entertainment industry" },
-  { year: "Early 2000s", event: "Attended college in Santa Barbara studying film production, media, and marketing" },
-  { year: "Post-HS", event: "Worked as builder's apprentice in family construction business" },
-  { year: "High School", event: "Attended Common Ground, an ecology-based academy - traveled internationally" },
-  { year: "1984", event: "Born September 13 in Oakland, California" },
-];
 
 const quotes = [
   {
-    text: "Build systems, not schedules.",
-    context: "On sustainable business growth"
+    text: "Do what you love and love what you do.",
+    context: "On purpose and passion"
   },
   {
-    text: "The goal isn't to work harder, it's to build systems that work for you.",
+    text: "Turn complexity into systems. Turn systems into freedom.",
     context: "On automation and freedom"
   },
   {
@@ -203,36 +176,6 @@ export function WhoIsJothamHall() {
                     </a>
                   )}
                 </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Notable Achievements */}
-      <section className="py-20 lg:py-32 border-b border-foreground/10">
-        <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
-          <h2 className="text-3xl sm:text-4xl font-display tracking-tight mb-12">Notable Achievements</h2>
-          <div className="grid md:grid-cols-2 gap-6">
-            {notableAchievements.map((achievement, index) => (
-              <div key={index} className="flex items-start gap-4 p-6 border border-foreground/10">
-                <span className="text-2xl font-display text-muted-foreground">{String(index + 1).padStart(2, '0')}</span>
-                <span className="text-lg">{achievement}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Timeline */}
-      <section className="py-20 lg:py-32 border-b border-foreground/10 bg-foreground/[0.02]">
-        <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
-          <h2 className="text-3xl sm:text-4xl font-display tracking-tight mb-12">Career Timeline</h2>
-          <div className="space-y-6">
-            {timeline.map((item, index) => (
-              <div key={index} className="flex items-start gap-8 pb-6 border-b border-foreground/10">
-                <span className="text-xl font-mono text-muted-foreground w-24 shrink-0">{item.year}</span>
-                <span className="text-lg">{item.event}</span>
               </div>
             ))}
           </div>
