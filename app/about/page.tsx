@@ -6,33 +6,6 @@ import { CalendlyModal } from "@/components/calendly-modal";
 import { ArrowRight } from "lucide-react";
 import Image from "next/image";
 
-const tvCredits = [
-  "Flavor of Love (VH1)",
-  "Rock of Love (VH1)",
-  "I Love Money (VH1)",
-  "For the Love of Ray J (VH1)",
-  "Real Chance of Love (VH1)",
-  "From G's to Gents (MTV)",
-  "Temptation Island (USA Network)",
-  "After Happily Ever After (BET)",
-];
-
-const recentCredits = [
-  "Finding Mr. Christmas, Seasons 1 & 2 (Hallmark Channel)",
-  "Ciao House, Seasons 1 & 2 (Food Network, filmed in Italy)",
-  "Snake in the Grass (NBC)",
-];
-
-const timeline = [
-  { year: "1984", event: "Born in Oakland, California" },
-  { year: "2008", event: "Moved to Los Angeles, joined 51 Minds Entertainment" },
-  { year: "2008 - 2014", event: "Talent Producer on 50+ reality TV shows (VH1, MTV, BET)" },
-  { year: "2015", event: "Founded Big Films Only" },
-  { year: "2015 - Present", event: "Talent Producer on Hallmark, Food Network, NBC productions" },
-  { year: "2023", event: "Founded SuccessUpgrade.ai" },
-  { year: "2024", event: "Pioneered VibeCoding methodology" },
-  { year: "2025", event: "Consulting for 7-figure founders, relocated to Miami" },
-];
 
 export default function AboutPage() {
   const [isVisible, setIsVisible] = useState(false);
@@ -143,63 +116,6 @@ export default function AboutPage() {
               <p className="text-[#D4A853] text-lg font-display tracking-wide leading-relaxed">
                 Turn complexity into systems. Turn systems into freedom.
               </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* TV Credits */}
-      <section className="py-16 lg:py-24 border-t border-[#3D3A35]">
-        <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
-          <div className="max-w-3xl">
-            <p className="text-[10px] tracking-[0.15em] uppercase text-[#D4A853] mb-6">Production</p>
-            <h2 className="text-2xl lg:text-3xl font-display tracking-[0.08em] uppercase text-[#FAF8F5] mb-8">
-              50+ Television Credits
-            </h2>
-
-            <div className="mb-8">
-              <p className="text-xs text-[#5C5750] uppercase tracking-[0.1em] mb-4">Recent</p>
-              <div className="space-y-2">
-                {recentCredits.map((credit) => (
-                  <div key={credit} className="flex items-start gap-3 py-2 border-b border-[#252320]">
-                    <span className="w-1.5 h-1.5 rounded-full bg-[#D4A853] mt-2 shrink-0" />
-                    <span className="text-[#FAF8F5] text-sm">{credit}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div>
-              <p className="text-xs text-[#5C5750] uppercase tracking-[0.1em] mb-4">51 Minds Entertainment Era</p>
-              <div className="space-y-2">
-                {tvCredits.map((credit) => (
-                  <div key={credit} className="flex items-start gap-3 py-2 border-b border-[#252320]">
-                    <span className="w-1.5 h-1.5 rounded-full bg-[#3D3A35] mt-2 shrink-0" />
-                    <span className="text-[#B8B0A8] text-sm">{credit}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Timeline */}
-      <section className="py-16 lg:py-24 border-t border-[#3D3A35] bg-[#1A1A1A]">
-        <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
-          <div className="max-w-3xl">
-            <p className="text-[10px] tracking-[0.15em] uppercase text-[#D4A853] mb-6">Journey</p>
-            <h2 className="text-2xl lg:text-3xl font-display tracking-[0.08em] uppercase text-[#FAF8F5] mb-8">
-              The Path
-            </h2>
-
-            <div className="space-y-0">
-              {timeline.map((item, index) => (
-                <div key={index} className="flex items-start gap-6 py-4 border-b border-[#252320]">
-                  <span className="text-sm font-display text-[#D4A853] w-28 shrink-0 tracking-wide">{item.year}</span>
-                  <span className="text-sm text-[#B8B0A8]">{item.event}</span>
-                </div>
-              ))}
             </div>
           </div>
         </div>
