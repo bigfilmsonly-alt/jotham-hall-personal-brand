@@ -1,6 +1,23 @@
 import { Resend } from "resend";
 import { NextRequest, NextResponse } from "next/server";
 
+// Simple rate limiting (per IP, 5 requests per minute)
+const rateLimit = new Map<string, { count: number; resetTime: number }>();
+
+function isRateLimited(ip: string): boolean {
+  const now = Date.now();
+  const entry = rateLimit.get(ip);
+
+  if (!entry || now > entry.resetTime) {
+    rateLimit.set(ip, { count: 1, resetTime: now + 60000 });
+    return false;
+  }
+
+  entry.count++;
+  if (entry.count > 5) return true;
+  return false;
+}
+
 const resend = new Resend(process.env.RESEND_API_KEY);
 const NOTIFY_TO = "bigfilmsonly@gmail.com";
 const FROM = "Jotham Hall <jotham@jothamhall.com>";
@@ -28,8 +45,29 @@ function wrap(content: string) {
 
 export async function POST(req: NextRequest) {
   try {
+    // Rate limit check
+    const ip = req.headers.get("x-forwarded-for") || req.headers.get("x-real-ip") || "unknown";
+    if (isRateLimited(ip)) {
+      return NextResponse.json({ error: "Too many requests" }, { status: 429 });
+    }
+
     const body = await req.json();
     const { type, data } = body;
+
+    // Input validation
+    if (!type || !data) {
+      return NextResponse.json({ error: "Invalid request" }, { status: 400 });
+    }
+
+    const validTypes = ["contact", "quiz", "email_capture", "calendly"];
+    if (!validTypes.includes(type)) {
+      return NextResponse.json({ error: "Invalid type" }, { status: 400 });
+    }
+
+    // Sanitize email
+    if (data.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) {
+      return NextResponse.json({ error: "Invalid email" }, { status: 400 });
+    }
 
     const firstName = data.name ? data.name.split(" ")[0] : "there";
 

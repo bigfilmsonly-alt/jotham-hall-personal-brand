@@ -5,6 +5,11 @@ import { X, ArrowRight, ArrowLeft, Check, Send } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import { trackEvent } from "@/lib/tracking";
 
+function sanitize(str: string | null): string | null {
+  if (!str) return null;
+  return str.replace(/[<>]/g, "").trim().slice(0, 500);
+}
+
 interface ContactModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -146,17 +151,17 @@ export function ContactModal({ isOpen, onClose }: ContactModalProps) {
     setStatus("loading");
 
     const { error } = await supabase.from("contact_submissions").insert({
-      name: form.name,
+      name: sanitize(form.name) || "",
       email: form.email,
-      phone: form.phone || null,
-      company: form.company || null,
-      website: form.website || null,
-      social_media: form.social || null,
-      service: form.service || null,
+      phone: sanitize(form.phone),
+      company: sanitize(form.company),
+      website: sanitize(form.website),
+      social_media: sanitize(form.social),
+      service: sanitize(form.service),
       revenue_range: form.revenue_range || null,
-      challenge: form.bottlenecks.length > 0 ? form.bottlenecks.join(", ") : null,
-      budget: form.budget || null,
-      how_found: form.how_found || null,
+      challenge: sanitize(form.bottlenecks.length > 0 ? form.bottlenecks.join(", ") : null),
+      budget: sanitize(form.budget),
+      how_found: sanitize(form.how_found),
     });
 
     if (error) {
