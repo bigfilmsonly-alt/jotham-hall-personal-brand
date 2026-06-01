@@ -10,12 +10,25 @@ import {
   Newspaper,
   User,
   Phone,
-  ChevronUp,
   X,
+  ArrowRight,
 } from "lucide-react";
 import { CalendlyModal } from "../calendly-modal";
 
-const tabs = [
+interface SubMenuItem {
+  name: string;
+  href: string;
+  desc?: string;
+}
+
+interface Tab {
+  name: string;
+  href: string;
+  icon: typeof Home;
+  submenu?: SubMenuItem[];
+}
+
+const tabs: Tab[] = [
   {
     name: "Home",
     href: "/",
@@ -26,16 +39,14 @@ const tabs = [
     href: "/services",
     icon: Briefcase,
     submenu: [
-      { name: "All Services", href: "/services" },
-      { name: "Strategic Consulting", href: "/services/strategic-consulting" },
-      { name: "Systems Architecture", href: "/services/systems-architecture" },
-      { name: "AI Automation", href: "/services/ai-automation" },
-      { name: "Personal Branding", href: "/services/personal-branding" },
-      { name: "Executive Advisory", href: "/services/executive-advisory" },
-      { name: "Fractional COO", href: "/services/fractional-coo" },
-      { name: "Content Strategy", href: "/services/content-strategy" },
-      { name: "Business Development", href: "/services/business-development" },
-      { name: "Speaking", href: "/services/speaking" },
+      { name: "AI Automation", href: "/services/ai-automation", desc: "Save 20+ hrs/week with AI systems" },
+      { name: "Revenue Systems", href: "/services/revenue-systems", desc: "3x your revenue with automated funnels" },
+      { name: "Strategic Consulting", href: "/services/strategic-consulting", desc: "Custom roadmap for your business" },
+      { name: "Systems Architecture", href: "/services/systems-architecture", desc: "Build infrastructure that scales" },
+      { name: "Fractional COO", href: "/services/fractional-coo", desc: "Executive ops, fraction of the cost" },
+      { name: "Personal Branding", href: "/services/personal-branding", desc: "Position yourself as the authority" },
+      { name: "Executive Advisory", href: "/services/executive-advisory", desc: "High level strategic guidance" },
+      { name: "All Services", href: "/services", desc: "View the full catalog" },
     ],
   },
   {
@@ -43,12 +54,12 @@ const tabs = [
     href: "/case-studies",
     icon: BarChart3,
     submenu: [
-      { name: "Case Studies", href: "/case-studies" },
-      { name: "SaaS Revenue 3x", href: "/case-studies/saas-revenue-transformation" },
-      { name: "Agency Systems", href: "/case-studies/agency-systems-overhaul" },
-      { name: "E-commerce Automation", href: "/case-studies/ecommerce-automation" },
-      { name: "Personal Brand Launch", href: "/case-studies/personal-brand-launch" },
-      { name: "Startup Advisory", href: "/case-studies/startup-advisory" },
+      { name: "SaaS Revenue 3x", href: "/case-studies/saas-revenue-transformation", desc: "300% revenue increase in 90 days" },
+      { name: "Agency Systems", href: "/case-studies/agency-systems-overhaul", desc: "30 hrs/week saved with automation" },
+      { name: "E-commerce Automation", href: "/case-studies/ecommerce-automation", desc: "Full pipeline on autopilot" },
+      { name: "Personal Brand Launch", href: "/case-studies/personal-brand-launch", desc: "From zero to authority" },
+      { name: "Startup Advisory", href: "/case-studies/startup-advisory", desc: "Scaled from idea to revenue" },
+      { name: "All Case Studies", href: "/case-studies", desc: "See every result" },
     ],
   },
   {
@@ -56,12 +67,11 @@ const tabs = [
     href: "/ventures",
     icon: Rocket,
     submenu: [
-      { name: "All Ventures", href: "/ventures" },
-      { name: "Success Upgrade", href: "/ventures/success-upgrade" },
-      { name: "Big Films Only", href: "/ventures/big-films-only" },
-      { name: "Say It Build It", href: "/ventures/say-it-build-it" },
-      { name: "SaaS Agency", href: "/ventures/saas-agency" },
-      { name: "Alkaline Water", href: "/ventures/alkaline-water" },
+      { name: "Success Upgrade", href: "/ventures/success-upgrade", desc: "AI ecosystem for entrepreneurs" },
+      { name: "Big Films Only", href: "/ventures/big-films-only", desc: "Premium video production" },
+      { name: "Say It Build It", href: "/ventures/say-it-build-it", desc: "VibeCoding platform" },
+      { name: "SaaS Agency", href: "/ventures/saas-agency", desc: "Automation systems" },
+      { name: "Electro Hydration", href: "/ventures/alkaline-water", desc: "Wellness products" },
     ],
   },
   {
@@ -69,11 +79,11 @@ const tabs = [
     href: "/insights",
     icon: Newspaper,
     submenu: [
-      { name: "All Articles", href: "/insights" },
-      { name: "Paradise Protocol", href: "/insights/how-i-built-ai-first-ecosystem-paradise-protocol" },
-      { name: "Vibe Coding", href: "/insights/vibe-coding-future-ai-assisted-development" },
-      { name: "AI Agents", href: "/insights/ai-agents-future-of-work" },
-      { name: "Founder OS", href: "/insights/founder-os-operating-system-thinking" },
+      { name: "Paradise Protocol", href: "/insights/how-i-built-ai-first-ecosystem-paradise-protocol", desc: "Building an AI first ecosystem" },
+      { name: "Vibe Coding", href: "/insights/vibe-coding-future-ai-assisted-development", desc: "The future of AI development" },
+      { name: "AI Agents", href: "/insights/ai-agents-future-of-work", desc: "How AI agents change everything" },
+      { name: "Founder OS", href: "/insights/founder-os-operating-system-thinking", desc: "Operating system for founders" },
+      { name: "All Articles", href: "/insights", desc: "Read everything" },
     ],
   },
   {
@@ -81,10 +91,10 @@ const tabs = [
     href: "/about",
     icon: User,
     submenu: [
-      { name: "About", href: "/about" },
-      { name: "Who is Jotham Hall", href: "/who-is-jotham-hall" },
-      { name: "TV Credits", href: "/tv-credits" },
-      { name: "Speaking", href: "/speaking" },
+      { name: "About Jotham", href: "/about", desc: "The full story" },
+      { name: "Who is Jotham Hall", href: "/who-is-jotham-hall", desc: "Background and mission" },
+      { name: "TV Credits (50+)", href: "/tv-credits", desc: "Hallmark, VH1, Food Network, MTV" },
+      { name: "Speaking", href: "/speaking", desc: "Book for your event" },
     ],
   },
   {
@@ -92,10 +102,10 @@ const tabs = [
     href: "contact-modal",
     icon: Phone,
     submenu: [
-      { name: "Book a Call", href: "action:calendly" },
-      { name: "Schedule", href: "action:calendly" },
-      { name: "Text Me", href: "sms:+15106934083" },
-      { name: "Email Me", href: "mailto:bigfilmsonly@gmail.com" },
+      { name: "Book a Call", href: "action:calendly", desc: "Free 30-min strategy session" },
+      { name: "Schedule", href: "action:calendly", desc: "Pick a time on the calendar" },
+      { name: "Text Me", href: "sms:+15106934083", desc: "(510) 693-4083" },
+      { name: "Email Me", href: "mailto:bigfilmsonly@gmail.com", desc: "bigfilmsonly@gmail.com" },
     ],
   },
 ];
@@ -104,7 +114,7 @@ export function MobileTabBar() {
   const pathname = usePathname();
   const [activeSubmenu, setActiveSubmenu] = useState<string | null>(null);
   const [isContactOpen, setIsContactOpen] = useState(false);
-  // Close submenu on route change
+
   useEffect(() => {
     setActiveSubmenu(null);
   }, [pathname]);
@@ -114,9 +124,8 @@ export function MobileTabBar() {
     return pathname.startsWith(href);
   };
 
-  const handleTabClick = (tab: (typeof tabs)[number]) => {
+  const handleTabClick = (tab: Tab) => {
     if (tab.href === "contact-modal") {
-      // Contact now has a submenu, toggle it
       setActiveSubmenu(activeSubmenu === tab.name ? null : tab.name);
       return;
     }
@@ -130,19 +139,35 @@ export function MobileTabBar() {
     window.location.href = tab.href;
   };
 
+  const handleItemClick = (item: SubMenuItem, e: React.MouseEvent) => {
+    if (item.href === "action:calendly") {
+      e.preventDefault();
+      setActiveSubmenu(null);
+      setIsContactOpen(true);
+    } else if (item.href.startsWith("sms:") || item.href.startsWith("mailto:")) {
+      setActiveSubmenu(null);
+      window.location.href = item.href;
+      e.preventDefault();
+    } else if (item.href.startsWith("http")) {
+      e.preventDefault();
+      setActiveSubmenu(null);
+      window.open(item.href, "_blank");
+    } else {
+      setActiveSubmenu(null);
+    }
+  };
+
   return (
     <>
       {/* Submenu Panel */}
       <div
         className={`fixed bottom-0 left-0 right-0 z-[998] transition-all duration-300 ${
-          activeSubmenu
-            ? "pointer-events-auto"
-            : "pointer-events-none"
+          activeSubmenu ? "pointer-events-auto" : "pointer-events-none"
         }`}
       >
         {/* Backdrop */}
         <div
-          className={`fixed inset-0 bg-[#0D0D0D]/60 backdrop-blur-sm transition-opacity duration-300 ${
+          className={`fixed inset-0 bg-[#0D0D0D]/70 backdrop-blur-sm transition-opacity duration-300 ${
             activeSubmenu ? "opacity-100" : "opacity-0"
           }`}
           onClick={() => setActiveSubmenu(null)}
@@ -150,53 +175,53 @@ export function MobileTabBar() {
 
         {/* Submenu Content */}
         <div
-          className={`relative bg-[#1A1A1A] border-t border-[#3D3A35] rounded-t-2xl shadow-2xl transition-all duration-300 ${
-            activeSubmenu
-              ? "translate-y-0 opacity-100"
-              : "translate-y-full opacity-0"
+          className={`relative bg-[#1A1A1A] border-t border-[#D4A853]/20 rounded-t-3xl shadow-2xl transition-all duration-300 ${
+            activeSubmenu ? "translate-y-0 opacity-100" : "translate-y-full opacity-0"
           }`}
           style={{ paddingBottom: "calc(5rem + env(safe-area-inset-bottom))" }}
         >
           {tabs
             .filter((t) => t.submenu && t.name === activeSubmenu)
             .map((tab) => (
-              <div key={tab.name} className="px-6 pt-5 pb-3">
-                <div className="flex items-center justify-between mb-4">
-                  <h3 className="text-sm font-medium text-foreground">
+              <div key={tab.name} className="px-5 pt-4 pb-2">
+                {/* Handle + Header */}
+                <div className="w-10 h-1 bg-[#3D3A35] rounded-full mx-auto mb-4" />
+                <div className="flex items-center justify-between mb-3">
+                  <h3 className="text-xs tracking-[0.15em] uppercase text-[#D4A853] font-medium">
                     {tab.name}
                   </h3>
                   <button
                     onClick={() => setActiveSubmenu(null)}
-                    className="p-1 rounded-full hover:bg-foreground/5 transition-colors"
+                    className="p-1.5 rounded-full hover:bg-[#252320] transition-colors"
                   >
-                    <X className="w-4 h-4 text-muted-foreground" />
+                    <X className="w-4 h-4 text-[#5C5750]" />
                   </button>
                 </div>
-                <div className="grid grid-cols-2 gap-1">
+
+                {/* Scrollable list */}
+                <div className="max-h-[50vh] overflow-y-auto no-scrollbar space-y-1">
                   {tab.submenu!.map((item) => (
                     <a
-                      key={item.href}
-                      href={item.href.startsWith("action:") ? undefined : item.href}
-                      onClick={(e) => {
-                        if (item.href === "action:calendly") {
-                          e.preventDefault();
-                          setActiveSubmenu(null);
-                          setIsContactOpen(true);
-                        } else if (item.href.startsWith("http")) {
-                          e.preventDefault();
-                          setActiveSubmenu(null);
-                          window.open(item.href, "_blank");
-                        } else {
-                          setActiveSubmenu(null);
-                        }
-                      }}
-                      className={`px-3 py-2.5 rounded-xl text-sm transition-all cursor-pointer ${
+                      key={item.href + item.name}
+                      href={item.href.startsWith("action:") || item.href.startsWith("sms:") || item.href.startsWith("mailto:") ? undefined : item.href}
+                      onClick={(e) => handleItemClick(item, e)}
+                      className={`flex items-center justify-between px-4 py-3 rounded-xl transition-all active:scale-[0.98] cursor-pointer ${
                         pathname === item.href
-                          ? "bg-[#D4A853] text-[#0D0D0D] font-medium"
-                          : "text-[#B8B0A8] hover:bg-[#252320] hover:text-[#FAF8F5] active:bg-[#3D3A35]"
+                          ? "bg-[#D4A853] text-[#0D0D0D]"
+                          : "hover:bg-[#252320]"
                       }`}
                     >
-                      {item.name}
+                      <div className="min-w-0">
+                        <p className={`text-sm font-medium ${pathname === item.href ? "text-[#0D0D0D]" : "text-[#FAF8F5]"}`}>
+                          {item.name}
+                        </p>
+                        {item.desc && (
+                          <p className={`text-[11px] mt-0.5 ${pathname === item.href ? "text-[#0D0D0D]/70" : "text-[#5C5750]"}`}>
+                            {item.desc}
+                          </p>
+                        )}
+                      </div>
+                      <ArrowRight className={`w-3.5 h-3.5 shrink-0 ml-3 ${pathname === item.href ? "text-[#0D0D0D]/50" : "text-[#3D3A35]"}`} />
                     </a>
                   ))}
                 </div>
@@ -225,7 +250,7 @@ export function MobileTabBar() {
                   key={tab.name}
                   onClick={() => handleTabClick(tab)}
                   className={`relative flex flex-col items-center justify-center gap-1 flex-1 h-full transition-all duration-300 active:scale-90 ${
-                    active
+                    active || submenuOpen
                       ? "text-[#D4A853]"
                       : "text-[#5C5750] hover:text-[#B8B0A8]"
                   }`}
@@ -233,7 +258,7 @@ export function MobileTabBar() {
                   <div className="relative">
                     <Icon
                       className={`w-6 h-6 transition-all duration-300 ${
-                        active ? "stroke-[2px]" : "stroke-[1.5px]"
+                        active || submenuOpen ? "stroke-[2px]" : "stroke-[1.5px]"
                       }`}
                     />
                     {active && (
@@ -242,18 +267,11 @@ export function MobileTabBar() {
                   </div>
                   <span
                     className={`text-[11px] tracking-wide transition-all duration-300 ${
-                      active ? "font-medium" : "font-normal"
+                      active || submenuOpen ? "font-medium" : "font-normal"
                     }`}
                   >
                     {tab.name}
                   </span>
-                  {tab.submenu && (
-                    <ChevronUp
-                      className={`absolute top-2 right-0.5 w-2.5 h-2.5 opacity-30 transition-transform duration-200 ${
-                        submenuOpen ? "rotate-180" : ""
-                      }`}
-                    />
-                  )}
                 </button>
               );
             })}
