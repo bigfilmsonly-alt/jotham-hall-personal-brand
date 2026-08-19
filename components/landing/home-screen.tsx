@@ -5,7 +5,7 @@ import { ArrowRight, Phone, MessageSquare, Mail, BarChart3, Check, X } from "luc
 import Image from "next/image";
 import { ContactModal } from "./contact-modal";
 import { CalendlyModal } from "../calendly-modal";
-import { supabase } from "@/lib/supabase";
+import { saveRecord } from "@/lib/supabase";
 import { trackEvent } from "@/lib/tracking";
 
 const networks = ["Hallmark", "Food Network", "VH1", "MTV", "USA Network"];
@@ -99,8 +99,9 @@ export function HomeScreen() {
     setQuizStatus("saving");
     const finalScore = answers.reduce((a, b) => a + b, 0);
     const finalResult = results.find((r) => finalScore >= r.range[0] && finalScore <= r.range[1]) || results[0];
-    await supabase.from("quiz_results").insert({ email: quizEmail, name: quizName || null, score: finalScore, result_type: finalResult.type, answers: { responses: answers.map((a, i) => ({ question: questions[i].question, score: a })) } });
-    await supabase.from("email_captures").upsert({ email: quizEmail, source: "quiz" }, { onConflict: "email" });
+    const savedQuiz = await saveRecord("quiz_results", { email: quizEmail, name: quizName || null, score: finalScore, result_type: finalResult.type, answers: { responses: answers.map((a, i) => ({ question: questions[i].question, score: a })) } });
+    const saved = await saveRecord("email_captures", { email: quizEmail, source: "quiz" });
+    void savedQuiz;
     setQuizStatus("result");
     trackEvent.quizComplete(finalScore, finalResult.type);
     fetch("/api/notify", {
@@ -298,6 +299,20 @@ export function HomeScreen() {
           {/* Scarcity */}
           <p className="text-[10px] tracking-[0.15em] uppercase text-[#D4A853]/60 text-center">
             Only 3 partnership spots per quarter
+          </p>
+
+          {/* Build credit. This screen renders no footer, so the credit sits here
+              to match the inner pages. JothamHall.com is this site: plain text. */}
+          <p className="pt-2 text-[10px] text-[#5C5750] text-center">
+            Built by JothamHall.com &middot; Developed by{" "}
+            <a
+              href="https://successupgrade.ai"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-[#D4A853] transition-colors"
+            >
+              SuccessUpgrade.ai
+            </a>
           </p>
         </div>
       </div>

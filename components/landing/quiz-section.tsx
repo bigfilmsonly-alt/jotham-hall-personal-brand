@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import { ArrowRight, Check, X, BarChart3 } from "lucide-react";
-import { supabase } from "@/lib/supabase";
+import { saveRecord } from "@/lib/supabase";
 
 const questions = [
   {
@@ -135,7 +135,7 @@ export function QuizSection() {
     const finalScore = answers.reduce((a, b) => a + b, 0);
     const finalResult = results.find((r) => finalScore >= r.range[0] && finalScore <= r.range[1]) || results[0];
 
-    await supabase.from("quiz_results").insert({
+    const savedQuiz = await saveRecord("quiz_results", {
       email,
       name: name || null,
       score: finalScore,
@@ -143,7 +143,8 @@ export function QuizSection() {
       answers: { responses: answers.map((a, i) => ({ question: questions[i].question, score: a })) },
     });
 
-    await supabase.from("email_captures").upsert({ email, source: "quiz" }, { onConflict: "email" });
+    const saved = await saveRecord("email_captures", { email, source: "quiz" });
+    void saved; void savedQuiz;
 
     setStatus("result");
   };

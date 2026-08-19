@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { supabase } from "@/lib/supabase";
+import { saveRecord } from "@/lib/supabase";
 import { ArrowRight } from "lucide-react";
 
 export function LeadMagnetSection() {
@@ -27,11 +27,11 @@ export function LeadMagnetSection() {
     if (!email || status === "loading") return;
 
     setStatus("loading");
-    const { error } = await supabase
-      .from("email_captures")
-      .upsert({ email, source: "inline_capture" }, { onConflict: "email" });
+    /* The only capture on this site that already surfaced its failure to the
+       visitor. Kept exactly, now reading a result that is actually reliable. */
+    const saved = await saveRecord("email_captures", { email, source: "inline_capture" });
 
-    if (error) {
+    if (!saved.ok) {
       setStatus("error");
     } else {
       setStatus("success");

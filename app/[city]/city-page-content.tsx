@@ -4,7 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { ArrowRight, Phone, MessageSquare, Mail, Check, BarChart3 } from "lucide-react";
 import { ContactModal } from "@/components/landing/contact-modal";
-import { supabase } from "@/lib/supabase";
+import { saveRecord } from "@/lib/supabase";
 import type { CityData } from "@/lib/city-data";
 
 interface Props {
@@ -27,7 +27,7 @@ export function CityPageContent({ city, services }: Props) {
     e.preventDefault();
     if (!captureEmail || captureStatus === "loading") return;
     setCaptureStatus("loading");
-    await supabase.from("email_captures").upsert({ email: captureEmail, source: `city_${city.slug}` }, { onConflict: "email" });
+    const saved = await saveRecord("email_captures", { email: captureEmail, source: `city_${city.slug}` });
     fetch("/api/notify", {
       method: "POST",
       headers: { "Content-Type": "application/json" },

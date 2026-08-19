@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useRef } from "react";
 import { X, ArrowRight, ArrowLeft, Check, Send } from "lucide-react";
-import { supabase } from "@/lib/supabase";
+import { saveRecord } from "@/lib/supabase";
 import { trackEvent } from "@/lib/tracking";
 
 function sanitize(str: string | null): string | null {
@@ -150,7 +150,7 @@ export function ContactModal({ isOpen, onClose }: ContactModalProps) {
     if (status === "loading") return;
     setStatus("loading");
 
-    const { error } = await supabase.from("contact_submissions").insert({
+    const saved = await saveRecord("contact_submissions", {
       name: sanitize(form.name) || "",
       email: form.email,
       phone: sanitize(form.phone),
@@ -164,7 +164,7 @@ export function ContactModal({ isOpen, onClose }: ContactModalProps) {
       how_found: sanitize(form.how_found),
     });
 
-    if (error) {
+    if (!saved.ok) {
       setStatus("error");
     } else {
       setStatus("success");

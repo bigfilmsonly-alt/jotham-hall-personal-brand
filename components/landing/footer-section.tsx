@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { ArrowUpRight, ChevronDown } from "lucide-react";
 import { AnimatedWave } from "./animated-wave";
+import { saveRecord } from "@/lib/supabase";
 
 const footerLinks = {
   Services: [
@@ -19,6 +20,7 @@ const footerLinks = {
   ],
   Company: [
     { name: "About", href: "/about" },
+    { name: "Credits", href: "/credits" },
     { name: "Case Studies", href: "/case-studies" },
     { name: "Ventures", href: "/ventures" },
     { name: "Contact", href: "/contact" },
@@ -53,10 +55,8 @@ function FooterEmailForm() {
       process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
     );
 
-    await supabase.from("email_captures").upsert(
-      { email, source: "footer_newsletter" },
-      { onConflict: "email" }
-    );
+    const saved = await saveRecord("email_captures", { email, source: "footer_newsletter" });
+    void saved;
 
     setEmail("");
     fetch("/api/notify", {
@@ -181,6 +181,7 @@ export function FooterSection() {
                 <span className="text-muted-foreground block mb-3 font-medium">Main</span>
                 <a href="/" className="block text-foreground/60 hover:text-foreground transition-colors py-1">Home</a>
                 <a href="/about" className="block text-foreground/60 hover:text-foreground transition-colors py-1">About</a>
+                <a href="/credits" className="block text-foreground/60 hover:text-foreground transition-colors py-1">Credits</a>
                 <a href="/jotham-hall" className="block text-foreground/60 hover:text-foreground transition-colors py-1">Jotham Hall</a>
                 <a href="/contact" className="block text-foreground/60 hover:text-foreground transition-colors py-1">Contact</a>
               </div>
@@ -262,9 +263,23 @@ export function FooterSection() {
 
         {/* Bottom Bar */}
         <div className="py-8 border-t border-foreground/10 flex flex-col md:flex-row items-center justify-center lg:justify-between gap-4 text-center">
-          <p className="text-sm text-muted-foreground">
-            {new Date().getFullYear()} Jotham Hall. All rights reserved.
-          </p>
+          <div className="flex flex-col items-center lg:items-start gap-1">
+            <p className="text-sm text-muted-foreground">
+              {new Date().getFullYear()} Jotham Hall. All rights reserved.
+            </p>
+            {/* Build credit. JothamHall.com is this site, so it stays plain text. */}
+            <p className="text-xs text-muted-foreground/70">
+              Built by JothamHall.com &middot; Developed by{" "}
+              <a
+                href="https://successupgrade.ai"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-[#D4A853] transition-colors"
+              >
+                SuccessUpgrade.ai
+              </a>
+            </p>
+          </div>
 
           <div className="flex items-center gap-4 text-sm text-muted-foreground">
             <span className="flex items-center gap-2">
@@ -273,6 +288,18 @@ export function FooterSection() {
             </span>
           </div>
         </div>
+
+        {/*
+          Clearance for the fixed tab bar. The footer had none, so the last line
+          of the bottom bar sat underneath it and could not be scrolled into
+          view: at the true document bottom the credit measured 647 to 663 while
+          the tab bar started at 650. 5.5rem matches the padding home-screen.tsx
+          already uses to clear the same bar.
+        */}
+        <div
+          aria-hidden="true"
+          style={{ height: "calc(5.5rem + env(safe-area-inset-bottom, 0px))" }}
+        />
       </div>
     </footer>
   );

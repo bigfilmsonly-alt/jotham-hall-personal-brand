@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { X, ArrowRight } from "lucide-react";
-import { supabase } from "@/lib/supabase";
+import { saveRecord } from "@/lib/supabase";
 
 export function ExitIntentPopup() {
   const [isOpen, setIsOpen] = useState(false);
@@ -53,10 +53,7 @@ export function ExitIntentPopup() {
     if (!email || status === "loading") return;
     setStatus("loading");
 
-    await supabase.from("email_captures").upsert(
-      { email, source: "exit_intent" },
-      { onConflict: "email" }
-    );
+    const saved = await saveRecord("email_captures", { email, source: "exit_intent" });
 
     setStatus("success");
     fetch("/api/notify", {
