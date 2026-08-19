@@ -89,11 +89,16 @@ export async function POST(req: NextRequest) {
     const ghl =
       type !== "calendly" && data.email
         ? sendToGhl({
+            brand: "jothamhall",
             email: data.email,
             name: data.name,
             phone: data.phone,
-            source: `jothamhall_${type}`,
-            extra: { site: "jothamhall.com" },
+            /* GHL only has provisioned tags for these four. notify's own type
+               names differ, so they are mapped rather than passed through, or
+               an unrecognised value would silently create a junk tag. */
+            source: type === "contact" ? "contact-form" : type === "quiz" ? "quiz" : "newsletter",
+            offer: "done-for-you",
+            fields: { site: "jothamhall.com" },
           })
         : null;
 
