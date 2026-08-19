@@ -93,7 +93,7 @@ const tabs: Tab[] = [
     submenu: [
       { name: "About Jotham", href: "/about", desc: "The full story" },
       { name: "Who is Jotham Hall", href: "/who-is-jotham-hall", desc: "Background and mission" },
-      { name: "TV Credits (50+)", href: "/tv-credits", desc: "Hallmark, VH1, Food Network, MTV" },
+      { name: "Credits (50+)", href: "/credits", desc: "Hallmark, VH1, Food Network, MTV" },
       { name: "Speaking", href: "/speaking", desc: "Book for your event" },
     ],
   },
