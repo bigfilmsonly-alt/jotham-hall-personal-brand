@@ -87,11 +87,27 @@ export async function sendToGhl(lead: GhlLead): Promise<GhlResult> {
     if (lead.offer && KNOWN_OFFERS.has(lead.offer)) tags.push(`offer-${lead.offer}`)
     await addTags(contactId, tags)
 
-    const opportunityId = await createOpportunity({
-      contactId,
-      brand: lead.brand,
-      name: lead.name ? `${lead.name} (${lead.source})` : `${lead.email} (${lead.source})`,
-    })
+    let opportunityId: string | undefined
+    try {
+      opportunityId = await createOpportunity({
+        contactId,
+        brand: lead.brand,
+        name: lead.name ? `${lead.name} (${lead.source})` : `${lead.email} (${lead.source})`,
+      })
+    } catch (err) {
+      /*
+        A returning lead is not a failure. GHL refuses a second open opportunity
+        for the same contact, which is correct behaviour on its side and the
+        normal case on ours: anyone who fills in a second form, or the same one
+        twice, already has one. Treated as success, because the contact is
+        updated, tagged, and sitting in the pipeline, which is the entire point.
+
+        Without this every repeat submission from an existing lead returned 502
+        and was logged as a CRM outage.
+      */
+      const msg = err instanceof Error ? err.message : ""
+      if (!/duplicate opportunity/i.test(msg)) throw err
+    }
 
     return { ok: true, contactId, opportunityId }
   } catch (err) {
