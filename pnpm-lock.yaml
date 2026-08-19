@@ -173,6 +173,9 @@ importers:
       resend:
         specifier: ^6.12.4
         version: 6.12.4
+      server-only:
+        specifier: ^0.0.1
+        version: 0.0.1
       sonner:
         specifier: ^1.7.4
         version: 1.7.4(react-dom@19.2.0(react@19.2.0))(react@19.2.0)

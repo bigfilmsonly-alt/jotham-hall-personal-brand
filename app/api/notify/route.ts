@@ -1,5 +1,6 @@
 import { Resend } from "resend";
 import { NextRequest, NextResponse } from "next/server";
+import { sendToGhl } from "@/lib/gohighlevel";
 
 // Simple rate limiting (per IP, 5 requests per minute)
 const rateLimit = new Map<string, { count: number; resetTime: number }>();
@@ -70,6 +71,31 @@ export async function POST(req: NextRequest) {
     }
 
     const firstName = data.name ? data.name.split(" ")[0] : "there";
+
+    /*
+      Started here, awaited at the end, so it runs alongside the emails rather
+      than in front of them. Both sites feed the same GoHighLevel account, and
+      the same rule applies on both: the CRM is a third destination and never a
+      dependency. A lead reaches the inbox whether or not GHL answers.
+
+      Awaited rather than fired and forgotten, because a serverless function can
+      be frozen the moment it responds and a loose promise may simply never
+      finish. The lead would reach the inbox, never the CRM, and nothing
+      anywhere would say so.
+
+      calendly is excluded: Calendly already holds the booking and has emailed
+      both sides, and the payload carries no email to key a contact on.
+    */
+    const ghl =
+      type !== "calendly" && data.email
+        ? sendToGhl({
+            email: data.email,
+            name: data.name,
+            phone: data.phone,
+            source: `jothamhall_${type}`,
+            extra: { site: "jothamhall.com" },
+          })
+        : null;
 
     // ========================================
     // EMAIL 1: Notify Jotham (ALL types)
@@ -223,7 +249,12 @@ export async function POST(req: NextRequest) {
       }).catch(() => {});
     }
 
-    return NextResponse.json({ success: true });
+    const ghlResult = ghl ? await ghl : null;
+    if (ghlResult && !ghlResult.ok && ghlResult.reason !== "not configured") {
+      console.error(`[notify] lead emailed but not sent to GHL: ${ghlResult.reason}`);
+    }
+
+    return NextResponse.json({ success: true, ghl: ghlResult });
   } catch {
     return NextResponse.json({ error: "Failed to send" }, { status: 500 });
   }
