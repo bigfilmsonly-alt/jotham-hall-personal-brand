@@ -27,6 +27,11 @@ const API_VERSION = "2021-07-28"
    something they cannot see. */
 const TIMEOUT_MS = 8000
 
+/* Field and pipeline definitions change rarely and every lead needs them. Long
+   enough to matter, short enough that a rename in GHL takes effect on the next
+   cold start rather than needing a deploy. */
+const CACHE_MS = 10 * 60 * 1000
+
 export type Brand = "successupgrade" | "jothamhall"
 
 /** Named per brand at provisioning time. Resolved to ids at runtime, never hardcoded. */
@@ -108,6 +113,36 @@ async function call<T>(method: string, path: string, body?: unknown, step = "req
   }
 }
 
+/* ──────────────────────── custom fields ──────────────────────── */
+
+/*
+  Resolved by name at runtime and cached, so no field id is hardcoded and this
+  survives being pointed at a different GHL location.
+
+  IT HAS TO BE IDS. GoHighLevel accepts customFields as [{ id, value }] and
+  writes them. It also accepts [{ key, field_value }], answers 200, and writes
+  nothing at all. Measured: a contact upserted with the key form came back with
+  an empty customFields array while tags and the opportunity landed correctly. A
+  silent no-op behind a success response is the worst shape an API can have, so
+  the lookup below exists purely to never send the key form again.
+*/
+type FieldDef = { id: string; name: string }
+let fieldCache: { at: number; byName: Map<string, string> } | null = null
+
+async function fieldIds(): Promise<Map<string, string>> {
+  if (fieldCache && Date.now() - fieldCache.at < CACHE_MS) return fieldCache.byName
+  const { locationId } = config()
+  const res = await call<{ customFields: FieldDef[] }>(
+    "GET",
+    `/locations/${locationId}/customFields`,
+    undefined,
+    "customFields",
+  )
+  const byName = new Map((res.customFields ?? []).map((f) => [f.name, f.id]))
+  fieldCache = { at: Date.now(), byName }
+  return byName
+}
+
 /* ─────────────────────────── contacts ─────────────────────────── */
 
 export type UpsertContactInput = {
@@ -142,11 +177,20 @@ export async function upsertContact(input: UpsertContactInput): Promise<string> 
     brand: input.brand,
     ...(input.customFields ?? {}),
   }
-  const custom = Object.entries(merged)
-    .filter(([, v]) => v !== undefined && v !== "")
-    /* Keyed rather than by id. Field ids differ per location, so a key survives
-       this being pointed at a second GHL account; an id would not. */
-    .map(([k, v]) => ({ key: `contact.${k}`, field_value: String(v) }))
+  const ids = await fieldIds()
+  const custom: { id: string; value: string }[] = []
+  for (const [name, value] of Object.entries(merged)) {
+    if (value === undefined || value === "") continue
+    const id = ids.get(name)
+    if (!id) {
+      /* Not provisioned. Skipped loudly rather than sent, because GHL would
+         accept the write and drop it, and a field that silently never fills is
+         worse than one that was never asked for. */
+      console.warn(`[ghl] no custom field named "${name}", skipping`)
+      continue
+    }
+    custom.push({ id, value: String(value) })
+  }
 
   const res = await call<{ contact?: { id?: string }; id?: string }>(
     "POST",
@@ -182,7 +226,6 @@ type Pipeline = { id: string; name: string; stages?: { id: string; name: string 
   effect on the next cold start rather than requiring a deploy.
 */
 let pipelineCache: { at: number; list: Pipeline[] } | null = null
-const CACHE_MS = 10 * 60 * 1000
 
 async function pipelines(): Promise<Pipeline[]> {
   if (pipelineCache && Date.now() - pipelineCache.at < CACHE_MS) return pipelineCache.list
