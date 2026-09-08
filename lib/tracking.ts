@@ -1,3 +1,5 @@
+import { trackCanonical } from "@/lib/analytics";
+
 declare global {
   interface Window {
     fbq: (...args: unknown[]) => void;
@@ -13,11 +15,18 @@ export const trackEvent = {
     }
   },
 
+  /**
+   * Booking intent. Emits the canonical `ai_call_click` and nothing else.
+   *
+   * It used to push `schedule_click` and a Meta "Schedule" standard event. Both
+   * are gone rather than kept alongside: emitting two names for one interaction
+   * is how the same click gets counted twice the moment somebody wires a GTM
+   * trigger to the old name. Nothing external depended on `schedule_click`,
+   * because GTM was never forwarding it to GA4 or Meta in the first place,
+   * which is what made it safe to rename rather than dual-emit.
+   */
   schedule: (location: string) => {
-    if (typeof window !== "undefined") {
-      if (window.fbq) window.fbq("track", "Schedule", { content_name: location });
-      if (window.dataLayer) window.dataLayer.push({ event: "schedule_click", location });
-    }
+    trackCanonical("ai_call_click", { location }, { once: location });
   },
 
   quizComplete: (score: number, resultType: string) => {

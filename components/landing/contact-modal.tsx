@@ -3,6 +3,7 @@
 import { useEffect, useState, useRef } from "react";
 import { X, ArrowRight, ArrowLeft, Check, Send } from "lucide-react";
 import { saveRecord } from "@/lib/supabase";
+import { trackCanonical } from "@/lib/analytics";
 import { trackEvent } from "@/lib/tracking";
 
 function sanitize(str: string | null): string | null {
@@ -105,6 +106,16 @@ export function ContactModal({ isOpen, onClose }: ContactModalProps) {
 
   const goNext = () => {
     if (step < totalSteps - 1) {
+      /*
+        application_start fires on the first advance, not on the modal opening.
+
+        Opening the modal is a click; answering the first question and moving on
+        is the earliest point the visitor has actually started the application.
+        Firing on open, or on the mentorship page loading, would count browsing
+        as intent and the number would mean nothing. Guarded so going back and
+        forward through step one cannot report a second start.
+      */
+      if (step === 0) trackCanonical("application_start", { form: "contact_application" }, { once: true });
       setDirection("forward");
       setStep((s) => s + 1);
     }
