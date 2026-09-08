@@ -19,7 +19,7 @@ const ventures = [
   {
     name: "Big Films Only",
     description: "A black-owned, family-owned independent production company launched in 2015. Currently involved with major TV productions including USA Network's 'Temptation Island', NBC's 'Snake in the Grass', and BET's 'After Happily Ever After' hosted by Bow Wow.",
-    url: "/ventures/big-films-only"
+    url: "/about"
   },
   {
     name: "Say It Build It",

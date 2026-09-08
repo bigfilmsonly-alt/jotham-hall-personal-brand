@@ -34,7 +34,6 @@ const navLinks = [
     dropdown: [
       { name: "All Ventures", href: "/ventures" },
       { name: "Success Upgrade", href: "/ventures/success-upgrade" },
-      { name: "Big Films Only", href: "/ventures/big-films-only" },
       { name: "Say It Build It", href: "/ventures/say-it-build-it" },
     ]
   },

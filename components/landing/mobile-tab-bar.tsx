@@ -68,7 +68,6 @@ const tabs: Tab[] = [
     icon: Rocket,
     submenu: [
       { name: "Success Upgrade", href: "/ventures/success-upgrade", desc: "AI ecosystem for entrepreneurs" },
-      { name: "Big Films Only", href: "/ventures/big-films-only", desc: "Premium video production" },
       { name: "Say It Build It", href: "/ventures/say-it-build-it", desc: "VibeCoding platform" },
       { name: "SaaS Agency", href: "/ventures/saas-agency", desc: "Automation systems" },
       { name: "Electro Hydration", href: "/ventures/alkaline-water", desc: "Wellness products" },
@@ -105,7 +104,7 @@ const tabs: Tab[] = [
       { name: "Book a Call", href: "action:calendly", desc: "Free 30-min strategy session" },
       { name: "Schedule", href: "action:calendly", desc: "Pick a time on the calendar" },
       { name: "Text Me", href: "sms:+15106934083", desc: "(510) 693-4083" },
-      { name: "Email Me", href: "mailto:bigfilmsonly@gmail.com", desc: "bigfilmsonly@gmail.com" },
+      { name: "Email Me", href: "mailto:successupgradeinbox@gmail.com", desc: "successupgradeinbox@gmail.com" },
     ],
   },
 ];

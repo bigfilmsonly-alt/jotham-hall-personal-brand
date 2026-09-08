@@ -196,36 +196,56 @@ function splitName(name?: string) {
  * branching on at every call site.
  */
 /**
- * Existing custom field values for one contact, keyed by field NAME.
+ * What this contact already has, or an honest "I do not know".
  *
- * Needed for write-once attribution: you cannot honour "never overwrite the
- * original" without first knowing whether an original is already there.
- * Returns an empty map on any failure, which makes the caller treat the contact
- * as new. That direction is safe: it writes an original that may already match,
- * rather than skipping one that was missing.
+ * TWO BUGS LIVED HERE, AND THE SECOND WAS THE DANGEROUS ONE.
+ *
+ * 1. It searched `/contacts/?query=` and read customFields off the result.
+ *    That endpoint returns a SUMMARY: customFields is not on it. So the list
+ *    came back empty every time, the write-once guard never engaged, and the
+ *    second touch happily overwrote original_brand. Live proof: a contact whose
+ *    first touch was Success Upgrade ended up with original_brand = jothamhall.
+ *    The full record has to be fetched by id.
+ *
+ * 2. On failure it returned an empty map, and the comment here claimed that was
+ *    safe because it "treats the contact as new". It is the opposite of safe. A
+ *    contact treated as new gets its original_* rewritten, and first touch
+ *    attribution is destroyed permanently. A MISSING original is recoverable on
+ *    the next touch; a WRONG original looks like real data and nobody ever
+ *    finds out.
+ *
+ * So it now returns null when it genuinely does not know, and the caller skips
+ * original_* entirely rather than guessing. Failing closed loses nothing but a
+ * write that can happen later; failing open loses the truth.
  */
-async function existingFields(email: string): Promise<Map<string, string>> {
+async function existingFields(email: string): Promise<Map<string, string> | null> {
   const { locationId } = config()
-  const out = new Map<string, string>()
   try {
-    const res = await call<{
-      contacts?: { customFields?: { id: string; value?: string }[] }[]
-    }>(
+    const found = await call<{ contacts?: { id: string }[] }>(
       "GET",
       `/contacts/?locationId=${locationId}&query=${encodeURIComponent(email)}&limit=1`,
       undefined,
-      "existingFields",
+      "existingFields:search",
     )
-    const fields = res.contacts?.[0]?.customFields ?? []
-    const byId = new Map([...(await fieldIds())].map(([name, id]) => [id, name]))
-    for (const f of fields) {
+    const id = found.contacts?.[0]?.id
+    /* Genuinely new. Known, not unknown, so originals may be written. */
+    if (!id) return new Map()
+
+    const full = await call<{
+      contact?: { customFields?: { id: string; value?: string }[] }
+    }>("GET", `/contacts/${id}`, undefined, "existingFields:detail")
+
+    const out = new Map<string, string>()
+    const byId = new Map([...(await fieldIds())].map(([name, fid]) => [fid, name]))
+    for (const f of full.contact?.customFields ?? []) {
       const name = byId.get(f.id)
       if (name && f.value) out.set(name, String(f.value))
     }
+    return out
   } catch {
-    /* treated as a new contact, see above */
+    /* Unknown. The caller must not write an original it cannot verify. */
+    return null
   }
-  return out
 }
 
 export async function upsertContact(input: UpsertContactInput): Promise<string> {
@@ -251,15 +271,30 @@ export async function upsertContact(input: UpsertContactInput): Promise<string> 
     Fields that do not exist yet in GHL are skipped with a warning by the loop
     below, so this is safe to ship before Instinct provisions them.
   */
-  const prior = input.source ? await existingFields(input.email) : new Map<string, string>()
+  const prior = input.source ? await existingFields(input.email) : null
+
+  /* null means the lookup failed and we do not know whether an original exists,
+     so originals are left alone. Latest is always safe to write. */
+  const mayWriteOriginal = (field: string) => prior !== null && !prior.get(field)
+
   const attribution: Record<string, string | undefined> = input.source
     ? {
         latest_source: input.source,
         latest_brand: input.brand,
-        ...(prior.get("original_source") ? {} : { original_source: input.source }),
-        ...(prior.get("original_brand") ? {} : { original_brand: input.brand }),
+        ...(mayWriteOriginal("original_source") ? { original_source: input.source } : {}),
+        ...(mayWriteOriginal("original_brand") ? { original_brand: input.brand } : {}),
       }
     : {}
+
+  /* Non-PII, and worth keeping: without it the only way to tell whether the
+     write-once guard engaged is to read the CRM afterwards and infer. */
+  if (input.source) {
+    console.info("[ghl] attribution", {
+      brand: input.brand,
+      priorKnown: prior !== null,
+      wroteOriginal: mayWriteOriginal("original_brand"),
+    })
+  }
 
   const merged: Record<string, string | number | undefined> = {
     brand: input.brand,

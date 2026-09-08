@@ -28,7 +28,7 @@ const footerLinks = {
   Connect: [
     { name: "Call", href: "tel:+15106809100" },
     { name: "Text", href: "sms:+15106934083" },
-    { name: "Email", href: "mailto:bigfilmsonly@gmail.com" },
+    { name: "Email", href: "mailto:successupgradeinbox@gmail.com" },
   ],
 };
 
@@ -39,58 +39,6 @@ const socialLinks = [
   { name: "TikTok", href: "https://www.tiktok.com/@successupgrade_" },
   { name: "Facebook", href: "https://www.facebook.com/share/1DuisNbTVK/?mibextid=wwXIfr" },
 ];
-
-function FooterEmailForm() {
-  const [email, setEmail] = useState("");
-  const [status, setStatus] = useState<"idle" | "loading" | "done">("idle");
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!email || status === "loading") return;
-    setStatus("loading");
-
-    const { createClient } = await import("@supabase/supabase-js");
-    const supabase = createClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-    );
-
-    const saved = await saveRecord("email_captures", { email, source: "footer_newsletter" });
-    void saved;
-
-    setEmail("");
-    fetch("/api/notify", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ type: "email_capture", data: { email, source: "footer_newsletter" } }),
-    }).catch(() => {});
-    setStatus("done");
-  };
-
-  if (status === "done") {
-    return <p className="text-sm text-foreground font-medium text-center lg:text-left">You&apos;re subscribed. Welcome.</p>;
-  }
-
-  return (
-    <form onSubmit={handleSubmit} className="flex gap-2">
-      <input
-        type="email"
-        required
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        placeholder="Enter email"
-        className="flex-1 px-4 py-2.5 bg-foreground/5 border border-foreground/10 text-foreground placeholder-muted-foreground text-sm focus:outline-none focus:border-foreground/30 transition-colors"
-      />
-      <button
-        type="submit"
-        disabled={status === "loading"}
-        className="px-4 py-2.5 bg-foreground text-background text-xs font-medium hover:bg-foreground/90 transition-colors whitespace-nowrap disabled:opacity-50"
-      >
-        {status === "loading" ? "..." : "Subscribe"}
-      </button>
-    </form>
-  );
-}
 
 export function FooterSection() {
   const [isSitemapOpen, setIsSitemapOpen] = useState(false);
@@ -212,7 +160,6 @@ export function FooterSection() {
                 <span className="text-muted-foreground block mb-3 font-medium">Ventures</span>
                 <a href="/ventures" className="block text-foreground/60 hover:text-foreground transition-colors py-1">All Ventures</a>
                 <a href="/ventures/success-upgrade" className="block text-foreground/60 hover:text-foreground transition-colors py-1">Success Upgrade</a>
-                <a href="/ventures/big-films-only" className="block text-foreground/60 hover:text-foreground transition-colors py-1">Big Films Only</a>
                 <a href="/ventures/say-it-build-it" className="block text-foreground/60 hover:text-foreground transition-colors py-1">Say It Build It</a>
                 <a href="/ventures/saas-agency" className="block text-foreground/60 hover:text-foreground transition-colors py-1">SaaS Agency</a>
                 <a href="/ventures/alkaline-water" className="block text-foreground/60 hover:text-foreground transition-colors py-1">Alkaline Water</a>
@@ -230,7 +177,7 @@ export function FooterSection() {
                 <span className="text-muted-foreground block mb-3 font-medium">Connect</span>
                 <a href="tel:+15106809100" className="block text-foreground/60 hover:text-foreground transition-colors py-1">Call</a>
                 <a href="sms:+15106934083" className="block text-foreground/60 hover:text-foreground transition-colors py-1">Text</a>
-                <a href="mailto:bigfilmsonly@gmail.com" className="block text-foreground/60 hover:text-foreground transition-colors py-1">Email</a>
+                <a href="mailto:successupgradeinbox@gmail.com" className="block text-foreground/60 hover:text-foreground transition-colors py-1">Email</a>
                 <a href="https://www.linkedin.com/in/jotham-hall-b6b9491b2" target="_blank" rel="noopener noreferrer" className="block text-foreground/60 hover:text-foreground transition-colors py-1">LinkedIn</a>
               </div>
               <div>
@@ -250,16 +197,12 @@ export function FooterSection() {
           </div>
         </div>
 
-        {/* Newsletter Signup */}
-        <div className="py-10 border-t border-foreground/10">
-          <div className="max-w-md mx-auto lg:mx-0">
-            <h4 className="text-sm font-medium mb-2 text-center lg:text-left">Get Weekly Insights</h4>
-            <p className="text-xs text-muted-foreground mb-4 text-center lg:text-left">
-              AI automation tips from a TV producer who builds systems for 500+ founders.
-            </p>
-            <FooterEmailForm />
-          </div>
-        </div>
+        {/* The newsletter signup was removed on 2026-09-07. It lived here, in
+            the shared footer, which is why it appeared on /contact, /about,
+            /credits, /speaking, /who-is-jotham-hall and /jotham-hall at once.
+            Success Upgrade is not a newsletter, and the footer's job is to
+            offer a next step rather than ask for a subscription. The email
+            capture infrastructure it wrote to is untouched. */}
 
         {/* Bottom Bar */}
         <div className="py-8 border-t border-foreground/10 flex flex-col md:flex-row items-center justify-center lg:justify-between gap-4 text-center">
