@@ -146,6 +146,8 @@ async function fieldIds(): Promise<Map<string, string>> {
 /* ─────────────────────────── contacts ─────────────────────────── */
 
 export type UpsertContactInput = {
+  /** Drives the original and latest attribution fields. Omit and they are untouched. */
+  source?: string
   brand: Brand
   email: string
   name?: string
@@ -169,12 +171,75 @@ function splitName(name?: string) {
  * an email GHL already holds and a returning customer is not an error worth
  * branching on at every call site.
  */
+/**
+ * Existing custom field values for one contact, keyed by field NAME.
+ *
+ * Needed for write-once attribution: you cannot honour "never overwrite the
+ * original" without first knowing whether an original is already there.
+ * Returns an empty map on any failure, which makes the caller treat the contact
+ * as new. That direction is safe: it writes an original that may already match,
+ * rather than skipping one that was missing.
+ */
+async function existingFields(email: string): Promise<Map<string, string>> {
+  const { locationId } = config()
+  const out = new Map<string, string>()
+  try {
+    const res = await call<{
+      contacts?: { customFields?: { id: string; value?: string }[] }[]
+    }>(
+      "GET",
+      `/contacts/?locationId=${locationId}&query=${encodeURIComponent(email)}&limit=1`,
+      undefined,
+      "existingFields",
+    )
+    const fields = res.contacts?.[0]?.customFields ?? []
+    const byId = new Map([...(await fieldIds())].map(([name, id]) => [id, name]))
+    for (const f of fields) {
+      const name = byId.get(f.id)
+      if (name && f.value) out.set(name, String(f.value))
+    }
+  } catch {
+    /* treated as a new contact, see above */
+  }
+  return out
+}
+
 export async function upsertContact(input: UpsertContactInput): Promise<string> {
   const { locationId } = config()
   if (!locationId) throw new GhlError("GHL_LOCATION_ID is not set", undefined, "upsertContact")
 
+  /*
+    ATTRIBUTION, AND WHY IT IS HERE RATHER THAN AT THE CALL SITES.
+
+    The scalar fields on a contact are last-write-wins, so a Jotham Hall
+    interaction overwrote how a Success Upgrade lead originally arrived. Fixing
+    that per call site would mean every future form has to remember the rule.
+    Doing it in the one function that writes contacts means every path gets it:
+    forms, quiz, chat and bookings.
+
+    original_* is WRITE ONCE. Once populated it is never touched again, because
+    the question it answers, where did this human first enter, has exactly one
+    true answer and a later touch is not new evidence about it.
+
+    latest_* updates every time. Tags remain the cumulative history and are
+    written by the caller.
+
+    Fields that do not exist yet in GHL are skipped with a warning by the loop
+    below, so this is safe to ship before Instinct provisions them.
+  */
+  const prior = input.source ? await existingFields(input.email) : new Map<string, string>()
+  const attribution: Record<string, string | undefined> = input.source
+    ? {
+        latest_source: input.source,
+        latest_brand: input.brand,
+        ...(prior.get("original_source") ? {} : { original_source: input.source }),
+        ...(prior.get("original_brand") ? {} : { original_brand: input.brand }),
+      }
+    : {}
+
   const merged: Record<string, string | number | undefined> = {
     brand: input.brand,
+    ...attribution,
     ...(input.customFields ?? {}),
   }
   const ids = await fieldIds()

@@ -136,6 +136,23 @@ export function CalendlyModal({ isOpen, onClose }: CalendlyModalProps) {
         <div className="flex-1 overflow-y-auto">
           <InlineWidget
             url="https://calendly.com/bigfilmsonly/30min"
+            /*
+              WHICH BRAND THIS BOOKING CAME FROM.
+
+              Both sites point at the same Calendly event, so the booking email
+              otherwise cannot say which brand produced it, and the booking
+              processor refuses to advance an opportunity it cannot attribute
+              rather than guessing at somebody's live deal.
+
+              Sent two ways on purpose. The UTM is the clean mechanism and is
+              what a webhook would carry, but UTMs are not reliably printed in
+              the host notification email, which is the only channel available
+              on the free plan. The custom answer IS printed there, so it is the
+              one the parser can read today. a1 needs a custom question on the
+              event; until it exists Calendly ignores the prefill harmlessly.
+            */
+            utm={{ utmSource: "jothamhall", utmMedium: "booking-modal" }}
+            prefill={{ customAnswers: { a1: "jothamhall" } }}
             styles={{ height: "100%", minHeight: "700px" }}
             pageSettings={{
               backgroundColor: "0d0d0d",
