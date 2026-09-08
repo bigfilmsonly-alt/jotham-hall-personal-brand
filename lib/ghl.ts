@@ -250,6 +250,46 @@ export type CreateOpportunityInput = {
   monetaryValue?: number
 }
 
+/**
+ * An existing OPEN opportunity for this contact IN ONE PIPELINE.
+ *
+ * SCOPED TO THE PIPELINE ON PURPOSE, and this is the whole design decision.
+ *
+ * The rule is one human = one contact, one active buying intent = one open
+ * opportunity. Contact identity is the human; opportunity identity is the
+ * intent. So the dedupe key has to be the intent, never the contact alone: a
+ * global "one open opportunity per person" would collapse a genuine first build
+ * enquiry and a genuine done-for-you enquiry into one deal and lose a real sale.
+ *
+ * The pipeline is the only thing in this system that actually varies with the
+ * offer, so it is the intent key. `offer` looks like the right field and is not:
+ * every call site that sets it sends the single value "done-for-you", including
+ * jothamhall.com's newsletter signups, and the quiz, newsletter and chat paths
+ * set no offer at all. Keying on it would be keying on a constant.
+ *
+ * Returns null when the search itself fails, which deliberately falls through to
+ * creating one. A CRM lookup that errors must not swallow a real lead.
+ */
+async function findOpenOpportunityInPipeline(
+  contactId: string,
+  pipelineId: string,
+): Promise<string | null> {
+  const { locationId } = config()
+  try {
+    const res = await call<{ opportunities?: { id: string; status: string; pipelineId?: string }[] }>(
+      "GET",
+      `/opportunities/search?location_id=${locationId}&contact_id=${contactId}&status=open`,
+      undefined,
+      "findOpenOpportunityInPipeline",
+    )
+    return (
+      res.opportunities?.find((o) => o.status === "open" && o.pipelineId === pipelineId)?.id ?? null
+    )
+  } catch {
+    return null
+  }
+}
+
 export async function createOpportunity(input: CreateOpportunityInput): Promise<string> {
   const { locationId } = config()
   const wanted = PIPELINE_FOR[input.brand]
@@ -262,6 +302,15 @@ export async function createOpportunity(input: CreateOpportunityInput): Promise<
 
   const stage = (p.stages ?? []).find((s) => s.name === stageName)
   if (!stage) throw new GhlError(`stage not found: ${stageName} in ${pipelineName}`, undefined, "createOpportunity")
+
+  /*
+    Same person, same intent, already has a live deal here. Return it rather than
+    opening a second, and leave its stage alone: it may have been advanced past
+    the first stage by a human, and dragging it back to New Lead because someone
+    filled in another form would undo real sales work.
+  */
+  const existing = await findOpenOpportunityInPipeline(input.contactId, p.id)
+  if (existing) return existing
 
   const res = await call<{ opportunity?: { id?: string }; id?: string }>(
     "POST",
