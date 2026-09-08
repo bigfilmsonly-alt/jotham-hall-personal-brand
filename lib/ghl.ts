@@ -138,7 +138,31 @@ async function fieldIds(): Promise<Map<string, string>> {
     undefined,
     "customFields",
   )
-  const byName = new Map((res.customFields ?? []).map((f) => [f.name, f.id]))
+  /*
+    Resolved loosely, and deliberately.
+
+    A GHL custom field has BOTH a display name ("Original Source") and a
+    fieldKey ("contact.original_source"), and which one you get back is not
+    something this code should have to guess. Matching the display name exactly,
+    as this did, means a field created with a capital letter or a space is never
+    found: the loop in upsertContact warns and skips, the write silently does
+    nothing, and the attribution looks implemented while recording nothing. That
+    is the same silent failure that already cost this codebase a Supabase
+    outage and three weeks of unsent email, so it is not a hypothetical.
+
+    Both spellings are registered, normalised to lowercase with the contact.
+    prefix dropped and spaces treated as underscores. Nothing is hardcoded: the
+    ids still come from the API, so a field renamed in GHL keeps working.
+  */
+  const norm = (v: string) =>
+    v.trim().toLowerCase().replace(/^contact\./, "").replace(/[\s-]+/g, "_")
+
+  const byName = new Map<string, string>()
+  for (const f of res.customFields ?? []) {
+    for (const alias of [f.name, (f as { fieldKey?: string }).fieldKey]) {
+      if (alias) byName.set(norm(alias), f.id)
+    }
+  }
   fieldCache = { at: Date.now(), byName }
   return byName
 }
@@ -246,7 +270,7 @@ export async function upsertContact(input: UpsertContactInput): Promise<string> 
   const custom: { id: string; value: string }[] = []
   for (const [name, value] of Object.entries(merged)) {
     if (value === undefined || value === "") continue
-    const id = ids.get(name)
+    const id = ids.get(name.trim().toLowerCase().replace(/^contact\./, "").replace(/[\s-]+/g, "_"))
     if (!id) {
       /* Not provisioned. Skipped loudly rather than sent, because GHL would
          accept the write and drop it, and a field that silently never fills is
