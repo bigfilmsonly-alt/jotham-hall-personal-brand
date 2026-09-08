@@ -290,6 +290,68 @@ async function findOpenOpportunityInPipeline(
   }
 }
 
+/** One open opportunity for this contact in a pipeline, with its current stage. */
+export async function openOpportunityIn(
+  contactId: string,
+  pipelineId: string,
+): Promise<{ id: string; pipelineStageId?: string } | null> {
+  const { locationId } = config()
+  try {
+    const res = await call<{
+      opportunities?: { id: string; status: string; pipelineId?: string; pipelineStageId?: string }[]
+    }>(
+      "GET",
+      `/opportunities/search?location_id=${locationId}&contact_id=${contactId}&status=open`,
+      undefined,
+      "openOpportunityIn",
+    )
+    const found = res.opportunities?.find((o) => o.status === "open" && o.pipelineId === pipelineId)
+    return found ? { id: found.id, pipelineStageId: found.pipelineStageId } : null
+  } catch {
+    return null
+  }
+}
+
+/** Look a pipeline up by name, with its stages, so callers can resolve stage ids. */
+export async function pipelineByName(
+  name: string,
+): Promise<{ id: string; stages: { id: string; name: string }[] } | null> {
+  const p = (await pipelines()).find((x) => x.name === name)
+  return p ? { id: p.id, stages: (p.stages ?? []).map((s) => ({ id: s.id, name: s.name })) } : null
+}
+
+/**
+ * Move one opportunity to a stage. Never backwards, never onto a closed deal.
+ *
+ * The guard is the point. A booking arriving late, or the same notification
+ * processed twice, must not drag a deal that a human has already advanced back
+ * to an earlier stage. Stage order is taken from the pipeline itself rather
+ * than hardcoded, so renaming or reordering stages in GHL does not silently
+ * invert this rule.
+ */
+export async function moveOpportunityStage(
+  opportunityId: string,
+  pipelineId: string,
+  toStageId: string,
+  fromStageId?: string,
+): Promise<"moved" | "already-there" | "not-backwards"> {
+  if (fromStageId === toStageId) return "already-there"
+
+  const p = (await pipelines()).find((x) => x.id === pipelineId)
+  const order = (p?.stages ?? []).map((s) => s.id)
+  const from = fromStageId ? order.indexOf(fromStageId) : -1
+  const to = order.indexOf(toStageId)
+  if (from > -1 && to > -1 && to < from) return "not-backwards"
+
+  await call(
+    "PUT",
+    `/opportunities/${opportunityId}`,
+    { pipelineId, pipelineStageId: toStageId },
+    "moveOpportunityStage",
+  )
+  return "moved"
+}
+
 export async function createOpportunity(input: CreateOpportunityInput): Promise<string> {
   const { locationId } = config()
   const wanted = PIPELINE_FOR[input.brand]
