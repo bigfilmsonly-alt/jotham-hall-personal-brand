@@ -27,6 +27,7 @@ export type CanonicalEvent =
 type AnalyticsWindow = {
   dataLayer?: Record<string, unknown>[]
   fbq?: (...args: unknown[]) => void
+  gtag?: (...args: unknown[]) => void
 }
 
 const fired = new Set<string>()
@@ -52,6 +53,17 @@ export function trackCanonical(
   } catch {
     /* analytics must never take a conversion down with it */
   }
+  /*
+    GA4 directly. A dataLayer push only reaches GA4 through a GTM tag wired to
+    that exact event name, and none exists for these, which is why Meta was
+    receiving every canonical event and GA4 was receiving none.
+  */
+  try {
+    w.gtag?.("event", event, payload)
+  } catch {
+    /* analytics must never take a conversion down with it */
+  }
+
   try {
     /* trackCustom, not a Meta standard event: these are our own names and the
        standard ones assert things we are not claiming. */
