@@ -13,6 +13,7 @@ import {
   ArrowRight,
 } from "lucide-react";
 import { CalendlyModal } from "../calendly-modal";
+import { ventures } from "@/lib/ventures";
 
 interface SubMenuItem {
   name: string;
@@ -40,10 +41,10 @@ const tabs: Tab[] = [
     { name: "Systems Architecture", href: "/services/systems-architecture", desc: "Build connected business systems" },
   ]},
   { name: "Ventures", href: "/ventures", icon: Rocket, submenu: [
-    { name: "Success Upgrade", href: "/ventures/success-upgrade", desc: "AI systems and implementation" },
-    { name: "Say It Build It", href: "/ventures/say-it-build-it", desc: "VibeCoding platform" },
-    { name: "SaaS Agency", href: "/ventures/saas-agency", desc: "Automation systems" },
-    { name: "Electro Hydration", href: "/ventures/alkaline-water", desc: "Wellness products" },
+    { name: "All Ventures", href: "/ventures", desc: "The full portfolio" },
+    ...ventures
+      .filter((venture) => venture.featured)
+      .map((venture) => ({ name: venture.name, href: `/ventures/${venture.slug}`, desc: venture.category })),
   ]},
   { name: "Speaking", href: "/speaking", icon: Mic },
   { name: "Contact", href: "contact-modal", icon: Phone, submenu: [

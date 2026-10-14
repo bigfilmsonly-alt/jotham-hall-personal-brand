@@ -2,163 +2,112 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { ArrowRight, ArrowUpRight } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { ArrowLeft, ArrowRight, ArrowUpRight } from "lucide-react";
 import { ContactModal } from "@/components/landing/contact-modal";
+import type { Venture } from "@/lib/ventures";
 
-interface VentureProps {
-  name: string;
-  tagline: string;
-  description: string;
-  status: string;
-  year: string;
-  website?: string;
-  features?: string[];
-  impact?: { metric: string; label: string }[];
-  role: string;
-}
+/*
+  Laid out for the 430px column that globals.css puts the whole site in from
+  768px up. Nothing here keys off viewport breakpoints: an lg: grid fires on a
+  desktop screen while the page is still phone width, which is what crushed the
+  old three column layout into overlapping text.
+*/
 
-export function VenturePageTemplate({
-  name,
-  tagline,
-  description,
-  status,
-  year,
-  website,
-  features = [],
-  impact = [],
-  role,
-}: VentureProps) {
+export function VenturePageTemplate({ venture }: { venture: Venture }) {
   const [isContactOpen, setIsContactOpen] = useState(false);
-  
-  // Ensure arrays are properly initialized
-  const safeFeatures = features ?? [];
-  const safeImpact = impact ?? [];
 
   return (
     <>
-      <div className="min-h-screen bg-background">
-        {/* Navigation */}
-        <nav className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-foreground/10">
-          <div className="max-w-[1400px] mx-auto px-6 lg:px-12 py-4 flex items-center justify-between">
-            <Link href="/" className="text-xl font-display">Jotham Hall</Link>
-            <Link href="/ventures" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+      <main className="min-h-screen bg-background pb-36">
+        <nav className="fixed top-0 left-0 right-0 z-50 bg-background/85 backdrop-blur-md border-b border-[#3D3A35]/60">
+          <div className="px-6 h-14 flex items-center justify-between">
+            <Link href="/" className="font-display text-sm tracking-[0.12em] uppercase">
+              Jotham Hall
+            </Link>
+            <Link
+              href="/ventures"
+              className="inline-flex items-center gap-1.5 text-[11px] tracking-[0.15em] uppercase text-[#8A837B] hover:text-[#FAF8F5] transition-colors"
+            >
+              <ArrowLeft className="w-3.5 h-3.5" />
               All Ventures
             </Link>
           </div>
         </nav>
 
-        {/* Hero */}
-        <section className="pt-10 pb-20 lg:pt-16 lg:pb-32 px-6 lg:px-12">
-          <div className="max-w-[1400px] mx-auto">
-            <div className="max-w-4xl mx-auto lg:mx-0 text-center lg:text-left">
-              <div className="flex flex-wrap justify-center lg:justify-start gap-3 mb-8">
-                <span className="px-3 py-1 text-xs font-mono uppercase tracking-wider border border-foreground/20">
-                  {status}
-                </span>
-                <span className="px-3 py-1 text-xs font-mono uppercase tracking-wider border border-foreground/20">
-                  Est. {year}
-                </span>
-              </div>
-              <h1 className="text-4xl sm:text-5xl lg:text-7xl font-display tracking-tight mb-6">
-                {name}
-              </h1>
-              <p className="text-2xl text-muted-foreground mb-8">
-                {tagline}
-              </p>
-              {website && (
-                <Button
-                  asChild
-                  size="lg"
-                  className="bg-foreground hover:bg-foreground/90 text-background px-8 h-14 text-base rounded-none group mt-4"
-                >
-                  <a
-                    href={website}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    Visit {name}
-                    <ArrowUpRight className="w-4 h-4 ml-2 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-                  </a>
-                </Button>
-              )}
-            </div>
-          </div>
-        </section>
-
-        {/* About */}
-        <section className="py-20 lg:py-32 px-6 lg:px-12 border-t border-foreground/10">
-          <div className="max-w-[1400px] mx-auto">
-            <div className="grid lg:grid-cols-3 gap-12">
-              <div>
-                <span className="text-sm font-mono text-muted-foreground uppercase tracking-wider">About</span>
-              </div>
-              <div className="lg:col-span-2">
-                <p className="text-xl lg:text-2xl leading-relaxed text-foreground/80">
-                  {description}
-                </p>
-                <p className="mt-8 text-muted-foreground">
-                  <span className="font-medium text-foreground">My Role:</span> {role}
-                </p>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Features */}
-        <section className="py-20 lg:py-32 px-6 lg:px-12 bg-foreground/[0.02]">
-          <div className="max-w-[1400px] mx-auto">
-            <div className="grid lg:grid-cols-3 gap-12">
-              <div>
-                <span className="text-sm font-mono text-muted-foreground uppercase tracking-wider">Key Features</span>
-              </div>
-              <div className="lg:col-span-2 grid sm:grid-cols-2 gap-6">
-                {safeFeatures.map((feature, index) => (
-                  <div key={index} className="flex gap-4">
-                    <span className="text-sm font-mono text-muted-foreground">{String(index + 1).padStart(2, '0')}</span>
-                    <p className="text-foreground/80">{feature}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Impact */}
-        <section className="py-20 lg:py-32 px-6 lg:px-12 border-t border-foreground/10">
-          <div className="max-w-[1400px] mx-auto">
-            <span className="text-sm font-mono text-muted-foreground uppercase tracking-wider block mb-12 text-center lg:text-left">
-              Impact
+        <header className="px-6 pt-28 pb-12 text-center">
+          <p className="text-[11px] tracking-[0.15em] uppercase text-[#D4A853] mb-4">{venture.category}</p>
+          <h1 className="font-display text-[1.75rem] leading-tight tracking-[0.12em] uppercase mb-4">
+            {venture.name}
+          </h1>
+          <p className="text-[#B8B0A8] leading-relaxed max-w-[320px] mx-auto">{venture.tagline}</p>
+          <div className="flex justify-center gap-2 mt-6">
+            <span className="px-3 py-1 text-[10px] tracking-[0.15em] uppercase border border-[#D4A853]/40 text-[#D4A853]">
+              {venture.status}
             </span>
-            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
-              {safeImpact.map((item, index) => (
-                <div key={index} className="text-center lg:text-left">
-                  <div className="text-4xl lg:text-5xl font-display mb-2">{item.metric}</div>
-                  <p className="text-muted-foreground">{item.label}</p>
-                </div>
+            {venture.year && (
+              <span className="px-3 py-1 text-[10px] tracking-[0.15em] uppercase border border-[#3D3A35] text-[#8A837B]">
+                Since {venture.year}
+              </span>
+            )}
+          </div>
+          {venture.links.length > 0 && (
+            <div className={`grid gap-2.5 mt-8 ${venture.links.length === 2 ? "grid-cols-2" : "grid-cols-1"}`}>
+              {venture.links.map((link, i) => (
+                <a
+                  key={link.href}
+                  href={link.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`py-3.5 px-3 text-sm font-medium tracking-wide flex items-center justify-center gap-2 transition-colors active:scale-[0.97] ${
+                    i === 0
+                      ? "bg-[#D4A853] text-[#0D0D0D] hover:bg-[#E8C97A]"
+                      : "border border-[#3D3A35] text-[#B8B0A8] hover:border-[#D4A853]/40 hover:text-[#FAF8F5]"
+                  }`}
+                >
+                  {link.label}
+                  <ArrowUpRight className="w-4 h-4 shrink-0" />
+                </a>
               ))}
             </div>
-          </div>
+          )}
+        </header>
+
+        <section className="px-6 py-12 border-t border-[#3D3A35]/60">
+          <h2 className="text-[11px] tracking-[0.15em] uppercase text-[#D4A853] mb-5">About</h2>
+          <p className="text-[1.0625rem] leading-relaxed text-[#FAF8F5]/85">{venture.description}</p>
+          <p className="mt-6 text-sm text-[#8A837B]">
+            <span className="text-[#FAF8F5]">My role:</span> {venture.role}
+          </p>
         </section>
 
-        {/* CTA */}
-        <section className="py-20 lg:py-32 px-6 lg:px-12 bg-foreground text-background">
-          <div className="max-w-[1400px] mx-auto text-center">
-            <h2 className="text-3xl lg:text-5xl font-display mb-6">Interested in collaborating?</h2>
-            <p className="text-lg text-background/70 mb-8 max-w-xl mx-auto">
-              I am always open to strategic partnerships, investments, and collaboration opportunities.
-            </p>
-            <Button
-              size="lg"
-              onClick={() => setIsContactOpen(true)}
-              className="bg-background hover:bg-background/90 text-foreground px-8 h-14 text-base rounded-none"
-            >
-              Get in Touch
-              <ArrowRight className="w-4 h-4 ml-2" />
-            </Button>
-          </div>
+        {venture.features.length > 0 && (
+          <section className="px-6 py-12 border-t border-[#3D3A35]/60">
+            <h2 className="text-[11px] tracking-[0.15em] uppercase text-[#D4A853] mb-6">What It Does</h2>
+            <ol className="space-y-5">
+              {venture.features.map((feature, i) => (
+                <li key={feature} className="flex gap-4">
+                  <span className="font-mono text-xs text-[#D4A853]/70 pt-1">{String(i + 1).padStart(2, "0")}</span>
+                  <p className="text-[#B8B0A8] leading-relaxed">{feature}</p>
+                </li>
+              ))}
+            </ol>
+          </section>
+        )}
+
+        <section className="mx-6 mt-4 px-6 py-10 bg-[#1A1A1A] border border-[#3D3A35] text-center">
+          <h2 className="font-display text-lg tracking-[0.12em] uppercase mb-3">Build With Me</h2>
+          <p className="text-sm text-[#B8B0A8] leading-relaxed mb-7 max-w-[280px] mx-auto">
+            Always open to partnerships, investment, and collaboration.
+          </p>
+          <button
+            onClick={() => setIsContactOpen(true)}
+            className="w-full py-3.5 bg-[#D4A853] text-[#0D0D0D] text-sm font-medium tracking-wide hover:bg-[#E8C97A] transition-colors flex items-center justify-center gap-2 active:scale-[0.97]"
+          >
+            Get in Touch
+            <ArrowRight className="w-4 h-4" />
+          </button>
         </section>
-      </div>
+      </main>
 
       <ContactModal isOpen={isContactOpen} onClose={() => setIsContactOpen(false)} />
     </>
