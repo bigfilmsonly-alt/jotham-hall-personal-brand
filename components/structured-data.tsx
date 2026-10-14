@@ -25,9 +25,9 @@ export function StructuredData() {
         "url": "https://jothamhall.com",
         "image": {
           "@type": "ImageObject",
-          "url": "https://www.successupgrade.ai/images/profile.jpeg",
-          "width": 400,
-          "height": 400
+          "url": "https://jothamhall.com/jotham-hall.jpg",
+          "width": 1024,
+          "height": 1024
         },
         "description": "Television producer turned AI systems architect. 15 years producing reality TV for Hallmark, Food Network, VH1, MTV, NBC, and USA Network. Pioneer of VibeCoding and founder of Success Upgrade.",
         "birthDate": "1984-09-13",

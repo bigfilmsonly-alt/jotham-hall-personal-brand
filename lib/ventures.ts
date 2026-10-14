@@ -15,11 +15,11 @@
   `links` is only for places that refuse to be framed by anyone, like the App
   Store, and those open normally.
 
-  ORDER IS THE PITCH. The list runs from what converts a visitor best to least:
-  shipped, polished products someone can try right now first (Verza TV and
-  Peaceful Healing Rx lead, by Jo's call), then Jo's own platforms and
-  businesses, then agencies, then early or niche work. The first five are
-  `featured` and carry a phone screenshot.
+  ORDER IS THE PITCH, and it is Jo's list (2026-10-14): Verza TV, Peaceful
+  Healing Rx, Evolve Longevity, Lumi, MediaMD (Jo calls it Med Spa Media; its
+  repo is medspamedia) and GrowDoc are `featured`, each with a phone screenshot
+  from /public/ventures. AI Army, CRNC and WebsiteWave come next. Jo said the
+  order below that does not matter.
 */
 
 export type Venture = {
@@ -125,6 +125,94 @@ export const ventures: Venture[] = [
     preview: "/ventures/lumi.jpg",
   },
   {
+    slug: "mediamd",
+    name: "MediaMD",
+    category: "Healthcare marketing",
+    tagline: "Patient apps and AI search for medical practices.",
+    status: "Live",
+    role: "Creative Director",
+    description:
+      "MediaMD helps medical practices get found in search and AI answers, and gives their patients one branded app to book visits, shop, collect rewards, and refer friends.",
+    features: [
+      "Custom patient apps built around each practice's brand",
+      "SEO and AI search visibility",
+      "Booking, rewards, and referrals in one place",
+      "For medical, dental, aesthetics, dermatology, and longevity practices",
+    ],
+    site: "https://mediamd.com/",
+    visitLabel: "Visit MediaMD",
+    featured: true,
+    preview: "/ventures/mediamd.jpg",
+  },
+  {
+    slug: "growdoc",
+    name: "GrowDoc",
+    category: "Healthcare growth",
+    tagline: "The growth partner for medical practices.",
+    status: "Live",
+    description:
+      "GrowDoc helps medical practices bring in more patients, with paid ads, search, websites, and apps handled by one team.",
+    features: [
+      "Paid ads on Facebook, Instagram, TikTok, and Google",
+      "Search visibility that brings patients without ad spend",
+      "Patient apps and software",
+      "For med spas, longevity clinics, plastic surgeons, and chiropractors",
+    ],
+    site: "https://www.growdoc.com/",
+    visitLabel: "Visit GrowDoc",
+    featured: true,
+    preview: "/ventures/growdoc.jpg",
+  },
+  {
+    slug: "ai-army",
+    name: "AI Army",
+    category: "AI training",
+    tagline: "Practical AI for entrepreneurs.",
+    status: "Waitlist Open",
+    role: "Founder",
+    description:
+      "AI Army is training, community, and expert help for entrepreneurs who want to build products, automate their work, and grow with AI. Training and community access open soon, and the waitlist is open now.",
+    features: [
+      "Practical AI training for business owners",
+      "A community of entrepreneurs building with AI",
+      "Expert help on business projects",
+    ],
+    site: "https://www.aiarmy.com/",
+    visitLabel: "Join the Waitlist",
+  },
+  {
+    slug: "crnc",
+    name: "CRNC",
+    category: "Payments",
+    tagline: "Pay. Earn. Own.",
+    status: "Private Beta",
+    description:
+      "CRNC is a payments platform where transactions cost almost nothing and settle in seconds. Customers earn rewards on every payment, and creators and customers share in the revenue.",
+    features: [
+      "Payments that settle in seconds",
+      "Rewards earned on every transaction",
+      "Revenue shared between creators and customers",
+    ],
+    site: "https://crnc.ai/",
+    visitLabel: "Visit CRNC",
+  },
+  {
+    slug: "websitewave",
+    name: "WebsiteWave",
+    category: "Web agency",
+    tagline: "Websites that rank and convert.",
+    status: "Live",
+    description:
+      "WebsiteWave builds custom websites designed to rank in local search and turn visitors into customers, along with mobile apps for the businesses behind them.",
+    features: [
+      "Custom website design",
+      "Local search pages for every service and city",
+      "Mobile app development",
+    ],
+    site: "https://www.websitewave.com/",
+    visitLabel: "Visit WebsiteWave",
+  },
+  {
     slug: "the-boat-goat",
     name: "The Boat Goat",
     category: "Yacht charters",
@@ -140,8 +228,6 @@ export const ventures: Venture[] = [
     ],
     site: "https://www.theboatgoat.co/",
     visitLabel: "Visit The Boat Goat",
-    featured: true,
-    preview: "/ventures/the-boat-goat.jpg",
   },
   {
     slug: "success-upgrade",
@@ -180,22 +266,6 @@ export const ventures: Venture[] = [
     visitLabel: "Visit BookTalent",
   },
   {
-    slug: "crnc",
-    name: "CRNC",
-    category: "Payments",
-    tagline: "Pay. Earn. Own.",
-    status: "Private Beta",
-    description:
-      "CRNC is a payments platform where transactions cost almost nothing and settle in seconds. Customers earn rewards on every payment, and creators and customers share in the revenue.",
-    features: [
-      "Payments that settle in seconds",
-      "Rewards earned on every transaction",
-      "Revenue shared between creators and customers",
-    ],
-    site: "https://crnc.ai/",
-    visitLabel: "Visit CRNC",
-  },
-  {
     slug: "big-films-only",
     name: "Big Films Only",
     category: "Production",
@@ -213,24 +283,6 @@ export const ventures: Venture[] = [
     ],
     site: "https://www.bigfilmsonly.com/",
     visitLabel: "Visit Big Films Only",
-  },
-  {
-    slug: "mediamd",
-    name: "MediaMD",
-    category: "Healthcare marketing",
-    tagline: "Patient apps and AI search for medical practices.",
-    status: "Live",
-    role: "Creative Director",
-    description:
-      "MediaMD helps medical practices get found in search and AI answers, and gives their patients one branded app to book visits, shop, collect rewards, and refer friends.",
-    features: [
-      "Custom patient apps built around each practice's brand",
-      "SEO and AI search visibility",
-      "Booking, rewards, and referrals in one place",
-      "For medical, dental, aesthetics, dermatology, and longevity practices",
-    ],
-    site: "https://mediamd.com/",
-    visitLabel: "Visit MediaMD",
   },
   {
     slug: "codevibe",
@@ -267,23 +319,6 @@ export const ventures: Venture[] = [
     visitLabel: "Start the Free Course",
   },
   {
-    slug: "ai-army",
-    name: "AI Army",
-    category: "AI training",
-    tagline: "Practical AI for entrepreneurs.",
-    status: "Waitlist Open",
-    role: "Founder",
-    description:
-      "AI Army is training, community, and expert help for entrepreneurs who want to build products, automate their work, and grow with AI. Training and community access open soon, and the waitlist is open now.",
-    features: [
-      "Practical AI training for business owners",
-      "A community of entrepreneurs building with AI",
-      "Expert help on business projects",
-    ],
-    site: "https://www.aiarmy.com/",
-    visitLabel: "Join the Waitlist",
-  },
-  {
     slug: "voltage-capital",
     name: "Voltage Capital",
     category: "Private investment",
@@ -299,39 +334,6 @@ export const ventures: Venture[] = [
     ],
     site: "https://www.voltage-cap.com/",
     visitLabel: "Visit Voltage Capital",
-  },
-  {
-    slug: "growdoc",
-    name: "GrowDoc",
-    category: "Healthcare growth",
-    tagline: "The growth partner for medical practices.",
-    status: "Live",
-    description:
-      "GrowDoc helps medical practices bring in more patients, with paid ads, search, websites, and apps handled by one team.",
-    features: [
-      "Paid ads on Facebook, Instagram, TikTok, and Google",
-      "Search visibility that brings patients without ad spend",
-      "Patient apps and software",
-      "For med spas, longevity clinics, plastic surgeons, and chiropractors",
-    ],
-    site: "https://www.growdoc.com/",
-    visitLabel: "Visit GrowDoc",
-  },
-  {
-    slug: "websitewave",
-    name: "WebsiteWave",
-    category: "Web agency",
-    tagline: "Websites that rank and convert.",
-    status: "Live",
-    description:
-      "WebsiteWave builds custom websites designed to rank in local search and turn visitors into customers, along with mobile apps for the businesses behind them.",
-    features: [
-      "Custom website design",
-      "Local search pages for every service and city",
-      "Mobile app development",
-    ],
-    site: "https://www.websitewave.com/",
-    visitLabel: "Visit WebsiteWave",
   },
   {
     slug: "saas-agency",
