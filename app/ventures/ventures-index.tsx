@@ -2,11 +2,15 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { ContactModal } from "@/components/landing/contact-modal";
-import { ventureGroups, ventures } from "@/lib/ventures";
+import { ventures } from "@/lib/ventures";
 
 // Phone width at every screen size (see globals.css), so no lg: layouts here.
+
+const featured = ventures.filter((venture) => venture.featured);
+const more = ventures.filter((venture) => !venture.featured);
 
 // Success Upgrade opens inside this site like every venture. LinkedIn and
 // Instagram refuse to be framed by anyone, so those two open in a new tab.
@@ -44,50 +48,103 @@ export function VenturesIndex() {
           </p>
         </header>
 
-        {ventureGroups.map((group) => {
-          const members = ventures.filter((venture) => venture.group === group);
-          if (members.length === 0) return null;
-          return (
-            <section key={group} className="px-6 pb-10">
-              <h2 className="flex items-center gap-3 text-[11px] tracking-[0.15em] uppercase text-[#8A837B] mb-4">
-                {group}
-                <span className="flex-1 h-px bg-[#3D3A35]/60" />
-              </h2>
-              <ul className="space-y-2.5">
-                {members.map((venture) => (
-                  <li
-                    key={venture.slug}
-                    className="bg-[#1A1A1A] border border-[#3D3A35] hover:border-[#D4A853]/40 transition-colors"
-                  >
-                    {/* Two links side by side, never one inside the other: the card
-                        reads about the venture, Visit opens its site in this site. */}
-                    <Link href={`/ventures/${venture.slug}`} className="block px-5 pt-5 pb-3 active:opacity-80">
-                      <h3 className="font-display text-[0.95rem] tracking-[0.12em] uppercase text-[#FAF8F5]">
-                        {venture.name}
-                      </h3>
-                      <p className="text-sm text-[#B8B0A8] leading-relaxed mt-1.5">{venture.tagline}</p>
+        {/*
+          Ordered to convert, not by ownership: lib/ventures.ts lists the strongest
+          proof first. Featured cards carry a phone screenshot and two equal
+          actions; the rest stay compact so the page does not run long.
+        */}
+        <section className="px-6 pb-10">
+          <h2 className="flex items-center gap-3 text-[11px] tracking-[0.15em] uppercase text-[#8A837B] mb-4">
+            Featured
+            <span className="flex-1 h-px bg-[#3D3A35]/60" />
+          </h2>
+          <ul className="space-y-3">
+            {featured.map((venture) => (
+              <li
+                key={venture.slug}
+                className="bg-[#1A1A1A] border border-[#3D3A35] hover:border-[#D4A853]/40 transition-colors"
+              >
+                <div className="flex gap-4 p-5">
+                  <Link href={`/ventures/${venture.slug}`} className="min-w-0 flex-1 flex flex-col active:opacity-80">
+                    <p className="text-[10px] tracking-[0.15em] uppercase text-[#D4A853]/80 mb-2">{venture.category}</p>
+                    <h3 className="font-display text-[1.05rem] leading-snug tracking-[0.12em] uppercase text-balance text-[#FAF8F5]">
+                      {venture.name}
+                    </h3>
+                    <p className="text-sm text-[#B8B0A8] leading-relaxed mt-2">{venture.tagline}</p>
+                    <span className="mt-auto pt-4">
+                      <span className="inline-block px-2 py-0.5 text-[10px] tracking-[0.15em] uppercase border border-[#D4A853]/40 text-[#D4A853]">
+                        {venture.status}
+                      </span>
+                    </span>
+                  </Link>
+                  {venture.preview && (
+                    <Link
+                      href={`/ventures/${venture.slug}/site`}
+                      aria-label={`Open ${venture.name}`}
+                      className="relative shrink-0 w-[104px] aspect-[390/844] overflow-hidden rounded-[16px] border border-[#3D3A35] bg-black shadow-[0_10px_30px_rgba(0,0,0,0.5)] active:scale-[0.98] transition-transform"
+                    >
+                      <Image src={venture.preview} alt="" fill sizes="104px" className="object-cover object-top" />
                     </Link>
-                    <div className="flex items-center justify-between gap-3 pl-5 pr-3 pb-2">
-                      <div className="flex items-center gap-3 min-w-0">
-                        <span className="shrink-0 px-2 py-0.5 text-[10px] tracking-[0.15em] uppercase border border-[#D4A853]/40 text-[#D4A853]">
-                          {venture.status}
-                        </span>
-                        <span className="truncate text-[10px] tracking-[0.15em] uppercase text-[#5C5750]">{venture.category}</span>
-                      </div>
-                      <Link
-                        href={`/ventures/${venture.slug}/site`}
-                        className="group shrink-0 inline-flex items-center gap-1.5 min-h-[44px] px-2 text-[11px] font-medium tracking-[0.15em] uppercase text-[#D4A853] hover:text-[#E8C97A] transition-colors"
-                      >
-                        Visit
-                        <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" />
-                      </Link>
-                    </div>
-                  </li>
-                ))}
-              </ul>
-            </section>
-          );
-        })}
+                  )}
+                </div>
+                <div className="grid grid-cols-2 border-t border-[#3D3A35]/60">
+                  <Link
+                    href={`/ventures/${venture.slug}`}
+                    className="min-h-[44px] flex items-center justify-center border-r border-[#3D3A35]/60 text-[11px] tracking-[0.15em] uppercase text-[#8A837B] hover:text-[#FAF8F5] transition-colors"
+                  >
+                    About
+                  </Link>
+                  <Link
+                    href={`/ventures/${venture.slug}/site`}
+                    className="group min-h-[44px] flex items-center justify-center gap-1.5 text-[11px] font-medium tracking-[0.15em] uppercase text-[#D4A853] hover:text-[#E8C97A] transition-colors"
+                  >
+                    Visit
+                    <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" />
+                  </Link>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </section>
+
+        <section className="px-6 pb-10">
+          <h2 className="flex items-center gap-3 text-[11px] tracking-[0.15em] uppercase text-[#8A837B] mb-4">
+            More Ventures
+            <span className="flex-1 h-px bg-[#3D3A35]/60" />
+          </h2>
+          <ul className="space-y-2.5">
+            {more.map((venture) => (
+              <li
+                key={venture.slug}
+                className="bg-[#1A1A1A] border border-[#3D3A35] hover:border-[#D4A853]/40 transition-colors"
+              >
+                {/* Two links side by side, never one inside the other: the card
+                    reads about the venture, Visit opens its site in this site. */}
+                <Link href={`/ventures/${venture.slug}`} className="block px-5 pt-5 pb-3 active:opacity-80">
+                  <h3 className="font-display text-[0.95rem] tracking-[0.12em] uppercase text-balance text-[#FAF8F5]">
+                    {venture.name}
+                  </h3>
+                  <p className="text-sm text-[#B8B0A8] leading-relaxed mt-1.5">{venture.tagline}</p>
+                </Link>
+                <div className="flex items-center justify-between gap-3 pl-5 pr-3 pb-2">
+                  <div className="flex items-center gap-3 min-w-0">
+                    <span className="shrink-0 px-2 py-0.5 text-[10px] tracking-[0.15em] uppercase border border-[#D4A853]/40 text-[#D4A853]">
+                      {venture.status}
+                    </span>
+                    <span className="truncate text-[10px] tracking-[0.15em] uppercase text-[#5C5750]">{venture.category}</span>
+                  </div>
+                  <Link
+                    href={`/ventures/${venture.slug}/site`}
+                    className="group shrink-0 inline-flex items-center gap-1.5 min-h-[44px] px-2 text-[11px] font-medium tracking-[0.15em] uppercase text-[#D4A853] hover:text-[#E8C97A] transition-colors"
+                  >
+                    Visit
+                    <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" />
+                  </Link>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </section>
 
         <section className="px-6 pb-10">
           <h2 className="flex items-center gap-3 text-[11px] tracking-[0.15em] uppercase text-[#8A837B] mb-4">

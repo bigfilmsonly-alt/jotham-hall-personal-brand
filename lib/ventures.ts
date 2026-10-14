@@ -14,14 +14,17 @@
   venture needs the same header on its own site before its viewer can load.
   `links` is only for places that refuse to be framed by anyone, like the App
   Store, and those open normally.
-*/
 
-export const ventureGroups = ["Founded", "Built With Partners"] as const;
+  ORDER IS THE PITCH. The list runs from what converts a visitor best to least:
+  shipped, polished products someone can try right now first (Verza TV and
+  Peaceful Healing Rx lead, by Jo's call), then Jo's own platforms and
+  businesses, then agencies, then early or niche work. The first five are
+  `featured` and carry a phone screenshot.
+*/
 
 export type Venture = {
   slug: string;
   name: string;
-  group: (typeof ventureGroups)[number];
   category: string;
   tagline: string;
   status: string;
@@ -32,13 +35,117 @@ export type Venture = {
   site: string;
   visitLabel: string;
   links?: { label: string; href: string }[];
+  // Top of the page, with a phone screenshot of the site from /public/ventures.
+  featured?: boolean;
+  preview?: string;
 };
 
 export const ventures: Venture[] = [
   {
+    slug: "verza-tv",
+    name: "Verza TV",
+    category: "Streaming",
+    tagline: "Short vertical dramas, reality, and music, made for your phone.",
+    status: "On the App Store",
+    year: "2025",
+    role: "Built the website and iPhone app, and ships its releases",
+    description:
+      "Verza TV is a streaming service for short vertical series, founded by Alan Mruvka. Viewers watch dramas, reality, anime, and music on the web and in the iPhone app.",
+    features: [
+      "Vertical episodes made for watching on a phone",
+      "Drama, reality, anime, music, and Spanish language collections",
+      "Streams on the web and in the iPhone app",
+    ],
+    site: "https://www.verzatv.com/",
+    visitLabel: "Watch Verza TV",
+    // Apple refuses to be framed by any site, so the store link opens normally.
+    links: [{ label: "App Store", href: "https://apps.apple.com/us/app/verza-tv-vertical-drama/id6752884623" }],
+    featured: true,
+    preview: "/ventures/verza-tv.jpg",
+  },
+  {
+    slug: "peaceful-healing-rx",
+    name: "Peaceful Healing Rx",
+    category: "Patient app",
+    tagline: "Understand every word your doctor says.",
+    status: "Live",
+    role: "Built the app",
+    description:
+      "Peaceful Healing Rx is a free app that helps patients, families, and caregivers understand their care in their own language. It interprets what was said, offers ASL by video, and explains visits, bills, and medications in plain words.",
+    features: [
+      "Interpreting in the patient's language, or ASL by video",
+      "Visit summaries with clear next steps",
+      "Insurance bills and denials explained in plain words",
+      "A medication tracker",
+      "Free, with no account, and notes that stay on the device",
+    ],
+    site: "https://peacefulhealingrx.com/",
+    visitLabel: "Visit Peaceful Healing Rx",
+    featured: true,
+    preview: "/ventures/peaceful-healing-rx.jpg",
+  },
+  {
+    slug: "evolve-longevity",
+    name: "Evolve Longevity",
+    category: "Longevity clinic",
+    tagline: "A longevity and recovery clinic in Miami Beach.",
+    status: "Live",
+    role: "Strategic partner. Built the website and the iPhone app",
+    description:
+      "Evolve Longevity is a longevity and recovery clinic in Miami Beach, founded by Connor Wade. I am a strategic partner, and I built the clinic's website and its iPhone app, which is now in private beta.",
+    features: [
+      "Clinic website with treatment pages and consultation booking",
+      "An iPhone app for clients, now in private beta",
+      "Content and growth strategy",
+    ],
+    site: "https://www.evolvelongevity.co/",
+    visitLabel: "Visit Evolve Longevity",
+    featured: true,
+    preview: "/ventures/evolve-longevity.jpg",
+  },
+  {
+    slug: "lumi",
+    name: "Lumi",
+    category: "Med spa app",
+    tagline: "A white label app for luxury med spas.",
+    status: "Live Demo",
+    role: "Founder",
+    description:
+      "Lumi gives a med spa its own branded app for booking, a skincare shop, rewards, and an assistant that answers client questions. The live demo runs as a Miami med spa.",
+    features: [
+      "Treatment booking",
+      "A skincare shop inside the app",
+      "Rewards on every visit",
+      "An assistant for client questions",
+      "Each practice's own brand",
+    ],
+    site: "https://builtbyjothamhall.vercel.app/",
+    visitLabel: "Open the Demo",
+    featured: true,
+    preview: "/ventures/lumi.jpg",
+  },
+  {
+    slug: "the-boat-goat",
+    name: "The Boat Goat",
+    category: "Yacht charters",
+    tagline: "Luxury yacht charters in Miami.",
+    status: "Live",
+    role: "Built the website and booking flow",
+    description:
+      "The Boat Goat is Lex Lindquist's Miami yacht charter company. Guests browse boats by size and budget, then book directly with Lex by text, call, or a short request form.",
+    features: [
+      "Boats grouped by size, style, and budget",
+      "Direct text and call booking with the owner",
+      "A request form that matches guests to a boat by date and budget",
+    ],
+    site: "https://www.theboatgoat.co/",
+    visitLabel: "Visit The Boat Goat",
+    featured: true,
+    preview: "/ventures/the-boat-goat.jpg",
+  },
+  {
     slug: "success-upgrade",
     name: "Success Upgrade",
-    group: "Founded",
     category: "Platform",
     tagline: "Systems that run the business you built.",
     status: "Live",
@@ -56,29 +163,94 @@ export const ventures: Venture[] = [
     visitLabel: "Visit Success Upgrade",
   },
   {
-    slug: "saas-agency",
-    name: "SaaS Agency",
-    group: "Founded",
-    category: "Agency",
-    tagline: "Your website, funnel, and follow up, built by one team.",
+    slug: "booktalent",
+    name: "BookTalent",
+    category: "Talent marketplace",
+    tagline: "The marketplace and agency for booking verified talent.",
     status: "Live",
-    role: "Founder and Managing Director",
+    role: "Cofounder and CEO",
     description:
-      "SaaS Agency is the build arm of Success Upgrade. One team designs and builds a business's website, video, and follow up system, with itemized pricing shown before any work begins.",
+      "BookTalent connects actors, models, influencers, musicians, and creators with the producers and brands who book them. Talent builds a profile for free, and bookers search by exactly what a campaign needs. It is a division of Big Films Only.",
     features: [
-      "Websites and mobile web apps, including App Store submission",
-      "Search and AI answer engine visibility",
-      "AI video content",
-      "CRM, email, and SMS automation",
-      "Ad campaigns on Facebook, Google, and TikTok",
+      "Free profiles for actors, models, influencers, musicians, and creators",
+      "Search by exactly who a campaign needs",
+      "Verified talent profiles",
     ],
-    site: "https://www.successupgrade.ai/saas-agency",
-    visitLabel: "See SaaS Agency",
+    site: "https://www.booktalent.co/",
+    visitLabel: "Visit BookTalent",
+  },
+  {
+    slug: "crnc",
+    name: "CRNC",
+    category: "Payments",
+    tagline: "Pay. Earn. Own.",
+    status: "Private Beta",
+    description:
+      "CRNC is a payments platform where transactions cost almost nothing and settle in seconds. Customers earn rewards on every payment, and creators and customers share in the revenue.",
+    features: [
+      "Payments that settle in seconds",
+      "Rewards earned on every transaction",
+      "Revenue shared between creators and customers",
+    ],
+    site: "https://crnc.ai/",
+    visitLabel: "Visit CRNC",
+  },
+  {
+    slug: "big-films-only",
+    name: "Big Films Only",
+    category: "Production",
+    tagline: "Film and video production for networks, brands, and artists.",
+    status: "Live",
+    role: "Founder",
+    description:
+      "Big Films Only is my production company. It shoots commercials, music videos, and branded content, and its team has worked on network shows including Finding Mr. Christmas on Hallmark, Temptation Island on USA Network, and Ciao House on Food Network.",
+    features: [
+      "Commercials and branded content",
+      "Music videos",
+      "Lifestyle and nightlife films",
+      "AI production and animated video",
+      "Shoots in Oakland, Los Angeles, Miami, New York, and Dubai",
+    ],
+    site: "https://www.bigfilmsonly.com/",
+    visitLabel: "Visit Big Films Only",
+  },
+  {
+    slug: "mediamd",
+    name: "MediaMD",
+    category: "Healthcare marketing",
+    tagline: "Patient apps and AI search for medical practices.",
+    status: "Live",
+    role: "Creative Director",
+    description:
+      "MediaMD helps medical practices get found in search and AI answers, and gives their patients one branded app to book visits, shop, collect rewards, and refer friends.",
+    features: [
+      "Custom patient apps built around each practice's brand",
+      "SEO and AI search visibility",
+      "Booking, rewards, and referrals in one place",
+      "For medical, dental, aesthetics, dermatology, and longevity practices",
+    ],
+    site: "https://mediamd.com/",
+    visitLabel: "Visit MediaMD",
+  },
+  {
+    slug: "codevibe",
+    name: "CodeVibe",
+    category: "AI website builder",
+    tagline: "Your business. Beautifully built.",
+    status: "Live",
+    description:
+      "CodeVibe turns a few sentences into a website or an interactive app prototype. Describe the business, shape the design by asking, and publish, with no coding.",
+    features: [
+      "Websites written from a short description",
+      "Interactive app prototypes",
+      "Changes made by asking",
+    ],
+    site: "https://www.codevibe.com/",
+    visitLabel: "Visit CodeVibe",
   },
   {
     slug: "say-it-build-it",
     name: "Say It Build It",
-    group: "Founded",
     category: "Course",
     tagline: "Build real apps by describing them. Free.",
     status: "Live",
@@ -97,7 +269,6 @@ export const ventures: Venture[] = [
   {
     slug: "ai-army",
     name: "AI Army",
-    group: "Founded",
     category: "AI training",
     tagline: "Practical AI for entrepreneurs.",
     status: "Waitlist Open",
@@ -113,197 +284,25 @@ export const ventures: Venture[] = [
     visitLabel: "Join the Waitlist",
   },
   {
-    slug: "lumi",
-    name: "Lumi",
-    group: "Founded",
-    category: "Med spa app",
-    tagline: "A white label app for luxury med spas.",
-    status: "Live Demo",
-    role: "Founder",
-    description:
-      "Lumi gives a med spa its own branded app for booking, a skincare shop, rewards, and an assistant that answers client questions. The live demo runs as a Miami med spa.",
-    features: [
-      "Treatment booking",
-      "A skincare shop inside the app",
-      "Rewards on every visit",
-      "An assistant for client questions",
-      "Each practice's own brand",
-    ],
-    site: "https://builtbyjothamhall.vercel.app/",
-    visitLabel: "Open the Demo",
-  },
-  {
-    slug: "big-films-only",
-    name: "Big Films Only",
-    group: "Founded",
-    category: "Production",
-    tagline: "Film and video production for networks, brands, and artists.",
+    slug: "voltage-capital",
+    name: "Voltage Capital",
+    category: "Private investment",
+    tagline: "Scale to sell.",
     status: "Live",
-    role: "Founder",
+    role: "Built the website and its diagnostic",
     description:
-      "Big Films Only is my production company. It shoots commercials, music videos, and branded content, and its team has worked on network shows including Finding Mr. Christmas on Hallmark, Temptation Island on USA Network, and Ciao House on Food Network.",
+      "Voltage Capital is a private investment firm that helps profitable operators grow enterprise value, strengthen recurring revenue, and prepare their companies for a sale.",
     features: [
-      "Commercials and branded content",
-      "Music videos",
-      "Lifestyle and nightlife films",
-      "AI production and animated video",
-      "Shoots in Oakland, Los Angeles, Miami, New York, and Dubai",
+      "A free Scale to Sell diagnostic for owners",
+      "Growth packages and a transformation roadmap",
+      "Strategy calls booked from the site",
     ],
-    site: "https://www.bigfilmsonly.com/",
-    visitLabel: "Visit Big Films Only",
-  },
-  {
-    slug: "booktalent",
-    name: "BookTalent",
-    group: "Founded",
-    category: "Talent marketplace",
-    tagline: "The marketplace and agency for booking verified talent.",
-    status: "Live",
-    role: "Cofounder and CEO",
-    description:
-      "BookTalent connects actors, models, influencers, musicians, and creators with the producers and brands who book them. Talent builds a profile for free, and bookers search by exactly what a campaign needs. It is a division of Big Films Only.",
-    features: [
-      "Free profiles for actors, models, influencers, musicians, and creators",
-      "Search by exactly who a campaign needs",
-      "Verified talent profiles",
-    ],
-    site: "https://www.booktalent.co/",
-    visitLabel: "Visit BookTalent",
-  },
-  {
-    slug: "electro-hydration",
-    name: "Electro Hydration",
-    group: "Founded",
-    category: "Wellness",
-    tagline: "Premium water ionizers and home hydration systems.",
-    status: "Live",
-    role: "Founder",
-    description:
-      "Electro Hydration sells water ionizers made in Japan, along with bath, shower, and filtration systems. A short guided path matches each home to the right unit.",
-    features: [
-      "A guided path that recommends the right unit",
-      "Every model compared side by side",
-      "Bath, shower, and filtration systems",
-    ],
-    site: "https://electrohydration.com/",
-    visitLabel: "Visit Electro Hydration",
-  },
-  {
-    slug: "verza-tv",
-    name: "Verza TV",
-    group: "Built With Partners",
-    category: "Streaming",
-    tagline: "Short vertical dramas, reality, and music, made for your phone.",
-    status: "On the App Store",
-    year: "2025",
-    role: "Built the website and iPhone app, and ships its releases",
-    description:
-      "Verza TV is a streaming service for short vertical series, founded by Alan Mruvka. Viewers watch dramas, reality, anime, and music on the web and in the iPhone app.",
-    features: [
-      "Vertical episodes made for watching on a phone",
-      "Drama, reality, anime, music, and Spanish language collections",
-      "Streams on the web and in the iPhone app",
-    ],
-    site: "https://www.verzatv.com/",
-    visitLabel: "Watch Verza TV",
-    // Apple refuses to be framed by any site, so the store link opens normally.
-    links: [{ label: "App Store", href: "https://apps.apple.com/us/app/verza-tv-vertical-drama/id6752884623" }],
-  },
-  {
-    slug: "evolve-longevity",
-    name: "Evolve Longevity",
-    group: "Built With Partners",
-    category: "Longevity clinic",
-    tagline: "A longevity and recovery clinic in Miami Beach.",
-    status: "Live",
-    role: "Strategic partner. Built the website and the iPhone app",
-    description:
-      "Evolve Longevity is a longevity and recovery clinic in Miami Beach, founded by Connor Wade. I am a strategic partner, and I built the clinic's website and its iPhone app, which is now in private beta.",
-    features: [
-      "Clinic website with treatment pages and consultation booking",
-      "An iPhone app for clients, now in private beta",
-      "Content and growth strategy",
-    ],
-    site: "https://www.evolvelongevity.co/",
-    visitLabel: "Visit Evolve Longevity",
-  },
-  {
-    slug: "peaceful-healing-rx",
-    name: "Peaceful Healing Rx",
-    group: "Built With Partners",
-    category: "Patient app",
-    tagline: "Understand every word your doctor says.",
-    status: "Live",
-    role: "Built the app",
-    description:
-      "Peaceful Healing Rx is a free app that helps patients, families, and caregivers understand their care in their own language. It interprets what was said, offers ASL by video, and explains visits, bills, and medications in plain words.",
-    features: [
-      "Interpreting in the patient's language, or ASL by video",
-      "Visit summaries with clear next steps",
-      "Insurance bills and denials explained in plain words",
-      "A medication tracker",
-      "Free, with no account, and notes that stay on the device",
-    ],
-    site: "https://peacefulhealingrx.com/",
-    visitLabel: "Visit Peaceful Healing Rx",
-  },
-  {
-    slug: "crnc",
-    name: "CRNC",
-    group: "Built With Partners",
-    category: "Payments",
-    tagline: "Pay. Earn. Own.",
-    status: "Private Beta",
-    description:
-      "CRNC is a payments platform where transactions cost almost nothing and settle in seconds. Customers earn rewards on every payment, and creators and customers share in the revenue.",
-    features: [
-      "Payments that settle in seconds",
-      "Rewards earned on every transaction",
-      "Revenue shared between creators and customers",
-    ],
-    site: "https://crnc.ai/",
-    visitLabel: "Visit CRNC",
-  },
-  {
-    slug: "codevibe",
-    name: "CodeVibe",
-    group: "Built With Partners",
-    category: "AI website builder",
-    tagline: "Your business. Beautifully built.",
-    status: "Live",
-    description:
-      "CodeVibe turns a few sentences into a website or an interactive app prototype. Describe the business, shape the design by asking, and publish, with no coding.",
-    features: [
-      "Websites written from a short description",
-      "Interactive app prototypes",
-      "Changes made by asking",
-    ],
-    site: "https://www.codevibe.com/",
-    visitLabel: "Visit CodeVibe",
-  },
-  {
-    slug: "mediamd",
-    name: "MediaMD",
-    group: "Built With Partners",
-    category: "Healthcare marketing",
-    tagline: "Patient apps and AI search for medical practices.",
-    status: "Live",
-    role: "Creative Director",
-    description:
-      "MediaMD helps medical practices get found in search and AI answers, and gives their patients one branded app to book visits, shop, collect rewards, and refer friends.",
-    features: [
-      "Custom patient apps built around each practice's brand",
-      "SEO and AI search visibility",
-      "Booking, rewards, and referrals in one place",
-      "For medical, dental, aesthetics, dermatology, and longevity practices",
-    ],
-    site: "https://mediamd.com/",
-    visitLabel: "Visit MediaMD",
+    site: "https://www.voltage-cap.com/",
+    visitLabel: "Visit Voltage Capital",
   },
   {
     slug: "growdoc",
     name: "GrowDoc",
-    group: "Built With Partners",
     category: "Healthcare growth",
     tagline: "The growth partner for medical practices.",
     status: "Live",
@@ -321,7 +320,6 @@ export const ventures: Venture[] = [
   {
     slug: "websitewave",
     name: "WebsiteWave",
-    group: "Built With Partners",
     category: "Web agency",
     tagline: "Websites that rank and convert.",
     status: "Live",
@@ -336,40 +334,40 @@ export const ventures: Venture[] = [
     visitLabel: "Visit WebsiteWave",
   },
   {
-    slug: "voltage-capital",
-    name: "Voltage Capital",
-    group: "Built With Partners",
-    category: "Private investment",
-    tagline: "Scale to sell.",
+    slug: "saas-agency",
+    name: "SaaS Agency",
+    category: "Agency",
+    tagline: "Your website, funnel, and follow up, built by one team.",
     status: "Live",
-    role: "Built the website and its diagnostic",
+    role: "Founder and Managing Director",
     description:
-      "Voltage Capital is a private investment firm that helps profitable operators grow enterprise value, strengthen recurring revenue, and prepare their companies for a sale.",
+      "SaaS Agency is the build arm of Success Upgrade. One team designs and builds a business's website, video, and follow up system, with itemized pricing shown before any work begins.",
     features: [
-      "A free Scale to Sell diagnostic for owners",
-      "Growth packages and a transformation roadmap",
-      "Strategy calls booked from the site",
+      "Websites and mobile web apps, including App Store submission",
+      "Search and AI answer engine visibility",
+      "AI video content",
+      "CRM, email, and SMS automation",
+      "Ad campaigns on Facebook, Google, and TikTok",
     ],
-    site: "https://www.voltage-cap.com/",
-    visitLabel: "Visit Voltage Capital",
+    site: "https://www.successupgrade.ai/saas-agency",
+    visitLabel: "See SaaS Agency",
   },
   {
-    slug: "the-boat-goat",
-    name: "The Boat Goat",
-    group: "Built With Partners",
-    category: "Yacht charters",
-    tagline: "Luxury yacht charters in Miami.",
+    slug: "electro-hydration",
+    name: "Electro Hydration",
+    category: "Wellness",
+    tagline: "Premium water ionizers and home hydration systems.",
     status: "Live",
-    role: "Built the website and booking flow",
+    role: "Founder",
     description:
-      "The Boat Goat is Lex Lindquist's Miami yacht charter company. Guests browse boats by size and budget, then book directly with Lex by text, call, or a short request form.",
+      "Electro Hydration sells water ionizers made in Japan, along with bath, shower, and filtration systems. A short guided path matches each home to the right unit.",
     features: [
-      "Boats grouped by size, style, and budget",
-      "Direct text and call booking with the owner",
-      "A request form that matches guests to a boat by date and budget",
+      "A guided path that recommends the right unit",
+      "Every model compared side by side",
+      "Bath, shower, and filtration systems",
     ],
-    site: "https://www.theboatgoat.co/",
-    visitLabel: "Visit The Boat Goat",
+    site: "https://electrohydration.com/",
+    visitLabel: "Visit Electro Hydration",
   },
 ];
 

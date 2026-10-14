@@ -13,7 +13,7 @@ import {
   ArrowRight,
 } from "lucide-react";
 import { CalendlyModal } from "../calendly-modal";
-import { ventureGroups, ventures } from "@/lib/ventures";
+import { ventures, type Venture } from "@/lib/ventures";
 import { isFullBleed } from "@/lib/full-bleed";
 
 interface SubMenuItem {
@@ -31,6 +31,12 @@ interface Tab {
   submenu?: SubMenuItem[];
 }
 
+const ventureItem = (venture: Venture): SubMenuItem => ({
+  name: venture.name,
+  href: `/ventures/${venture.slug}/site`,
+  desc: venture.category,
+});
+
 const tabs: Tab[] = [
   { name: "Home", href: "/", icon: Home },
   { name: "About", href: "/about", icon: User, submenu: [
@@ -45,14 +51,12 @@ const tabs: Tab[] = [
   ]},
   { name: "Ventures", href: "/ventures", icon: Rocket, submenu: [
     { name: "All Ventures", href: "/ventures", desc: "The full portfolio" },
-    // Every venture, grouped as on the Ventures page. Each opens its own site
-    // inside jothamhall.com at /ventures/[slug]/site, so nobody leaves.
-    ...ventureGroups.flatMap((group) => [
-      { name: group, href: "", heading: true },
-      ...ventures
-        .filter((venture) => venture.group === group)
-        .map((venture) => ({ name: venture.name, href: `/ventures/${venture.slug}/site`, desc: venture.category })),
-    ]),
+    // Every venture, in the Ventures page's order and sections. Each opens its own
+    // site inside jothamhall.com at /ventures/[slug]/site, so nobody leaves.
+    { name: "Featured", href: "", heading: true },
+    ...ventures.filter((venture) => venture.featured).map(ventureItem),
+    { name: "More Ventures", href: "", heading: true },
+    ...ventures.filter((venture) => !venture.featured).map(ventureItem),
   ]},
   { name: "Speaking", href: "/speaking", icon: Mic },
   { name: "Contact", href: "contact-modal", icon: Phone, submenu: [
