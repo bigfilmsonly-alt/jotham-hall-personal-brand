@@ -1,170 +1,137 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import Image from "next/image";
+import { ArrowRight } from "lucide-react";
 import { FooterSection } from "@/components/landing/footer-section";
-import { Phone, MessageSquare, Mail, MapPin, Clock, ArrowRight } from "lucide-react";
+import { CalendlyModal } from "@/components/calendly-modal";
+import { ContactForm, DirectContactList } from "@/components/landing/contact-modal";
 
-const contactMethods = [
-  {
-    icon: Phone,
-    label: "Call",
-    description: "Business line for immediate consultation",
-    action: "tel:+15106809100",
-    cta: "Call Now",
-  },
-  {
-    icon: MessageSquare,
-    label: "Text",
-    description: "Quick questions and scheduling",
-    action: "sms:+15106934083",
-    cta: "Send Text",
-  },
-  {
-    icon: Mail,
-    label: "Email",
-    description: "Detailed inquiries and proposals",
-    action: "mailto:bigfilmsonly@gmail.com",
-    cta: "Send Email",
-  },
-];
+/*
+  The fastest ways to reach Jo, in order: book a call, then call, text or
+  email, then the written application for people who prefer to write.
+
+  Phone width at every screen size (see globals.css), so no breakpoint
+  variants here: one centered column from 360px to 430px.
+*/
 
 const faqs = [
   {
-    question: "What is the typical engagement timeline?",
-    answer: "Most consulting engagements range from 30 days for focused projects to 6+ months for comprehensive system builds. We will scope the exact timeline during our strategy call."
+    question: "Is the strategy call free?",
+    answer: "Yes. The call is free, with no obligation. Pick any open time on the calendar.",
   },
   {
-    question: "Do you work with early-stage startups?",
-    answer: "I work with founders at all stages, from pre-revenue to 8-figure operations. The approach differs based on your current stage and goals."
+    question: "What happens after I send the form?",
+    answer: "I read your answers myself. If there is a fit, I reach out to set up a call. If I am not the right person to help, I tell you that too.",
   },
   {
-    question: "What industries do you specialize in?",
-    answer: "I have built systems across SaaS, e-commerce, professional services, content creation, and health and wellness. The principles of automation and systems thinking apply universally."
+    question: "What can you help with?",
+    answer: "AI automation, revenue systems, brand strategy, and video production. I built the Verza TV iPhone app, now on the App Store, and the apps for Peaceful Healing Rx and Evolve Longevity.",
   },
   {
-    question: "How quickly can I expect results?",
-    answer: "Quick wins typically appear within the first 2-4 weeks. Significant operational transformation takes 60-90 days. Compound results continue indefinitely."
+    question: "Do you work with early stage founders?",
+    answer: "Yes. I work with founders at every stage, including before revenue. The approach changes with your stage and goals.",
+  },
+  {
+    question: "Where are you based?",
+    answer: "Miami Beach, Florida. I work with clients anywhere by video call, and in person in Miami.",
   },
 ];
 
 export default function ContactPage() {
-  const [isVisible, setIsVisible] = useState(false);
-
-  useEffect(() => {
-    setIsVisible(true);
-  }, []);
+  const [isCalendlyOpen, setIsCalendlyOpen] = useState(false);
+  const openCalendly = () => setIsCalendlyOpen(true);
 
   return (
-    <main className="relative min-h-screen">
-      {/* Hero Section */}
-      <section className="relative pt-10 pb-20 lg:pt-16 lg:pb-32">
-        <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
-          <div className="text-center max-w-3xl mx-auto">
-            <span className="inline-flex items-center gap-3 text-sm font-mono text-muted-foreground mb-6">
-              Contact
-            </span>
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 border border-yellow-500/20 bg-yellow-500/5 mb-6">
-              <span className="animate-pulse w-2 h-2 bg-yellow-500 rounded-full" />
-              <span className="text-xs font-mono text-yellow-500/80">Available for new projects</span>
-            </div>
-            <h1
-              className={`text-4xl sm:text-5xl lg:text-7xl font-display tracking-tight mb-8 transition-all duration-700 ${
-                isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
-              }`}
-            >
-              Let us Build
-              <br />
-              <span className="text-muted-foreground">Something Real.</span>
-            </h1>
-            <p className="text-xl text-muted-foreground leading-relaxed">
-              Ready to architect systems that scale? Choose your preferred method of contact below.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* Contact Methods */}
-      <section className="py-20 lg:py-32 border-t border-foreground/10">
-        <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
-          <div className="grid md:grid-cols-3 gap-6">
-            {contactMethods.map((method) => (
-              <a
-                key={method.label}
-                href={method.action}
-                className="group p-8 lg:p-12 border border-foreground/10 hover:border-foreground/30 transition-all text-center"
-              >
-                <method.icon className="w-8 h-8 mx-auto mb-6 text-muted-foreground group-hover:text-foreground transition-colors" />
-                <h2 className="text-2xl font-display mb-3">{method.label}</h2>
-                <p className="text-muted-foreground mb-6">{method.description}</p>
-                <span className="inline-flex items-center gap-2 text-sm font-medium group-hover:gap-3 transition-all">
-                  {method.cta}
-                  <ArrowRight className="w-4 h-4" />
-                </span>
-              </a>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Info Section */}
-      <section className="py-20 lg:py-32 border-t border-foreground/10 bg-foreground/[0.02]">
-        <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
-          <div className="grid md:grid-cols-2 gap-12">
-            <div className="text-center md:text-left">
-              <h2 className="text-2xl font-display mb-6">Response Time</h2>
-              <div className="flex items-center justify-center md:justify-start gap-4 mb-4">
-                <Clock className="w-5 h-5 text-muted-foreground" />
-                <span>Within 24 hours on business days</span>
-              </div>
-              <p className="text-muted-foreground">
-                I personally respond to every inquiry. For urgent matters, calling is fastest.
-              </p>
-            </div>
-            <div className="text-center md:text-left">
-              <h2 className="text-2xl font-display mb-6">Location</h2>
-              <div className="flex items-center justify-center md:justify-start gap-4 mb-4">
-                <MapPin className="w-5 h-5 text-muted-foreground" />
-                <span>Miami, Florida</span>
-              </div>
-              <p className="text-muted-foreground">
-                I work with clients globally via video call. In-person available for Miami engagements.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* FAQ Section */}
-      <section className="py-20 lg:py-32 border-t border-foreground/10">
-        <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl sm:text-4xl font-display tracking-tight mb-4">
-              Frequently Asked Questions
-            </h2>
-            <p className="text-muted-foreground">
-              Common questions about working together
-            </p>
-          </div>
-          <div className="max-w-3xl mx-auto space-y-8">
-            {faqs.map((faq, index) => (
-              <div key={index} className="border-b border-foreground/10 pb-8">
-                <h3 className="text-xl font-display mb-3">{faq.question}</h3>
-                <p className="text-muted-foreground leading-relaxed">{faq.answer}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="py-12 border-t border-foreground/10">
-        <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
-          <p className="text-xs font-mono text-muted-foreground text-center">
-            Response within 24 hours. Free 60-minute strategy call. No obligation.
+    <>
+      <main className="min-h-screen bg-background pb-36">
+        <header className="px-6 pt-14 pb-10 text-center">
+          <Image
+            src="/jotham-hall.jpg"
+            alt="Jotham Hall"
+            width={160}
+            height={160}
+            priority
+            className="w-20 h-20 rounded-full object-cover border-2 border-[#D4A853]/30 shadow-[0_0_30px_rgba(212,168,83,0.15)] mx-auto mb-6"
+          />
+          <p className="text-[11px] tracking-[0.15em] uppercase text-[#D4A853] mb-3">Contact</p>
+          <h1 className="font-display text-[2.25rem] leading-tight tracking-[0.12em] uppercase text-balance text-[#FAF8F5] mb-4">
+            Let&apos;s Talk
+          </h1>
+          <p className="text-[15px] text-[#B8B0A8] leading-relaxed text-balance max-w-[320px] mx-auto mb-8">
+            Book a free strategy call, or reach me directly. I answer every message myself.
           </p>
-        </div>
-      </section>
+          <button
+            type="button"
+            onClick={openCalendly}
+            className="w-full py-3.5 bg-[#D4A853] text-[#0D0D0D] text-sm font-medium tracking-wide hover:bg-[#E8C97A] transition-colors flex items-center justify-center gap-2 active:scale-[0.97]"
+          >
+            Book a Strategy Call
+            <ArrowRight className="w-4 h-4" />
+          </button>
+        </header>
 
-      <FooterSection />
-    </main>
+        <section aria-labelledby="direct-heading" className="px-6 pb-12">
+          <h2 id="direct-heading" className="flex items-center gap-3 text-[11px] tracking-[0.15em] uppercase text-[#8A837B] mb-4">
+            <span className="flex-1 h-px bg-[#3D3A35]/60" />
+            Or reach me directly
+            <span className="flex-1 h-px bg-[#3D3A35]/60" />
+          </h2>
+          <DirectContactList />
+          <p className="mt-4 text-[13px] text-[#8A837B] leading-relaxed text-balance text-center max-w-[300px] mx-auto">
+            Calling is fastest. I reply to texts and emails within 24 hours on business days.
+          </p>
+        </section>
+
+        <section id="write" aria-labelledby="write-heading" className="px-6 py-12 border-t border-[#3D3A35]/60">
+          <div className="text-center mb-10">
+            <p className="text-[11px] tracking-[0.15em] uppercase text-[#D4A853] mb-3">Prefer to Write</p>
+            <h2 id="write-heading" className="font-display text-[1.5rem] leading-snug tracking-[0.12em] uppercase text-balance text-[#FAF8F5] mb-3">
+              Tell Me About Your Business
+            </h2>
+            <p className="text-[15px] text-[#B8B0A8] leading-relaxed text-balance max-w-[320px] mx-auto">
+              Seven quick questions, about a minute. Most take one tap.
+            </p>
+          </div>
+          <ContactForm onBook={openCalendly} />
+        </section>
+
+        <section aria-labelledby="faq-heading" className="px-6 py-12 border-t border-[#3D3A35]/60">
+          <div className="text-center mb-8">
+            <p className="text-[11px] tracking-[0.15em] uppercase text-[#D4A853] mb-3">Questions</p>
+            <h2 id="faq-heading" className="font-display text-[1.5rem] leading-snug tracking-[0.12em] uppercase text-balance text-[#FAF8F5]">
+              Before You Reach Out
+            </h2>
+          </div>
+          <dl className="border-y border-[#3D3A35]/60 divide-y divide-[#3D3A35]/60">
+            {faqs.map((faq) => (
+              <div key={faq.question} className="py-6">
+                <dt className="text-base font-medium text-[#FAF8F5] mb-2">{faq.question}</dt>
+                <dd className="text-[15px] text-[#B8B0A8] leading-relaxed text-pretty">{faq.answer}</dd>
+              </div>
+            ))}
+          </dl>
+        </section>
+
+        <section className="mx-6 mb-16 px-6 py-10 bg-[#1A1A1A] border border-[#3D3A35] text-center">
+          <h2 className="font-display text-lg tracking-[0.12em] uppercase text-balance text-[#FAF8F5] mb-3">Ready When You Are</h2>
+          <p className="text-sm text-[#B8B0A8] leading-relaxed text-balance mb-7 max-w-[280px] mx-auto">
+            Pick a time that suits you. The call is free.
+          </p>
+          <button
+            type="button"
+            onClick={openCalendly}
+            className="w-full py-3.5 bg-[#D4A853] text-[#0D0D0D] text-sm font-medium tracking-wide hover:bg-[#E8C97A] transition-colors flex items-center justify-center gap-2 active:scale-[0.97]"
+          >
+            Book a Strategy Call
+            <ArrowRight className="w-4 h-4" />
+          </button>
+        </section>
+
+        <FooterSection />
+      </main>
+
+      <CalendlyModal isOpen={isCalendlyOpen} onClose={() => setIsCalendlyOpen(false)} />
+    </>
   );
 }

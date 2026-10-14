@@ -9,5 +9,6 @@ export default function sitemap(): MetadataRoute.Sitemap { const baseUrl = "http
 { url: `${baseUrl}/contact`, lastModified: now, changeFrequency: "monthly", priority: 0.9 },
 { url: `${baseUrl}/credits`, lastModified: now, changeFrequency: "monthly", priority: 0.8 },
 { url: `${baseUrl}/miami`, lastModified: now, changeFrequency: "monthly", priority: 0.7 },
+{ url: `${baseUrl}/miami/vibe-coding`, lastModified: now, changeFrequency: "monthly", priority: 0.6 },
 ...ventures.map((venture) => ({ url: `${baseUrl}/ventures/${venture.slug}`, lastModified: now, changeFrequency: "monthly" as const, priority: 0.7 })),
 ]; }

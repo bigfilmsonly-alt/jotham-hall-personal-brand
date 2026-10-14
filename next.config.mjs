@@ -45,6 +45,17 @@ const nextConfig = { async redirects() { return [
       { source: "/boston/revenue-systems", destination: "/services", permanent: true },
       { source: "/boston/personal-branding", destination: "/services", permanent: true },
       { source: "/boston/fractional-coo", destination: "/services", permanent: true },
+      // Retired cities' vibe-coding pages, so old links land on the services page
+      // instead of a 404. Only /miami keeps its city and service pages.
+      { source: "/new-york/vibe-coding", destination: "/services", permanent: true },
+      { source: "/san-francisco/vibe-coding", destination: "/services", permanent: true },
+      { source: "/los-angeles/vibe-coding", destination: "/services", permanent: true },
+      { source: "/atlanta/vibe-coding", destination: "/services", permanent: true },
+      { source: "/austin/vibe-coding", destination: "/services", permanent: true },
+      { source: "/chicago/vibe-coding", destination: "/services", permanent: true },
+      { source: "/dallas/vibe-coding", destination: "/services", permanent: true },
+      { source: "/houston/vibe-coding", destination: "/services", permanent: true },
+      { source: "/boston/vibe-coding", destination: "/services", permanent: true },
       { source: "/miami/ai-automation", destination: "/services", permanent: true },
       { source: "/miami/revenue-systems", destination: "/services", permanent: true },
       { source: "/miami/personal-branding", destination: "/services", permanent: true },

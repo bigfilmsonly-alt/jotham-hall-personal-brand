@@ -1,42 +1,65 @@
 "use client";
 
 import { useState } from "react";
-import { ArrowUpRight, ChevronDown } from "lucide-react";
-import { AnimatedWave } from "./animated-wave";
+import Link from "next/link";
 import { saveRecord } from "@/lib/supabase";
 
-const footerLinks = {
-  Services: [
-    { name: "All Services", href: "/services" },
-    { name: "AI Automation", href: "/services/ai-automation" },
-    { name: "Revenue Systems", href: "/services/revenue-systems" },
-  ],
-  Insights: [
-    { name: "All Insights", href: "/insights" },
-    { name: "AI Ecosystem", href: "/insights/how-i-built-ai-first-ecosystem-paradise-protocol" },
-    { name: "Daily Upgrade", href: "/insights/daily-upgrade-compounding-small-decisions" },
-    { name: "Vibe Coding", href: "/insights/vibe-coding-future-ai-assisted-development" },
-  ],
-  Company: [
-    { name: "About", href: "/about" },
-    { name: "Credits", href: "/credits" },
-    { name: "Ventures", href: "/ventures" },
-    { name: "Contact", href: "/contact" },
-  ],
-  Connect: [
-    { name: "Call", href: "tel:+15106809100" },
-    { name: "Text", href: "sms:+15106934083" },
-    { name: "Email", href: "mailto:bigfilmsonly@gmail.com" },
-  ],
-};
+/*
+  The close of /about, /credits, /contact, /services (and its four pages) and
+  /speaking. One centered column at every width: globals.css holds the site to
+  a 430px column from 768px up, so viewport breakpoints (md:, lg:) would switch
+  on multi column layouts inside a phone width column. None are used here, and
+  every link group fills even rows.
 
+  The pages end with their own closing call to action right above this, so the
+  footer carries no booking button of its own. Links point only at live routes:
+  /insights redirects to /about (next.config.mjs), so it is not listed.
+
+  data-site-footer lets the floating "Book a Call" step aside once the closing
+  block and the footer reach the screen (components/floating-cta.tsx).
+*/
+
+const contactLines = [
+  { label: "Call", value: "(510) 680-9100", href: "tel:+15106809100" },
+  { label: "Text", value: "(510) 693-4083", href: "sms:+15106934083" },
+  { label: "Email", value: "bigfilmsonly@gmail.com", href: "mailto:bigfilmsonly@gmail.com" },
+];
+
+// Six: three even rows of two.
+const exploreLinks = [
+  { name: "About", href: "/about" },
+  { name: "TV Credits", href: "/credits" },
+  { name: "Services", href: "/services" },
+  { name: "Ventures", href: "/ventures" },
+  { name: "Speaking", href: "/speaking" },
+  { name: "Contact", href: "/contact" },
+];
+
+// Four: two even rows of two.
+const serviceLinks = [
+  { name: "AI Automation", href: "/services/ai-automation" },
+  { name: "Revenue Systems", href: "/services/revenue-systems" },
+  { name: "Strategic Consulting", href: "/services/strategic-consulting" },
+  { name: "Systems Architecture", href: "/services/systems-architecture" },
+];
+
+// Four: one even row.
 const socialLinks = [
-  { name: "Success Upgrade", href: "/ventures/success-upgrade", highlight: true, internal: true },
   { name: "LinkedIn", href: "https://www.linkedin.com/in/jotham-hall-b6b9491b2" },
   { name: "Instagram", href: "https://www.instagram.com/successupgrade_" },
   { name: "TikTok", href: "https://www.tiktok.com/@successupgrade_" },
   { name: "Facebook", href: "https://www.facebook.com/share/1DuisNbTVK/?mibextid=wwXIfr" },
 ];
+
+function SectionLabel({ id, children }: { id?: string; children: React.ReactNode }) {
+  return (
+    <h2 id={id} className="flex items-center gap-4 text-[11px] tracking-[0.15em] uppercase text-[#8A837B]">
+      <span aria-hidden="true" className="h-px flex-1 bg-[#3D3A35]/60" />
+      {children}
+      <span aria-hidden="true" className="h-px flex-1 bg-[#3D3A35]/60" />
+    </h2>
+  );
+}
 
 function FooterEmailForm() {
   const [email, setEmail] = useState("");
@@ -66,7 +89,7 @@ function FooterEmailForm() {
   };
 
   if (status === "done") {
-    return <p className="text-sm text-foreground font-medium text-center lg:text-left">You&apos;re subscribed. Welcome.</p>;
+    return <p className="py-3 text-center text-[15px] text-[#FAF8F5]">You&apos;re subscribed. Welcome.</p>;
   }
 
   return (
@@ -76,13 +99,15 @@ function FooterEmailForm() {
         required
         value={email}
         onChange={(e) => setEmail(e.target.value)}
-        placeholder="Enter email"
-        className="flex-1 px-4 py-2.5 bg-foreground/5 border border-foreground/10 text-foreground placeholder-muted-foreground text-sm focus:outline-none focus:border-foreground/30 transition-colors"
+        placeholder="Your email"
+        aria-label="Email address"
+        autoComplete="email"
+        className="h-12 min-w-0 flex-1 border border-[#3D3A35] bg-[#1A1A1A] px-4 text-base text-[#FAF8F5] placeholder:text-[#8A837B] transition-colors focus:border-[#D4A853]/60 focus:outline-none"
       />
       <button
         type="submit"
         disabled={status === "loading"}
-        className="px-4 py-2.5 bg-foreground text-background text-xs font-medium hover:bg-foreground/90 transition-colors whitespace-nowrap disabled:opacity-50"
+        className="h-12 shrink-0 border border-[#D4A853]/50 px-5 text-[11px] font-medium tracking-[0.15em] uppercase text-[#D4A853] transition-colors hover:bg-[#D4A853] hover:text-[#0D0D0D] disabled:opacity-50"
       >
         {status === "loading" ? "..." : "Subscribe"}
       </button>
@@ -91,159 +116,127 @@ function FooterEmailForm() {
 }
 
 export function FooterSection() {
-  const [isSitemapOpen, setIsSitemapOpen] = useState(false);
-
   return (
-    <footer className="relative border-t border-foreground/10">
-      {/* Animated wave background */}
-      <div className="absolute inset-0 h-64 opacity-20 pointer-events-none overflow-hidden">
-        <AnimatedWave />
+    <footer data-site-footer className="border-t border-[#3D3A35]/60 text-center">
+      {/* Sign-off */}
+      <div className="px-6 pt-14">
+        <Link
+          href="/"
+          className="inline-block font-display text-xl tracking-[0.12em] uppercase text-[#FAF8F5] transition-colors hover:text-[#E8C97A]"
+        >
+          Jotham Hall
+        </Link>
+        <span aria-hidden="true" className="mx-auto mt-4 block h-px w-8 bg-[#D4A853]/60" />
+        <p className="mx-auto mt-4 max-w-[300px] text-[15px] leading-relaxed text-balance text-[#B8B0A8]">
+          I build the systems that run and grow your business.
+        </p>
+        <p className="mt-3 text-[11px] tracking-[0.15em] uppercase text-[#8A837B]">Based in Miami Beach</p>
       </div>
-      
-      <div className="relative z-10 max-w-[1400px] mx-auto px-6 lg:px-12">
-        {/* Main Footer */}
-        <div className="py-16 lg:py-24">
-          <div className="grid grid-cols-2 md:grid-cols-6 gap-12 lg:gap-8">
-            {/* Brand Column */}
-            <div className="col-span-2 text-center lg:text-left">
-              <a href="#" className="inline-flex items-center gap-2 mb-6">
-                <span className="text-2xl font-display">Jotham Hall</span>
+
+      {/* Direct lines */}
+      <section aria-labelledby="footer-contact" className="px-6 pt-12">
+        <SectionLabel id="footer-contact">Reach Me Directly</SectionLabel>
+        <ul className="mt-4 divide-y divide-[#3D3A35]/60 border-y border-[#3D3A35]/60">
+          {contactLines.map((line) => (
+            <li key={line.label}>
+              <a href={line.href} className="group flex min-h-[52px] items-center justify-between gap-4">
+                <span className="text-[11px] tracking-[0.15em] uppercase text-[#8A837B]">{line.label}</span>
+                <span className="text-[15px] text-[#FAF8F5] transition-colors group-hover:text-[#E8C97A]">
+                  {line.value}
+                </span>
               </a>
+            </li>
+          ))}
+        </ul>
+      </section>
 
-              <p className="text-sm lg:text-base text-muted-foreground leading-relaxed mb-6 lg:mb-8 max-w-xs mx-auto lg:mx-0">
-                Strategic consultant and systems architect. Building machines that scale businesses.
-              </p>
-
-              {/* Social Links */}
-              <div className="flex flex-wrap justify-center lg:justify-start gap-3 sm:gap-4 lg:gap-6">
-                {socialLinks.map((link) => (
-                  <a
-                    key={link.name}
-                    href={link.href}
-                    target={'internal' in link && link.internal ? undefined : "_blank"}
-                    rel={'internal' in link && link.internal ? undefined : "noopener noreferrer"}
-                    className={`text-sm transition-colors flex items-center gap-1 group ${
-                      'highlight' in link && link.highlight 
-                        ? 'text-foreground font-medium border-b border-foreground/30 hover:border-foreground pb-0.5' 
-                        : 'text-muted-foreground hover:text-foreground'
-                    }`}
-                  >
-                    {link.name}
-                    {'internal' in link && link.internal ? null : (
-                      <ArrowUpRight className="w-3 h-3 opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all" />
-                    )}
-                  </a>
-                ))}
-              </div>
-            </div>
-
-            {/* Link Columns */}
-            {Object.entries(footerLinks).map(([title, links]) => (
-              <div key={title} className="text-center lg:text-left">
-                <h3 className="text-sm font-medium mb-6">{title}</h3>
-                <ul className="space-y-4">
-                  {links.map((link) => (
-                    <li key={link.name}>
-                      <a
-                        href={link.href}
-                        className="text-sm text-muted-foreground hover:text-foreground transition-colors inline-flex items-center gap-2"
-                      >
-                        {link.name}
-                      </a>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* SEO Sitemap Dropdown */}
-        <div className="py-6 border-t border-foreground/10">
-          <button
-            onClick={() => setIsSitemapOpen(!isSitemapOpen)}
-            className="w-full flex items-center justify-between text-sm text-muted-foreground hover:text-foreground transition-colors"
-          >
-            <span>Sitemap</span>
-            <ChevronDown className={`w-4 h-4 transition-transform duration-300 ${isSitemapOpen ? 'rotate-180' : ''}`} />
-          </button>
-          
-          <div className={`overflow-hidden transition-all duration-500 ease-in-out ${isSitemapOpen ? 'max-h-[1200px] opacity-100 mt-6' : 'max-h-0 opacity-0'}`}>
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-6 text-xs">
-              <div>
-                <span className="text-muted-foreground block mb-3 font-medium">Explore</span>
-                <a href="/" className="block text-foreground/60 hover:text-foreground transition-colors py-1">Home</a>
-                <a href="/about" className="block text-foreground/60 hover:text-foreground transition-colors py-1">About</a>
-                <a href="/services" className="block text-foreground/60 hover:text-foreground transition-colors py-1">Services</a>
-                <a href="/ventures" className="block text-foreground/60 hover:text-foreground transition-colors py-1">Ventures</a>
-              </div>
-              <div>
-                <span className="text-muted-foreground block mb-3 font-medium">More</span>
-                <a href="/speaking" className="block text-foreground/60 hover:text-foreground transition-colors py-1">Speaking</a>
-                <a href="/credits" className="block text-foreground/60 hover:text-foreground transition-colors py-1">TV Credits</a>
-                <a href="/contact" className="block text-foreground/60 hover:text-foreground transition-colors py-1">Contact</a>
-              </div>
-              <div>
-                <span className="text-muted-foreground block mb-3 font-medium">Connect</span>
-                <a href="tel:+15106809100" className="block text-foreground/60 hover:text-foreground transition-colors py-1">Call</a>
-                <a href="sms:+15106934083" className="block text-foreground/60 hover:text-foreground transition-colors py-1">Text</a>
-                <a href="mailto:bigfilmsonly@gmail.com" className="block text-foreground/60 hover:text-foreground transition-colors py-1">Email</a>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Newsletter Signup */}
-        <div className="py-10 border-t border-foreground/10">
-          <div className="max-w-md mx-auto lg:mx-0">
-            <h4 className="text-sm font-medium mb-2 text-center lg:text-left">Get Weekly Insights</h4>
-            <p className="text-xs text-muted-foreground mb-4 text-center lg:text-left">
-              Notes on AI systems and business from a producer with 50+ TV credits and 15 years in television.
-            </p>
-            <FooterEmailForm />
-          </div>
-        </div>
-
-        {/* Bottom Bar */}
-        <div className="py-8 border-t border-foreground/10 flex flex-col md:flex-row items-center justify-center lg:justify-between gap-4 text-center">
-          <div className="flex flex-col items-center lg:items-start gap-1">
-            <p className="text-sm text-muted-foreground">
-              {new Date().getFullYear()} Jotham Hall. All rights reserved.
-            </p>
-            {/* Build credit. JothamHall.com is this site, so it stays plain text. */}
-            <p className="text-xs text-muted-foreground/70">
-              Built by JothamHall.com &middot; Developed by{" "}
-              <a
-                href="https://successupgrade.ai"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hover:text-[#D4A853] transition-colors"
+      {/* Site links */}
+      <nav aria-label="Footer" className="px-6 pt-12">
+        <SectionLabel>Explore</SectionLabel>
+        <ul className="mt-3 grid grid-cols-2">
+          {exploreLinks.map((link) => (
+            <li key={link.href}>
+              <Link
+                href={link.href}
+                className="flex min-h-[44px] items-center justify-center text-sm text-[#B8B0A8] transition-colors hover:text-[#FAF8F5]"
               >
-                SuccessUpgrade.ai
-              </a>
-            </p>
-          </div>
+                {link.name}
+              </Link>
+            </li>
+          ))}
+        </ul>
 
-          <div className="flex items-center gap-4 text-sm text-muted-foreground">
-            <span className="flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-green-500" />
-              Accepting new clients
-            </span>
-          </div>
+        <div className="pt-8">
+          <SectionLabel>Services</SectionLabel>
         </div>
+        <ul className="mt-3 grid grid-cols-2">
+          {serviceLinks.map((link) => (
+            <li key={link.href}>
+              <Link
+                href={link.href}
+                className="flex min-h-[44px] items-center justify-center text-sm text-[#B8B0A8] transition-colors hover:text-[#FAF8F5]"
+              >
+                {link.name}
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </nav>
 
-        {/*
-          Clearance for the fixed tab bar. The footer had none, so the last line
-          of the bottom bar sat underneath it and could not be scrolled into
-          view: at the true document bottom the credit measured 647 to 663 while
-          the tab bar started at 650. 5.5rem matches the padding home-screen.tsx
-          already uses to clear the same bar.
-        */}
-        <div
-          aria-hidden="true"
-          style={{ height: "calc(5.5rem + env(safe-area-inset-bottom, 0px))" }}
-        />
+      {/* Email capture */}
+      <section aria-labelledby="footer-insights" className="px-6 pt-12">
+        <SectionLabel id="footer-insights">Insights by Email</SectionLabel>
+        <p className="mx-auto mt-4 mb-5 max-w-[300px] text-[15px] leading-relaxed text-balance text-[#B8B0A8]">
+          Notes on AI systems and business from a producer with 50+ TV credits.
+        </p>
+        <FooterEmailForm />
+      </section>
+
+      {/* Social */}
+      <ul className="mt-10 grid grid-cols-4 px-6">
+        {socialLinks.map((link) => (
+          <li key={link.name}>
+            <a
+              href={link.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex min-h-[44px] items-center justify-center text-[13px] text-[#B8B0A8] transition-colors hover:text-[#D4A853]"
+            >
+              {link.name}
+            </a>
+          </li>
+        ))}
+      </ul>
+
+      {/* Credit */}
+      <div className="mx-6 mt-6 space-y-2 border-t border-[#3D3A35]/60 pt-8">
+        {/* JothamHall.com is this site, so it stays plain text. On the
+            narrowest phones the line breaks at the dot, never mid phrase. */}
+        <p className="text-xs text-[#8A837B]">
+          <span className="whitespace-nowrap">Built by JothamHall.com &middot;</span>{" "}
+          <span className="whitespace-nowrap">
+            Developed by{" "}
+            <a
+              href="https://successupgrade.ai"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-[#B8B0A8] transition-colors hover:text-[#D4A853]"
+            >
+              SuccessUpgrade.ai
+            </a>
+          </span>
+        </p>
+        <p className="text-[11px] tracking-[0.15em] uppercase text-[#5C5750]">
+          &copy; {new Date().getFullYear()} Jotham Hall
+        </p>
       </div>
+
+      {/*
+        Clearance for the fixed tab bar (h-20 plus the safe area) with room to
+        spare, the same 9rem the pages use (pb-36). Without it the last line
+        sat under the bar and could not be scrolled into view.
+      */}
+      <div aria-hidden="true" style={{ height: "calc(9rem + env(safe-area-inset-bottom, 0px))" }} />
     </footer>
   );
 }

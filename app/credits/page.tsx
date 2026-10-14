@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
 import { CreditsContent } from "./credits-content";
 
+// The root layout's title template appends "| Jotham Hall", so the page title
+// stops before it. Open Graph titles skip the template, so they carry it.
 export const metadata: Metadata = {
-  title: "Credits & Filmography | Jotham Hall - Television Producer",
+  title: "Television Credits & Filmography",
   description:
-    "Jotham Hall's television credits and filmography. 50+ credits across 15 years as Talent Producer for VH1, MTV, NBC, USA Network, Food Network, and Hallmark, including Temptation Island, Flavor of Love, Ciao House, and Finding Mr. Christmas.",
+    "Jotham Hall's television credits: 50+ credits across 15 years for Hallmark, Food Network, VH1, MTV, USA Network, NBC, and BET, including Temptation Island and Finding Mr. Christmas.",
   keywords: [
     "Jotham Hall credits",
     "Jotham Hall filmography",
@@ -18,15 +20,18 @@ export const metadata: Metadata = {
     "Ciao House",
     "Snake in the Grass",
     "Finding Mr Christmas",
+    "After Happily Ever After",
     "51 Minds Entertainment",
     "Big Films Only",
     "reality TV producer",
   ],
   openGraph: {
-    title: "Credits & Filmography | Jotham Hall - Television Producer",
+    title: "Television Credits & Filmography | Jotham Hall",
     description:
-      "50+ television credits across 15 years. Reality and unscripted TV for VH1, MTV, NBC, USA Network, Food Network, and Hallmark.",
+      "50+ television credits across 15 years. Reality and competition series for Hallmark, Food Network, VH1, MTV, USA Network, NBC, and BET.",
     url: "https://jothamhall.com/credits",
+    siteName: "Jotham Hall",
+    type: "profile",
     images: [{ url: "https://jothamhall.com/jotham-hall.jpg" }],
   },
   alternates: {
@@ -42,8 +47,8 @@ const personSchema = {
   image: "https://jothamhall.com/jotham-hall.jpg",
   jobTitle: "Television Producer & AI Systems Architect",
   description:
-    "Television producer with 50+ credits across 15 years (VH1, MTV, NBC, USA Network, Food Network, Hallmark). Founder of Success Upgrade and Big Films Only.",
-  homeLocation: { "@type": "Place", name: "Miami, Florida" },
+    "Television producer with 50+ credits across 15 years (Hallmark, Food Network, VH1, MTV, USA Network, NBC, BET). Founder of Success Upgrade and Big Films Only.",
+  homeLocation: { "@type": "Place", name: "Miami Beach, Florida" },
   worksFor: [
     {
       "@type": "Organization",
@@ -103,41 +108,9 @@ const itemListSchema = {
   })),
 };
 
-const faqSchema = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  mainEntity: [
-    {
-      "@type": "Question",
-      name: "Who is Jotham Hall?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Jotham Hall is a television producer with over 50 credits across 15 years on VH1, MTV, NBC, USA Network, Food Network, and Hallmark. He is the founder of Success Upgrade and Big Films Only, where he builds AI systems for businesses.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "What has Jotham Hall produced?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "His credits include Temptation Island, Flavor of Love, Rock of Love, I Love Money, From G's to Gents, Ciao House, Snake in the Grass, and Finding Mr. Christmas.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "What does Jotham Hall do now?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "He builds AI powered business systems and custom software through Success Upgrade, and produces film and content through Big Films Only.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "Where is Jotham Hall based?",
-      acceptedAnswer: { "@type": "Answer", text: "Miami, Florida." },
-    },
-  ],
-};
+// No FAQPage here: the page no longer shows a FAQ, and the site wide schema in
+// components/structured-data.tsx already answers "Who is Jotham Hall?" on
+// every page, so a second FAQPage block would only duplicate it.
 
 export default function CreditsPage() {
   return (
@@ -149,10 +122,6 @@ export default function CreditsPage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListSchema) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
       <CreditsContent />
     </>

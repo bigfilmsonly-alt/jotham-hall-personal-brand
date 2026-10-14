@@ -1,19 +1,43 @@
 import type { Metadata } from "next";
 
+const description =
+  "Jotham Hall spent 15 years producing network TV, with 50+ credits on Hallmark, Food Network, NBC, VH1, and MTV. Now he builds AI systems and apps for businesses.";
+
+// The headshot, not the text card in og-image.jpg: this is the profile page.
+// openGraph and twitter here replace the root layout's blocks rather than
+// merging with them, so the image has to be named again.
+const image = { url: "/jotham-hall.jpg", width: 1024, height: 1024, alt: "Jotham Hall" };
+
 export const metadata: Metadata = {
-  title: "About Jotham Hall | Strategic Consultant & Systems Architect",
-  description: "Jotham Hall is a strategic consultant and systems architect specializing in AI automation, revenue system design, and operational infrastructure for founders and entrepreneurs.",
-  keywords: ["Jotham Hall", "about Jotham Hall", "strategic consultant", "systems architect", "AI automation expert", "business consultant Miami"],
+  // The root layout's template appends "| Jotham Hall".
+  title: "About: AI Systems Architect and TV Producer",
+  description,
+  keywords: [
+    "Jotham Hall",
+    "about Jotham Hall",
+    "who is Jotham Hall",
+    "Jotham Hall TV producer",
+    "AI systems architect",
+    "app developer",
+    "talent producer",
+    "Miami Beach",
+  ],
   openGraph: {
-    title: "About Jotham Hall | Strategic Consultant & Systems Architect",
-    description: "Jotham Hall is a strategic consultant and systems architect specializing in AI automation, revenue system design, and operational infrastructure.",
+    title: "About Jotham Hall",
+    description,
     url: "https://jothamhall.com/about",
+    siteName: "Jotham Hall",
+    locale: "en_US",
     type: "profile",
+    firstName: "Jotham",
+    lastName: "Hall",
+    images: [image],
   },
   twitter: {
-    card: "summary_large_image",
-    title: "About Jotham Hall | Strategic Consultant & Systems Architect",
-    description: "Strategic consultant and systems architect specializing in AI automation and revenue systems.",
+    card: "summary",
+    title: "About Jotham Hall",
+    description,
+    images: [image],
   },
   alternates: {
     canonical: "https://jothamhall.com/about",

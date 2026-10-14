@@ -1,9 +1,27 @@
 "use client";
 
-import { useEffect, useState, useRef } from "react";
-import { X, ArrowRight, ArrowLeft, Check, Send } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { X, ArrowRight, ArrowLeft, Check, Send, Phone, MessageSquare, Mail } from "lucide-react";
 import { saveRecord } from "@/lib/supabase";
 import { trackEvent } from "@/lib/tracking";
+
+/*
+  The contact application, in two places, one set of questions:
+    ContactModal  full screen, opened by buttons across the site
+    ContactForm   the same questions inline on /contact (where /apply lands)
+
+  WHAT IT SENDS IS FIXED. Field names, option values, the rules for moving on
+  (name required, email must match the pattern, every choice question needs an
+  answer, at least one bottleneck) and the submit path (saveRecord into
+  contact_submissions, trackEvent.formSubmit, /api/notify type "contact") are
+  exactly what the live site has always sent, so Jo's reports and the auto
+  reply keep working. Only the order, wording and layout of the questions are
+  free to change. Where a saved value reads badly ("$0 - $50K"), `label`
+  changes what the visitor sees and the value is saved untouched.
+
+  Built for the 430px column that globals.css puts the whole site in from
+  768px up, so nothing here keys off viewport breakpoints.
+*/
 
 function sanitize(str: string | null): string | null {
   if (!str) return null;
@@ -15,125 +33,317 @@ interface ContactModalProps {
   onClose: () => void;
 }
 
-const STEPS = [
-  { id: "intro", type: "intro" },
-  { id: "name", type: "text", label: "What's your name?", placeholder: "Full name", field: "name", required: true },
-  { id: "email", type: "text", label: "What's the best email to reach you?", placeholder: "you@company.com", field: "email", inputType: "email", required: true },
-  { id: "phone", type: "text", label: "Phone number?", subtitle: "Optional, but helpful for quick follow up", placeholder: "(555) 000-0000", field: "phone", inputType: "tel" },
-  { id: "company", type: "text", label: "What's your company or brand?", placeholder: "Company name", field: "company" },
-  { id: "website", type: "text", label: "What's your website?", subtitle: "So I can take a look before our call", placeholder: "successupgrade.ai", field: "website" },
-  { id: "social", type: "text", label: "Drop your main social handle", subtitle: "Instagram, X, LinkedIn, or TikTok", placeholder: "@yourbrand", field: "social" },
-  {
-    id: "service", type: "select", label: "What do you need?", field: "service",
-    options: ["AI Automation", "Revenue Systems", "Brand Strategy", "Fractional COO", "VibeCoding", "Video Production", "Full Business Overhaul", "Not sure yet"],
-  },
-  {
-    id: "bottleneck", type: "multi", label: "What's your biggest bottleneck?", subtitle: "Tap all that apply", field: "bottlenecks",
-    options: ["No systems in place", "Too many manual tasks", "Can't scale past current revenue", "No leads or pipeline", "Team is overwhelmed", "Brand isn't converting", "Tech stack is a mess", "I'm the bottleneck"],
-  },
-  {
-    id: "revenue", type: "select", label: "What's your annual revenue?", field: "revenue_range",
-    options: ["Pre-revenue", "$0 - $50K", "$50K - $250K", "$250K - $1M", "$1M - $5M", "$5M+"],
-  },
-  {
-    id: "budget", type: "select", label: "What's your budget for this?", field: "budget",
-    options: ["Under $1K", "$1K - $5K", "$5K - $15K", "$15K - $50K", "$50K+", "Let's discuss"],
-  },
-  {
-    id: "source", type: "select", label: "How did you find me?", field: "how_found",
-    options: ["Google", "Social Media", "Referral", "TV / Entertainment", "Podcast", "Other"],
-  },
-  { id: "submit", type: "submit" },
-] as const;
+const EMPTY_FORM = {
+  name: "",
+  email: "",
+  phone: "",
+  company: "",
+  website: "",
+  social: "",
+  service: "",
+  bottlenecks: [] as string[],
+  revenue_range: "",
+  budget: "",
+  how_found: "",
+};
 
-type StepType = (typeof STEPS)[number];
+type TextField = "name" | "email" | "phone" | "company" | "website" | "social";
+type ChoiceField = "service" | "revenue_range" | "budget" | "how_found";
+type Option = { value: string; label?: string };
 
-export function ContactModal({ isOpen, onClose }: ContactModalProps) {
+type FieldSpec = {
+  field: TextField;
+  label: string;
+  placeholder: string;
+  type: "text" | "email" | "tel";
+  autoComplete: string;
+  required?: boolean;
+  hint?: string;
+  inputMode?: "text" | "email" | "tel" | "url";
+  autoCapitalize?: "none" | "words";
+};
+
+type Step =
+  | { id: "intro"; kind: "intro" }
+  | { id: string; kind: "choice"; field: ChoiceField; title: string; hint: string; options: Option[] }
+  | { id: string; kind: "multi"; field: "bottlenecks"; title: string; hint: string; options: Option[] }
+  | { id: string; kind: "fields"; title: string; hint: string; fields: FieldSpec[] }
+  | { id: "review"; kind: "review" };
+
+const EMAIL_PATTERN = /\S+@\S+\.\S+/;
+
+const choices = (...values: string[]): Option[] => values.map((value) => ({ value }));
+
+/*
+  Easy taps first, contact details once the visitor has said what they need.
+  Nothing is saved until the last step, so the order changes how the form
+  feels, not what arrives.
+*/
+const QUESTIONS: Step[] = [
+  {
+    id: "service",
+    kind: "choice",
+    field: "service",
+    title: "What can I help with?",
+    hint: "Pick the closest fit.",
+    // "Speaking or Podcast" is new (the Speaking page opens this form). service is
+    // free text everywhere it goes: a text column with no check (successupgrade.ai
+    // writes its own values into it), the notify email, and never GoHighLevel.
+    options: choices("AI Automation", "Revenue Systems", "Brand Strategy", "Fractional COO", "VibeCoding", "Video Production", "Full Business Overhaul", "Speaking or Podcast", "Not sure yet"),
+  },
+  {
+    id: "bottleneck",
+    kind: "multi",
+    field: "bottlenecks",
+    title: "What's slowing you down?",
+    hint: "Tap all that apply.",
+    options: choices("No systems in place", "Too many manual tasks", "Can't scale past current revenue", "No leads or pipeline", "Team is overwhelmed", "Brand isn't converting", "Tech stack is a mess", "I'm the bottleneck"),
+  },
+  {
+    id: "revenue",
+    kind: "choice",
+    field: "revenue_range",
+    title: "Where is revenue today?",
+    hint: "Per year, roughly. It helps me suggest the right first step.",
+    options: [
+      { value: "Pre-revenue", label: "No revenue yet" },
+      { value: "$0 - $50K", label: "Up to $50K" },
+      { value: "$50K - $250K", label: "$50K to $250K" },
+      { value: "$250K - $1M", label: "$250K to $1M" },
+      { value: "$1M - $5M", label: "$1M to $5M" },
+      { value: "$5M+", label: "$5M or more" },
+    ],
+  },
+  {
+    id: "budget",
+    kind: "choice",
+    field: "budget",
+    title: "What budget do you have in mind?",
+    hint: "A rough range is fine.",
+    options: [
+      { value: "Under $1K" },
+      { value: "$1K - $5K", label: "$1K to $5K" },
+      { value: "$5K - $15K", label: "$5K to $15K" },
+      { value: "$15K - $50K", label: "$15K to $50K" },
+      { value: "$50K+", label: "$50K or more" },
+      { value: "Let's discuss", label: "Not sure yet, let's discuss" },
+    ],
+  },
+  {
+    id: "contact",
+    kind: "fields",
+    title: "Where should I reply?",
+    hint: "Name and email are all I need.",
+    fields: [
+      { field: "name", label: "Name", placeholder: "Full name", type: "text", autoComplete: "name", required: true, autoCapitalize: "words" },
+      { field: "email", label: "Email", placeholder: "you@company.com", type: "email", autoComplete: "email", required: true, inputMode: "email", autoCapitalize: "none" },
+      { field: "phone", label: "Phone", placeholder: "(555) 000-0000", type: "tel", autoComplete: "tel", inputMode: "tel", hint: "Helpful for a quick follow up." },
+    ],
+  },
+  {
+    id: "business",
+    kind: "fields",
+    title: "Where can I take a look?",
+    hint: "All optional. It lets me look before we talk.",
+    fields: [
+      { field: "company", label: "Company or brand", placeholder: "Company name", type: "text", autoComplete: "organization" },
+      { field: "website", label: "Website", placeholder: "yourcompany.com", type: "text", autoComplete: "url", inputMode: "url", autoCapitalize: "none" },
+      { field: "social", label: "Main social handle", placeholder: "@yourbrand", type: "text", autoComplete: "off", autoCapitalize: "none", hint: "Instagram, X, LinkedIn, or TikTok." },
+    ],
+  },
+  {
+    id: "source",
+    kind: "choice",
+    field: "how_found",
+    title: "How did you find me?",
+    hint: "Last question.",
+    options: choices("Google", "Social Media", "Referral", "TV / Entertainment", "Podcast", "Other"),
+  },
+];
+
+const REVIEW: Step = { id: "review", kind: "review" };
+const MODAL_STEPS: Step[] = [{ id: "intro", kind: "intro" }, ...QUESTIONS, REVIEW];
+const INLINE_STEPS: Step[] = [...QUESTIONS, REVIEW];
+
+function labelFor(field: ChoiceField, value: string): string {
+  for (const step of QUESTIONS) {
+    if (step.kind === "choice" && step.field === field) {
+      return step.options.find((option) => option.value === value)?.label ?? value;
+    }
+  }
+  return value;
+}
+
+const PRIMARY =
+  "w-full py-3.5 px-4 bg-[#D4A853] text-[#0D0D0D] text-sm font-medium tracking-wide hover:bg-[#E8C97A] transition-colors flex items-center justify-center gap-2 active:scale-[0.97] disabled:opacity-40 disabled:pointer-events-none";
+
+const DIRECT = [
+  { icon: Phone, label: "Call", value: "(510) 680-9100", href: "tel:+15106809100" },
+  { icon: MessageSquare, label: "Text", value: "(510) 693-4083", href: "sms:+15106934083" },
+  { icon: Mail, label: "Email", value: "bigfilmsonly@gmail.com", href: "mailto:bigfilmsonly@gmail.com" },
+];
+
+/** Call, text and email as three even rows, with the number on show for desktop visitors. */
+export function DirectContactList() {
+  return (
+    <ul className="bg-[#1A1A1A] border border-[#3D3A35] divide-y divide-[#3D3A35]/60 text-left">
+      {DIRECT.map(({ icon: Icon, label, value, href }) => (
+        <li key={label}>
+          <a
+            href={href}
+            className="group flex items-center gap-4 min-h-[64px] px-5 py-3 hover:bg-[#D4A853]/[0.06] active:bg-[#D4A853]/10 transition-colors"
+          >
+            <Icon className="w-[18px] h-[18px] shrink-0 text-[#D4A853]" strokeWidth={1.5} aria-hidden />
+            <span className="flex-1 min-w-0">
+              <span className="block text-[10px] tracking-[0.15em] uppercase text-[#8A837B]">{label}</span>
+              <span className="block truncate text-[15px] text-[#FAF8F5]">{value}</span>
+            </span>
+            <ArrowRight className="w-4 h-4 shrink-0 text-[#5C5750] group-hover:text-[#D4A853] transition-colors" aria-hidden />
+          </a>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+function Divider({ label }: { label: string }) {
+  return (
+    <p className="flex items-center gap-3 text-[11px] tracking-[0.15em] uppercase text-[#8A837B]">
+      <span className="flex-1 h-px bg-[#3D3A35]/60" />
+      {label}
+      <span className="flex-1 h-px bg-[#3D3A35]/60" />
+    </p>
+  );
+}
+
+function OptionButton({ label, selected, multi, onClick }: { label: string; selected: boolean; multi?: boolean; onClick: () => void }) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      aria-pressed={selected}
+      className={`w-full min-h-[52px] px-4 py-3 flex items-center gap-3 text-left border transition-colors active:scale-[0.99] ${
+        selected ? "border-[#D4A853] bg-[#D4A853]/10" : "border-[#3D3A35] bg-[#1A1A1A] hover:border-[#D4A853]/40"
+      }`}
+    >
+      <span className="flex-1 text-[15px] leading-snug text-[#FAF8F5]">{label}</span>
+      <span
+        aria-hidden
+        className={`w-5 h-5 shrink-0 flex items-center justify-center border transition-colors ${multi ? "" : "rounded-full"} ${
+          selected ? "bg-[#D4A853] border-[#D4A853]" : "border-[#5C5750]"
+        }`}
+      >
+        {selected && <Check className="w-3 h-3 text-[#0D0D0D]" strokeWidth={3} />}
+      </span>
+    </button>
+  );
+}
+
+function ContactFlow({ variant, onClose, onBook }: { variant: "modal" | "inline"; onClose?: () => void; onBook?: () => void }) {
+  const isModal = variant === "modal";
+  const steps = isModal ? MODAL_STEPS : INLINE_STEPS;
   const [step, setStep] = useState(0);
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [direction, setDirection] = useState<"forward" | "back">("forward");
-  const inputRef = useRef<HTMLInputElement>(null);
-  const [form, setForm] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    company: "",
-    website: "",
-    social: "",
-    service: "",
-    bottlenecks: [] as string[],
-    revenue_range: "",
-    budget: "",
-    how_found: "",
-  });
+  const [form, setForm] = useState(EMPTY_FORM);
+  const [emailTouched, setEmailTouched] = useState(false);
+  const rootRef = useRef<HTMLDivElement>(null);
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const fieldsRef = useRef<HTMLFormElement>(null);
+  const advanceTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const moved = useRef(false);
 
-  const current = STEPS[step];
-  const totalSteps = STEPS.length;
-  const progress = ((step) / (totalSteps - 1)) * 100;
+  const current = steps[step];
+  const questionNumber = QUESTIONS.indexOf(current) + 1;
+  const done = status === "success";
+  const Heading = isModal ? "h2" : "h3";
 
+  // A new step, or the thank you, starts at its top. Nothing moves on first
+  // render, so the inline form never pulls the page down on load, and an error
+  // after Send stays in view under the button.
   useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = "hidden";
-      setStep(0);
-      setStatus("idle");
-    } else {
-      document.body.style.overflow = "";
+    if (!moved.current) return;
+    if (isModal) {
+      scrollRef.current?.scrollTo({ top: 0 });
+    } else if (rootRef.current && rootRef.current.getBoundingClientRect().top < 0) {
+      rootRef.current.scrollIntoView({ block: "start" });
     }
-    return () => { document.body.style.overflow = ""; };
-  }, [isOpen]);
+  }, [step, done, isModal]);
+
+  // A step with fields focuses its first empty box.
+  const hasFields = current.kind === "fields";
+  useEffect(() => {
+    if (!moved.current || !hasFields) return;
+    const timer = setTimeout(() => {
+      const inputs = Array.from(fieldsRef.current?.querySelectorAll("input") ?? []);
+      (inputs.find((input) => !input.value) ?? inputs[0])?.focus();
+    }, 300);
+    return () => clearTimeout(timer);
+  }, [step, hasFields]);
 
   useEffect(() => {
-    if (current.type === "text" && inputRef.current) {
-      setTimeout(() => inputRef.current?.focus(), 300);
-    }
-  }, [step, current.type]);
-
-  useEffect(() => {
+    if (!isModal || !onClose) return;
     const handleEscape = (e: KeyboardEvent) => {
-      if (e.key === "Escape") handleClose();
+      if (e.key === "Escape") onClose();
     };
     window.addEventListener("keydown", handleEscape);
     return () => window.removeEventListener("keydown", handleEscape);
-  }, []);
+  }, [isModal, onClose]);
 
-  const handleClose = () => {
-    setForm({ name: "", email: "", phone: "", company: "", website: "", social: "", service: "", bottlenecks: [], revenue_range: "", budget: "", how_found: "" });
-    setStep(0);
-    setStatus("idle");
-    onClose();
-  };
+  useEffect(
+    () => () => {
+      if (advanceTimer.current) clearTimeout(advanceTimer.current);
+    },
+    []
+  );
 
   const goNext = () => {
-    if (step < totalSteps - 1) {
+    if (step < steps.length - 1) {
+      moved.current = true;
       setDirection("forward");
-      setStep((s) => s + 1);
+      setStep((s) => Math.min(s + 1, steps.length - 1));
     }
   };
 
   const goBack = () => {
+    if (advanceTimer.current) {
+      clearTimeout(advanceTimer.current);
+      advanceTimer.current = null;
+    }
     if (step > 0) {
+      moved.current = true;
       setDirection("back");
-      setStep((s) => s - 1);
+      setStep((s) => Math.max(s - 1, 0));
     }
   };
 
   const canAdvance = () => {
-    if (current.type === "text" && "required" in current && current.required) {
-      const val = form[current.field as keyof typeof form] as string;
-      if (!val.trim()) return false;
-      if ("inputType" in current && current.inputType === "email" && !/\S+@\S+\.\S+/.test(val)) return false;
+    if (current.kind === "fields") {
+      return current.fields.every(({ field, type, required }) => {
+        if (!required) return true;
+        const val = form[field];
+        if (!val.trim()) return false;
+        if (type === "email" && !EMAIL_PATTERN.test(val)) return false;
+        return true;
+      });
     }
+    if (current.kind === "multi") return form[current.field].length > 0;
     return true;
   };
 
-  const handleTextSubmit = (e: React.FormEvent) => {
+  const handleFieldsSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (canAdvance()) goNext();
   };
 
-  const handleSelect = (field: string, value: string) => {
+  // One advance per question: a second quick tap changes the answer, it never skips the next question.
+  const handleSelect = (field: ChoiceField, value: string) => {
     setForm((prev) => ({ ...prev, [field]: value }));
-    setTimeout(() => goNext(), 250);
+    if (advanceTimer.current) return;
+    advanceTimer.current = setTimeout(() => {
+      advanceTimer.current = null;
+      goNext();
+    }, 250);
   };
 
   const handleMulti = (field: string, value: string) => {
@@ -167,6 +377,7 @@ export function ContactModal({ isOpen, onClose }: ContactModalProps) {
     if (!saved.ok) {
       setStatus("error");
     } else {
+      moved.current = true;
       setStatus("success");
       trackEvent.formSubmit("Contact Application");
       fetch("/api/notify", {
@@ -192,305 +403,298 @@ export function ContactModal({ isOpen, onClose }: ContactModalProps) {
     }
   };
 
-  if (!isOpen) return null;
+  const showProgress = !done && current.kind !== "intro";
+  const progress = current.kind === "review" ? 100 : (questionNumber / QUESTIONS.length) * 100;
+  const counter = done ? "" : current.kind === "intro" ? "Jotham Hall" : current.kind === "review" ? "Review" : `${questionNumber} of ${QUESTIONS.length}`;
+  const firstName = form.name.trim().split(/\s+/)[0] ?? "";
 
-  return (
-    <div className="fixed inset-0 z-[1001] bg-background flex flex-col">
-      {/* Top bar */}
-      <div className="shrink-0 flex items-center justify-between px-6 py-4">
-        <div className="flex items-center gap-3">
-          {step > 0 && status !== "success" && (
+  const topBar = (
+    <>
+      <div className="grid grid-cols-[44px_1fr_44px] items-center">
+        <div>
+          {!done && step > 0 && (
             <button
               type="button"
               onClick={goBack}
-              className="p-1.5 text-muted-foreground hover:text-foreground transition-colors"
-              aria-label="Go back"
+              className="w-11 h-11 -ml-3 flex items-center justify-center text-[#8A837B] hover:text-[#FAF8F5] transition-colors"
+              aria-label="Back"
             >
               <ArrowLeft className="w-5 h-5" />
             </button>
           )}
-          <span className="font-display text-sm tracking-tight text-foreground/40">
-            {step > 0 && status !== "success"
-              ? `${step} of ${totalSteps - 2}`
-              : "Jotham Hall"}
-          </span>
         </div>
-        <button
-          type="button"
-          onClick={handleClose}
-          className="p-1.5 text-muted-foreground hover:text-foreground transition-colors"
-          aria-label="Close"
-        >
-          <X className="w-5 h-5" />
-        </button>
+        <p className={`text-center text-[11px] tracking-[0.15em] uppercase ${current.kind === "intro" ? "font-display text-[#8A837B]" : "text-[#B8B0A8]"}`}>
+          {counter}
+        </p>
+        <div className="flex justify-end">
+          {onClose && (
+            <button
+              type="button"
+              onClick={onClose}
+              className="w-11 h-11 -mr-3 flex items-center justify-center text-[#8A837B] hover:text-[#FAF8F5] transition-colors"
+              aria-label="Close"
+            >
+              <X className="w-5 h-5" />
+            </button>
+          )}
+        </div>
       </div>
-
-      {/* Progress bar */}
-      {status !== "success" && (
-        <div className="shrink-0 px-6">
-          <div className="h-0.5 bg-foreground/10 w-full">
-            <div
-              className="h-full bg-foreground transition-all duration-500 ease-out"
-              style={{ width: `${progress}%` }}
-            />
-          </div>
+      {showProgress && (
+        <div className="mt-1 h-[2px] bg-[#3D3A35]/60" aria-hidden>
+          <div className="h-full bg-[#D4A853] transition-[width] duration-500 ease-out" style={{ width: `${progress}%` }} />
         </div>
       )}
+    </>
+  );
 
-      {/* Content */}
-      <div className="flex-1 flex items-center justify-center px-6">
-        <div
-          key={step}
-          className={`w-full max-w-md ${
-            direction === "forward" ? "animate-in fade-in slide-in-from-right-4" : "animate-in fade-in slide-in-from-left-4"
-          } duration-300`}
-        >
-          {/* SUCCESS STATE */}
-          {status === "success" && (
-            <div className="text-center">
-              <div className="w-20 h-20 mx-auto mb-8 rounded-full border-2 border-foreground flex items-center justify-center">
-                <Check className="w-9 h-9 text-foreground" strokeWidth={1.5} />
-              </div>
-              <h2 className="font-display text-3xl sm:text-4xl tracking-tight mb-4">
-                You&apos;re in.
-              </h2>
-              <p className="text-muted-foreground text-base leading-relaxed max-w-sm mx-auto">
-                I review every application personally. Expect a response within 24 hours with next steps.
-              </p>
-              <button
-                onClick={handleClose}
-                className="mt-10 px-8 py-3.5 bg-foreground text-background text-sm font-medium hover:bg-foreground/90 transition-colors"
-              >
-                Done
-              </button>
-            </div>
-          )}
+  let body: React.ReactNode = null;
 
-          {/* INTRO STEP */}
-          {status !== "success" && current.id === "intro" && (
-            <div className="text-center">
-              <p className="font-mono text-xs tracking-widest text-muted-foreground uppercase mb-6">
-                Apply to Work Together
-              </p>
-              <h2 className="font-display text-3xl sm:text-4xl tracking-tight mb-4 leading-[1.1]">
-                Tell me about
-                <br />
-                your business.
-              </h2>
-              <p className="text-muted-foreground text-sm leading-relaxed max-w-sm mx-auto mb-10">
-                This takes about 60 seconds. The more you share, the better I can diagnose exactly what you need.
-              </p>
-              <button
-                type="button"
-                onClick={goNext}
-                className="px-8 py-4 bg-foreground text-background text-sm font-medium hover:bg-foreground/90 transition-colors flex items-center gap-2 mx-auto active:scale-[0.97]"
-              >
-                Get Started
-                <ArrowRight className="w-4 h-4" />
-              </button>
-              <p className="text-[10px] text-muted-foreground/50 font-mono mt-6">
-                Free consultation. No obligation.
-              </p>
-            </div>
-          )}
-
-          {/* TEXT INPUT STEPS */}
-          {status !== "success" && current.type === "text" && (
-            <form onSubmit={handleTextSubmit}>
-              <label className="block">
-                <span className="font-display text-2xl sm:text-3xl tracking-tight block mb-2">
-                  {current.label}
-                </span>
-                {"subtitle" in current && current.subtitle && (
-                  <span className="text-sm text-muted-foreground block mb-8">
-                    {current.subtitle}
-                  </span>
-                )}
-                {!("subtitle" in current) && <span className="block mb-8" />}
-                <input
-                  ref={inputRef}
-                  name={current.field}
-                  type={"inputType" in current ? current.inputType : "text"}
-                  required={"required" in current && current.required}
-                  value={form[current.field as keyof typeof form] as string}
-                  onChange={(e) => setForm((prev) => ({ ...prev, [current.field]: e.target.value }))}
-                  placeholder={current.placeholder}
-                  className="w-full bg-transparent border-b-2 border-foreground/20 focus:border-foreground text-xl sm:text-2xl py-3 outline-none transition-colors placeholder-foreground/20 font-display"
-                  autoComplete={
-                    current.field === "name" ? "name"
-                    : current.field === "email" ? "email"
-                    : current.field === "phone" ? "tel"
-                    : "off"
-                  }
-                />
-              </label>
-              <button
-                type="submit"
-                disabled={!canAdvance()}
-                className="mt-10 px-8 py-4 bg-foreground text-background text-sm font-medium hover:bg-foreground/90 transition-colors flex items-center gap-2 disabled:opacity-20 disabled:pointer-events-none active:scale-[0.97]"
-              >
-                Continue
-                <ArrowRight className="w-4 h-4" />
-              </button>
-              {!("required" in current && current.required) && (
-                <button
-                  type="button"
-                  onClick={goNext}
-                  className="mt-3 text-xs text-muted-foreground hover:text-foreground transition-colors font-mono"
-                >
-                  Skip this step
-                </button>
-              )}
-            </form>
-          )}
-
-          {/* SINGLE SELECT STEPS */}
-          {status !== "success" && current.type === "select" && (
-            <div>
-              <h2 className="font-display text-2xl sm:text-3xl tracking-tight mb-8">
-                {current.label}
-              </h2>
-              <div className="space-y-2">
-                {current.options.map((opt, i) => (
-                  <button
-                    key={opt}
-                    type="button"
-                    onClick={() => handleSelect(current.field, opt)}
-                    className={`w-full text-left px-5 py-4 border transition-all duration-150 flex items-center justify-between group active:scale-[0.98] ${
-                      form[current.field as keyof typeof form] === opt
-                        ? "bg-foreground text-background border-foreground"
-                        : "bg-transparent text-foreground border-foreground/10 hover:border-foreground/30"
-                    }`}
-                  >
-                    <span className="text-sm font-medium">{opt}</span>
-                    <span className={`text-xs font-mono ${
-                      form[current.field as keyof typeof form] === opt
-                        ? "text-background/50"
-                        : "text-muted-foreground"
-                    }`}>
-                      {String.fromCharCode(65 + i)}
-                    </span>
-                  </button>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {/* MULTI SELECT STEPS */}
-          {status !== "success" && current.type === "multi" && (
-            <div>
-              <h2 className="font-display text-2xl sm:text-3xl tracking-tight mb-2">
-                {current.label}
-              </h2>
-              {"subtitle" in current && current.subtitle && (
-                <p className="text-sm text-muted-foreground mb-6">{current.subtitle}</p>
-              )}
-              <div className="space-y-2 mb-8">
-                {current.options.map((opt) => {
-                  const selected = (form[current.field as keyof typeof form] as string[]).includes(opt);
-                  return (
-                    <button
-                      key={opt}
-                      type="button"
-                      onClick={() => handleMulti(current.field, opt)}
-                      className={`w-full text-left px-5 py-4 border transition-all duration-150 flex items-center gap-3 active:scale-[0.98] ${
-                        selected
-                          ? "bg-foreground text-background border-foreground"
-                          : "bg-transparent text-foreground border-foreground/10 hover:border-foreground/30"
-                      }`}
-                    >
-                      <div className={`w-5 h-5 border-2 flex items-center justify-center shrink-0 transition-colors ${
-                        selected ? "border-background bg-background" : "border-foreground/30"
-                      }`}>
-                        {selected && <Check className="w-3 h-3 text-foreground" strokeWidth={3} />}
-                      </div>
-                      <span className="text-sm font-medium">{opt}</span>
-                    </button>
-                  );
-                })}
-              </div>
-              <button
-                type="button"
-                onClick={goNext}
-                disabled={(form[current.field as keyof typeof form] as string[]).length === 0}
-                className="px-8 py-4 bg-foreground text-background text-sm font-medium hover:bg-foreground/90 transition-colors flex items-center gap-2 disabled:opacity-20 disabled:pointer-events-none active:scale-[0.97]"
-              >
-                Continue
-                <ArrowRight className="w-4 h-4" />
-              </button>
-            </div>
-          )}
-
-          {/* SUBMIT STEP */}
-          {status !== "success" && current.id === "submit" && (
-            <div className="text-center">
-              <p className="font-mono text-xs tracking-widest text-muted-foreground uppercase mb-6">
-                Almost Done
-              </p>
-              <h2 className="font-display text-3xl sm:text-4xl tracking-tight mb-4 leading-[1.1]">
-                Ready to submit?
-              </h2>
-              <p className="text-muted-foreground text-sm leading-relaxed max-w-sm mx-auto mb-3">
-                Here&apos;s what I got:
-              </p>
-
-              {/* Summary */}
-              <div className="text-left border border-foreground/10 divide-y divide-foreground/10 mb-8 text-sm max-w-sm mx-auto">
-                <div className="px-4 py-3 flex justify-between">
-                  <span className="text-muted-foreground">Name</span>
-                  <span className="font-medium">{form.name}</span>
-                </div>
-                <div className="px-4 py-3 flex justify-between">
-                  <span className="text-muted-foreground">Email</span>
-                  <span className="font-medium truncate ml-4">{form.email}</span>
-                </div>
-                {form.website && (
-                  <div className="px-4 py-3 flex justify-between">
-                    <span className="text-muted-foreground">Website</span>
-                    <span className="font-medium truncate ml-4">{form.website}</span>
-                  </div>
-                )}
-                {form.service && (
-                  <div className="px-4 py-3 flex justify-between">
-                    <span className="text-muted-foreground">Service</span>
-                    <span className="font-medium">{form.service}</span>
-                  </div>
-                )}
-                {form.budget && (
-                  <div className="px-4 py-3 flex justify-between">
-                    <span className="text-muted-foreground">Budget</span>
-                    <span className="font-medium">{form.budget}</span>
-                  </div>
-                )}
-                {form.revenue_range && (
-                  <div className="px-4 py-3 flex justify-between">
-                    <span className="text-muted-foreground">Revenue</span>
-                    <span className="font-medium">{form.revenue_range}</span>
-                  </div>
-                )}
-              </div>
-
-              <button
-                type="button"
-                onClick={handleSubmit}
-                disabled={status === "loading"}
-                className="px-10 py-4 bg-foreground text-background text-sm font-medium hover:bg-foreground/90 transition-colors flex items-center gap-2 mx-auto active:scale-[0.97] disabled:opacity-50"
-              >
-                {status === "loading" ? "Sending..." : "Submit Application"}
-                {status !== "loading" && <Send className="w-4 h-4" />}
-              </button>
-
-              {status === "error" && (
-                <p className="text-xs text-red-400 font-mono mt-4">Something went wrong. Try again.</p>
-              )}
-
-              <p className="text-[10px] text-muted-foreground/50 font-mono mt-6">
-                Free consultation. No obligation. Response within 24 hours.
-              </p>
-            </div>
-          )}
+  if (done) {
+    body = (
+      <div className="text-center">
+        <div className="w-16 h-16 mx-auto mb-6 rounded-full border border-[#D4A853] flex items-center justify-center">
+          <Check className="w-7 h-7 text-[#D4A853]" strokeWidth={1.5} />
         </div>
+        <p className="text-[11px] tracking-[0.15em] uppercase text-[#D4A853] mb-3">Sent</p>
+        <Heading className="font-display text-[1.625rem] leading-snug tracking-[0.12em] uppercase text-balance text-[#FAF8F5] mb-4">
+          {firstName ? `Thank you, ${firstName}` : "Thank you"}
+        </Heading>
+        <p className="text-[15px] text-[#B8B0A8] leading-relaxed text-balance max-w-[320px] mx-auto">
+          I read every answer myself and reply within 24 hours on business days. If I am not the right person to help, I will tell you that too.
+        </p>
+        {onBook && (
+          <div className="mt-8">
+            <p className="text-[13px] text-[#8A837B] mb-3">Want to talk sooner?</p>
+            <button type="button" onClick={onBook} className={PRIMARY}>
+              Book a Strategy Call
+              <ArrowRight className="w-4 h-4" />
+            </button>
+          </div>
+        )}
+        {isModal && (
+          <>
+            <div className="mt-10 mb-4">
+              <Divider label="Want to talk sooner?" />
+            </div>
+            <DirectContactList />
+            <button type="button" onClick={onClose} className={`${PRIMARY} mt-6`}>
+              Done
+            </button>
+          </>
+        )}
+      </div>
+    );
+  } else if (current.kind === "intro") {
+    body = (
+      <div className="text-center">
+        <p className="text-[11px] tracking-[0.15em] uppercase text-[#D4A853] mb-4">Work With Me</p>
+        <Heading className="font-display text-[1.625rem] leading-snug tracking-[0.12em] uppercase text-balance text-[#FAF8F5] mb-4">
+          Tell me about your business
+        </Heading>
+        <p className="text-[15px] text-[#B8B0A8] leading-relaxed text-balance max-w-[320px] mx-auto mb-8">
+          Seven quick questions, about a minute. I read every answer myself and reply within 24 hours.
+        </p>
+        <button type="button" onClick={goNext} className={PRIMARY}>
+          Get Started
+          <ArrowRight className="w-4 h-4" />
+        </button>
+        <p className="mt-3 text-[13px] text-[#8A837B]">Free consultation. No obligation.</p>
+        <div className="mt-10 mb-4">
+          <Divider label="Or reach me directly" />
+        </div>
+        <DirectContactList />
+      </div>
+    );
+  } else if (current.kind === "choice" || current.kind === "multi") {
+    const isMulti = current.kind === "multi";
+    const picked = form[current.field];
+    body = (
+      <div>
+        <div className="text-center mb-7">
+          <Heading className="font-display text-[1.375rem] leading-snug tracking-[0.12em] uppercase text-balance text-[#FAF8F5]">
+            {current.title}
+          </Heading>
+          <p className="mt-3 text-[15px] leading-relaxed text-balance text-[#B8B0A8]">{current.hint}</p>
+        </div>
+        <div className="space-y-2">
+          {current.options.map((option) => (
+            <OptionButton
+              key={option.value}
+              label={option.label ?? option.value}
+              multi={isMulti}
+              selected={Array.isArray(picked) ? picked.includes(option.value) : picked === option.value}
+              onClick={() =>
+                current.kind === "multi" ? handleMulti(current.field, option.value) : handleSelect(current.field, option.value)
+              }
+            />
+          ))}
+        </div>
+        {isMulti && (
+          <button type="button" onClick={goNext} disabled={!canAdvance()} className={`${PRIMARY} mt-6`}>
+            Continue
+            <ArrowRight className="w-4 h-4" />
+          </button>
+        )}
+      </div>
+    );
+  } else if (current.kind === "fields") {
+    const optionalOnly = current.fields.every((f) => !f.required);
+    const anyFilled = current.fields.some((f) => form[f.field].trim() !== "");
+    const emailInvalid =
+      emailTouched &&
+      current.fields.some((f) => f.type === "email") &&
+      form.email.trim() !== "" &&
+      !EMAIL_PATTERN.test(form.email);
+    body = (
+      <form ref={fieldsRef} onSubmit={handleFieldsSubmit}>
+        <div className="text-center mb-7">
+          <Heading className="font-display text-[1.375rem] leading-snug tracking-[0.12em] uppercase text-balance text-[#FAF8F5]">
+            {current.title}
+          </Heading>
+          <p className="mt-3 text-[15px] leading-relaxed text-balance text-[#B8B0A8]">{current.hint}</p>
+        </div>
+        <div className="space-y-5">
+          {current.fields.map((f, i) => {
+            const isLast = i === current.fields.length - 1;
+            return (
+              <label key={f.field} className="block">
+                <span className="flex items-baseline justify-between mb-2">
+                  <span className="text-[11px] tracking-[0.15em] uppercase text-[#B8B0A8]">{f.label}</span>
+                  {!f.required && <span className="text-[11px] tracking-[0.15em] uppercase text-[#5C5750]">Optional</span>}
+                </span>
+                <input
+                  name={f.field}
+                  type={f.type}
+                  inputMode={f.inputMode}
+                  autoCapitalize={f.autoCapitalize}
+                  autoCorrect="off"
+                  spellCheck={false}
+                  required={f.required}
+                  value={form[f.field]}
+                  onChange={(e) => setForm((prev) => ({ ...prev, [f.field]: e.target.value }))}
+                  onBlur={f.type === "email" ? () => setEmailTouched(true) : undefined}
+                  onKeyDown={(e) => {
+                    // Enter moves to the next box; only the last one sends the step on.
+                    if (e.key === "Enter" && !isLast) {
+                      e.preventDefault();
+                      const inputs = Array.from(fieldsRef.current?.querySelectorAll("input") ?? []);
+                      inputs[i + 1]?.focus();
+                    }
+                  }}
+                  enterKeyHint={isLast ? "go" : "next"}
+                  placeholder={f.placeholder}
+                  autoComplete={f.autoComplete}
+                  className="w-full h-[52px] px-4 bg-[#1A1A1A] border border-[#3D3A35] rounded-none text-[17px] text-[#FAF8F5] placeholder:text-[#5C5750] outline-none focus:border-[#D4A853] transition-colors"
+                />
+                {f.hint && <span className="block mt-2 text-[13px] text-[#8A837B]">{f.hint}</span>}
+              </label>
+            );
+          })}
+        </div>
+        {emailInvalid && (
+          <p role="alert" className="mt-4 text-[13px] text-[#E8C97A]">
+            Check the email address. It should look like name@company.com.
+          </p>
+        )}
+        <button type="submit" disabled={!canAdvance()} className={`${PRIMARY} mt-8`}>
+          {optionalOnly && !anyFilled ? "Skip" : "Continue"}
+          <ArrowRight className="w-4 h-4" />
+        </button>
+      </form>
+    );
+  } else if (current.kind === "review") {
+    const rows: [string, string][] = [
+      ["Name", form.name],
+      ["Email", form.email],
+      ["Phone", form.phone],
+      ["Help with", form.service],
+      ["Revenue", form.revenue_range && labelFor("revenue_range", form.revenue_range)],
+      ["Budget", form.budget && labelFor("budget", form.budget)],
+      ["Website", form.website],
+    ];
+    body = (
+      <div>
+        <div className="text-center mb-7">
+          <Heading className="font-display text-[1.375rem] leading-snug tracking-[0.12em] uppercase text-balance text-[#FAF8F5]">
+            Ready to send?
+          </Heading>
+          <p className="mt-3 text-[15px] leading-relaxed text-balance text-[#B8B0A8]">Here is what I will read. Go back to change anything.</p>
+        </div>
+        <dl className="border border-[#3D3A35] divide-y divide-[#3D3A35]/60 mb-7">
+          {rows
+            .filter(([, value]) => value.trim() !== "")
+            .map(([label, value]) => (
+              <div key={label} className="px-4 py-3">
+                <dt className="text-[10px] tracking-[0.15em] uppercase text-[#8A837B] mb-1">{label}</dt>
+                <dd className="text-[15px] text-[#FAF8F5] break-words">{value}</dd>
+              </div>
+            ))}
+        </dl>
+        <button type="button" onClick={handleSubmit} disabled={status === "loading"} className={PRIMARY}>
+          {status === "loading" ? "Sending..." : "Send My Answers"}
+          {status !== "loading" && <Send className="w-4 h-4" />}
+        </button>
+        {status === "error" && (
+          <p role="alert" className="mt-4 text-[14px] leading-relaxed text-[#E8C97A] text-center">
+            That did not go through. Please try again, or email me at{" "}
+            <a href="mailto:bigfilmsonly@gmail.com" className="underline underline-offset-2">
+              bigfilmsonly@gmail.com
+            </a>
+            .
+          </p>
+        )}
+        <p className="mt-4 text-[13px] text-[#8A837B] text-center">Free consultation. No obligation.</p>
+      </div>
+    );
+  }
+
+  const animated = `w-full animate-in fade-in duration-300 motion-reduce:animate-none ${
+    direction === "forward" ? "slide-in-from-right-4" : "slide-in-from-left-4"
+  }`;
+
+  if (isModal) {
+    return (
+      <div role="dialog" aria-modal="true" aria-label="Contact Jotham Hall" className="fixed inset-0 z-[1001] bg-[#0D0D0D] flex flex-col">
+        <div className="shrink-0 px-6 pt-2 pb-1">{topBar}</div>
+        <div ref={scrollRef} className="flex-1 overflow-y-auto overscroll-contain">
+          <div className="min-h-full flex flex-col px-6 pt-8 pb-10">
+            {/* The intro and the thank you sit centered; questions keep one top line so the eye never hunts. */}
+            <div key={done ? "done" : step} className={`${done || current.kind === "intro" ? "my-auto" : "pt-2"} ${animated}`}>
+              {body}
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div ref={rootRef} className="scroll-mt-6">
+      {!done && <div className="mb-8">{topBar}</div>}
+      <div key={done ? "done" : step} className={animated}>
+        {body}
       </div>
     </div>
   );
+}
+
+export function ContactModal({ isOpen, onClose }: ContactModalProps) {
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => { document.body.style.overflow = ""; };
+  }, [isOpen]);
+
+  // The flow mounts fresh on every open, so each visit starts at the first screen with empty answers.
+  if (!isOpen) return null;
+
+  return <ContactFlow variant="modal" onClose={onClose} />;
+}
+
+/** The same application, inline. `onBook` lets the host page offer its own booking modal after sending. */
+export function ContactForm({ onBook }: { onBook?: () => void }) {
+  return <ContactFlow variant="inline" onBook={onBook} />;
 }

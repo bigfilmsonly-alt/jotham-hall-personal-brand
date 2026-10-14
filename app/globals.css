@@ -91,6 +91,7 @@
   }
   body {
     @apply bg-background text-foreground;
+    font-family: var(--font-inter), 'Inter', system-ui, sans-serif;
   }
   ::selection {
     background-color: #D4A853;
@@ -141,8 +142,14 @@
     background-clip: text;
   }
 
+  /*
+    @theme inline does not emit --font-display or --font-sans as real CSS
+    variables, so var(--font-display) resolved to nothing and every heading fell
+    back to the system sans. Point straight at the next/font variables that
+    app/layout.tsx sets on <body>.
+  */
   .font-display {
-    font-family: var(--font-display);
+    font-family: var(--font-cinzel), 'Cinzel', serif;
   }
   
   .text-stroke {

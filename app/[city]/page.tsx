@@ -1,39 +1,48 @@
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { cities, services } from "@/lib/city-data";
+import { cities, cityPage, localize, proofVentures } from "@/lib/city-data";
 import { CityPageContent } from "./city-page-content";
 
+// Only the cities in lib/city-data.ts (Miami). The old city URLs redirect in
+// next.config.mjs, and anything else at the top level falls through to 404.
 export function generateStaticParams() {
-  return [{ city: "miami" }];
+  return cities.map((city) => ({ city: city.slug }));
+}
+
+function findCity(slug: string) {
+  return cities.find((city) => city.slug === slug);
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ city: string }> }): Promise<Metadata> {
   const { city: slug } = await params;
-  const city = cities.find((c) => c.slug === slug);
+  const city = findCity(slug);
   if (!city) return {};
 
-  const title = `AI Automation & Business Systems ${city.name} | Jotham Hall`;
-  const description = `Jotham Hall helps ${city.name} entrepreneurs build AI-powered business systems. 50+ TV credits (Hallmark, Food Network, VH1, MTV, NBC). Practical AI systems and automation.`;
+  const copy = localize(cityPage, city);
+  const url = `https://jothamhall.com/${city.slug}`;
+  const shareTitle = `AI Automation in ${city.name} | Jotham Hall`;
 
+  // The root layout template adds "| Jotham Hall" to the title.
   return {
-    title,
-    description,
-    keywords: [
-      `AI automation consultant ${city.name}`,
-      `business systems architect ${city.name}`,
-      `AI consultant ${city.name}`,
-      `ChatGPT consultant ${city.name}`,
-      `revenue systems ${city.name}`,
-      `vibe coding ${city.name}`,
-      `fractional COO ${city.name}`,
-      ...city.neighborhoods.map((n) => `business consultant ${n}`),
-    ],
+    title: copy.title,
+    description: copy.description,
+    keywords: copy.keywords,
     openGraph: {
-      title: `AI Automation & Business Systems | ${city.name} | Jotham Hall`,
-      description: `AI-powered business systems for ${city.name} entrepreneurs. Practical AI systems and automation.`,
-      url: `https://jothamhall.com/${city.slug}`,
+      title: shareTitle,
+      description: copy.description,
+      url,
+      type: "website",
+      siteName: "Jotham Hall",
+      locale: "en_US",
+      images: [{ url: "/og-image.jpg", width: 1024, height: 1024, alt: "Jotham Hall" }],
     },
-    alternates: { canonical: `https://jothamhall.com/${city.slug}` },
+    twitter: {
+      card: "summary_large_image",
+      title: shareTitle,
+      description: copy.description,
+      images: ["/og-image.jpg"],
+    },
+    alternates: { canonical: url },
     other: {
       "geo.region": city.geoRegion,
       "geo.placename": city.name,
@@ -44,8 +53,55 @@ export async function generateMetadata({ params }: { params: Promise<{ city: str
 
 export default async function CityPage({ params }: { params: Promise<{ city: string }> }) {
   const { city: slug } = await params;
-  const city = cities.find((c) => c.slug === slug);
-  if (!city || city.slug !== "miami") notFound();
+  const city = findCity(slug);
+  if (!city) notFound();
 
-  return <CityPageContent city={city} services={services} />;
+  const copy = localize(cityPage, city);
+  const url = `https://jothamhall.com/${city.slug}`;
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Service",
+        "@id": `${url}#service`,
+        name: `AI Automation and Business Systems in ${city.name}`,
+        serviceType: "AI automation consulting",
+        url,
+        provider: { "@id": "https://jothamhall.com/#person" },
+        areaServed: { "@type": "City", name: city.name, containedInPlace: { "@type": "State", name: city.state } },
+      },
+      {
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          { "@type": "ListItem", position: 1, name: "Home", item: "https://jothamhall.com" },
+          { "@type": "ListItem", position: 2, name: city.name, item: url },
+        ],
+      },
+    ],
+  };
+
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }}
+      />
+      <CityPageContent
+        copy={{
+          slug: city.slug,
+          eyebrow: city.eyebrow,
+          headline: copy.headline,
+          intro: copy.intro,
+          offersTitle: copy.offersTitle,
+          offers: copy.offers,
+          steps: copy.steps,
+          faqs: [...copy.faqs, city.localFaq],
+          closingTitle: copy.closingTitle,
+          closingBody: copy.closingBody,
+          notesTitle: copy.notesTitle,
+        }}
+        ventures={proofVentures(city.proof)}
+      />
+    </>
+  );
 }

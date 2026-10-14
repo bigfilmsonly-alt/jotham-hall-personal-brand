@@ -70,9 +70,10 @@ export const metadata: Metadata = {
     images: [
       {
         url: '/og-image.jpg',
-        width: 1200,
-        height: 630,
-        alt: 'Jotham Hall - AI Systems Architect and Television Producer',
+        // The file is a 1024 square; declaring 1200x630 made previews crop it.
+        width: 1024,
+        height: 1024,
+        alt: 'Jotham Hall, AI Systems Architect and Television Producer',
         type: 'image/jpeg',
       },
     ],
@@ -85,7 +86,7 @@ export const metadata: Metadata = {
     description: 'I help founders build revenue systems that scale. 15 years in TV. Book a strategy call.',
     images: {
       url: '/og-image.jpg',
-      alt: 'Jotham Hall - AI Systems Architect',
+      alt: 'Jotham Hall, AI Systems Architect',
     },
   },
   icons: {
@@ -134,7 +135,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" data-scroll-behavior="smooth">
+    <html lang="en" className={`${cinzel.variable} ${inter.variable}`}>
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
         <meta name="format-detection" content="telephone=no" />
@@ -190,7 +191,7 @@ export default function RootLayout({
           <img height="1" width="1" style={{ display: 'none' }} src="https://www.facebook.com/tr?id=1385537246449316&ev=PageView&noscript=1" alt="" />
         </noscript>
       </head>
-      <body className={`${cinzel.variable} ${inter.variable} antialiased`}>
+      <body className="antialiased">
         <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NSML6K9F" height="0" width="0" style={{ display: 'none', visibility: 'hidden' }} /></noscript>
         {children}
         <MobileTabBar />

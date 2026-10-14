@@ -1,3 +1,46 @@
+/*
+  Local landing pages: /miami and /miami/vibe-coding.
+
+  Only Miami is live, because Jo is based in Miami Beach. next.config.mjs
+  sends the old city pages (New York, Los Angeles, and the rest) to the home
+  page, and /[city]/ai-automation, revenue-systems, personal-branding and
+  fractional-coo to /services. VibeCoding is the one city service page still
+  served. A city or service missing from the lists below returns 404.
+
+  Same copy rules as lib/ventures.ts: no prices, no invented results or
+  client stories, no scarcity, no em dashes or hyphenated compounds, American
+  English. Proof comes from lib/ventures.ts and the TV credits on /credits.
+  "{city}" in any string becomes the city's name and "{slug}" its URL slug
+  (see localize at the bottom).
+*/
+
+import { getVenture } from "@/lib/ventures";
+
+export interface ProofItem {
+  /** A slug from lib/ventures.ts; the card takes its name and status from there. */
+  slug: string;
+  /** One plain line on what Jo built, true to lib/ventures.ts. */
+  note: string;
+}
+
+export interface Step {
+  title: string;
+  body: string;
+}
+
+export interface Faq {
+  q: string;
+  a: string;
+  /** Links the first place `label` appears in the answer. */
+  link?: { label: string; href: string };
+}
+
+export interface Offer {
+  name: string;
+  outcome: string;
+  href: string;
+}
+
 export interface CityData {
   slug: string;
   name: string;
@@ -6,56 +49,15 @@ export interface CityData {
   geoRegion: string;
   latitude: number;
   longitude: number;
-  population: string;
-  neighborhoods: string[];
-  industries: string[];
-  localAngle: string;
-  priceRange: string;
+  /** The line above the headline. */
+  eyebrow: string;
+  /** Ventures shown as proof on the city page, in order. */
+  proof: ProofItem[];
+  /** The local question that closes the FAQ. */
+  localFaq: Faq;
 }
 
 export const cities: CityData[] = [
-  {
-    slug: "new-york",
-    name: "New York City",
-    state: "New York",
-    stateCode: "NY",
-    geoRegion: "US-NY",
-    latitude: 40.7128,
-    longitude: -74.006,
-    population: "8.3M",
-    neighborhoods: ["Manhattan", "Brooklyn", "Queens", "Bronx", "Midtown", "SoHo", "Tribeca", "Financial District"],
-    industries: ["Finance", "Media", "Tech", "Fashion", "Real Estate", "Healthcare"],
-    localAngle: "Serving Fortune 500 companies and ambitious startups in the city that never sleeps.",
-    priceRange: "$$",
-  },
-  {
-    slug: "san-francisco",
-    name: "San Francisco",
-    state: "California",
-    stateCode: "CA",
-    geoRegion: "US-CA",
-    latitude: 37.7749,
-    longitude: -122.4194,
-    population: "874K",
-    neighborhoods: ["SOMA", "Mission District", "Financial District", "Marina", "Oakland", "Berkeley", "Palo Alto", "San Jose"],
-    industries: ["Tech", "Startups", "Venture Capital", "Biotech", "SaaS"],
-    localAngle: "Oakland native. Silicon Valley experience. Building AI systems for the world's most innovative companies.",
-    priceRange: "$$",
-  },
-  {
-    slug: "los-angeles",
-    name: "Los Angeles",
-    state: "California",
-    stateCode: "CA",
-    geoRegion: "US-CA",
-    latitude: 34.0522,
-    longitude: -118.2437,
-    population: "4M",
-    neighborhoods: ["Hollywood", "Beverly Hills", "Santa Monica", "Venice", "Downtown LA", "Culver City", "Burbank", "Pasadena"],
-    industries: ["Entertainment", "Media", "Creator Economy", "Tech", "Fashion", "Healthcare"],
-    localAngle: "50+ TV credits with VH1, MTV, Hallmark, Food Network. Entertainment industry expertise meets AI automation.",
-    priceRange: "$$",
-  },
   {
     slug: "miami",
     name: "Miami",
@@ -64,133 +66,173 @@ export const cities: CityData[] = [
     geoRegion: "US-FL",
     latitude: 25.7617,
     longitude: -80.1918,
-    population: "467K",
-    neighborhoods: ["Miami Beach", "Brickell", "Wynwood", "Coconut Grove", "Coral Gables", "Downtown Miami", "Design District", "South Beach"],
-    industries: ["Finance", "Real Estate", "Crypto/Web3", "Healthcare", "International Trade", "Tourism"],
-    localAngle: "Based in Miami Beach. Available for in-person strategy sessions. Local expertise with global reach.",
-    priceRange: "$$",
-  },
-  {
-    slug: "atlanta",
-    name: "Atlanta",
-    state: "Georgia",
-    stateCode: "GA",
-    geoRegion: "US-GA",
-    latitude: 33.749,
-    longitude: -84.388,
-    population: "498K",
-    neighborhoods: ["Buckhead", "Midtown", "Downtown", "Decatur", "Sandy Springs", "Alpharetta", "Marietta"],
-    industries: ["Entertainment", "Healthcare", "Tech", "Logistics", "Film/TV Production"],
-    localAngle: "TV production credits with BET. Black entrepreneurship hub. Building systems for Atlanta's rising business community.",
-    priceRange: "$$",
-  },
-  {
-    slug: "austin",
-    name: "Austin",
-    state: "Texas",
-    stateCode: "TX",
-    geoRegion: "US-TX",
-    latitude: 30.2672,
-    longitude: -97.7431,
-    population: "978K",
-    neighborhoods: ["Downtown", "East Austin", "South Congress", "Domain", "Mueller", "Round Rock", "Cedar Park"],
-    industries: ["Tech", "Startups", "Music", "Film", "Healthcare"],
-    localAngle: "Serving Austin's booming tech scene. From podcasters to unicorn startups.",
-    priceRange: "$$",
-  },
-  {
-    slug: "chicago",
-    name: "Chicago",
-    state: "Illinois",
-    stateCode: "IL",
-    geoRegion: "US-IL",
-    latitude: 41.8781,
-    longitude: -87.6298,
-    population: "2.7M",
-    neighborhoods: ["Loop", "River North", "Lincoln Park", "Wicker Park", "Gold Coast", "West Loop", "Naperville", "Evanston"],
-    industries: ["Finance", "Manufacturing", "Healthcare", "Tech", "Food & Beverage"],
-    localAngle: "Midwest work ethic meets cutting edge AI. Building systems for Chicago's established businesses and ambitious startups.",
-    priceRange: "$$",
-  },
-  {
-    slug: "dallas",
-    name: "Dallas",
-    state: "Texas",
-    stateCode: "TX",
-    geoRegion: "US-TX",
-    latitude: 32.7767,
-    longitude: -96.797,
-    population: "1.3M",
-    neighborhoods: ["Uptown", "Downtown", "Deep Ellum", "Bishop Arts", "Plano", "Frisco", "Irving", "Fort Worth"],
-    industries: ["Finance", "Tech", "Healthcare", "Energy", "Real Estate"],
-    localAngle: "Big business, bigger ambitions. AI automation for Dallas's high growth companies.",
-    priceRange: "$$",
-  },
-  {
-    slug: "houston",
-    name: "Houston",
-    state: "Texas",
-    stateCode: "TX",
-    geoRegion: "US-TX",
-    latitude: 29.7604,
-    longitude: -95.3698,
-    population: "2.3M",
-    neighborhoods: ["Downtown", "Galleria", "Montrose", "Heights", "Midtown", "The Woodlands", "Sugar Land", "Katy"],
-    industries: ["Energy", "Healthcare", "Aerospace", "Manufacturing", "Tech"],
-    localAngle: "Energy capital meets AI innovation. Automating Houston's most complex industries.",
-    priceRange: "$$",
-  },
-  {
-    slug: "boston",
-    name: "Boston",
-    state: "Massachusetts",
-    stateCode: "MA",
-    geoRegion: "US-MA",
-    latitude: 42.3601,
-    longitude: -71.0589,
-    population: "685K",
-    neighborhoods: ["Back Bay", "Beacon Hill", "South End", "Seaport", "Cambridge", "Somerville", "Brookline"],
-    industries: ["Biotech", "Healthcare", "Education", "Finance", "Tech"],
-    localAngle: "Where innovation meets institution. AI systems for Boston's biotech, healthcare, and tech leaders.",
-    priceRange: "$$",
+    eyebrow: "Based in Miami Beach",
+    proof: [
+      { slug: "verza-tv", note: "I built the streaming website and the iPhone app." },
+      { slug: "peaceful-healing-rx", note: "I built the free app that explains visits, bills, and medications." },
+      { slug: "evolve-longevity", note: "A Miami Beach clinic. I built its website and iPhone app." },
+      { slug: "lumi", note: "My med spa app. The live demo runs as a Miami med spa." },
+      { slug: "the-boat-goat", note: "Miami yacht charters. I built the website and booking flow." },
+    ],
+    localFaq: {
+      q: "Do you work with businesses all over Miami?",
+      a: "Yes. I am based in Miami Beach and serve businesses across Miami, from Brickell and Downtown to Wynwood, the Design District, Coral Gables, and Coconut Grove.",
+    },
   },
 ];
 
-export const services = [
-  {
-    slug: "ai-automation",
-    name: "AI Automation",
-    description: "ChatGPT, Claude, GoHighLevel, Make.com, Zapier automation systems",
-    longDescription: "Custom AI automation systems that reduce repetitive work and scale output without scaling stress. ChatGPT and Claude integration, GoHighLevel CRM automation, Make.com and Zapier workflows.",
-    keywords: ["AI automation", "ChatGPT", "Claude AI", "GoHighLevel", "Make.com", "Zapier", "business automation"],
-    benefits: ["Save 20+ hours/week", "Scale without hiring", "24/7 automated operations"],
-    priceRange: "$2,500 - $15,000+",
-  },
-  {
-    slug: "revenue-systems",
-    name: "Revenue Systems",
-    description: "CRM automation, sales funnels, lead generation, revenue operations",
-    longDescription: "Revenue system architecture that turns attention into income. CRM automation, sales funnel design, lead generation systems, and revenue operations consulting.",
-    keywords: ["revenue systems", "CRM automation", "sales funnels", "lead generation", "revenue operations"],
-    benefits: ["3x average revenue growth", "Automated lead follow-up", "Reduced sales cycle", "Predictable pipeline"],
-    priceRange: "$5,000 - $25,000+",
-  },
+/* The city page itself, for example /miami. */
+export const cityPage = {
+  title: "AI Automation & Business Systems in {city}",
+  description:
+    "AI automation for {city} business owners: systems that answer leads, book appointments, and follow up for you. Built by Jotham Hall, based in Miami Beach.",
+  keywords: [
+    "AI automation {city}",
+    "AI automation consultant {city}",
+    "AI consultant {city}",
+    "business automation {city}",
+    "business systems {city}",
+    "revenue systems {city}",
+    "vibe coding {city}",
+  ],
+  headline: "AI Automation That Grows Your {city} Business",
+  intro: "I build systems that answer leads, book appointments, and follow up for you, so you get your time back.",
+  offersTitle: "What I Build for {city} Businesses",
+  offers: [
+    {
+      name: "AI Automation",
+      outcome: "New leads answered, follow ups sent, and busywork handled for you.",
+      href: "/services/ai-automation",
+    },
+    {
+      name: "Revenue Systems",
+      outcome: "Lead capture, booking, and follow up in one flow, so fewer customers slip away.",
+      href: "/services/revenue-systems",
+    },
+    {
+      name: "VibeCoding",
+      outcome: "Apps and tools built with AI, or your team trained to build their own.",
+      href: "/{slug}/vibe-coding",
+    },
+    {
+      name: "Systems Architecture",
+      outcome: "Your tools, data, and workflows designed to work as one.",
+      href: "/services/systems-architecture",
+    },
+    {
+      name: "Strategic Consulting",
+      outcome: "A clear plan for what to fix first, and why.",
+      href: "/services/strategic-consulting",
+    },
+  ] satisfies Offer[],
+  steps: [
+    { title: "Book a strategy call", body: "Tell me where leads, hours, or follow up slip through the cracks." },
+    { title: "Get a clear plan", body: "I map what to automate first and show you what I would build." },
+    { title: "I build it with you", body: "I set up the system, connect your tools, and show your team how to run it." },
+  ] satisfies Step[],
+  faqs: [
+    {
+      q: "What happens on the strategy call?",
+      a: "We look at how your business runs today, where leads and hours slip away, and what I would build first. You leave knowing your next step.",
+    },
+    {
+      q: "What does it cost?",
+      a: "The call is free. If we are a good fit, you get a clear scope and quote before any work begins.",
+    },
+    {
+      q: "Do I need to be technical?",
+      a: "No. I build and set everything up, then show your team how to use it. If you want to build on your own, I can teach you that too.",
+    },
+  ] satisfies Faq[],
+  closingTitle: "Tell Me What Slows You Down",
+  closingBody: "One call, and you will know what to automate first.",
+  notesTitle: "Notes for {city} Business Owners",
+};
+
+/* City service pages, for example /miami/vibe-coding. */
+export interface CityService {
+  slug: string;
+  name: string;
+  title: string;
+  description: string;
+  keywords: string[];
+  headline: string;
+  intro: string;
+  proof: ProofItem[];
+  steps: Step[];
+  faqs: Faq[];
+  closingTitle: string;
+  closingBody: string;
+}
+
+export const services: CityService[] = [
   {
     slug: "vibe-coding",
     name: "VibeCoding",
-    description: "No-code AI development, v0.dev, Cursor, natural language programming",
-    longDescription: "Build apps without writing code using natural language and AI. v0.dev, Cursor, and Claude expert. Train your team to ship software with their voice.",
-    keywords: ["vibe coding", "VibeCoding", "no-code", "AI development", "v0.dev", "Cursor AI"],
-    benefits: ["Build apps in hours", "No coding required", "Ship 10x faster", "Reduce dev costs 80%"],
-    priceRange: "$1,500 - $10,000+",
-  },
-  {
-    slug: "fractional-coo",
-    name: "Fractional COO",
-    description: "Part-time executive operations leadership, startup COO services",
-    longDescription: "Fractional COO services for growing companies. Executive-level operations leadership without the full-time cost. Process optimization, team scaling, operational excellence.",
-    keywords: ["fractional COO", "part-time COO", "operations consultant", "startup COO"],
-    benefits: ["Executive expertise", "Fraction of the cost", "Scalable operations", "Process optimization"],
-    priceRange: "$5,000 - $15,000/month",
+    title: "VibeCoding Consultant in {city}",
+    description:
+      "VibeCoding in {city}: describe the app or tool you need in plain words, and Jotham Hall builds it with AI or teaches your team to. Based in Miami Beach.",
+    keywords: [
+      "vibe coding {city}",
+      "VibeCoding {city}",
+      "VibeCoding consultant {city}",
+      "AI app development {city}",
+      "no code apps {city}",
+      "Cursor AI",
+      "Claude AI",
+      "v0",
+    ],
+    headline: "VibeCoding in {city}: Real Apps Without a Dev Team",
+    intro: "Describe what you need in plain words, and I build it with AI or teach your team to build it themselves.",
+    proof: [
+      { slug: "verza-tv", note: "I built the streaming website and the iPhone app." },
+      { slug: "peaceful-healing-rx", note: "I built the free patient app that explains visits, bills, and medications." },
+      { slug: "evolve-longevity", note: "A Miami Beach clinic. I built its website and its iPhone app, now in private beta." },
+      { slug: "lumi", note: "My white label app for med spas, with booking, a shop, and rewards." },
+      { slug: "say-it-build-it", note: "My free course that teaches anyone to build apps by describing them." },
+    ],
+    steps: [
+      { title: "Book a strategy call", body: "Describe the app or tool you need in plain words." },
+      { title: "See it working early", body: "I build a first version with AI, so you can click through it and shape it." },
+      { title: "Launch and hand off", body: "I connect it to your business, launch it, and show your team how to change it." },
+    ],
+    faqs: [
+      {
+        q: "What is VibeCoding?",
+        a: "Building software by describing what you want in plain words. AI writes the code, and I shape it, test it, and ship it.",
+      },
+      {
+        q: "What can you build?",
+        a: "Apps, websites, booking flows, and internal tools. I built the Verza TV iPhone app, the Peaceful Healing Rx patient app, and the booking flow for The Boat Goat in Miami.",
+      },
+      {
+        q: "Can you teach my team instead?",
+        a: "Yes. I teach teams to build working apps by describing them. My free course, Say It Build It, is a good place to start.",
+        link: { label: "Say It Build It", href: "/ventures/say-it-build-it" },
+      },
+      {
+        q: "What does it cost?",
+        a: "The call is free. If we are a good fit, you get a clear scope and quote before any work begins.",
+      },
+    ],
+    closingTitle: "Tell Me What You Want to Build",
+    closingBody: "One call, and you will know what it takes to build it.",
   },
 ];
+
+/** Fills "{city}" and "{slug}" in every string of a copy object. */
+export function localize<T>(value: T, city: Pick<CityData, "name" | "slug">): T {
+  return JSON.parse(
+    JSON.stringify(value).replaceAll("{city}", city.name).replaceAll("{slug}", city.slug)
+  ) as T;
+}
+
+export type ProofVenture = { slug: string; name: string; status: string; note: string };
+
+/** Proof cards: name and status from lib/ventures.ts, the note from here. */
+export function proofVentures(items: ProofItem[]): ProofVenture[] {
+  return items.flatMap(({ slug, note }) => {
+    const venture = getVenture(slug);
+    return venture ? [{ slug, name: venture.name, status: venture.status, note }] : [];
+  });
+}
