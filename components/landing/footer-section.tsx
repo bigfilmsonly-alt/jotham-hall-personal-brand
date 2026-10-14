@@ -6,10 +6,11 @@ import { saveRecord } from "@/lib/supabase";
 
 /*
   The close of /about, /credits, /contact, /services (and its four pages) and
-  /speaking. One centered column at every width: globals.css holds the site to
-  a 430px column from 768px up, so viewport breakpoints (md:, lg:) would switch
-  on multi column layouts inside a phone width column. None are used here, and
-  every link group fills even rows.
+  /speaking. On a phone it is one centered column, and every link group fills
+  even rows. The footer itself always runs the full width; from md up its
+  contents sit in the centered max-w-6xl row, with the groups in a max-w-xl
+  column, and from lg up the direct lines, the site links and the email
+  capture stand side by side as three columns, in the same order.
 
   The pages end with their own closing call to action right above this, so the
   footer carries no booking button of its own. Links point only at live routes:
@@ -53,7 +54,7 @@ const socialLinks = [
 
 function SectionLabel({ id, children }: { id?: string; children: React.ReactNode }) {
   return (
-    <h2 id={id} className="flex items-center gap-4 text-[11px] tracking-[0.15em] uppercase text-[#8A837B]">
+    <h2 id={id} className="flex items-center gap-4 text-[11px] tracking-[0.15em] uppercase text-[#8A837B] md:text-xs">
       <span aria-hidden="true" className="h-px flex-1 bg-[#3D3A35]/60" />
       {children}
       <span aria-hidden="true" className="h-px flex-1 bg-[#3D3A35]/60" />
@@ -118,117 +119,125 @@ function FooterEmailForm() {
 export function FooterSection() {
   return (
     <footer data-site-footer className="border-t border-[#3D3A35]/60 text-center">
-      {/* Sign-off */}
-      <div className="px-6 pt-14">
-        <Link
-          href="/"
-          className="inline-block font-display text-xl tracking-[0.12em] uppercase text-[#FAF8F5] transition-colors hover:text-[#E8C97A]"
-        >
-          Jotham Hall
-        </Link>
-        <span aria-hidden="true" className="mx-auto mt-4 block h-px w-8 bg-[#D4A853]/60" />
-        <p className="mx-auto mt-4 max-w-[300px] text-[15px] leading-relaxed text-balance text-[#B8B0A8]">
-          I build the systems that run and grow your business.
-        </p>
-        <p className="mt-3 text-[11px] tracking-[0.15em] uppercase text-[#8A837B]">Based in Miami Beach</p>
-      </div>
+      {/* From md up: the centered max-w-6xl row. On a phone this wrapper and
+          the groups wrapper below add nothing. */}
+      <div className="md:mx-auto md:max-w-6xl md:px-10">
+        {/* Sign-off */}
+        <div className="px-6 pt-14 md:px-0 md:pt-20">
+          <Link
+            href="/"
+            className="inline-block font-display text-xl tracking-[0.12em] uppercase text-[#FAF8F5] transition-colors hover:text-[#E8C97A] md:text-2xl"
+          >
+            Jotham Hall
+          </Link>
+          <span aria-hidden="true" className="mx-auto mt-4 block h-px w-8 bg-[#D4A853]/60 md:mt-5 md:w-10" />
+          <p className="mx-auto mt-4 max-w-[300px] text-[15px] leading-relaxed text-balance text-[#B8B0A8] md:mt-5 md:max-w-md md:text-[17px]">
+            I build the systems that run and grow your business.
+          </p>
+          <p className="mt-3 text-[11px] tracking-[0.15em] uppercase text-[#8A837B] md:mt-4 md:text-xs">Based in Miami Beach</p>
+        </div>
 
-      {/* Direct lines */}
-      <section aria-labelledby="footer-contact" className="px-6 pt-12">
-        <SectionLabel id="footer-contact">Reach Me Directly</SectionLabel>
-        <ul className="mt-4 divide-y divide-[#3D3A35]/60 border-y border-[#3D3A35]/60">
-          {contactLines.map((line) => (
-            <li key={line.label}>
-              <a href={line.href} className="group flex min-h-[52px] items-center justify-between gap-4">
-                <span className="text-[11px] tracking-[0.15em] uppercase text-[#8A837B]">{line.label}</span>
-                <span className="text-[15px] text-[#FAF8F5] transition-colors group-hover:text-[#E8C97A]">
-                  {line.value}
-                </span>
+        {/* The three groups: one column up to lg, then side by side, the
+            middle one a little wider for its two columns of links. */}
+        <div className="md:mx-auto md:max-w-xl lg:mt-16 lg:grid lg:max-w-none lg:grid-cols-[minmax(0,1fr)_minmax(0,1.2fr)_minmax(0,1fr)] lg:items-start lg:gap-10 xl:gap-14">
+          {/* Direct lines */}
+          <section aria-labelledby="footer-contact" className="px-6 pt-12 md:px-0 lg:pt-0">
+            <SectionLabel id="footer-contact">Reach Me Directly</SectionLabel>
+            <ul className="mt-4 divide-y divide-[#3D3A35]/60 border-y border-[#3D3A35]/60">
+              {contactLines.map((line) => (
+                <li key={line.label}>
+                  <a href={line.href} className="group flex min-h-[52px] items-center justify-between gap-4">
+                    <span className="text-[11px] tracking-[0.15em] uppercase text-[#8A837B] md:text-xs">{line.label}</span>
+                    <span className="text-[15px] text-[#FAF8F5] transition-colors group-hover:text-[#E8C97A] md:text-base">
+                      {line.value}
+                    </span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </section>
+
+          {/* Site links */}
+          <nav aria-label="Footer" className="px-6 pt-12 md:px-0 lg:pt-0">
+            <SectionLabel>Explore</SectionLabel>
+            <ul className="mt-3 grid grid-cols-2">
+              {exploreLinks.map((link) => (
+                <li key={link.href}>
+                  <Link
+                    href={link.href}
+                    className="flex min-h-[44px] items-center justify-center text-sm text-[#B8B0A8] transition-colors hover:text-[#FAF8F5]"
+                  >
+                    {link.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+
+            <div className="pt-8">
+              <SectionLabel>Services</SectionLabel>
+            </div>
+            <ul className="mt-3 grid grid-cols-2">
+              {serviceLinks.map((link) => (
+                <li key={link.href}>
+                  <Link
+                    href={link.href}
+                    className="flex min-h-[44px] items-center justify-center text-sm text-[#B8B0A8] transition-colors hover:text-[#FAF8F5]"
+                  >
+                    {link.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </nav>
+
+          {/* Email capture */}
+          <section aria-labelledby="footer-insights" className="px-6 pt-12 md:px-0 lg:pt-0">
+            <SectionLabel id="footer-insights">Insights by Email</SectionLabel>
+            <p className="mx-auto mt-4 mb-5 max-w-[300px] text-[15px] leading-relaxed text-balance text-[#B8B0A8] md:max-w-sm md:text-base">
+              Notes on AI systems and business from a producer with 50+ TV credits.
+            </p>
+            <FooterEmailForm />
+          </section>
+        </div>
+
+        {/* Social */}
+        <ul className="mt-10 grid grid-cols-4 px-6 md:mx-auto md:max-w-xl md:px-0 lg:mt-16">
+          {socialLinks.map((link) => (
+            <li key={link.name}>
+              <a
+                href={link.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex min-h-[44px] items-center justify-center text-[13px] text-[#B8B0A8] transition-colors hover:text-[#D4A853] md:text-sm"
+              >
+                {link.name}
               </a>
             </li>
           ))}
         </ul>
-      </section>
 
-      {/* Site links */}
-      <nav aria-label="Footer" className="px-6 pt-12">
-        <SectionLabel>Explore</SectionLabel>
-        <ul className="mt-3 grid grid-cols-2">
-          {exploreLinks.map((link) => (
-            <li key={link.href}>
-              <Link
-                href={link.href}
-                className="flex min-h-[44px] items-center justify-center text-sm text-[#B8B0A8] transition-colors hover:text-[#FAF8F5]"
+        {/* Credit */}
+        <div className="mx-6 mt-6 space-y-2 border-t border-[#3D3A35]/60 pt-8 md:mx-auto md:mt-8 md:max-w-xl lg:max-w-none">
+          {/* JothamHall.com is this site, so it stays plain text. On the
+              narrowest phones the line breaks at the dot, never mid phrase. */}
+          <p className="text-xs text-[#8A837B]">
+            <span className="whitespace-nowrap">Built by JothamHall.com &middot;</span>{" "}
+            <span className="whitespace-nowrap">
+              Developed by{" "}
+              <a
+                href="https://successupgrade.ai"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-[#B8B0A8] transition-colors hover:text-[#D4A853]"
               >
-                {link.name}
-              </Link>
-            </li>
-          ))}
-        </ul>
-
-        <div className="pt-8">
-          <SectionLabel>Services</SectionLabel>
+                SuccessUpgrade.ai
+              </a>
+            </span>
+          </p>
+          <p className="text-[11px] tracking-[0.15em] uppercase text-[#5C5750] md:text-xs">
+            &copy; {new Date().getFullYear()} Jotham Hall
+          </p>
         </div>
-        <ul className="mt-3 grid grid-cols-2">
-          {serviceLinks.map((link) => (
-            <li key={link.href}>
-              <Link
-                href={link.href}
-                className="flex min-h-[44px] items-center justify-center text-sm text-[#B8B0A8] transition-colors hover:text-[#FAF8F5]"
-              >
-                {link.name}
-              </Link>
-            </li>
-          ))}
-        </ul>
-      </nav>
-
-      {/* Email capture */}
-      <section aria-labelledby="footer-insights" className="px-6 pt-12">
-        <SectionLabel id="footer-insights">Insights by Email</SectionLabel>
-        <p className="mx-auto mt-4 mb-5 max-w-[300px] text-[15px] leading-relaxed text-balance text-[#B8B0A8]">
-          Notes on AI systems and business from a producer with 50+ TV credits.
-        </p>
-        <FooterEmailForm />
-      </section>
-
-      {/* Social */}
-      <ul className="mt-10 grid grid-cols-4 px-6">
-        {socialLinks.map((link) => (
-          <li key={link.name}>
-            <a
-              href={link.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex min-h-[44px] items-center justify-center text-[13px] text-[#B8B0A8] transition-colors hover:text-[#D4A853]"
-            >
-              {link.name}
-            </a>
-          </li>
-        ))}
-      </ul>
-
-      {/* Credit */}
-      <div className="mx-6 mt-6 space-y-2 border-t border-[#3D3A35]/60 pt-8">
-        {/* JothamHall.com is this site, so it stays plain text. On the
-            narrowest phones the line breaks at the dot, never mid phrase. */}
-        <p className="text-xs text-[#8A837B]">
-          <span className="whitespace-nowrap">Built by JothamHall.com &middot;</span>{" "}
-          <span className="whitespace-nowrap">
-            Developed by{" "}
-            <a
-              href="https://successupgrade.ai"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-[#B8B0A8] transition-colors hover:text-[#D4A853]"
-            >
-              SuccessUpgrade.ai
-            </a>
-          </span>
-        </p>
-        <p className="text-[11px] tracking-[0.15em] uppercase text-[#5C5750]">
-          &copy; {new Date().getFullYear()} Jotham Hall
-        </p>
       </div>
 
       {/*

@@ -7,16 +7,18 @@ import { ArrowRight } from "lucide-react";
 import type { InsightSummary } from "@/lib/insights-data";
 
 /*
-  Shared by /insights and /insights/[slug]. Everything is laid out for the
-  430px column that globals.css holds the site in from 768px up, so nothing
-  here uses viewport breakpoints (sm:, md:, lg:): on a desktop those fire
-  while the page is still phone width.
+  Shared by /insights and /insights/[slug]. The unprefixed classes are the
+  phone design, approved as it is. From md (768px) up the same blocks take a
+  desktop size through md: and lg: variants only, so nothing on a phone moves:
+  the bar's row sits in a centered max-w-6xl container, list rows can stand
+  side by side (the article page's Keep Reading), and the closing card is
+  centered at max-w-3xl.
 */
 
 export function InsightsNav({ onBook }: { onBook: () => void }) {
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-[#0D0D0D]/85 backdrop-blur-md border-b border-[#3D3A35]/60">
-      <div className="px-6 h-14 flex items-center justify-between">
+      <div className="mx-auto w-full max-w-6xl px-6 md:px-10 h-14 md:h-16 flex items-center justify-between">
         <Link href="/" className="font-display text-sm tracking-[0.12em] uppercase text-[#FAF8F5]">
           Jotham Hall
         </Link>
@@ -72,12 +74,14 @@ export function InsightMeta({ category, readTime }: { category: string; readTime
 export function InsightRow({ insight }: { insight: InsightSummary }) {
   return (
     <li className="border-b border-[#3D3A35]/60">
-      <Link href={`/insights/${insight.slug}`} className="group block py-5 active:opacity-80">
+      <Link href={`/insights/${insight.slug}`} className="group block py-5 md:py-7 active:opacity-80">
         <InsightMeta category={insight.category} readTime={insight.readTime} />
-        <h3 className="mt-2 text-[1.0625rem] font-medium leading-snug text-balance text-[#FAF8F5] group-hover:text-[#E8C97A] transition-colors">
+        <h3 className="mt-2 md:mt-3 text-[1.0625rem] md:text-xl font-medium leading-snug text-balance text-[#FAF8F5] group-hover:text-[#E8C97A] transition-colors">
           {insight.title}
         </h3>
-        <p className="mt-1.5 text-[15px] leading-relaxed text-[#B8B0A8] line-clamp-1">{insight.excerpt}</p>
+        <p className="mt-1.5 md:mt-2.5 text-[15px] md:text-base leading-relaxed text-[#B8B0A8] line-clamp-1 md:line-clamp-2">
+          {insight.excerpt}
+        </p>
       </Link>
     </li>
   );
@@ -92,22 +96,22 @@ export function InsightRow({ insight }: { insight: InsightSummary }) {
 */
 export function ClosingCTA({ onBook }: { onBook: () => void }) {
   return (
-    <section className="px-6 pb-16">
-      <div className="px-6 py-10 bg-[#1A1A1A] border border-[#3D3A35] text-center">
-        <div className="flex justify-center mb-5">
+    <section className="px-6 pb-16 md:px-10 md:pb-24">
+      <div className="px-6 py-10 md:px-16 md:py-16 md:mx-auto md:max-w-3xl bg-[#1A1A1A] border border-[#3D3A35] text-center">
+        <div className="flex justify-center mb-5 md:mb-6">
           <Headshot size={64} />
         </div>
-        <p className="text-[13px] tracking-[0.15em] uppercase text-[#D4A853] mb-3">Work With Me</p>
-        <h2 className="font-display text-[1.375rem] leading-snug tracking-[0.12em] uppercase text-balance text-[#FAF8F5] mb-4">
+        <p className="text-[13px] tracking-[0.15em] uppercase text-[#D4A853] mb-3 md:mb-4">Work With Me</p>
+        <h2 className="font-display text-[1.375rem] md:text-3xl leading-snug tracking-[0.12em] uppercase text-balance text-[#FAF8F5] mb-4 md:mb-5">
           Put These Ideas to Work
         </h2>
-        <p className="text-[15px] leading-relaxed text-[#B8B0A8] mb-7 max-w-[300px] mx-auto">
+        <p className="text-[15px] md:text-[17px] leading-relaxed text-[#B8B0A8] mb-7 md:mb-9 max-w-[300px] md:max-w-md mx-auto">
           I build AI systems and apps for business owners, after 15 years producing TV. Book a free strategy call and
           I will show you the first system worth building.
         </p>
         <button
           onClick={onBook}
-          className="w-full py-3.5 bg-[#D4A853] text-[#0D0D0D] text-sm font-medium tracking-wide hover:bg-[#E8C97A] transition-colors flex items-center justify-center gap-2 active:scale-[0.97]"
+          className="w-full py-3.5 bg-[#D4A853] text-[#0D0D0D] text-sm font-medium tracking-wide hover:bg-[#E8C97A] transition-colors flex items-center justify-center gap-2 active:scale-[0.97] md:w-fit md:min-w-[280px] md:px-10 md:mx-auto"
         >
           Book a Strategy Call
           <ArrowRight className="w-4 h-4" />

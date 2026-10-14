@@ -17,7 +17,8 @@ import {
 import { services, servicesIndex } from "./services-data";
 import { BrainAndPath } from "@/components/path/brain-and-path";
 
-// Phone width at every screen size (see globals.css), so no sm:, md: or lg: layouts here.
+// The phone layout is the base; md: and lg: variants give the desktop its size (see
+// components/service-page-template.tsx). The four services are a 2x2 grid from md.
 // The job of this page: a visitor finds their problem in one glance and taps it, or books.
 
 export function ServicesIndex() {
@@ -31,7 +32,7 @@ export function ServicesIndex() {
           <button
             type="button"
             onClick={book}
-            className="px-4 py-2 bg-[#D4A853] text-[#0D0D0D] text-xs font-medium tracking-wide hover:bg-[#E8C97A] transition-colors active:scale-[0.97]"
+            className="px-4 py-2 md:px-5 md:py-2.5 bg-[#D4A853] text-[#0D0D0D] text-xs md:text-[13px] font-medium tracking-wide hover:bg-[#E8C97A] transition-colors active:scale-[0.97] md:cursor-pointer"
           >
             Book a Call
           </button>
@@ -49,23 +50,26 @@ export function ServicesIndex() {
         <BrainAndPath />
 
         <ServiceSection label="Four Services" title="Where are you stuck?">
-          <ul className="space-y-2.5">
+          <ul className="space-y-2.5 md:grid md:grid-cols-2 md:gap-4 md:space-y-0">
             {services.map((service) => (
               <li key={service.slug}>
                 <Link
                   href={`/services/${service.slug}`}
-                  className="group flex items-center gap-4 p-5 bg-[#1A1A1A] border border-[#3D3A35] hover:border-[#D4A853]/40 transition-colors active:scale-[0.99]"
+                  className="group flex items-center gap-4 p-5 md:h-full md:items-start md:gap-6 md:p-8 bg-[#1A1A1A] border border-[#3D3A35] hover:border-[#D4A853]/40 transition-colors active:scale-[0.99]"
                 >
+                  {/* Text from the top on a desktop, so the labels in a row line up however the summaries wrap. */}
                   <span className="min-w-0 flex-1">
-                    <span className="block text-[10px] tracking-[0.15em] uppercase text-[#D4A853]/80">
+                    <span className="block text-[10px] md:text-xs tracking-[0.15em] uppercase text-[#D4A853]/80">
                       {service.problem}
                     </span>
-                    <span className="block mt-2 font-display text-[1.05rem] leading-snug tracking-[0.12em] uppercase text-[#FAF8F5]">
+                    <span className="block mt-2 md:mt-3 font-display text-[1.05rem] md:text-xl leading-snug tracking-[0.12em] uppercase text-[#FAF8F5]">
                       {service.name}
                     </span>
-                    <span className="block mt-1.5 text-[15px] leading-relaxed text-[#B8B0A8]">{service.summary}</span>
+                    <span className="block mt-1.5 md:mt-2 text-[15px] md:text-[17px] leading-relaxed text-[#B8B0A8] md:text-balance">
+                      {service.summary}
+                    </span>
                   </span>
-                  <ArrowRight className="w-4 h-4 shrink-0 text-[#D4A853] transition-transform group-hover:translate-x-0.5" />
+                  <ArrowRight className="w-4 h-4 md:w-5 md:h-5 shrink-0 md:self-center text-[#D4A853] transition-transform group-hover:translate-x-0.5" />
                 </Link>
               </li>
             ))}

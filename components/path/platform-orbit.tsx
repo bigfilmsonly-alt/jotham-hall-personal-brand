@@ -8,11 +8,16 @@ import { useEffect, useRef, useState } from "react";
   ring turning at its own pace while its chips stay upright.
 
   SIZED FROM ITS OWN WIDTH, NOT THE VIEWPORT.
-  The original sized everything in vw for a phone. This site is a 430px column
-  at every screen size, so on a desktop those vw clamps read the 1440px window
-  and drew a 620px orbit with full size chips inside the column. Every size
-  below is a fraction of the measured box (the original's vw values divided by
-  its 92vw width), so a phone and the desktop column draw the same picture.
+  The original sized everything in vw for a phone. Every size below is a
+  fraction of the measured box (the original's vw values divided by its 92vw
+  width), held to the original's caps, so a phone and a desktop draw the same
+  picture at their own scale.
+
+  The box is the column's width up to 400px on a phone. From md up it grows to
+  600px, as successupgrade.ai/path draws it on a desktop, but never taller than
+  the window less 200px, so on a short laptop screen the whole circle still fits
+  between the top bar and the tab bar. The chips keep their capped sizes, so a
+  larger box only opens more space between the rings.
 
   Positions are pixels from the measured width, never percentages: on iOS Safari
   percentage offsets inside an aspect-ratio box did not resolve and the chips
@@ -155,7 +160,8 @@ export default function PlatformOrbit() {
       ref={boxRef}
       role="img"
       aria-label={`One brain running every brand and publishing to every platform: ${ALL_MARKS.map((m) => m.name).join(", ")}`}
-      style={{ position: "relative", width: "100%", maxWidth: 400, aspectRatio: "1 / 1", margin: "0 auto" }}
+      className="max-w-[400px] md:max-w-[clamp(400px,calc(100vh_-_200px),600px)]"
+      style={{ position: "relative", width: "100%", aspectRatio: "1 / 1", margin: "0 auto" }}
     >
       {size > 0 &&
         RINGS.map((r, i) => {

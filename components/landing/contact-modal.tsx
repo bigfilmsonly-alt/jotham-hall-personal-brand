@@ -19,8 +19,11 @@ import { trackEvent } from "@/lib/tracking";
   free to change. Where a saved value reads badly ("$0 - $50K"), `label`
   changes what the visitor sees and the value is saved untouched.
 
-  Built for the 430px column that globals.css puts the whole site in from
-  768px up, so nothing here keys off viewport breakpoints.
+  The unprefixed classes are the phone design: the modal covers the screen.
+  From md: up it is a centered dialog over the dimmed page, holding the same
+  height from step to step (its steps scroll inside it), and the type steps
+  up a size. The inline form takes the same md: sizes inside the column its
+  page gives it.
 */
 
 function sanitize(str: string | null): string | null {
@@ -183,20 +186,30 @@ const DIRECT = [
   { icon: Mail, label: "Email", value: "bigfilmsonly@gmail.com", href: "mailto:bigfilmsonly@gmail.com" },
 ];
 
-/** Call, text and email as three even rows, with the number on show for desktop visitors. */
-export function DirectContactList() {
+/**
+ * Call, text and email as three even rows, with the number on show for desktop visitors.
+ * `columns` sets the three side by side from lg: up, for a page wide enough to hold them
+ * (the /contact page); the modal keeps its rows at every size.
+ */
+export function DirectContactList({ columns = false }: { columns?: boolean }) {
   return (
-    <ul className="bg-[#1A1A1A] border border-[#3D3A35] divide-y divide-[#3D3A35]/60 text-left">
+    <ul
+      className={`bg-[#1A1A1A] border border-[#3D3A35] divide-y divide-[#3D3A35]/60 text-left${
+        columns ? " lg:grid lg:grid-cols-3 lg:divide-y-0 lg:divide-x" : ""
+      }`}
+    >
       {DIRECT.map(({ icon: Icon, label, value, href }) => (
         <li key={label}>
           <a
             href={href}
-            className="group flex items-center gap-4 min-h-[64px] px-5 py-3 hover:bg-[#D4A853]/[0.06] active:bg-[#D4A853]/10 transition-colors"
+            className={`group flex items-center gap-4 min-h-[64px] px-5 py-3 hover:bg-[#D4A853]/[0.06] active:bg-[#D4A853]/10 transition-colors md:min-h-[72px]${
+              columns ? " lg:h-full lg:min-h-[88px] lg:px-6" : ""
+            }`}
           >
             <Icon className="w-[18px] h-[18px] shrink-0 text-[#D4A853]" strokeWidth={1.5} aria-hidden />
             <span className="flex-1 min-w-0">
-              <span className="block text-[10px] tracking-[0.15em] uppercase text-[#8A837B]">{label}</span>
-              <span className="block truncate text-[15px] text-[#FAF8F5]">{value}</span>
+              <span className="block text-[10px] tracking-[0.15em] uppercase text-[#8A837B] md:text-xs">{label}</span>
+              <span className="block truncate text-[15px] text-[#FAF8F5] md:text-base">{value}</span>
             </span>
             <ArrowRight className="w-4 h-4 shrink-0 text-[#5C5750] group-hover:text-[#D4A853] transition-colors" aria-hidden />
           </a>
@@ -208,7 +221,7 @@ export function DirectContactList() {
 
 function Divider({ label }: { label: string }) {
   return (
-    <p className="flex items-center gap-3 text-[11px] tracking-[0.15em] uppercase text-[#8A837B]">
+    <p className="flex items-center gap-3 text-[11px] tracking-[0.15em] uppercase text-[#8A837B] md:text-xs md:gap-4">
       <span className="flex-1 h-px bg-[#3D3A35]/60" />
       {label}
       <span className="flex-1 h-px bg-[#3D3A35]/60" />
@@ -226,7 +239,7 @@ function OptionButton({ label, selected, multi, onClick }: { label: string; sele
         selected ? "border-[#D4A853] bg-[#D4A853]/10" : "border-[#3D3A35] bg-[#1A1A1A] hover:border-[#D4A853]/40"
       }`}
     >
-      <span className="flex-1 text-[15px] leading-snug text-[#FAF8F5]">{label}</span>
+      <span className="flex-1 text-[15px] leading-snug text-[#FAF8F5] md:text-base">{label}</span>
       <span
         aria-hidden
         className={`w-5 h-5 shrink-0 flex items-center justify-center border transition-colors ${multi ? "" : "rounded-full"} ${
@@ -423,7 +436,7 @@ function ContactFlow({ variant, onClose, onBook }: { variant: "modal" | "inline"
             </button>
           )}
         </div>
-        <p className={`text-center text-[11px] tracking-[0.15em] uppercase ${current.kind === "intro" ? "font-display text-[#8A837B]" : "text-[#B8B0A8]"}`}>
+        <p className={`text-center text-[11px] tracking-[0.15em] uppercase md:text-xs ${current.kind === "intro" ? "font-display text-[#8A837B]" : "text-[#B8B0A8]"}`}>
           {counter}
         </p>
         <div className="flex justify-end">
@@ -455,16 +468,16 @@ function ContactFlow({ variant, onClose, onBook }: { variant: "modal" | "inline"
         <div className="w-16 h-16 mx-auto mb-6 rounded-full border border-[#D4A853] flex items-center justify-center">
           <Check className="w-7 h-7 text-[#D4A853]" strokeWidth={1.5} />
         </div>
-        <p className="text-[11px] tracking-[0.15em] uppercase text-[#D4A853] mb-3">Sent</p>
-        <Heading className="font-display text-[1.625rem] leading-snug tracking-[0.12em] uppercase text-balance text-[#FAF8F5] mb-4">
+        <p className="text-[11px] tracking-[0.15em] uppercase text-[#D4A853] mb-3 md:text-xs">Sent</p>
+        <Heading className="font-display text-[1.625rem] leading-snug tracking-[0.12em] uppercase text-balance text-[#FAF8F5] mb-4 md:text-3xl">
           {firstName ? `Thank you, ${firstName}` : "Thank you"}
         </Heading>
-        <p className="text-[15px] text-[#B8B0A8] leading-relaxed text-balance max-w-[320px] mx-auto">
+        <p className="text-[15px] text-[#B8B0A8] leading-relaxed text-balance max-w-[320px] mx-auto md:text-[17px] md:max-w-md">
           I read every answer myself and reply within 24 hours on business days. If I am not the right person to help, I will tell you that too.
         </p>
         {onBook && (
           <div className="mt-8">
-            <p className="text-[13px] text-[#8A837B] mb-3">Want to talk sooner?</p>
+            <p className="text-[13px] text-[#8A837B] mb-3 md:text-sm">Want to talk sooner?</p>
             <button type="button" onClick={onBook} className={PRIMARY}>
               Book a Strategy Call
               <ArrowRight className="w-4 h-4" />
@@ -487,18 +500,18 @@ function ContactFlow({ variant, onClose, onBook }: { variant: "modal" | "inline"
   } else if (current.kind === "intro") {
     body = (
       <div className="text-center">
-        <p className="text-[11px] tracking-[0.15em] uppercase text-[#D4A853] mb-4">Work With Me</p>
-        <Heading className="font-display text-[1.625rem] leading-snug tracking-[0.12em] uppercase text-balance text-[#FAF8F5] mb-4">
+        <p className="text-[11px] tracking-[0.15em] uppercase text-[#D4A853] mb-4 md:text-xs">Work With Me</p>
+        <Heading className="font-display text-[1.625rem] leading-snug tracking-[0.12em] uppercase text-balance text-[#FAF8F5] mb-4 md:text-3xl">
           Tell me about your business
         </Heading>
-        <p className="text-[15px] text-[#B8B0A8] leading-relaxed text-balance max-w-[320px] mx-auto mb-8">
+        <p className="text-[15px] text-[#B8B0A8] leading-relaxed text-balance max-w-[320px] mx-auto mb-8 md:text-[17px] md:max-w-md">
           Seven quick questions, about a minute. I read every answer myself and reply within 24 hours.
         </p>
         <button type="button" onClick={goNext} className={PRIMARY}>
           Get Started
           <ArrowRight className="w-4 h-4" />
         </button>
-        <p className="mt-3 text-[13px] text-[#8A837B]">Free consultation. No obligation.</p>
+        <p className="mt-3 text-[13px] text-[#8A837B] md:text-sm">Free consultation. No obligation.</p>
         <div className="mt-10 mb-4">
           <Divider label="Or reach me directly" />
         </div>
@@ -511,10 +524,10 @@ function ContactFlow({ variant, onClose, onBook }: { variant: "modal" | "inline"
     body = (
       <div>
         <div className="text-center mb-7">
-          <Heading className="font-display text-[1.375rem] leading-snug tracking-[0.12em] uppercase text-balance text-[#FAF8F5]">
+          <Heading className="font-display text-[1.375rem] leading-snug tracking-[0.12em] uppercase text-balance text-[#FAF8F5] md:text-2xl">
             {current.title}
           </Heading>
-          <p className="mt-3 text-[15px] leading-relaxed text-balance text-[#B8B0A8]">{current.hint}</p>
+          <p className="mt-3 text-[15px] leading-relaxed text-balance text-[#B8B0A8] md:text-[17px]">{current.hint}</p>
         </div>
         <div className="space-y-2">
           {current.options.map((option) => (
@@ -548,10 +561,10 @@ function ContactFlow({ variant, onClose, onBook }: { variant: "modal" | "inline"
     body = (
       <form ref={fieldsRef} onSubmit={handleFieldsSubmit}>
         <div className="text-center mb-7">
-          <Heading className="font-display text-[1.375rem] leading-snug tracking-[0.12em] uppercase text-balance text-[#FAF8F5]">
+          <Heading className="font-display text-[1.375rem] leading-snug tracking-[0.12em] uppercase text-balance text-[#FAF8F5] md:text-2xl">
             {current.title}
           </Heading>
-          <p className="mt-3 text-[15px] leading-relaxed text-balance text-[#B8B0A8]">{current.hint}</p>
+          <p className="mt-3 text-[15px] leading-relaxed text-balance text-[#B8B0A8] md:text-[17px]">{current.hint}</p>
         </div>
         <div className="space-y-5">
           {current.fields.map((f, i) => {
@@ -559,8 +572,8 @@ function ContactFlow({ variant, onClose, onBook }: { variant: "modal" | "inline"
             return (
               <label key={f.field} className="block">
                 <span className="flex items-baseline justify-between mb-2">
-                  <span className="text-[11px] tracking-[0.15em] uppercase text-[#B8B0A8]">{f.label}</span>
-                  {!f.required && <span className="text-[11px] tracking-[0.15em] uppercase text-[#5C5750]">Optional</span>}
+                  <span className="text-[11px] tracking-[0.15em] uppercase text-[#B8B0A8] md:text-xs">{f.label}</span>
+                  {!f.required && <span className="text-[11px] tracking-[0.15em] uppercase text-[#5C5750] md:text-xs">Optional</span>}
                 </span>
                 <input
                   name={f.field}
@@ -586,13 +599,13 @@ function ContactFlow({ variant, onClose, onBook }: { variant: "modal" | "inline"
                   autoComplete={f.autoComplete}
                   className="w-full h-[52px] px-4 bg-[#1A1A1A] border border-[#3D3A35] rounded-none text-[17px] text-[#FAF8F5] placeholder:text-[#5C5750] outline-none focus:border-[#D4A853] transition-colors"
                 />
-                {f.hint && <span className="block mt-2 text-[13px] text-[#8A837B]">{f.hint}</span>}
+                {f.hint && <span className="block mt-2 text-[13px] text-[#8A837B] md:text-sm">{f.hint}</span>}
               </label>
             );
           })}
         </div>
         {emailInvalid && (
-          <p role="alert" className="mt-4 text-[13px] text-[#E8C97A]">
+          <p role="alert" className="mt-4 text-[13px] text-[#E8C97A] md:text-sm">
             Check the email address. It should look like name@company.com.
           </p>
         )}
@@ -615,18 +628,18 @@ function ContactFlow({ variant, onClose, onBook }: { variant: "modal" | "inline"
     body = (
       <div>
         <div className="text-center mb-7">
-          <Heading className="font-display text-[1.375rem] leading-snug tracking-[0.12em] uppercase text-balance text-[#FAF8F5]">
+          <Heading className="font-display text-[1.375rem] leading-snug tracking-[0.12em] uppercase text-balance text-[#FAF8F5] md:text-2xl">
             Ready to send?
           </Heading>
-          <p className="mt-3 text-[15px] leading-relaxed text-balance text-[#B8B0A8]">Here is what I will read. Go back to change anything.</p>
+          <p className="mt-3 text-[15px] leading-relaxed text-balance text-[#B8B0A8] md:text-[17px]">Here is what I will read. Go back to change anything.</p>
         </div>
         <dl className="border border-[#3D3A35] divide-y divide-[#3D3A35]/60 mb-7">
           {rows
             .filter(([, value]) => value.trim() !== "")
             .map(([label, value]) => (
               <div key={label} className="px-4 py-3">
-                <dt className="text-[10px] tracking-[0.15em] uppercase text-[#8A837B] mb-1">{label}</dt>
-                <dd className="text-[15px] text-[#FAF8F5] break-words">{value}</dd>
+                <dt className="text-[10px] tracking-[0.15em] uppercase text-[#8A837B] mb-1 md:text-xs">{label}</dt>
+                <dd className="text-[15px] text-[#FAF8F5] break-words md:text-base">{value}</dd>
               </div>
             ))}
         </dl>
@@ -635,7 +648,7 @@ function ContactFlow({ variant, onClose, onBook }: { variant: "modal" | "inline"
           {status !== "loading" && <Send className="w-4 h-4" />}
         </button>
         {status === "error" && (
-          <p role="alert" className="mt-4 text-[14px] leading-relaxed text-[#E8C97A] text-center">
+          <p role="alert" className="mt-4 text-[14px] leading-relaxed text-[#E8C97A] text-center md:text-[15px]">
             That did not go through. Please try again, or email me at{" "}
             <a href="mailto:bigfilmsonly@gmail.com" className="underline underline-offset-2">
               bigfilmsonly@gmail.com
@@ -643,7 +656,7 @@ function ContactFlow({ variant, onClose, onBook }: { variant: "modal" | "inline"
             .
           </p>
         )}
-        <p className="mt-4 text-[13px] text-[#8A837B] text-center">Free consultation. No obligation.</p>
+        <p className="mt-4 text-[13px] text-[#8A837B] text-center md:text-sm">Free consultation. No obligation.</p>
       </div>
     );
   }
@@ -653,18 +666,36 @@ function ContactFlow({ variant, onClose, onBook }: { variant: "modal" | "inline"
   }`;
 
   if (isModal) {
+    // A click on the dimmed page closes the desktop dialog only while nothing
+    // would be lost (the first screen, or after sending). Mid application it
+    // does nothing, so a stray click never throws answers away.
+    const dismissible = done || current.kind === "intro";
     return (
-      <div role="dialog" aria-modal="true" aria-label="Contact Jotham Hall" className="fixed inset-0 z-[1001] bg-[#0D0D0D] flex flex-col">
-        <div className="shrink-0 px-6 pt-2 pb-1">{topBar}</div>
-        <div ref={scrollRef} className="flex-1 overflow-y-auto overscroll-contain">
-          <div className="min-h-full flex flex-col px-6 pt-8 pb-10">
-            {/* The intro and the thank you sit centered; questions keep one top line so the eye never hunts. */}
-            <div key={done ? "done" : step} className={`${done || current.kind === "intro" ? "my-auto" : "pt-2"} ${animated}`}>
-              {body}
+      <>
+        {/* The dimmed page behind the desktop dialog. Phones never draw it: there the dialog fills the screen. */}
+        <div
+          aria-hidden
+          onClick={dismissible ? onClose : undefined}
+          className="hidden md:block fixed inset-0 z-[1001] bg-black/85 backdrop-blur-sm animate-in fade-in duration-200 motion-reduce:animate-none"
+        />
+        {/* Full screen on a phone. From md: up a centered dialog of one steady height, so Back and Close never move between steps. */}
+        <div
+          role="dialog"
+          aria-modal="true"
+          aria-label="Contact Jotham Hall"
+          className="fixed inset-0 z-[1001] bg-[#0D0D0D] flex flex-col md:m-auto md:w-full md:max-w-[560px] md:h-[820px] md:max-h-[90vh] md:overflow-hidden md:rounded-xl md:border md:border-[#3D3A35] md:shadow-[0_40px_120px_rgba(0,0,0,0.6)] md:animate-in md:fade-in md:zoom-in-95 md:duration-200 md:motion-reduce:animate-none"
+        >
+          <div className="shrink-0 px-6 pt-2 pb-1 md:px-10 md:pt-4 md:pb-2">{topBar}</div>
+          <div ref={scrollRef} className="flex-1 overflow-y-auto overscroll-contain">
+            <div className="min-h-full flex flex-col px-6 pt-8 pb-10 md:px-10">
+              {/* The intro and the thank you sit centered; questions keep one top line so the eye never hunts. */}
+              <div key={done ? "done" : step} className={`${done || current.kind === "intro" ? "my-auto" : "pt-2"} ${animated}`}>
+                {body}
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      </>
     );
   }
 
@@ -679,13 +710,21 @@ function ContactFlow({ variant, onClose, onBook }: { variant: "modal" | "inline"
 }
 
 export function ContactModal({ isOpen, onClose }: ContactModalProps) {
+  // While open, hold the page still. The document scrolls on <html> (globals.css
+  // sets its overflow), so <html> is locked along with <body>, as the booking
+  // modal does; with <body> alone, a wheel over the desktop dialog scrolled the
+  // dimmed page behind it.
   useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "";
-    }
-    return () => { document.body.style.overflow = ""; };
+    if (!isOpen) return;
+    const html = document.documentElement;
+    const body = document.body;
+    const previous = { html: html.style.overflow, body: body.style.overflow };
+    html.style.overflow = "hidden";
+    body.style.overflow = "hidden";
+    return () => {
+      html.style.overflow = previous.html;
+      body.style.overflow = previous.body;
+    };
   }, [isOpen]);
 
   // The flow mounts fresh on every open, so each visit starts at the first screen with empty answers.

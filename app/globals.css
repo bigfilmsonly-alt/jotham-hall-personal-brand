@@ -88,6 +88,8 @@
   html {
     overflow-x: hidden;
     max-width: 100vw;
+    /* The page's own ground everywhere, overscroll included. */
+    background: #0D0D0D;
   }
   body {
     @apply bg-background text-foreground;
@@ -97,26 +99,13 @@
     background-color: #D4A853;
     color: #0D0D0D;
   }
-  @media (min-width: 768px) {
-    html {
-      background: #000;
-    }
-    body {
-      max-width: 430px;
-      margin: 0 auto;
-      position: relative;
-      box-shadow:
-        -1px 0 0 #222,
-        1px 0 0 #222;
-    }
-    /* Constrain all fixed elements to phone width */
-    .fixed {
-      left: 50% !important;
-      transform: translateX(-50%) !important;
-      width: 100% !important;
-      max-width: 430px !important;
-    }
-  }
+  /*
+    No phone column on desktop (Jo, 2026-10-14: fill the screen). The site used
+    to hold <body> at 430px from 768px up and force every .fixed element to that
+    width, which read as a thin strip in a black window. Pages now fill the
+    width: phone layouts are the base, and md:/lg: variants give each page its
+    desktop size, with reading text centered at a comfortable measure.
+  */
 }
 
 @layer utilities {

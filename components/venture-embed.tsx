@@ -43,25 +43,29 @@ export function VentureEmbed({ name, site, backHref }: { name: string; site: str
       {/*
         A returning strip, not a title bar. The guest's own full width header
         sits directly underneath, so anything with weight here reads as two
-        headers stacked: one quiet way back, one way into a call.
+        headers stacked: one quiet way back, one way into a call. The strip
+        spans the window; from md its two links sit on the same centered
+        max-w-6xl row as the site's top bars, their text on the row's edges.
       */}
       <div
-        className="absolute top-0 inset-x-0 z-10 flex items-center justify-between pl-2 pr-1 bg-black/85 backdrop-blur-xl border-b border-white/[0.04]"
+        className="absolute top-0 inset-x-0 z-10 flex items-center justify-between pl-2 pr-1 bg-black/85 backdrop-blur-xl border-b border-white/[0.04] md:px-0"
         style={{ height: CHROME_TOP, paddingTop: "env(safe-area-inset-top, 0px)" }}
       >
-        <Link
-          href={backHref}
-          className="group inline-flex items-center gap-1.5 min-h-[44px] px-2 text-[12px] font-medium text-white/50 hover:text-white/90 transition-colors whitespace-nowrap"
-        >
-          <ArrowLeft className="w-4 h-4 shrink-0 transition-transform group-hover:-translate-x-0.5" />
-          JothamHall.com
-        </Link>
-        <button
-          onClick={() => setIsCalendlyOpen(true)}
-          className="inline-flex items-center min-h-[44px] px-2.5 text-[12px] font-semibold whitespace-nowrap text-[#D4A853] hover:text-[#E8C97A] transition-colors"
-        >
-          Book a call
-        </button>
+        <div className="flex w-full items-center justify-between md:mx-auto md:max-w-6xl md:px-10">
+          <Link
+            href={backHref}
+            className="group inline-flex items-center gap-1.5 min-h-[44px] px-2 text-[12px] font-medium text-white/50 hover:text-white/90 transition-colors whitespace-nowrap md:-ml-2"
+          >
+            <ArrowLeft className="w-4 h-4 shrink-0 transition-transform group-hover:-translate-x-0.5" />
+            JothamHall.com
+          </Link>
+          <button
+            onClick={() => setIsCalendlyOpen(true)}
+            className="inline-flex items-center min-h-[44px] px-2.5 text-[12px] font-semibold whitespace-nowrap text-[#D4A853] hover:text-[#E8C97A] transition-colors md:-mr-2.5"
+          >
+            Book a call
+          </button>
+        </div>
       </div>
 
       {!loaded && (

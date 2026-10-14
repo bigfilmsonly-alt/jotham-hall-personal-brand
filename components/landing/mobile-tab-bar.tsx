@@ -96,6 +96,13 @@ export function MobileTabBar() {
   // Inside a venture's own site, its navigation is the only one on screen.
   if (isFullBleed(pathname)) return null;
 
+  /*
+    One bar at every width (Jo: visible on all screen sizes). On a phone the
+    six tabs share the full width. From md up the bar still runs the full
+    window, like successupgrade.ai's, and the tabs sit in a centered max-w-2xl
+    row; a sheet becomes a centered max-w-md panel rising from the bar, with
+    the backdrop still covering the page.
+  */
   return (
     <>
       {/* Submenu Panel */}
@@ -114,7 +121,7 @@ export function MobileTabBar() {
 
         {/* Submenu Content */}
         <div
-          className={`relative bg-[#1A1A1A] border-t border-[#D4A853]/20 rounded-t-3xl shadow-2xl transition-all duration-300 ${
+          className={`relative bg-[#1A1A1A] border-t border-[#D4A853]/20 rounded-t-3xl shadow-2xl transition-all duration-300 md:mx-auto md:max-w-md md:border-x ${
             activeSubmenu ? "translate-y-0 opacity-100" : "translate-y-full opacity-0"
           }`}
           style={{ paddingBottom: "calc(5rem + env(safe-area-inset-bottom))" }}
@@ -131,7 +138,7 @@ export function MobileTabBar() {
                   </h3>
                   <button
                     onClick={() => setActiveSubmenu(null)}
-                    className="p-1.5 rounded-full hover:bg-[#252320] transition-colors"
+                    className="p-1.5 rounded-full hover:bg-[#252320] transition-colors md:cursor-pointer"
                   >
                     <X className="w-4 h-4 text-[#5C5750]" />
                   </button>
@@ -175,7 +182,7 @@ export function MobileTabBar() {
           className="bg-[#0D0D0D] border-t border-[#3D3A35]"
           style={{ paddingBottom: "env(safe-area-inset-bottom)" }}
         >
-          <div className="flex items-center justify-around h-20 px-2">
+          <div className="flex items-center justify-around h-20 px-2 md:mx-auto md:max-w-2xl">
             {tabs.map((tab) => {
               const Icon = tab.icon;
               const active =
@@ -188,7 +195,7 @@ export function MobileTabBar() {
                 <button
                   key={tab.name}
                   onClick={() => handleTabClick(tab)}
-                  className={`relative flex flex-col items-center justify-center gap-1 flex-1 h-full transition-all duration-300 active:scale-90 ${
+                  className={`relative flex flex-col items-center justify-center gap-1 flex-1 h-full transition-all duration-300 active:scale-90 md:cursor-pointer ${
                     active || submenuOpen
                       ? "text-[#D4A853]"
                       : "text-[#5C5750] hover:text-[#B8B0A8]"
@@ -205,7 +212,7 @@ export function MobileTabBar() {
                     )}
                   </div>
                   <span
-                    className={`text-[11px] tracking-wide transition-all duration-300 ${
+                    className={`text-[11px] tracking-wide transition-all duration-300 md:text-xs ${
                       active || submenuOpen ? "font-medium" : "font-normal"
                     }`}
                   >

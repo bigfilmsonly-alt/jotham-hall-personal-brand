@@ -16,8 +16,13 @@ interface CalendlyModalProps {
   inside their own layouts (the home screen's fixed <main>, page sections with
   their own z-index), and each of those is a stacking context that would trap
   z-[1001] underneath the tab bar (z 999). From the body it always sits above
-  the tab bar. It covers the whole screen on a phone, and the .fixed rule in
-  globals.css holds it to the 430px column from 768px up.
+  the tab bar. It covers the whole screen on a phone. From md up it takes the
+  contact dialog's desktop style (components/landing/contact-modal.tsx): a
+  centered 560px dialog of one height (820px, at most 90% of the window) with
+  a hairline border and 8px corners, over a black backdrop that also covers
+  the tab bar. Clicking the backdrop closes it until a time is picked in the
+  calendar; after that only Close or Escape do, so a stray click never throws
+  away a booking in progress.
 */
 
 const directLines = [
@@ -54,6 +59,9 @@ function CalendarLoading() {
 
 export function CalendlyModal({ isOpen, onClose }: CalendlyModalProps) {
   const [booked, setBooked] = useState(false);
+  // True once a time is picked in the calendar: from then on the desktop
+  // backdrop no longer closes the dialog.
+  const [timePicked, setTimePicked] = useState(false);
   const [mounted, setMounted] = useState(false);
   // False until Calendly's frame has loaded. Until then the frame stays
   // transparent, so an empty or still loading frame never flashes white.
@@ -75,6 +83,11 @@ export function CalendlyModal({ isOpen, onClose }: CalendlyModalProps) {
   }, [isOpen]);
 
   useCalendlyEventListener({
+    onDateAndTimeSelected: (e) => {
+      if (!isOpenRef.current) return;
+      if (!/^https:\/\/([a-z0-9-]+\.)?calendly\.com$/.test(e.origin)) return;
+      setTimePicked(true);
+    },
     onEventScheduled: (e) => {
       if (!isOpenRef.current) return;
       if (!/^https:\/\/([a-z0-9-]+\.)?calendly\.com$/.test(e.origin)) return;
@@ -108,6 +121,7 @@ export function CalendlyModal({ isOpen, onClose }: CalendlyModalProps) {
   useEffect(() => {
     if (!isOpen) return;
     setBooked(false);
+    setTimePicked(false);
     const html = document.documentElement;
     const body = document.body;
     const previous = { html: html.style.overflow, body: body.style.overflow };
@@ -139,11 +153,18 @@ export function CalendlyModal({ isOpen, onClose }: CalendlyModalProps) {
   if (!isOpen || !mounted) return null;
 
   return createPortal(
+    <>
+    {/* Desktop only: the dimmed page behind the centered dialog. */}
+    <div
+      aria-hidden="true"
+      onClick={timePicked && !booked ? undefined : onClose}
+      className="fixed inset-0 z-[1001] hidden bg-black/85 backdrop-blur-sm animate-in fade-in duration-200 motion-reduce:animate-none md:block"
+    />
     <div
       role="dialog"
       aria-modal="true"
       aria-labelledby={titleId}
-      className="fixed inset-0 z-[1001] flex flex-col bg-[#0D0D0D] text-[#FAF8F5]"
+      className="fixed inset-0 z-[1001] flex flex-col bg-[#0D0D0D] text-[#FAF8F5] md:m-auto md:h-[820px] md:max-h-[90vh] md:w-full md:max-w-[560px] md:overflow-hidden md:rounded-xl md:border md:border-[#3D3A35] md:shadow-[0_40px_120px_rgba(0,0,0,0.6)] md:animate-in md:fade-in md:zoom-in-95 md:duration-200 md:motion-reduce:animate-none"
     >
       {/* Header: centered title, Close on the right, balanced by an empty cell on the left */}
       <header
@@ -153,7 +174,7 @@ export function CalendlyModal({ isOpen, onClose }: CalendlyModalProps) {
         <div className="grid grid-cols-[2.75rem_1fr_2.75rem] items-center gap-3 px-4 py-3">
           <span aria-hidden="true" />
           <div className="min-w-0 text-center">
-            <p className="text-[10px] tracking-[0.15em] uppercase text-[#D4A853]">
+            <p className="text-[10px] tracking-[0.15em] uppercase text-[#D4A853] md:text-xs">
               {booked ? "You're Booked" : "Book a Strategy Call"}
             </p>
             <h2
@@ -178,7 +199,7 @@ export function CalendlyModal({ isOpen, onClose }: CalendlyModalProps) {
       {booked ? (
         /* After booking: confirmation and the direct lines */
         <div
-          className="flex flex-1 flex-col overflow-y-auto overscroll-contain px-6 pt-10"
+          className="flex flex-1 flex-col overflow-y-auto overscroll-contain px-6 pt-10 md:pt-4 md:pb-4!"
           style={{ paddingBottom: "calc(2.5rem + env(safe-area-inset-bottom, 0px))" }}
         >
           <div className="my-auto mx-auto w-full max-w-[340px] text-center">
@@ -250,7 +271,7 @@ export function CalendlyModal({ isOpen, onClose }: CalendlyModalProps) {
             className="shrink-0 border-t border-[#3D3A35]/60 bg-[#0D0D0D]"
             style={{ paddingBottom: "env(safe-area-inset-bottom, 0px)" }}
           >
-            <p className="pt-3 text-center text-[10px] tracking-[0.15em] uppercase text-[#8A837B]">
+            <p className="pt-3 text-center text-[10px] tracking-[0.15em] uppercase text-[#8A837B] md:text-xs">
               Prefer to talk now?
             </p>
             <div className="grid grid-cols-3">
@@ -258,7 +279,7 @@ export function CalendlyModal({ isOpen, onClose }: CalendlyModalProps) {
                 <a
                   key={href}
                   href={href}
-                  className="flex min-h-[48px] items-center justify-center gap-2 text-[11px] tracking-[0.15em] uppercase text-[#B8B0A8] transition-colors hover:text-[#FAF8F5]"
+                  className="flex min-h-[48px] items-center justify-center gap-2 text-[11px] tracking-[0.15em] uppercase text-[#B8B0A8] transition-colors hover:text-[#FAF8F5] md:text-xs"
                 >
                   <Icon className="h-3.5 w-3.5 text-[#D4A853]" />
                   {label}
@@ -268,7 +289,8 @@ export function CalendlyModal({ isOpen, onClose }: CalendlyModalProps) {
           </div>
         </>
       )}
-    </div>,
+    </div>
+    </>,
     document.body
   );
 }

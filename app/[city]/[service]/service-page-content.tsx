@@ -65,23 +65,26 @@ export function ServicePageContent({
         {/* This block ends the page in place of the site footer. data-site-footer
             tells the floating Book a Call (components/floating-cta.tsx) to step
             aside once the closing card above reaches the screen. */}
-        <nav data-site-footer aria-label={`More in ${city.name}`} className="px-6 pt-14">
-          <h2 className="flex items-center gap-3 mb-4 text-[11px] tracking-[0.15em] uppercase text-[#8A837B]">
-            <span className="flex-1 h-px bg-[#3D3A35]/60" />
-            More Ways I Help
-            <span className="flex-1 h-px bg-[#3D3A35]/60" />
-          </h2>
-          <div className="space-y-2.5">
-            {related.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className="group flex items-center justify-between px-5 py-4 border border-[#3D3A35] text-[15px] text-[#B8B0A8] hover:border-[#D4A853]/40 hover:text-[#FAF8F5] transition-colors active:scale-[0.99]"
-              >
-                {link.label}
-                <ArrowRight className="w-4 h-4 text-[#D4A853] transition-transform group-hover:translate-x-0.5" />
-              </Link>
-            ))}
+        <nav data-site-footer aria-label={`More in ${city.name}`} className="px-6 pt-14 md:px-10 md:pt-24">
+          {/* From md: at reading width, the two links side by side. */}
+          <div className="mx-auto max-w-2xl">
+            <h2 className="flex items-center gap-3 md:gap-4 mb-4 md:mb-6 text-[11px] md:text-xs tracking-[0.15em] uppercase text-[#8A837B]">
+              <span className="flex-1 h-px bg-[#3D3A35]/60" />
+              More Ways I Help
+              <span className="flex-1 h-px bg-[#3D3A35]/60" />
+            </h2>
+            <div className="space-y-2.5 md:space-y-0 md:grid md:grid-cols-2 md:gap-3">
+              {related.map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className="group flex items-center justify-between px-5 py-4 md:px-6 md:py-5 border border-[#3D3A35] text-[15px] md:text-base text-[#B8B0A8] hover:border-[#D4A853]/40 hover:text-[#FAF8F5] transition-colors active:scale-[0.99]"
+                >
+                  {link.label}
+                  <ArrowRight className="w-4 h-4 text-[#D4A853] transition-transform group-hover:translate-x-0.5" />
+                </Link>
+              ))}
+            </div>
           </div>
         </nav>
       </main>

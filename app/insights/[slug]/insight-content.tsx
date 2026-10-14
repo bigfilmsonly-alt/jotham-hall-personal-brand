@@ -9,10 +9,17 @@ import type { InlineSegment, InsightBlock, InsightSummary } from "@/lib/insights
 import { ClosingCTA, Headshot, InsightRow, InsightsNav, SectionLabel } from "../insights-shared";
 
 /*
-  One reading column at every screen size (see insights-shared.tsx): centered
-  header, left aligned body at 17px with 1.7 line height, two related
-  articles, then the call to action right above the site footer (see
-  ClosingCTA for why it sits there). The body arrives parsed from the server.
+  One reading column: centered header, left aligned body at 17px with 1.7 line
+  height, two related articles, then the call to action right above the site
+  footer (see ClosingCTA for why it sits there). The body arrives parsed from
+  the server.
+
+  The unprefixed classes are the phone design, approved as it is. From md
+  (768px) up the page reads as a classic long form article: the header in
+  max-w-3xl with a larger title, the body in a max-w-2xl column at 19px (under
+  80 characters a line), the two related articles side by side, and the
+  closing card centered. Desktop styling only adds md: and lg: variants and
+  wrappers that do nothing on a phone, so nothing on a phone moves.
 */
 
 interface Props {
@@ -26,7 +33,7 @@ interface Props {
   showIndexLink: boolean;
 }
 
-const bodyText = "text-[1.0625rem] leading-[1.7] text-[#FAF8F5]/80";
+const bodyText = "text-[1.0625rem] md:text-[1.1875rem] leading-[1.7] text-[#FAF8F5]/80";
 
 function Segments({ segments }: { segments: InlineSegment[] }) {
   return (
@@ -67,16 +74,16 @@ function Block({ block, isLede }: { block: InsightBlock; isLede: boolean }) {
   switch (block.type) {
     case "heading":
       return (
-        <h2 className="font-display text-[1.2rem] leading-snug tracking-[0.12em] uppercase text-balance text-[#FAF8F5]">
-          <span aria-hidden className="block w-8 h-px bg-[#D4A853] mb-5" />
+        <h2 className="font-display text-[1.2rem] md:text-2xl leading-snug tracking-[0.12em] uppercase text-balance text-[#FAF8F5]">
+          <span aria-hidden className="block w-8 md:w-10 h-px bg-[#D4A853] mb-5 md:mb-6" />
           {block.text}
         </h2>
       );
     case "quote":
       return (
         <p
-          className={`border-l-2 border-[#D4A853] pl-5 font-light leading-[1.5] text-[#FAF8F5] ${
-            quoteLength(block.segments) > 90 ? "text-[1.1875rem]" : "text-[1.3125rem]"
+          className={`border-l-2 border-[#D4A853] pl-5 md:pl-7 font-light leading-[1.5] text-[#FAF8F5] ${
+            quoteLength(block.segments) > 90 ? "text-[1.1875rem] md:text-[1.375rem]" : "text-[1.3125rem] md:text-[1.625rem]"
           }`}
         >
           <Segments segments={block.segments} />
@@ -89,16 +96,18 @@ function Block({ block, isLede }: { block: InsightBlock; isLede: boolean }) {
         <List className={hasLeads ? "space-y-7" : "space-y-4"}>
           {block.items.map((item, i) => (
             <li key={i} className="flex gap-4">
+              {/* Number and diamond sit on the first line: its height is the
+                  text size times 1.7 (17px on a phone, 19px from md). */}
               {block.ordered ? (
-                <span aria-hidden className="w-6 shrink-0 font-mono text-[13px] leading-[29px] text-[#D4A853]">
+                <span aria-hidden className="w-6 shrink-0 font-mono text-[13px] leading-[29px] md:leading-[32.3px] text-[#D4A853]">
                   {String(i + 1).padStart(2, "0")}
                 </span>
               ) : (
-                <span aria-hidden className="mt-[12px] mx-[3px] w-[5px] h-[5px] shrink-0 rotate-45 bg-[#D4A853]" />
+                <span aria-hidden className="mt-[12px] md:mt-[13.5px] mx-[3px] w-[5px] h-[5px] shrink-0 rotate-45 bg-[#D4A853]" />
               )}
               <div className="min-w-0">
                 {item.lead && (
-                  <h3 className="text-[1.0625rem] font-semibold leading-[1.7] text-[#FAF8F5]">{item.lead}</h3>
+                  <h3 className="text-[1.0625rem] md:text-[1.1875rem] font-semibold leading-[1.7] text-[#FAF8F5]">{item.lead}</h3>
                 )}
                 <p className={`${item.lead ? "mt-1" : ""} ${bodyText}`}>
                   <Segments segments={item.segments} />
@@ -111,7 +120,7 @@ function Block({ block, isLede }: { block: InsightBlock; isLede: boolean }) {
     }
     default:
       return (
-        <p className={isLede ? "text-[1.1875rem] leading-[1.65] text-[#FAF8F5]" : bodyText}>
+        <p className={isLede ? "text-[1.1875rem] md:text-[1.375rem] leading-[1.65] text-[#FAF8F5]" : bodyText}>
           <Segments segments={block.segments} />
         </p>
       );
@@ -128,52 +137,62 @@ export function InsightContent({ title, category, readTime, publishedAt, dateLab
         <InsightsNav onBook={openCalendly} />
 
         <article>
-          <header className="px-6 pt-28 pb-10 text-center">
-            <p className="text-[13px] tracking-[0.15em] uppercase text-[#D4A853]">{category}</p>
-            <h1 className="mt-5 font-display text-[1.5rem] leading-[1.3] tracking-[0.1em] uppercase text-balance text-[#FAF8F5]">
-              {title}
-            </h1>
-            <div className="mt-8 inline-flex items-center gap-3 text-left">
-              <Headshot size={44} />
-              <div>
-                <p className="text-[15px] font-medium text-[#FAF8F5]">Jotham Hall</p>
-                <p className="text-[13px] text-[#8A837B]">
-                  <time dateTime={publishedAt}>{dateLabel}</time>
-                  <span aria-hidden className="mx-1.5 text-[#5C5750]">&middot;</span>
-                  {readTime}
-                </p>
+          <header className="px-6 pt-28 pb-10 md:px-10 md:pt-32 md:pb-14 text-center">
+            <div className="mx-auto max-w-3xl">
+              <p className="text-[13px] md:text-sm tracking-[0.15em] uppercase text-[#D4A853]">{category}</p>
+              {/* A sentence long title, so one step below the page title size
+                  (md:text-5xl lg:text-6xl) to stay at three or four lines. */}
+              <h1 className="mt-5 md:mt-6 font-display text-[1.5rem] md:text-4xl lg:text-5xl leading-[1.3] md:leading-[1.2] tracking-[0.1em] uppercase text-balance text-[#FAF8F5]">
+                {title}
+              </h1>
+              <div className="mt-8 md:mt-10 inline-flex items-center gap-3 md:gap-4 text-left">
+                <Headshot size={44} />
+                <div>
+                  <p className="text-[15px] md:text-base font-medium text-[#FAF8F5]">Jotham Hall</p>
+                  <p className="text-[13px] md:text-sm text-[#8A837B]">
+                    <time dateTime={publishedAt}>{dateLabel}</time>
+                    <span aria-hidden className="mx-1.5 text-[#5C5750]">&middot;</span>
+                    {readTime}
+                  </p>
+                </div>
               </div>
             </div>
           </header>
 
-          <div className="mx-6 border-t border-[#3D3A35]/60" />
+          {/* The rule and the body share the reading column from md. */}
+          <div className="mx-6 border-t border-[#3D3A35]/60 md:mx-auto md:max-w-2xl" />
 
-          <div className="px-6 pt-10">
-            {blocks.map((block, i) => (
-              <div key={i} className={blockSpacing(block, blocks[i - 1])}>
-                <Block block={block} isLede={i === 0 && block.type === "paragraph"} />
-              </div>
-            ))}
+          <div className="px-6 pt-10 md:px-10 md:pt-14">
+            <div className="mx-auto max-w-2xl">
+              {blocks.map((block, i) => (
+                <div key={i} className={blockSpacing(block, blocks[i - 1])}>
+                  <Block block={block} isLede={i === 0 && block.type === "paragraph"} />
+                </div>
+              ))}
+            </div>
           </div>
         </article>
 
         {related.length > 0 && (
-          <section className="px-6 pt-16 pb-14">
-            <SectionLabel>Keep Reading</SectionLabel>
-            <ul className="mt-2">
-              {related.map((insight) => (
-                <InsightRow key={insight.slug} insight={insight} />
-              ))}
-            </ul>
-            {showIndexLink && (
-              <Link
-                href="/insights"
-                className="group mt-8 flex items-center justify-center gap-2 py-2 text-[13px] tracking-[0.15em] uppercase text-[#8A837B] hover:text-[#FAF8F5] transition-colors"
-              >
-                All Insights
-                <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" />
-              </Link>
-            )}
+          <section className="px-6 pt-16 pb-14 md:px-10 md:pt-24 md:pb-20">
+            {/* From md: the closing card's width, the two articles side by side. */}
+            <div className="mx-auto max-w-3xl">
+              <SectionLabel>Keep Reading</SectionLabel>
+              <ul className="mt-2 md:mt-4 md:grid md:grid-cols-2 md:gap-x-12">
+                {related.map((insight) => (
+                  <InsightRow key={insight.slug} insight={insight} />
+                ))}
+              </ul>
+              {showIndexLink && (
+                <Link
+                  href="/insights"
+                  className="group mt-8 flex items-center justify-center gap-2 py-2 text-[13px] tracking-[0.15em] uppercase text-[#8A837B] hover:text-[#FAF8F5] transition-colors"
+                >
+                  All Insights
+                  <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" />
+                </Link>
+              )}
+            </div>
           </section>
         )}
 

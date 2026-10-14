@@ -16,10 +16,11 @@ import { isFullBleed } from "@/lib/full-bleed";
   the footer) or the footer reaches the screen, so it never sits on the final
   call to action, the footer's contact rows or the build credit.
 
-  The fixed element is a full width rail that clicks pass through, and the
-  button sits at its right end. globals.css stretches every .fixed element to
-  the 430px column from 768px up; the rail takes that, so desktop matches the
-  phone instead of growing a 430px wide bar.
+  The fixed element is a rail that clicks pass through, and the button sits at
+  its right end. On a phone the rail spans the screen. From md up it is the
+  same centered max-w-6xl row (px-10) that the pages' top bars use, so the
+  button lines up with the right edge of the content instead of the far
+  window edge.
 */
 
 // Share of the viewport height to scroll before the button shows.
@@ -92,14 +93,14 @@ export function FloatingCTA() {
   return (
     <>
       <div
-        className="pointer-events-none fixed left-0 right-0 z-[997] flex justify-end px-4"
+        className="pointer-events-none fixed left-0 right-0 z-[997] flex justify-end px-4 md:mx-auto md:max-w-6xl md:px-10"
         style={{ bottom: "calc(5.75rem + env(safe-area-inset-bottom, 0px))" }}
       >
         <button
           type="button"
           data-floating-cta
           onClick={() => setIsCalendlyOpen(true)}
-          className={`pointer-events-auto inline-flex h-11 items-center gap-2 bg-[#D4A853] px-5 text-[13px] font-medium tracking-wide text-[#0D0D0D] shadow-[0_10px_30px_rgba(0,0,0,0.6)] transition-all duration-300 hover:bg-[#E8C97A] active:scale-[0.97] motion-reduce:transition-none ${
+          className={`pointer-events-auto inline-flex h-11 items-center gap-2 bg-[#D4A853] px-5 text-[13px] font-medium tracking-wide text-[#0D0D0D] shadow-[0_10px_30px_rgba(0,0,0,0.6)] transition-all duration-300 hover:bg-[#E8C97A] active:scale-[0.97] motion-reduce:transition-none md:h-12 md:cursor-pointer md:px-6 md:text-sm ${
             visible ? "visible translate-y-0 opacity-100" : "invisible translate-y-2 opacity-0"
           }`}
         >

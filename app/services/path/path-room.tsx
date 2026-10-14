@@ -24,19 +24,24 @@ export function PathRoom() {
   if (unlocked === null) return <div className="fixed inset-0 bg-[#0D0D0D]" />;
   if (unlocked) return <VentureEmbed name="The Path" site={PATH_SITE} backHref="/services" />;
 
+  // On a desktop the strip's link lines up with the site's centered max-w-6xl bar row, and the join centers below it.
   return (
     <div className="fixed inset-0 z-[60] overflow-y-auto bg-[#0D0D0D]">
-      <div className="sticky top-0 z-10 flex items-center h-11 pl-2 bg-black/85 backdrop-blur-xl border-b border-white/[0.04]">
-        <Link
-          href="/services"
-          className="group inline-flex items-center gap-1.5 min-h-[44px] px-2 text-[12px] font-medium text-white/50 hover:text-white/90 transition-colors"
-        >
-          <ArrowLeft className="w-4 h-4 shrink-0 transition-transform group-hover:-translate-x-0.5" />
-          JothamHall.com
-        </Link>
+      <div className="sticky top-0 z-10 flex items-center h-11 pl-2 md:pl-0 bg-black/85 backdrop-blur-xl border-b border-white/[0.04]">
+        <div className="flex md:mx-auto md:w-full md:max-w-6xl md:px-8">
+          <Link
+            href="/services"
+            className="group inline-flex items-center gap-1.5 min-h-[44px] px-2 text-[12px] font-medium text-white/50 hover:text-white/90 transition-colors"
+          >
+            <ArrowLeft className="w-4 h-4 shrink-0 transition-transform group-hover:-translate-x-0.5" />
+            JothamHall.com
+          </Link>
+        </div>
       </div>
-      <div className="px-6 pt-10 pb-16">
-        <PathJoin onUnlock={() => setUnlocked(true)} />
+      <div className="px-6 pt-10 pb-16 md:px-10 md:pt-20 md:pb-24">
+        <div className="mx-auto max-w-5xl">
+          <PathJoin onUnlock={() => setUnlocked(true)} />
+        </div>
       </div>
     </div>
   );
