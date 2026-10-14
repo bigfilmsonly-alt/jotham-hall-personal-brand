@@ -15,6 +15,7 @@ import {
   ServiceSteps,
 } from "@/components/service-page-template";
 import { services, servicesIndex } from "./services-data";
+import { BrainAndPath } from "@/components/path/brain-and-path";
 
 // Phone width at every screen size (see globals.css), so no sm:, md: or lg: layouts here.
 // The job of this page: a visitor finds their problem in one glance and taps it, or books.
@@ -67,6 +68,9 @@ export function ServicesIndex() {
             ))}
           </ul>
         </ServiceSection>
+
+        {/* The system behind every service, and the free training that builds it. */}
+        <BrainAndPath />
 
         <ServiceProof items={servicesIndex.proof} />
 

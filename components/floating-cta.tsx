@@ -45,6 +45,15 @@ function closingTop(viewportHeight: number) {
   return (block ?? footer).getBoundingClientRect().top;
 }
 
+// Sections with their own actions or a form (the Brain and Path on Services)
+// carry data-hide-floating-cta; the button stays out of their way on screen.
+function overOwnActions(viewportHeight: number) {
+  return Array.from(document.querySelectorAll("[data-hide-floating-cta]")).some((el) => {
+    const r = el.getBoundingClientRect();
+    return r.top < viewportHeight && r.bottom > 0;
+  });
+}
+
 export function FloatingCTA() {
   const pathname = usePathname();
   const [isCalendlyOpen, setIsCalendlyOpen] = useState(false);
@@ -60,7 +69,9 @@ export function FloatingCTA() {
       frame = 0;
       const viewportHeight = window.innerHeight;
       setVisible(
-        window.scrollY > viewportHeight * SHOW_AFTER && closingTop(viewportHeight) > viewportHeight
+        window.scrollY > viewportHeight * SHOW_AFTER &&
+          closingTop(viewportHeight) > viewportHeight &&
+          !overOwnActions(viewportHeight)
       );
     };
     const schedule = () => {

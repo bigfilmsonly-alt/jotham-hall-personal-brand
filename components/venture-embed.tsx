@@ -20,7 +20,8 @@ import { CalendlyModal } from "@/components/calendly-modal";
 const CHROME_TOP = "calc(44px + env(safe-area-inset-top, 0px))";
 const CHROME_BOTTOM = "env(safe-area-inset-bottom, 0px)";
 
-export function VentureEmbed({ name, site, slug }: { name: string; site: string; slug: string }) {
+// backHref is where the strip returns to: the venture's page, or /services for the Path.
+export function VentureEmbed({ name, site, backHref }: { name: string; site: string; backHref: string }) {
   const [loaded, setLoaded] = useState(false);
   const [isCalendlyOpen, setIsCalendlyOpen] = useState(false);
 
@@ -49,7 +50,7 @@ export function VentureEmbed({ name, site, slug }: { name: string; site: string;
         style={{ height: CHROME_TOP, paddingTop: "env(safe-area-inset-top, 0px)" }}
       >
         <Link
-          href={`/ventures/${slug}`}
+          href={backHref}
           className="group inline-flex items-center gap-1.5 min-h-[44px] px-2 text-[12px] font-medium text-white/50 hover:text-white/90 transition-colors whitespace-nowrap"
         >
           <ArrowLeft className="w-4 h-4 shrink-0 transition-transform group-hover:-translate-x-0.5" />
@@ -88,7 +89,8 @@ export function VentureEmbed({ name, site, slug }: { name: string; site: string;
         allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; payment"
         // allow-same-origin means the guest's own origin: without it the guest's
         // routing, storage and scripts break. It still cannot reach this page.
-        sandbox="allow-same-origin allow-scripts allow-forms allow-popups allow-popups-to-escape-sandbox allow-top-navigation-by-user-activation"
+        // allow-storage-access-by-user-activation lets the Path keep a visitor's progress in Safari.
+        sandbox="allow-same-origin allow-scripts allow-forms allow-popups allow-popups-to-escape-sandbox allow-top-navigation-by-user-activation allow-storage-access-by-user-activation"
       />
 
       <CalendlyModal isOpen={isCalendlyOpen} onClose={() => setIsCalendlyOpen(false)} />
