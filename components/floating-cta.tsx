@@ -3,13 +3,15 @@
 import { useState } from "react";
 import { usePathname } from "next/navigation";
 import { CalendlyModal } from "./calendly-modal";
+import { isFullBleed } from "@/lib/full-bleed";
 
 export function FloatingCTA() {
   const pathname = usePathname();
   const [isCalendlyOpen, setIsCalendlyOpen] = useState(false);
 
-  // Only show on sub-pages, not homepage
-  if (pathname === "/") return null;
+  // Only show on sub-pages, not homepage, and not over a venture's own site,
+  // whose strip already carries a booking link.
+  if (pathname === "/" || isFullBleed(pathname)) return null;
 
   return (
     <>

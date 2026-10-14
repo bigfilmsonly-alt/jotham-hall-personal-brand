@@ -8,8 +8,10 @@ import { ventureGroups, ventures } from "@/lib/ventures";
 
 // Phone width at every screen size (see globals.css), so no lg: layouts here.
 
+// Success Upgrade opens inside this site like every venture. LinkedIn and
+// Instagram refuse to be framed by anyone, so those two open in a new tab.
 const elsewhere = [
-  { name: "Success Upgrade", href: "https://www.successupgrade.ai/" },
+  { name: "Success Upgrade", href: "/ventures/success-upgrade/site" },
   { name: "LinkedIn", href: "https://www.linkedin.com/in/jotham-hall-b6b9491b2" },
   { name: "Instagram", href: "https://www.instagram.com/successupgrade_" },
 ];
@@ -87,18 +89,29 @@ export function VenturesIndex() {
             <span className="flex-1 h-px bg-[#3D3A35]/60" />
           </h2>
           <div className="space-y-2">
-            {elsewhere.map((link) => (
-              <a
-                key={link.href}
-                href={link.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center justify-between px-5 py-3.5 border border-[#3D3A35] text-sm text-[#B8B0A8] hover:border-[#D4A853]/40 hover:text-[#FAF8F5] transition-colors active:scale-[0.98]"
-              >
-                {link.name}
-                <ArrowUpRight className="w-4 h-4" />
-              </a>
-            ))}
+            {elsewhere.map((link) =>
+              link.href.startsWith("/") ? (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className="flex items-center justify-between px-5 py-3.5 border border-[#3D3A35] text-sm text-[#B8B0A8] hover:border-[#D4A853]/40 hover:text-[#FAF8F5] transition-colors active:scale-[0.98]"
+                >
+                  {link.name}
+                  <ArrowRight className="w-4 h-4" />
+                </Link>
+              ) : (
+                <a
+                  key={link.href}
+                  href={link.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-between px-5 py-3.5 border border-[#3D3A35] text-sm text-[#B8B0A8] hover:border-[#D4A853]/40 hover:text-[#FAF8F5] transition-colors active:scale-[0.98]"
+                >
+                  {link.name}
+                  <ArrowUpRight className="w-4 h-4" />
+                </a>
+              )
+            )}
           </div>
         </section>
 

@@ -1,10 +1,19 @@
 /*
-  One list feeds the Ventures index, every /ventures/[slug] page, the sitemap and
-  the tab bar's Ventures sheet, so a venture is added or edited in one place.
+  One list feeds the Ventures index, every /ventures/[slug] page, the in site
+  viewer at /ventures/[slug]/site, the sitemap and the tab bar's Ventures sheet,
+  so a venture is added or edited in one place.
 
   Copy rules for this site: no em dashes or hyphenated compounds, American
   English, no prices, and nothing a visitor cannot check on the venture's own
-  site. Partner builds name the founder and state Jo's actual role.
+  site. Partner builds name the founder where it is public and state Jo's
+  actual role; where the role is not on record, leave `role` out rather than
+  guess, and the page simply omits the line.
+
+  `site` opens inside jothamhall.com, so the visitor never leaves. Every one of
+  these sites allowlists jothamhall.com in its frame-ancestors header; a new
+  venture needs the same header on its own site before its viewer can load.
+  `links` is only for places that refuse to be framed by anyone, like the App
+  Store, and those open normally.
 */
 
 export const ventureGroups = ["Founded", "Built With Partners"] as const;
@@ -17,10 +26,12 @@ export type Venture = {
   tagline: string;
   status: string;
   year?: string;
-  role: string;
+  role?: string;
   description: string;
   features: string[];
-  links: { label: string; href: string }[];
+  site: string;
+  visitLabel: string;
+  links?: { label: string; href: string }[];
   featured?: boolean;
 };
 
@@ -42,7 +53,8 @@ export const ventures: Venture[] = [
       "Mentorship plans and strategy calls with me",
       "Big Films Only, Electro Hydration, and my other brands one tap away",
     ],
-    links: [{ label: "Visit Success Upgrade", href: "https://www.successupgrade.ai/" }],
+    site: "https://www.successupgrade.ai/",
+    visitLabel: "Visit Success Upgrade",
     featured: true,
   },
   {
@@ -62,7 +74,8 @@ export const ventures: Venture[] = [
       "CRM, email, and SMS automation",
       "Ad campaigns on Facebook, Google, and TikTok",
     ],
-    links: [{ label: "See SaaS Agency", href: "https://www.successupgrade.ai/saas-agency" }],
+    site: "https://www.successupgrade.ai/saas-agency",
+    visitLabel: "See SaaS Agency",
   },
   {
     slug: "say-it-build-it",
@@ -80,7 +93,8 @@ export const ventures: Venture[] = [
       "A library of prompts to copy and use",
       "A playbook for turning what you build into income",
     ],
-    links: [{ label: "Start the Free Course", href: "https://www.sayitbuildit.com/" }],
+    site: "https://www.sayitbuildit.com/",
+    visitLabel: "Start the Free Course",
     featured: true,
   },
   {
@@ -98,7 +112,28 @@ export const ventures: Venture[] = [
       "A community of entrepreneurs building with AI",
       "Expert help on business projects",
     ],
-    links: [{ label: "Join the Waitlist", href: "https://www.aiarmy.com/" }],
+    site: "https://www.aiarmy.com/",
+    visitLabel: "Join the Waitlist",
+  },
+  {
+    slug: "lumi",
+    name: "Lumi",
+    group: "Founded",
+    category: "Med spa app",
+    tagline: "A white label app for luxury med spas.",
+    status: "Live Demo",
+    role: "Founder",
+    description:
+      "Lumi gives a med spa its own branded app for booking, a skincare shop, rewards, and an assistant that answers client questions. The live demo runs as a Miami med spa.",
+    features: [
+      "Treatment booking",
+      "A skincare shop inside the app",
+      "Rewards on every visit",
+      "An assistant for client questions",
+      "Each practice's own brand",
+    ],
+    site: "https://builtbyjothamhall.vercel.app/",
+    visitLabel: "Open the Demo",
   },
   {
     slug: "big-films-only",
@@ -117,7 +152,8 @@ export const ventures: Venture[] = [
       "AI production and animated video",
       "Shoots in Oakland, Los Angeles, Miami, New York, and Dubai",
     ],
-    links: [{ label: "Visit Big Films Only", href: "https://www.bigfilmsonly.com/" }],
+    site: "https://www.bigfilmsonly.com/",
+    visitLabel: "Visit Big Films Only",
   },
   {
     slug: "booktalent",
@@ -134,7 +170,8 @@ export const ventures: Venture[] = [
       "Search by exactly who a campaign needs",
       "Verified talent profiles",
     ],
-    links: [{ label: "Visit BookTalent", href: "https://www.booktalent.co/" }],
+    site: "https://www.booktalent.co/",
+    visitLabel: "Visit BookTalent",
   },
   {
     slug: "electro-hydration",
@@ -151,7 +188,8 @@ export const ventures: Venture[] = [
       "Every model compared side by side",
       "Bath, shower, and filtration systems",
     ],
-    links: [{ label: "Visit Electro Hydration", href: "https://electrohydration.com/" }],
+    site: "https://electrohydration.com/",
+    visitLabel: "Visit Electro Hydration",
   },
   {
     slug: "verza-tv",
@@ -169,10 +207,10 @@ export const ventures: Venture[] = [
       "Drama, reality, anime, music, and Spanish language collections",
       "Streams on the web and in the iPhone app",
     ],
-    links: [
-      { label: "Watch Verza TV", href: "https://www.verzatv.com/" },
-      { label: "App Store", href: "https://apps.apple.com/us/app/verza-tv-vertical-drama/id6752884623" },
-    ],
+    site: "https://www.verzatv.com/",
+    visitLabel: "Watch Verza TV",
+    // Apple refuses to be framed by any site, so the store link opens normally.
+    links: [{ label: "App Store", href: "https://apps.apple.com/us/app/verza-tv-vertical-drama/id6752884623" }],
     featured: true,
   },
   {
@@ -190,8 +228,63 @@ export const ventures: Venture[] = [
       "An iPhone app for clients, now in private beta",
       "Content and growth strategy",
     ],
-    links: [{ label: "Visit Evolve Longevity", href: "https://www.evolvelongevity.co/" }],
+    site: "https://www.evolvelongevity.co/",
+    visitLabel: "Visit Evolve Longevity",
     featured: true,
+  },
+  {
+    slug: "peaceful-healing-rx",
+    name: "Peaceful Healing Rx",
+    group: "Built With Partners",
+    category: "Patient app",
+    tagline: "Understand every word your doctor says.",
+    status: "Live",
+    role: "Built the app",
+    description:
+      "Peaceful Healing Rx is a free app that helps patients, families, and caregivers understand their care in their own language. It interprets what was said, offers ASL by video, and explains visits, bills, and medications in plain words.",
+    features: [
+      "Interpreting in the patient's language, or ASL by video",
+      "Visit summaries with clear next steps",
+      "Insurance bills and denials explained in plain words",
+      "A medication tracker",
+      "Free, with no account, and notes that stay on the device",
+    ],
+    site: "https://peacefulhealingrx.com/",
+    visitLabel: "Visit Peaceful Healing Rx",
+  },
+  {
+    slug: "crnc",
+    name: "CRNC",
+    group: "Built With Partners",
+    category: "Payments",
+    tagline: "Pay. Earn. Own.",
+    status: "Private Beta",
+    description:
+      "CRNC is a payments platform where transactions cost almost nothing and settle in seconds. Customers earn rewards on every payment, and creators and customers share in the revenue.",
+    features: [
+      "Payments that settle in seconds",
+      "Rewards earned on every transaction",
+      "Revenue shared between creators and customers",
+    ],
+    site: "https://crnc.ai/",
+    visitLabel: "Visit CRNC",
+  },
+  {
+    slug: "codevibe",
+    name: "CodeVibe",
+    group: "Built With Partners",
+    category: "AI website builder",
+    tagline: "Your business. Beautifully built.",
+    status: "Live",
+    description:
+      "CodeVibe turns a few sentences into a website or an interactive app prototype. Describe the business, shape the design by asking, and publish, with no coding.",
+    features: [
+      "Websites written from a short description",
+      "Interactive app prototypes",
+      "Changes made by asking",
+    ],
+    site: "https://www.codevibe.com/",
+    visitLabel: "Visit CodeVibe",
   },
   {
     slug: "mediamd",
@@ -209,7 +302,61 @@ export const ventures: Venture[] = [
       "Booking, rewards, and referrals in one place",
       "For medical, dental, aesthetics, dermatology, and longevity practices",
     ],
-    links: [{ label: "Visit MediaMD", href: "https://mediamd.com/" }],
+    site: "https://mediamd.com/",
+    visitLabel: "Visit MediaMD",
+  },
+  {
+    slug: "growdoc",
+    name: "GrowDoc",
+    group: "Built With Partners",
+    category: "Healthcare growth",
+    tagline: "The growth partner for medical practices.",
+    status: "Live",
+    description:
+      "GrowDoc helps medical practices bring in more patients, with paid ads, search, websites, and apps handled by one team.",
+    features: [
+      "Paid ads on Facebook, Instagram, TikTok, and Google",
+      "Search visibility that brings patients without ad spend",
+      "Patient apps and software",
+      "For med spas, longevity clinics, plastic surgeons, and chiropractors",
+    ],
+    site: "https://www.growdoc.com/",
+    visitLabel: "Visit GrowDoc",
+  },
+  {
+    slug: "websitewave",
+    name: "WebsiteWave",
+    group: "Built With Partners",
+    category: "Web agency",
+    tagline: "Websites that rank and convert.",
+    status: "Live",
+    description:
+      "WebsiteWave builds custom websites designed to rank in local search and turn visitors into customers, along with mobile apps for the businesses behind them.",
+    features: [
+      "Custom website design",
+      "Local search pages for every service and city",
+      "Mobile app development",
+    ],
+    site: "https://www.websitewave.com/",
+    visitLabel: "Visit WebsiteWave",
+  },
+  {
+    slug: "voltage-capital",
+    name: "Voltage Capital",
+    group: "Built With Partners",
+    category: "Private investment",
+    tagline: "Scale to sell.",
+    status: "Live",
+    role: "Built the website and its diagnostic",
+    description:
+      "Voltage Capital is a private investment firm that helps profitable operators grow enterprise value, strengthen recurring revenue, and prepare their companies for a sale.",
+    features: [
+      "A free Scale to Sell diagnostic for owners",
+      "Growth packages and a transformation roadmap",
+      "Strategy calls booked from the site",
+    ],
+    site: "https://www.voltage-cap.com/",
+    visitLabel: "Visit Voltage Capital",
   },
   {
     slug: "the-boat-goat",
@@ -226,7 +373,8 @@ export const ventures: Venture[] = [
       "Direct text and call booking with the owner",
       "A request form that matches guests to a boat by date and budget",
     ],
-    links: [{ label: "Visit The Boat Goat", href: "https://www.theboatgoat.co/" }],
+    site: "https://www.theboatgoat.co/",
+    visitLabel: "Visit The Boat Goat",
   },
 ];
 

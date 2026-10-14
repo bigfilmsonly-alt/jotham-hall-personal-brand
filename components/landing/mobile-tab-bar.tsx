@@ -14,6 +14,7 @@ import {
 } from "lucide-react";
 import { CalendlyModal } from "../calendly-modal";
 import { ventures } from "@/lib/ventures";
+import { isFullBleed } from "@/lib/full-bleed";
 
 interface SubMenuItem {
   name: string;
@@ -100,6 +101,9 @@ export function MobileTabBar() {
       setActiveSubmenu(null);
     }
   };
+
+  // Inside a venture's own site, its navigation is the only one on screen.
+  if (isFullBleed(pathname)) return null;
 
   return (
     <>

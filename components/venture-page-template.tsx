@@ -15,6 +15,7 @@ import type { Venture } from "@/lib/ventures";
 
 export function VenturePageTemplate({ venture }: { venture: Venture }) {
   const [isContactOpen, setIsContactOpen] = useState(false);
+  const extraLinks = venture.links ?? [];
 
   return (
     <>
@@ -50,34 +51,38 @@ export function VenturePageTemplate({ venture }: { venture: Venture }) {
               </span>
             )}
           </div>
-          {venture.links.length > 0 && (
-            <div className={`grid gap-2.5 mt-8 ${venture.links.length === 2 ? "grid-cols-2" : "grid-cols-1"}`}>
-              {venture.links.map((link, i) => (
-                <a
-                  key={link.href}
-                  href={link.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={`py-3.5 px-3 text-sm font-medium tracking-wide flex items-center justify-center gap-2 transition-colors active:scale-[0.97] ${
-                    i === 0
-                      ? "bg-[#D4A853] text-[#0D0D0D] hover:bg-[#E8C97A]"
-                      : "border border-[#3D3A35] text-[#B8B0A8] hover:border-[#D4A853]/40 hover:text-[#FAF8F5]"
-                  }`}
-                >
-                  {link.label}
-                  <ArrowUpRight className="w-4 h-4 shrink-0" />
-                </a>
-              ))}
-            </div>
-          )}
+          {/* The site opens inside jothamhall.com; only unframeable links (App Store) leave. */}
+          <div className={`grid gap-2.5 mt-8 ${extraLinks.length === 1 ? "grid-cols-2" : "grid-cols-1"}`}>
+            <Link
+              href={`/ventures/${venture.slug}/site`}
+              className="py-3.5 px-3 text-sm font-medium tracking-wide flex items-center justify-center gap-2 bg-[#D4A853] text-[#0D0D0D] hover:bg-[#E8C97A] transition-colors active:scale-[0.97]"
+            >
+              {venture.visitLabel}
+              <ArrowRight className="w-4 h-4 shrink-0" />
+            </Link>
+            {extraLinks.map((link) => (
+              <a
+                key={link.href}
+                href={link.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="py-3.5 px-3 text-sm font-medium tracking-wide flex items-center justify-center gap-2 border border-[#3D3A35] text-[#B8B0A8] hover:border-[#D4A853]/40 hover:text-[#FAF8F5] transition-colors active:scale-[0.97]"
+              >
+                {link.label}
+                <ArrowUpRight className="w-4 h-4 shrink-0" />
+              </a>
+            ))}
+          </div>
         </header>
 
         <section className="px-6 py-12 border-t border-[#3D3A35]/60">
           <h2 className="text-[11px] tracking-[0.15em] uppercase text-[#D4A853] mb-5">About</h2>
           <p className="text-[1.0625rem] leading-relaxed text-[#FAF8F5]/85">{venture.description}</p>
-          <p className="mt-6 text-sm text-[#8A837B]">
-            <span className="text-[#FAF8F5]">My role:</span> {venture.role}
-          </p>
+          {venture.role && (
+            <p className="mt-6 text-sm text-[#8A837B]">
+              <span className="text-[#FAF8F5]">My role:</span> {venture.role}
+            </p>
+          )}
         </section>
 
         {venture.features.length > 0 && (
