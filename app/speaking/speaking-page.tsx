@@ -66,7 +66,7 @@ const formats = [
 
 // Third person, ready to paste into a program. Every fact is on /credits or /ventures.
 const BIO =
-  "Jotham Hall is a television producer turned AI systems architect. Over 15 years in TV he earned more than 50 credits on Hallmark, Food Network, VH1, MTV, USA Network, NBC, and BET, including Finding Mr. Christmas, Ciao House, and Temptation Island. Today he builds apps and AI systems for businesses, including the Verza TV app on the App Store, and is the founder of Success Upgrade. He is based in Miami Beach.";
+  "Jotham Hall is a television producer turned AI systems architect. Over 15 years in TV, Jotham earned more than 50 credits on Hallmark, Food Network, VH1, MTV, USA Network, NBC, and BET, including Finding Mr. Christmas, Ciao House, and Temptation Island. Today Jotham builds apps and AI systems for businesses, including the Verza TV app on the App Store, and is the founder of Success Upgrade, based in Miami Beach.";
 
 // Opens the visitor's mail app with the details an organizer would send anyway.
 const EMAIL_HREF = `mailto:bigfilmsonly@gmail.com?subject=${encodeURIComponent(
@@ -145,7 +145,7 @@ export function SpeakingPage() {
         {/* Hero: who Jo is, where, and one way to book */}
         <header className="px-6 pt-14 pb-14 text-center">
           <Image
-            src="/jotham-hall.jpg"
+            src="/jotham-hall-headshot.jpg"
             alt="Jotham Hall"
             width={224}
             height={224}
@@ -284,7 +284,7 @@ export function SpeakingPage() {
           <div className="mt-8 bg-[#1A1A1A] border border-[#3D3A35] text-left">
             <div className="flex items-center gap-4 px-6 pt-6">
               <Image
-                src="/jotham-hall.jpg"
+                src="/jotham-hall-headshot.jpg"
                 alt=""
                 width={112}
                 height={112}
@@ -312,7 +312,7 @@ export function SpeakingPage() {
                 {copied ? "Copied" : "Copy Bio"}
               </button>
               <a
-                href="/jotham-hall.jpg"
+                href="/jotham-hall-headshot.jpg"
                 download="jotham-hall-headshot.jpg"
                 className="min-h-[48px] flex items-center justify-center gap-1.5 text-[11px] font-medium tracking-[0.15em] uppercase text-[#D4A853] hover:text-[#E8C97A] transition-colors"
               >

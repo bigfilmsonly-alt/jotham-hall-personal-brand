@@ -6,7 +6,7 @@ import { SpeakingPage } from './speaking-page'
 const title = 'Speaking Engagements'
 const description =
   'Book Jotham Hall, a TV producer of 15 years turned AI systems architect, for keynotes, workshops, and podcasts. Based in Miami Beach, available worldwide.'
-const headshot = { url: '/jotham-hall.jpg', width: 1024, height: 1024, alt: 'Jotham Hall' }
+const headshot = { url: '/jotham-hall-headshot.jpg', width: 1024, height: 1024, alt: 'Jotham Hall' }
 
 export const metadata: Metadata = {
   title,
@@ -50,7 +50,7 @@ const speakerSchema = {
   '@id': 'https://jothamhall.com/#person',
   name: 'Jotham Hall',
   url: 'https://jothamhall.com',
-  image: 'https://jothamhall.com/jotham-hall.jpg',
+  image: 'https://jothamhall.com/jotham-hall-headshot.jpg',
   jobTitle: ['AI Systems Architect', 'Television Producer'],
   description:
     'Television producer with 50+ TV credits over 15 years, now an AI systems architect. Available for keynotes, workshops, fireside chats, and podcast interviews. Based in Miami Beach, Florida.',

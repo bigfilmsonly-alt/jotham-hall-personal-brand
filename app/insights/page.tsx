@@ -18,13 +18,13 @@ export const metadata: Metadata = {
     url: `${SITE}/insights`,
     siteName: "Jotham Hall",
     locale: "en_US",
-    images: [{ url: "/og-image.jpg", width: 1200, height: 630, alt: "Jotham Hall" }],
+    images: [{ url: "/og-jotham-hall.jpg", width: 1200, height: 630, alt: "Jotham Hall" }],
   },
   twitter: {
     card: "summary_large_image",
     title: "Insights | Jotham Hall",
     description: "Strategic insights on AI automation, revenue systems, and building scalable businesses.",
-    images: ["/og-image.jpg"],
+    images: ["/og-jotham-hall.jpg"],
   },
   alternates: {
     canonical: `${SITE}/insights`,

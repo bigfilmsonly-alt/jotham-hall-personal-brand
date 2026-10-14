@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 // The root template appends "| Jotham Hall", so the page title leaves the name out.
 export const metadata: Metadata = {
   title: "Contact | Book a Strategy Call",
-  description: "Book a free strategy call with Jotham Hall, or call, text, or email him directly. Based in Miami Beach, working with clients anywhere.",
+  description: "Book a free strategy call with Jotham Hall, or reach out directly by call, text, or email. Based in Miami Beach, working with clients anywhere.",
   keywords: ["contact Jotham Hall", "Jotham Hall phone", "Jotham Hall email", "book strategy call", "hire Jotham Hall", "Jotham Hall consulting"],
   openGraph: {
     title: "Contact Jotham Hall | Book a Strategy Call",

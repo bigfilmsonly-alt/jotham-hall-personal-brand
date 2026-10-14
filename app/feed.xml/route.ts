@@ -29,7 +29,7 @@ export async function GET() {
     <lastBuildDate>${new Date().toUTCString()}</lastBuildDate>
     <atom:link href="${baseUrl}/feed.xml" rel="self" type="application/rss+xml"/>
     <image>
-      <url>${baseUrl}/og-image.jpg</url>
+      <url>${baseUrl}/og-jotham-hall.jpg</url>
       <title>Jotham Hall</title>
       <link>${baseUrl}</link>
     </image>

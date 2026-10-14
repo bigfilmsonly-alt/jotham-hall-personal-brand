@@ -32,7 +32,7 @@ export const metadata: Metadata = {
     url: "https://jothamhall.com/credits",
     siteName: "Jotham Hall",
     type: "profile",
-    images: [{ url: "https://jothamhall.com/jotham-hall.jpg" }],
+    images: [{ url: "https://jothamhall.com/jotham-hall-headshot.jpg" }],
   },
   alternates: {
     canonical: "https://jothamhall.com/credits",
@@ -44,7 +44,7 @@ const personSchema = {
   "@type": "Person",
   name: "Jotham Hall",
   url: "https://jothamhall.com/credits",
-  image: "https://jothamhall.com/jotham-hall.jpg",
+  image: "https://jothamhall.com/jotham-hall-headshot.jpg",
   jobTitle: "Television Producer & AI Systems Architect",
   description:
     "Television producer with 50+ credits across 15 years (Hallmark, Food Network, VH1, MTV, USA Network, NBC, BET). Founder of Success Upgrade and Big Films Only.",

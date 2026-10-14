@@ -25,7 +25,7 @@ export function StructuredData() {
         "url": "https://jothamhall.com",
         "image": {
           "@type": "ImageObject",
-          "url": "https://jothamhall.com/jotham-hall.jpg",
+          "url": "https://jothamhall.com/jotham-hall-headshot.jpg",
           "width": 1024,
           "height": 1024
         },

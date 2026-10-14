@@ -41,13 +41,13 @@ export async function generateMetadata({
       type: "website",
       siteName: "Jotham Hall",
       locale: "en_US",
-      images: [{ url: "/og-image.jpg", width: 1024, height: 1024, alt: "Jotham Hall" }],
+      images: [{ url: "/og-jotham-hall.jpg", width: 1200, height: 630, alt: "Jotham Hall" }],
     },
     twitter: {
       card: "summary_large_image",
       title: shareTitle,
       description: service.description,
-      images: ["/og-image.jpg"],
+      images: ["/og-jotham-hall.jpg"],
     },
     alternates: { canonical: url },
     other: {

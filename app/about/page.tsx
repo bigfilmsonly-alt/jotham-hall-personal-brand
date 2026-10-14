@@ -117,11 +117,11 @@ export default function AboutPage() {
 
   return (
     <main className="min-h-screen bg-[#0D0D0D] text-[#FAF8F5]">
-      {/* Hero: who he is, in one sentence, and the call */}
+      {/* Hero: who Jo is, in one sentence, and the call */}
       <header className="px-6 pt-14 pb-14 text-center animate-in fade-in duration-700 motion-reduce:animate-none">
         <div className="mx-auto w-fit rounded-full border border-[#D4A853]/35 p-1.5">
           <Image
-            src="/jotham-hall.jpg"
+            src="/jotham-hall-headshot.jpg"
             alt="Jotham Hall"
             width={136}
             height={136}
@@ -181,7 +181,7 @@ export default function AboutPage() {
         </Link>
       </section>
 
-      {/* Story: Jo's own words, condensed from his founder statement */}
+      {/* Story: Jo's own words, condensed from Jo's founder statement */}
       <section className="px-6 py-14 border-t border-[#3D3A35]/60 text-center">
         <p className={label}>In My Own Words</p>
         <h2 className={`mt-4 ${heading}`}>Why I Build Systems</h2>

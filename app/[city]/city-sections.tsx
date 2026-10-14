@@ -101,7 +101,7 @@ export function Hero({
   return (
     <header className="px-6 pt-24 pb-14 text-center">
       <Image
-        src="/jotham-hall.jpg"
+        src="/jotham-hall-headshot.jpg"
         alt="Jotham Hall"
         width={160}
         height={160}

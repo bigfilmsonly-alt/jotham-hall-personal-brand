@@ -69,10 +69,10 @@ export const metadata: Metadata = {
     username: 'jothamhall',
     images: [
       {
-        url: '/og-image.jpg',
-        // The file is a 1024 square; declaring 1200x630 made previews crop it.
-        width: 1024,
-        height: 1024,
+        url: '/og-jotham-hall.jpg',
+        // Jo's headshot centered on the site's near black, 1200x630.
+        width: 1200,
+        height: 630,
         alt: 'Jotham Hall, AI Systems Architect and Television Producer',
         type: 'image/jpeg',
       },
@@ -85,17 +85,19 @@ export const metadata: Metadata = {
     title: 'Jotham Hall | AI Systems Architect & TV Producer',
     description: 'I help founders build revenue systems that scale. 15 years in TV. Book a strategy call.',
     images: {
-      url: '/og-image.jpg',
+      url: '/og-jotham-hall.jpg',
       alt: 'Jotham Hall, AI Systems Architect',
     },
   },
+  // Jo's headshot everywhere a device shows the site's picture. The old files
+  // here were base64 text saved with image names, so every one was broken.
   icons: {
     icon: [
-      { url: '/icon.svg', type: 'image/svg+xml' },
-      { url: '/icon-dark-32x32.png', sizes: '32x32', type: 'image/png' },
+      { url: '/favicon.ico', sizes: 'any' },
+      { url: '/icon-32.png', sizes: '32x32', type: 'image/png' },
+      { url: '/icon-192.png', sizes: '192x192', type: 'image/png' },
     ],
-    apple: '/icon-dark-32x32.png',
-    shortcut: '/icon.svg',
+    apple: '/apple-touch-icon.png',
   },
   robots: {
     index: true,
@@ -140,9 +142,6 @@ export default function RootLayout({
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
         <meta name="format-detection" content="telephone=no" />
         <meta name="mobile-web-app-capable" content="yes" />
-        <link rel="icon" href="/favicon.ico" sizes="any" />
-        <link rel="icon" href="/icon.svg" type="image/svg+xml" />
-        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
         <link rel="alternate" type="application/rss+xml" title="Jotham Hall - Insights" href="/feed.xml" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />

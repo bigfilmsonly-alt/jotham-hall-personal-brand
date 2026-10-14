@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
 
 const description =
-  "Jotham Hall spent 15 years producing network TV, with 50+ credits on Hallmark, Food Network, NBC, VH1, and MTV. Now he builds AI systems and apps for businesses.";
+  "Jotham Hall spent 15 years producing network TV, with 50+ credits on Hallmark, Food Network, NBC, VH1, and MTV, and now builds AI systems and apps for businesses.";
 
-// The headshot, not the text card in og-image.jpg: this is the profile page.
+// The square headshot as the share image: this is the profile page.
 // openGraph and twitter here replace the root layout's blocks rather than
 // merging with them, so the image has to be named again.
-const image = { url: "/jotham-hall.jpg", width: 1024, height: 1024, alt: "Jotham Hall" };
+const image = { url: "/jotham-hall-headshot.jpg", width: 1024, height: 1024, alt: "Jotham Hall" };
 
 export const metadata: Metadata = {
   // The root layout's template appends "| Jotham Hall".
