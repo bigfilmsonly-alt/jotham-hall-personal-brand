@@ -10,7 +10,6 @@ const footerLinks = {
     { name: "All Services", href: "/services" },
     { name: "AI Automation", href: "/services/ai-automation" },
     { name: "Revenue Systems", href: "/services/revenue-systems" },
-    { name: "Brand Strategy", href: "/services/brand-strategy" },
   ],
   Insights: [
     { name: "All Insights", href: "/insights" },
@@ -21,14 +20,13 @@ const footerLinks = {
   Company: [
     { name: "About", href: "/about" },
     { name: "Credits", href: "/credits" },
-    { name: "Case Studies", href: "/case-studies" },
     { name: "Ventures", href: "/ventures" },
     { name: "Contact", href: "/contact" },
   ],
   Connect: [
     { name: "Call", href: "tel:+15106809100" },
     { name: "Text", href: "sms:+15106934083" },
-    { name: "Email", href: "mailto:successupgradeinbox@gmail.com" },
+    { name: "Email", href: "mailto:bigfilmsonly@gmail.com" },
   ],
 };
 
@@ -39,6 +37,58 @@ const socialLinks = [
   { name: "TikTok", href: "https://www.tiktok.com/@successupgrade_" },
   { name: "Facebook", href: "https://www.facebook.com/share/1DuisNbTVK/?mibextid=wwXIfr" },
 ];
+
+function FooterEmailForm() {
+  const [email, setEmail] = useState("");
+  const [status, setStatus] = useState<"idle" | "loading" | "done">("idle");
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!email || status === "loading") return;
+    setStatus("loading");
+
+    const { createClient } = await import("@supabase/supabase-js");
+    const supabase = createClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+    );
+
+    const saved = await saveRecord("email_captures", { email, source: "footer_newsletter" });
+    void saved;
+
+    setEmail("");
+    fetch("/api/notify", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ type: "email_capture", data: { email, source: "footer_newsletter" } }),
+    }).catch(() => {});
+    setStatus("done");
+  };
+
+  if (status === "done") {
+    return <p className="text-sm text-foreground font-medium text-center lg:text-left">You&apos;re subscribed. Welcome.</p>;
+  }
+
+  return (
+    <form onSubmit={handleSubmit} className="flex gap-2">
+      <input
+        type="email"
+        required
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        placeholder="Enter email"
+        className="flex-1 px-4 py-2.5 bg-foreground/5 border border-foreground/10 text-foreground placeholder-muted-foreground text-sm focus:outline-none focus:border-foreground/30 transition-colors"
+      />
+      <button
+        type="submit"
+        disabled={status === "loading"}
+        className="px-4 py-2.5 bg-foreground text-background text-xs font-medium hover:bg-foreground/90 transition-colors whitespace-nowrap disabled:opacity-50"
+      >
+        {status === "loading" ? "..." : "Subscribe"}
+      </button>
+    </form>
+  );
+}
 
 export function FooterSection() {
   const [isSitemapOpen, setIsSitemapOpen] = useState(false);
@@ -99,11 +149,6 @@ export function FooterSection() {
                         className="text-sm text-muted-foreground hover:text-foreground transition-colors inline-flex items-center gap-2"
                       >
                         {link.name}
-                        {"badge" in link && link.badge && (
-                          <span className="text-xs px-2 py-0.5 bg-foreground text-background rounded-full">
-                            {link.badge}
-                          </span>
-                        )}
                       </a>
                     </li>
                   ))}
@@ -124,85 +169,40 @@ export function FooterSection() {
           </button>
           
           <div className={`overflow-hidden transition-all duration-500 ease-in-out ${isSitemapOpen ? 'max-h-[1200px] opacity-100 mt-6' : 'max-h-0 opacity-0'}`}>
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-7 gap-6 text-xs">
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-6 text-xs">
               <div>
-                <span className="text-muted-foreground block mb-3 font-medium">Main</span>
+                <span className="text-muted-foreground block mb-3 font-medium">Explore</span>
                 <a href="/" className="block text-foreground/60 hover:text-foreground transition-colors py-1">Home</a>
                 <a href="/about" className="block text-foreground/60 hover:text-foreground transition-colors py-1">About</a>
-                <a href="/credits" className="block text-foreground/60 hover:text-foreground transition-colors py-1">Credits</a>
-                <a href="/jotham-hall" className="block text-foreground/60 hover:text-foreground transition-colors py-1">Jotham Hall</a>
+                <a href="/services" className="block text-foreground/60 hover:text-foreground transition-colors py-1">Services</a>
+                <a href="/ventures" className="block text-foreground/60 hover:text-foreground transition-colors py-1">Ventures</a>
+              </div>
+              <div>
+                <span className="text-muted-foreground block mb-3 font-medium">More</span>
+                <a href="/speaking" className="block text-foreground/60 hover:text-foreground transition-colors py-1">Speaking</a>
+                <a href="/credits" className="block text-foreground/60 hover:text-foreground transition-colors py-1">TV Credits</a>
                 <a href="/contact" className="block text-foreground/60 hover:text-foreground transition-colors py-1">Contact</a>
-              </div>
-              <div>
-                <span className="text-muted-foreground block mb-3 font-medium">Services</span>
-                <a href="/services" className="block text-foreground/60 hover:text-foreground transition-colors py-1">All Services</a>
-                <a href="/services/strategic-consulting" className="block text-foreground/60 hover:text-foreground transition-colors py-1">Strategic Consulting</a>
-                <a href="/services/systems-architecture" className="block text-foreground/60 hover:text-foreground transition-colors py-1">Systems Architecture</a>
-                <a href="/services/ai-automation" className="block text-foreground/60 hover:text-foreground transition-colors py-1">AI Automation</a>
-                <a href="/services/automation" className="block text-foreground/60 hover:text-foreground transition-colors py-1">Automation</a>
-                <a href="/services/personal-branding" className="block text-foreground/60 hover:text-foreground transition-colors py-1">Personal Branding</a>
-                <a href="/services/content-strategy" className="block text-foreground/60 hover:text-foreground transition-colors py-1">Content Strategy</a>
-                <a href="/services/business-development" className="block text-foreground/60 hover:text-foreground transition-colors py-1">Business Development</a>
-                <a href="/services/executive-advisory" className="block text-foreground/60 hover:text-foreground transition-colors py-1">Executive Advisory</a>
-                <a href="/services/fractional-coo" className="block text-foreground/60 hover:text-foreground transition-colors py-1">Fractional COO</a>
-                <a href="/services/speaking" className="block text-foreground/60 hover:text-foreground transition-colors py-1">Speaking</a>
-              </div>
-              <div>
-                <span className="text-muted-foreground block mb-3 font-medium">Case Studies</span>
-                <a href="/case-studies" className="block text-foreground/60 hover:text-foreground transition-colors py-1">All Case Studies</a>
-                <a href="/case-studies/saas-revenue-transformation" className="block text-foreground/60 hover:text-foreground transition-colors py-1">SaaS Revenue 3x</a>
-                <a href="/case-studies/agency-systems-overhaul" className="block text-foreground/60 hover:text-foreground transition-colors py-1">Agency Systems</a>
-                <a href="/case-studies/ecommerce-automation" className="block text-foreground/60 hover:text-foreground transition-colors py-1">E-commerce Automation</a>
-                <a href="/case-studies/personal-brand-launch" className="block text-foreground/60 hover:text-foreground transition-colors py-1">Personal Brand Launch</a>
-                <a href="/case-studies/startup-advisory" className="block text-foreground/60 hover:text-foreground transition-colors py-1">Startup Advisory</a>
-              </div>
-              <div>
-                <span className="text-muted-foreground block mb-3 font-medium">Ventures</span>
-                <a href="/ventures" className="block text-foreground/60 hover:text-foreground transition-colors py-1">All Ventures</a>
-                <a href="/ventures/success-upgrade" className="block text-foreground/60 hover:text-foreground transition-colors py-1">Success Upgrade</a>
-                <a href="/ventures/say-it-build-it" className="block text-foreground/60 hover:text-foreground transition-colors py-1">Say It Build It</a>
-                <a href="/ventures/saas-agency" className="block text-foreground/60 hover:text-foreground transition-colors py-1">SaaS Agency</a>
-                <a href="/ventures/alkaline-water" className="block text-foreground/60 hover:text-foreground transition-colors py-1">Alkaline Water</a>
-              </div>
-              <div>
-                <span className="text-muted-foreground block mb-3 font-medium">Insights</span>
-                <a href="/insights" className="block text-foreground/60 hover:text-foreground transition-colors py-1">All Articles</a>
-                <a href="/insights/how-i-built-ai-first-ecosystem-paradise-protocol" className="block text-foreground/60 hover:text-foreground transition-colors py-1">Paradise Protocol</a>
-                <a href="/insights/vibe-coding-future-ai-assisted-development" className="block text-foreground/60 hover:text-foreground transition-colors py-1">Vibe Coding</a>
-                <a href="/insights/personal-branding-most-valuable-asset" className="block text-foreground/60 hover:text-foreground transition-colors py-1">Personal Branding</a>
-                <a href="/insights/founder-os-operating-system-thinking" className="block text-foreground/60 hover:text-foreground transition-colors py-1">Founder OS</a>
-                <a href="/insights/ai-agents-future-of-work" className="block text-foreground/60 hover:text-foreground transition-colors py-1">AI Agents</a>
               </div>
               <div>
                 <span className="text-muted-foreground block mb-3 font-medium">Connect</span>
                 <a href="tel:+15106809100" className="block text-foreground/60 hover:text-foreground transition-colors py-1">Call</a>
                 <a href="sms:+15106934083" className="block text-foreground/60 hover:text-foreground transition-colors py-1">Text</a>
-                <a href="mailto:successupgradeinbox@gmail.com" className="block text-foreground/60 hover:text-foreground transition-colors py-1">Email</a>
-                <a href="https://www.linkedin.com/in/jotham-hall-b6b9491b2" target="_blank" rel="noopener noreferrer" className="block text-foreground/60 hover:text-foreground transition-colors py-1">LinkedIn</a>
-              </div>
-              <div>
-                <span className="text-muted-foreground block mb-3 font-medium">Cities</span>
-                <a href="/new-york" className="block text-foreground/60 hover:text-foreground transition-colors py-1">New York</a>
-                <a href="/san-francisco" className="block text-foreground/60 hover:text-foreground transition-colors py-1">San Francisco</a>
-                <a href="/los-angeles" className="block text-foreground/60 hover:text-foreground transition-colors py-1">Los Angeles</a>
-                <a href="/miami" className="block text-foreground/60 hover:text-foreground transition-colors py-1">Miami</a>
-                <a href="/atlanta" className="block text-foreground/60 hover:text-foreground transition-colors py-1">Atlanta</a>
-                <a href="/austin" className="block text-foreground/60 hover:text-foreground transition-colors py-1">Austin</a>
-                <a href="/chicago" className="block text-foreground/60 hover:text-foreground transition-colors py-1">Chicago</a>
-                <a href="/dallas" className="block text-foreground/60 hover:text-foreground transition-colors py-1">Dallas</a>
-                <a href="/houston" className="block text-foreground/60 hover:text-foreground transition-colors py-1">Houston</a>
-                <a href="/boston" className="block text-foreground/60 hover:text-foreground transition-colors py-1">Boston</a>
+                <a href="mailto:bigfilmsonly@gmail.com" className="block text-foreground/60 hover:text-foreground transition-colors py-1">Email</a>
               </div>
             </div>
           </div>
         </div>
 
-        {/* The newsletter signup was removed on 2026-09-07. It lived here, in
-            the shared footer, which is why it appeared on /contact, /about,
-            /credits, /speaking, /who-is-jotham-hall and /jotham-hall at once.
-            Success Upgrade is not a newsletter, and the footer's job is to
-            offer a next step rather than ask for a subscription. The email
-            capture infrastructure it wrote to is untouched. */}
+        {/* Newsletter Signup */}
+        <div className="py-10 border-t border-foreground/10">
+          <div className="max-w-md mx-auto lg:mx-0">
+            <h4 className="text-sm font-medium mb-2 text-center lg:text-left">Get Weekly Insights</h4>
+            <p className="text-xs text-muted-foreground mb-4 text-center lg:text-left">
+              Notes on AI systems and business from a producer with 50+ TV credits and 15 years in television.
+            </p>
+            <FooterEmailForm />
+          </div>
+        </div>
 
         {/* Bottom Bar */}
         <div className="py-8 border-t border-foreground/10 flex flex-col md:flex-row items-center justify-center lg:justify-between gap-4 text-center">

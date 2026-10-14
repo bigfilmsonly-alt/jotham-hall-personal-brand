@@ -161,9 +161,9 @@ export const services = [
     slug: "ai-automation",
     name: "AI Automation",
     description: "ChatGPT, Claude, GoHighLevel, Make.com, Zapier automation systems",
-    longDescription: "Custom AI automation systems that reduce overhead by 40% and scale output without scaling stress. ChatGPT and Claude integration, GoHighLevel CRM automation, Make.com and Zapier workflows.",
+    longDescription: "Custom AI automation systems that reduce repetitive work and scale output without scaling stress. ChatGPT and Claude integration, GoHighLevel CRM automation, Make.com and Zapier workflows.",
     keywords: ["AI automation", "ChatGPT", "Claude AI", "GoHighLevel", "Make.com", "Zapier", "business automation"],
-    benefits: ["40% overhead reduction", "Save 20+ hours/week", "Scale without hiring", "24/7 automated operations"],
+    benefits: ["Save 20+ hours/week", "Scale without hiring", "24/7 automated operations"],
     priceRange: "$2,500 - $15,000+",
   },
   {

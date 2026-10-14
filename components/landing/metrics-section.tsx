@@ -45,10 +45,9 @@ function AnimatedCounter({ end, suffix = "", prefix = "" }: { end: number; suffi
 }
 
 const metrics = [
-  { value: "500+", label: "Clients served across industries" },
-  { value: "40%", label: "Average overhead reduction" },
-  { value: "5+", label: "Active business ventures" },
-  { value: "7-Fig", label: "Revenue systems architected" },
+  { value: "50+", label: "Television credits" },
+  { value: "15", label: "Years in television" },
+  { value: "7", label: "Networks" },
 ];
 
 export function MetricsSection() {
@@ -104,7 +103,7 @@ export function MetricsSection() {
         </div>
         
         {/* Metrics Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-8">
           {metrics.map((metric, index) => (
             <div
               key={metric.label}

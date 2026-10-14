@@ -69,7 +69,7 @@ export function InfrastructureSection() {
                 <div className="text-sm text-muted-foreground">Clients Served</div>
               </div>
               <div>
-                <div className="text-4xl lg:text-5xl font-display mb-2">7-Fig</div>
+                <div className="text-4xl lg:text-5xl font-display mb-2">50+</div>
                 <div className="text-sm text-muted-foreground">Systems Built</div>
               </div>
             </div>

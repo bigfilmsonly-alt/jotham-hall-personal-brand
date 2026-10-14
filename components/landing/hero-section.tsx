@@ -162,7 +162,7 @@ export function HeroSection() {
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
           }`}
         >
-          500+ founders scaled. Zero guesswork. Your system is one call away.
+          50+ TV credits. 15 years in production. One clear next step.
         </p>
 
       </div>
@@ -177,8 +177,8 @@ export function HeroSection() {
           {[...Array(2)].map((_, i) => (
             <div key={i} className="flex gap-8 sm:gap-12 md:gap-16">
               {[
-                { value: "7-Fig", label: "revenue systems", company: "SUCCESS UPGRADE" },
-                { value: "40%", label: "overhead cut", company: "BIG FILMS ONLY" },
+                { value: "50+", label: "TV credits", company: "JOTHAM HALL" },
+                { value: "15", label: "years in television", company: "JOTHAM HALL" },
                 { value: "10x", label: "lead increase", company: "SAAS CLIENTS" },
                 { value: "Zero", label: "code needed", company: "SAY IT BUILD IT" },
               ].map((stat) => (

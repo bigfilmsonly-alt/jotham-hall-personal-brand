@@ -5,48 +5,12 @@ import { Button } from "@/components/ui/button";
 import { ChevronDown } from "lucide-react";
 import { ContactModal } from "./contact-modal";
 
-const navLinks = [
-  { 
-    name: "Services", 
-    href: "/services/strategic-consulting",
-    dropdown: [
-      { name: "Strategic Consulting", href: "/services/strategic-consulting" },
-      { name: "Systems Architecture", href: "/services/systems-architecture" },
-      { name: "AI Automation", href: "/services/ai-automation" },
-      { name: "Personal Branding", href: "/services/personal-branding" },
-      { name: "Executive Advisory", href: "/services/executive-advisory" },
-      { name: "Fractional COO", href: "/services/fractional-coo" },
-    ]
-  },
-  { 
-    name: "Case Studies", 
-    href: "/case-studies",
-    dropdown: [
-      { name: "All Case Studies", href: "/case-studies" },
-      { name: "SaaS Revenue 3x", href: "/case-studies/saas-revenue-transformation" },
-      { name: "Agency Systems", href: "/case-studies/agency-systems-overhaul" },
-      { name: "E-commerce Automation", href: "/case-studies/ecommerce-automation" },
-    ]
-  },
-  { 
-    name: "Ventures", 
-    href: "/ventures",
-    dropdown: [
-      { name: "All Ventures", href: "/ventures" },
-      { name: "Success Upgrade", href: "/ventures/success-upgrade" },
-      { name: "Say It Build It", href: "/ventures/say-it-build-it" },
-    ]
-  },
-  { 
-    name: "Insights", 
-    href: "/insights",
-    dropdown: [
-      { name: "All Articles", href: "/insights" },
-      { name: "Paradise Protocol", href: "/insights/how-i-built-ai-first-ecosystem-paradise-protocol" },
-      { name: "Vibe Coding", href: "/insights/vibe-coding-future-ai-assisted-development" },
-      { name: "AI Agents", href: "/insights/ai-agents-future-of-work" },
-    ]
-  },
+type NavLink = { name: string; href: string; dropdown: { name: string; href: string; external?: boolean }[] };
+const navLinks: NavLink[] = [
+  { name: "About", href: "/about", dropdown: [] },
+  { name: "Services", href: "/services", dropdown: [] },
+  { name: "Ventures", href: "/ventures", dropdown: [] },
+  { name: "Speaking", href: "/speaking", dropdown: [] },
 ];
 
 export function Navigation() {

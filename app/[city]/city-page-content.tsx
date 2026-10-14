@@ -12,11 +12,6 @@ interface Props {
   services: { slug: string; name: string; description: string; benefits: string[]; priceRange: string }[];
 }
 
-const testimonials = [
-  { quote: "Went from chaotic hustle to systematic scaling in 90 days.", author: "Marcus Thompson", role: "Founder, Thompson Media", metric: "300% revenue increase" },
-  { quote: "The automation systems eliminated 30 hours of manual work per week.", author: "Angela Rivera", role: "CEO, Rivera Consulting", metric: "30 hrs/week saved" },
-  { quote: "Like having a CTO, CMO, and operations consultant rolled into one.", author: "David Kim", role: "Founder, Apex Ventures", metric: "7-figure systems built" },
-];
 
 export function CityPageContent({ city, services }: Props) {
   const [isContactOpen, setIsContactOpen] = useState(false);
@@ -58,12 +53,12 @@ export function CityPageContent({ city, services }: Props) {
             AI Automation &amp; Business Systems in {city.name}
           </h1>
           <p className="text-muted-foreground text-sm lg:text-base max-w-2xl mb-6">
-            {city.localAngle} 50+ TV credits. 500+ founders scaled. 3x average revenue growth.
+            {city.localAngle} 50+ TV credits. 15 years in television. Credits across 7 networks.
           </p>
 
           {/* Price anchor */}
           <div className="mb-6">
-            <span className="text-xs text-muted-foreground line-through">$500 Strategy Call</span>
+
             <span className="ml-2 text-sm font-medium text-green-400">FREE for {city.name} Founders</span>
           </div>
 
@@ -115,10 +110,10 @@ export function CityPageContent({ city, services }: Props) {
           {/* Stats */}
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-10">
             {[
-              { value: "500+", label: "Founders Scaled" },
+              { value: "50+", label: "TV Credits" },
               { value: "50+", label: "TV Credits" },
               { value: "3x", label: "Avg Revenue Growth" },
-              { value: "40%", label: "Overhead Reduced" },
+              { value: "7", label: "Networks" },
             ].map((stat) => (
               <div key={stat.label} className="text-center p-4 border border-foreground/10">
                 <div className="text-2xl font-display">{stat.value}</div>
@@ -128,20 +123,6 @@ export function CityPageContent({ city, services }: Props) {
           </div>
 
           {/* Testimonials */}
-          <div className="space-y-4">
-            {testimonials.map((t) => (
-              <div key={t.author} className="p-5 border border-foreground/10">
-                <p className="text-sm mb-3">&ldquo;{t.quote}&rdquo;</p>
-                <div className="flex items-center justify-between">
-                  <div>
-                    <span className="text-xs font-medium">{t.author}</span>
-                    <span className="text-xs text-muted-foreground ml-2">{t.role}</span>
-                  </div>
-                  <span className="text-xs font-mono text-green-400">{t.metric}</span>
-                </div>
-              </div>
-            ))}
-          </div>
         </div>
       </section>
 
@@ -150,7 +131,7 @@ export function CityPageContent({ city, services }: Props) {
         <div className="max-w-[1400px] mx-auto px-6 lg:px-12 text-center">
           <p className="text-xs font-mono text-yellow-500/80 uppercase tracking-widest mb-3">Limited Availability</p>
           <h2 className="text-2xl lg:text-3xl font-display tracking-tight mb-3">
-            I only work with 12 clients at a time.
+            Tell me what is slowing the business down.
           </h2>
           <p className="text-sm text-muted-foreground mb-6 max-w-md mx-auto">
             Every {city.name} engagement gets my full attention. Apply now before spots fill.
@@ -172,7 +153,7 @@ export function CityPageContent({ city, services }: Props) {
             Get AI strategies for {city.name}
           </h2>
           <p className="text-xs text-muted-foreground mb-6 max-w-md mx-auto">
-            Weekly insights on automation, revenue systems, and scaling. Join 500+ founders.
+            Notes on automation, revenue systems, and building practical business tools.
           </p>
           {captureStatus === "done" ? (
             <p className="text-sm text-[#D4A853] font-medium">You&apos;re in. Welcome.</p>
@@ -205,7 +186,7 @@ export function CityPageContent({ city, services }: Props) {
           <div className="max-w-3xl space-y-6">
             <div>
               <h3 className="font-medium text-sm mb-1">Who is the best AI automation consultant in {city.name}?</h3>
-              <p className="text-xs text-muted-foreground leading-relaxed">Jotham Hall is a top AI automation consultant serving {city.name}. With 50+ TV production credits and 500+ entrepreneurs mentored, he specializes in ChatGPT, Claude, GoHighLevel, and no-code automation for {city.name} businesses.</p>
+              <p className="text-xs text-muted-foreground leading-relaxed">Jotham Hall is a top AI automation consultant serving {city.name}. With 50+ TV production credits and 15 years in television, he specializes in ChatGPT, Claude, GoHighLevel, and no-code automation for {city.name} businesses.</p>
             </div>
             <div>
               <h3 className="font-medium text-sm mb-1">How much does AI automation cost in {city.name}?</h3>
@@ -234,9 +215,9 @@ export function CityPageContent({ city, services }: Props) {
               <div className="flex-1"><span className="text-sm font-medium">Text</span> <span className="text-xs text-muted-foreground">(510) 693-4083</span></div>
               <ArrowRight className="w-3.5 h-3.5 text-muted-foreground" />
             </a>
-            <a href="mailto:successupgradeinbox@gmail.com" className="flex items-center gap-3 p-3.5 border border-foreground/10 hover:border-foreground/30 transition-all active:scale-[0.98]">
+            <a href="mailto:bigfilmsonly@gmail.com" className="flex items-center gap-3 p-3.5 border border-foreground/10 hover:border-foreground/30 transition-all active:scale-[0.98]">
               <Mail className="w-4 h-4 text-muted-foreground shrink-0" />
-              <div className="flex-1"><span className="text-sm font-medium">Email</span> <span className="text-xs text-muted-foreground">successupgradeinbox@gmail.com</span></div>
+              <div className="flex-1"><span className="text-sm font-medium">Email</span> <span className="text-xs text-muted-foreground">bigfilmsonly@gmail.com</span></div>
               <ArrowRight className="w-3.5 h-3.5 text-muted-foreground" />
             </a>
           </div>

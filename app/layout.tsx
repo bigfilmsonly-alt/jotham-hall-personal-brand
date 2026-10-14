@@ -28,10 +28,10 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: {
-    default: 'Jotham Hall | AI Systems Architect & TV Producer | VibeCoding Pioneer | 500+ Founders',
+    default: 'Jotham Hall | AI Systems Architect & TV Producer | VibeCoding Pioneer',
     template: '%s | Jotham Hall'
   },
-  description: 'Jotham Hall is an AI systems architect, television producer (50+ credits: Hallmark, Food Network, VH1, MTV, NBC), and pioneer of VibeCoding. Founder of Success Upgrade. Expert in ChatGPT, Claude AI, GoHighLevel. 500+ entrepreneurs mentored. 3x avg revenue growth.',
+  description: 'Jotham Hall is an AI systems architect, television producer (50+ credits: Hallmark, Food Network, VH1, MTV, NBC), and pioneer of VibeCoding. Founder of Success Upgrade. Builds practical business systems with AI and automation.',
   generator: 'v0.app',
   keywords: [
     'Jotham Hall', 'Who is Jotham Hall', 'Jotham Hall entrepreneur', 'Jotham Hall founder', 'Jotham Hall Miami',
@@ -59,7 +59,7 @@ export const metadata: Metadata = {
   category: 'Business Consulting',
   openGraph: {
     title: 'Jotham Hall | AI Systems Architect & TV Producer | VibeCoding Pioneer',
-    description: 'Television producer (50+ credits). AI systems architect. VibeCoding pioneer. 500+ entrepreneurs mentored. Book a free strategy call.',
+    description: 'Television producer (50+ credits). AI systems architect. VibeCoding pioneer. Book a strategy call.',
     type: 'profile',
     url: 'https://jothamhall.com',
     siteName: 'Jotham Hall',
@@ -82,7 +82,7 @@ export const metadata: Metadata = {
     site: '@successupgrade_',
     creator: '@successupgrade_',
     title: 'Jotham Hall | AI Systems Architect & TV Producer',
-    description: 'I help founders build revenue systems that scale. 15 years TV. 500+ mentored. Book a free strategy call.',
+    description: 'I help founders build revenue systems that scale. 15 years in TV. Book a strategy call.',
     images: {
       url: '/og-image.jpg',
       alt: 'Jotham Hall - AI Systems Architect',

@@ -23,7 +23,7 @@ const contactMethods = [
     icon: Mail,
     label: "Email",
     description: "Detailed inquiries and proposals",
-    action: "mailto:successupgradeinbox@gmail.com",
+    action: "mailto:bigfilmsonly@gmail.com",
     cta: "Send Email",
   },
 ];
@@ -65,7 +65,7 @@ export default function ContactPage() {
             </span>
             <div className="inline-flex items-center gap-2 px-3 py-1.5 border border-yellow-500/20 bg-yellow-500/5 mb-6">
               <span className="animate-pulse w-2 h-2 bg-yellow-500 rounded-full" />
-              <span className="text-xs font-mono text-yellow-500/80">Currently accepting new clients</span>
+              <span className="text-xs font-mono text-yellow-500/80">Available for new projects</span>
             </div>
             <h1
               className={`text-4xl sm:text-5xl lg:text-7xl font-display tracking-tight mb-8 transition-all duration-700 ${
@@ -124,10 +124,10 @@ export default function ContactPage() {
               <h2 className="text-2xl font-display mb-6">Location</h2>
               <div className="flex items-center justify-center md:justify-start gap-4 mb-4">
                 <MapPin className="w-5 h-5 text-muted-foreground" />
-                <span>Bay Area, California</span>
+                <span>Miami, Florida</span>
               </div>
               <p className="text-muted-foreground">
-                I work with clients globally via video call. In-person available for Bay Area engagements.
+                I work with clients globally via video call. In-person available for Miami engagements.
               </p>
             </div>
           </div>

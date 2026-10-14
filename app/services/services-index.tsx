@@ -8,78 +8,10 @@ import Link from "next/link";
 import { useState } from "react";
 
 const services = [
-  {
-    title: "Strategic Consulting",
-    description: "High-level strategic guidance to identify growth opportunities and navigate complex business challenges.",
-    href: "/services/strategic-consulting",
-    category: "Advisory",
-  },
-  {
-    title: "Systems Architecture",
-    description: "Design and implementation of scalable business systems that eliminate bottlenecks and enable growth.",
-    href: "/services/systems-architecture",
-    category: "Systems",
-  },
-  {
-    title: "AI Automation",
-    description: "Leverage AI to automate repetitive tasks, enhance decision-making, and scale operations efficiently.",
-    href: "/services/ai-automation",
-    category: "Technology",
-  },
-  {
-    title: "Automation",
-    description: "Streamline workflows and eliminate manual processes to free up time for high-value activities.",
-    href: "/services/automation",
-    category: "Technology",
-  },
-  {
-    title: "Personal Branding",
-    description: "Build a powerful personal brand that attracts opportunities, clients, and partnerships.",
-    href: "/services/personal-branding",
-    category: "Brand",
-  },
-  {
-    title: "Content Strategy",
-    description: "Develop a content ecosystem that establishes thought leadership and drives organic growth.",
-    href: "/services/content-strategy",
-    category: "Brand",
-  },
-  {
-    title: "Business Development",
-    description: "Strategic partnerships, revenue optimization, and market expansion strategies.",
-    href: "/services/business-development",
-    category: "Growth",
-  },
-  {
-    title: "Revenue Systems",
-    description: "Build predictable revenue engines with optimized sales funnels and conversion systems.",
-    href: "/services/revenue-systems",
-    category: "Growth",
-  },
-  {
-    title: "Brand Strategy",
-    description: "Define your market position, messaging, and visual identity to stand out from competitors.",
-    href: "/services/brand-strategy",
-    category: "Brand",
-  },
-  {
-    title: "Executive Advisory",
-    description: "C-suite level guidance for critical decisions, board presentations, and strategic pivots.",
-    href: "/services/executive-advisory",
-    category: "Advisory",
-  },
-  {
-    title: "Fractional COO",
-    description: "Part-time operational leadership to build teams, processes, and infrastructure for scale.",
-    href: "/services/fractional-coo",
-    category: "Advisory",
-  },
-  {
-    title: "Speaking",
-    description: "Keynote speaking on AI, systems thinking, entrepreneurship, and personal development.",
-    href: "/services/speaking",
-    category: "Speaking",
-  },
+  { title: "AI Automation", description: "Automate repetitive work and connect the tools your business already uses.", href: "/services/ai-automation", category: "Technology" },
+  { title: "Revenue Systems", description: "Build a clear path from lead capture through follow-up and conversion.", href: "/services/revenue-systems", category: "Growth" },
+  { title: "Strategic Consulting", description: "Turn a complicated business problem into a focused plan and next steps.", href: "/services/strategic-consulting", category: "Advisory" },
+  { title: "Systems Architecture", description: "Design the connected business systems needed to support growth.", href: "/services/systems-architecture", category: "Systems" },
 ];
 
 export function ServicesIndex() {
@@ -149,7 +81,6 @@ export function ServicesIndex() {
       {/* CTA Section */}
       <section className="py-16 lg:py-24 border-t border-foreground/10">
         <div className="max-w-[1400px] mx-auto px-6 lg:px-12 text-center">
-          <p className="text-xs font-mono text-yellow-500/80 uppercase tracking-widest mb-3">Limited Availability</p>
           <h2 className="text-2xl lg:text-3xl font-display tracking-tight mb-3">Ready to work together?</h2>
           <p className="text-sm text-muted-foreground mb-6 max-w-md mx-auto">Book a free strategy call. No pitch. No pressure. Just clarity on what your business needs.</p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center max-w-sm mx-auto">

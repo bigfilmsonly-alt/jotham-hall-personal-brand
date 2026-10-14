@@ -111,13 +111,13 @@ export function CalendlyModal({ isOpen, onClose }: CalendlyModalProps) {
               </a>
 
               <a
-                href="mailto:successupgradeinbox@gmail.com"
+                href="mailto:bigfilmsonly@gmail.com"
                 className="flex items-center gap-3 px-5 py-3.5 border border-[#3D3A35] hover:border-[#D4A853]/30 transition-all active:scale-[0.98]"
               >
                 <Mail className="w-4 h-4 text-[#D4A853]" />
                 <div className="flex-1">
                   <span className="text-sm text-[#FAF8F5] font-medium block">Email me</span>
-                  <span className="text-xs text-[#5C5750]">successupgradeinbox@gmail.com</span>
+                  <span className="text-xs text-[#5C5750]">bigfilmsonly@gmail.com</span>
                 </div>
                 <ArrowRight className="w-4 h-4 text-[#3D3A35]" />
               </a>
@@ -136,23 +136,6 @@ export function CalendlyModal({ isOpen, onClose }: CalendlyModalProps) {
         <div className="flex-1 overflow-y-auto">
           <InlineWidget
             url="https://calendly.com/bigfilmsonly/30min"
-            /*
-              WHICH BRAND THIS BOOKING CAME FROM.
-
-              Both sites point at the same Calendly event, so the booking email
-              otherwise cannot say which brand produced it, and the booking
-              processor refuses to advance an opportunity it cannot attribute
-              rather than guessing at somebody's live deal.
-
-              Sent two ways on purpose. The UTM is the clean mechanism and is
-              what a webhook would carry, but UTMs are not reliably printed in
-              the host notification email, which is the only channel available
-              on the free plan. The custom answer IS printed there, so it is the
-              one the parser can read today. a1 needs a custom question on the
-              event; until it exists Calendly ignores the prefill harmlessly.
-            */
-            utm={{ utmSource: "jothamhall", utmMedium: "booking-modal" }}
-            prefill={{ customAnswers: { a1: "jothamhall" } }}
             styles={{ height: "100%", minHeight: "700px" }}
             pageSettings={{
               backgroundColor: "0d0d0d",

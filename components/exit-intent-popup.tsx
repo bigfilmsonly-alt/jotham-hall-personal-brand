@@ -104,7 +104,7 @@ export function ExitIntentPopup() {
                 Get on the insider list
               </h2>
               <p className="text-sm text-muted-foreground mb-6">
-                Weekly AI strategies, system breakdowns, and founder insights. Join 500+ entrepreneurs already inside.
+                Weekly AI strategies, system breakdowns, and founder insights. Built from 15 years of production experience.
               </p>
 
               <form onSubmit={handleSubmit} className="space-y-3 max-w-xs mx-auto">

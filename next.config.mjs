@@ -1,73 +1,75 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {
-  typescript: {
-    ignoreBuildErrors: true,
-  },
-  async redirects() {
-    return [
-      { source: "/tv-credits", destination: "/credits", permanent: true },
-      { source: "/television", destination: "/credits", permanent: true },
-      { source: "/filmography", destination: "/credits", permanent: true },
-    ];
-  },
-  async headers() {
-    return [
-      {
-        source: "/(.*)",
-        headers: [
-          {
-            // No X-Frame-Options here on purpose. It cannot allowlist a single
-            // origin (ALLOW-FROM is dead in every current browser), and
-            // successupgrade.ai/mentorship embeds this site full screen.
-            // frame-ancestors below does the same job and can name an origin.
-            // This MUST stay on the enforcing header: frame-ancestors is
-            // ignored entirely in Content-Security-Policy-Report-Only.
-            // Both apex and www are listed because successupgrade.ai 308s to
-            // www, so www is the origin that actually does the framing.
-            // builtbyjothamhall.vercel.app is the Lumi med spa demo, whose
-            // footer and welcome screen credit this site and frame it in the
-            // same in app overlay rather than sending the visitor away.
-            key: "Content-Security-Policy",
-            value:
-              "frame-ancestors 'self' https://successupgrade.ai https://www.successupgrade.ai https://builtbyjothamhall.vercel.app",
-          },
-          {
-            key: "X-Content-Type-Options",
-            value: "nosniff",
-          },
-          {
-            key: "Referrer-Policy",
-            value: "strict-origin-when-cross-origin",
-          },
-          {
-            key: "X-XSS-Protection",
-            value: "1; mode=block",
-          },
-          {
-            key: "Permissions-Policy",
-            value: "camera=(), microphone=(), geolocation=()",
-          },
-          {
-            key: "Strict-Transport-Security",
-            value: "max-age=31536000; includeSubDomains",
-          },
-        ],
-      },
-      {
-        source: "/api/(.*)",
-        headers: [
-          {
-            key: "X-Frame-Options",
-            value: "DENY",
-          },
-          {
-            key: "Cache-Control",
-            value: "no-store, no-cache, must-revalidate",
-          },
-        ],
-      },
-    ];
-  },
-};
-
+const nextConfig = { async redirects() { return [
+      { source: "/new-york", destination: "/", permanent: true },
+      { source: "/new-york/ai-automation", destination: "/services", permanent: true },
+      { source: "/new-york/revenue-systems", destination: "/services", permanent: true },
+      { source: "/new-york/personal-branding", destination: "/services", permanent: true },
+      { source: "/new-york/fractional-coo", destination: "/services", permanent: true },
+      { source: "/san-francisco", destination: "/", permanent: true },
+      { source: "/san-francisco/ai-automation", destination: "/services", permanent: true },
+      { source: "/san-francisco/revenue-systems", destination: "/services", permanent: true },
+      { source: "/san-francisco/personal-branding", destination: "/services", permanent: true },
+      { source: "/san-francisco/fractional-coo", destination: "/services", permanent: true },
+      { source: "/los-angeles", destination: "/", permanent: true },
+      { source: "/los-angeles/ai-automation", destination: "/services", permanent: true },
+      { source: "/los-angeles/revenue-systems", destination: "/services", permanent: true },
+      { source: "/los-angeles/personal-branding", destination: "/services", permanent: true },
+      { source: "/los-angeles/fractional-coo", destination: "/services", permanent: true },
+      { source: "/atlanta", destination: "/", permanent: true },
+      { source: "/atlanta/ai-automation", destination: "/services", permanent: true },
+      { source: "/atlanta/revenue-systems", destination: "/services", permanent: true },
+      { source: "/atlanta/personal-branding", destination: "/services", permanent: true },
+      { source: "/atlanta/fractional-coo", destination: "/services", permanent: true },
+      { source: "/austin", destination: "/", permanent: true },
+      { source: "/austin/ai-automation", destination: "/services", permanent: true },
+      { source: "/austin/revenue-systems", destination: "/services", permanent: true },
+      { source: "/austin/personal-branding", destination: "/services", permanent: true },
+      { source: "/austin/fractional-coo", destination: "/services", permanent: true },
+      { source: "/chicago", destination: "/", permanent: true },
+      { source: "/chicago/ai-automation", destination: "/services", permanent: true },
+      { source: "/chicago/revenue-systems", destination: "/services", permanent: true },
+      { source: "/chicago/personal-branding", destination: "/services", permanent: true },
+      { source: "/chicago/fractional-coo", destination: "/services", permanent: true },
+      { source: "/dallas", destination: "/", permanent: true },
+      { source: "/dallas/ai-automation", destination: "/services", permanent: true },
+      { source: "/dallas/revenue-systems", destination: "/services", permanent: true },
+      { source: "/dallas/personal-branding", destination: "/services", permanent: true },
+      { source: "/dallas/fractional-coo", destination: "/services", permanent: true },
+      { source: "/houston", destination: "/", permanent: true },
+      { source: "/houston/ai-automation", destination: "/services", permanent: true },
+      { source: "/houston/revenue-systems", destination: "/services", permanent: true },
+      { source: "/houston/personal-branding", destination: "/services", permanent: true },
+      { source: "/houston/fractional-coo", destination: "/services", permanent: true },
+      { source: "/boston", destination: "/", permanent: true },
+      { source: "/boston/ai-automation", destination: "/services", permanent: true },
+      { source: "/boston/revenue-systems", destination: "/services", permanent: true },
+      { source: "/boston/personal-branding", destination: "/services", permanent: true },
+      { source: "/boston/fractional-coo", destination: "/services", permanent: true },
+      { source: "/miami/ai-automation", destination: "/services", permanent: true },
+      { source: "/miami/revenue-systems", destination: "/services", permanent: true },
+      { source: "/miami/personal-branding", destination: "/services", permanent: true },
+      { source: "/miami/fractional-coo", destination: "/services", permanent: true },
+      { source: "/case-studies/agency-systems-overhaul", destination: "/services", permanent: true },
+      { source: "/case-studies/ecommerce-automation", destination: "/services", permanent: true },
+      { source: "/case-studies/personal-brand-launch", destination: "/services", permanent: true },
+      { source: "/case-studies/saas-revenue-transformation", destination: "/services", permanent: true },
+      { source: "/case-studies/startup-advisory", destination: "/services", permanent: true },
+      { source: "/case-studies", destination: "/services", permanent: true },
+      { source: "/who-is-jotham-hall", destination: "/about", permanent: true },
+      { source: "/jotham-hall", destination: "/about", permanent: true },
+      { source: "/ventures/big-films-only", destination: "/ventures", permanent: true },
+      { source: "/big-films-only", destination: "/ventures", permanent: true },
+      { source: "/quiz", destination: "/", permanent: true },
+      { source: "/apply", destination: "/contact", permanent: true },
+      { source: "/newsletter", destination: "/", permanent: true },
+      { source: "/insights", destination: "/about", permanent: true },
+      { source: "/services/automation", destination: "/services", permanent: true },
+      { source: "/services/brand-strategy", destination: "/services", permanent: true },
+      { source: "/services/business-development", destination: "/services", permanent: true },
+      { source: "/services/content-strategy", destination: "/services", permanent: true },
+      { source: "/services/executive-advisory", destination: "/services", permanent: true },
+      { source: "/services/fractional-coo", destination: "/services", permanent: true },
+      { source: "/services/personal-branding", destination: "/services", permanent: true },
+      { source: "/services/speaking", destination: "/services", permanent: true }
+]; }, images: { unoptimized: true } };
 export default nextConfig;

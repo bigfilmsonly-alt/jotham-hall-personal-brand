@@ -30,12 +30,6 @@ export default function AlkalineWaterPage() {
         "Sustainable packaging focus",
         "Wellness community building"
       ]}
-      impact={[
-        { metric: "10K+", label: "Monthly Subscribers" },
-        { metric: "50+", label: "Retail Partners" },
-        { metric: "9.5+", label: "pH Level" },
-        { metric: "100%", label: "Sustainable Packaging" }
-      ]}
       role="Founder & CEO"
     />
   );

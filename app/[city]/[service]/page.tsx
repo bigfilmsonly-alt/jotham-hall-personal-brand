@@ -3,15 +3,7 @@ import { notFound } from "next/navigation";
 import { cities, services } from "@/lib/city-data";
 import { ServicePageContent } from "./service-page-content";
 
-export function generateStaticParams() {
-  const params: { city: string; service: string }[] = [];
-  for (const city of cities) {
-    for (const service of services) {
-      params.push({ city: city.slug, service: service.slug });
-    }
-  }
-  return params;
-}
+export function generateStaticParams() { return []; }
 
 export async function generateMetadata({ params }: { params: Promise<{ city: string; service: string }> }): Promise<Metadata> {
   const { city: citySlug, service: serviceSlug } = await params;
@@ -21,7 +13,7 @@ export async function generateMetadata({ params }: { params: Promise<{ city: str
 
   return {
     title: `${service.name} ${city.name} | ${service.name} Consultant | Jotham Hall`,
-    description: `${service.longDescription} Serving ${city.name} and ${city.state}. 500+ founders scaled. Free strategy call.`,
+    description: `${service.longDescription} Serving ${city.name} and ${city.state}. Practical AI systems and automation.`,
     keywords: [
       ...service.keywords.map((k) => `${k} ${city.name}`),
       `${service.slug} consultant ${city.name}`,

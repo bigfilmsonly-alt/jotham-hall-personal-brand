@@ -179,8 +179,8 @@ export function HomeScreen() {
                   <a href="sms:+15106934083" className="w-full flex items-center justify-between px-5 py-3.5 border border-foreground/10 hover:border-foreground/30 transition-all text-left active:scale-[0.98]">
                     <div><span className="text-sm font-medium block">Send a text</span><span className="text-xs text-muted-foreground">(510) 693-4083</span></div><ArrowRight className="w-4 h-4 text-muted-foreground" />
                   </a>
-                  <a href="mailto:successupgradeinbox@gmail.com" className="w-full flex items-center justify-between px-5 py-3.5 border border-foreground/10 hover:border-foreground/30 transition-all text-left active:scale-[0.98]">
-                    <div><span className="text-sm font-medium block">Email me</span><span className="text-xs text-muted-foreground">successupgradeinbox@gmail.com</span></div><ArrowRight className="w-4 h-4 text-muted-foreground" />
+                  <a href="mailto:bigfilmsonly@gmail.com" className="w-full flex items-center justify-between px-5 py-3.5 border border-foreground/10 hover:border-foreground/30 transition-all text-left active:scale-[0.98]">
+                    <div><span className="text-sm font-medium block">Email me</span><span className="text-xs text-muted-foreground">bigfilmsonly@gmail.com</span></div><ArrowRight className="w-4 h-4 text-muted-foreground" />
                   </a>
                 </div>
                 <button onClick={resetQuiz} className="px-8 py-3 border border-foreground/20 text-foreground text-sm font-medium hover:bg-foreground/5 transition-colors active:scale-[0.97]">Close</button>
@@ -236,12 +236,11 @@ export function HomeScreen() {
         </div>
 
         {/* Stats */}
-        <div className={`grid grid-cols-4 gap-2 mt-4 pt-4 border-t border-[#3D3A35]/50 transition-all duration-700 delay-500 ${isVisible ? "opacity-100" : "opacity-0"}`}>
+        <div className={`grid grid-cols-3 gap-2 mt-4 pt-4 border-t border-[#3D3A35]/50 transition-all duration-700 delay-500 ${isVisible ? "opacity-100" : "opacity-0"}`}>
           {[
-            { value: "500+", label: "Clients" },
-            { value: "40%", label: "Overhead Cut" },
-            { value: "5+", label: "Ventures" },
-            { value: "7-Fig", label: "Systems" },
+            { value: "50+", label: "TV Credits" },
+            { value: "15", label: "Years in TV" },
+            { value: "7", label: "Networks" },
           ].map((s) => (
             <div key={s.label} className="text-center">
               <p className="font-display text-sm sm:text-base text-[#FAF8F5] tracking-wide">{s.value}</p>
@@ -281,8 +280,8 @@ export function HomeScreen() {
               <button onClick={() => { window.location.href = "sms:+15106934083"; }} className="w-full flex items-center gap-3 px-4 py-2.5 border border-[#3D3A35] hover:border-[#D4A853]/30 transition-all active:scale-[0.98]">
                 <MessageSquare className="w-4 h-4 text-[#D4A853]" /><span className="text-sm text-[#B8B0A8]">Text (510) 693-4083</span>
               </button>
-              <button onClick={() => { window.location.href = "mailto:successupgradeinbox@gmail.com"; }} className="w-full flex items-center gap-3 px-4 py-2.5 border border-[#3D3A35] hover:border-[#D4A853]/30 transition-all active:scale-[0.98]">
-                <Mail className="w-4 h-4 text-[#D4A853]" /><span className="text-sm text-[#B8B0A8]">successupgradeinbox@gmail.com</span>
+              <button onClick={() => { window.location.href = "mailto:bigfilmsonly@gmail.com"; }} className="w-full flex items-center gap-3 px-4 py-2.5 border border-[#3D3A35] hover:border-[#D4A853]/30 transition-all active:scale-[0.98]">
+                <Mail className="w-4 h-4 text-[#D4A853]" /><span className="text-sm text-[#B8B0A8]">bigfilmsonly@gmail.com</span>
               </button>
             </div>
           )}
@@ -295,11 +294,6 @@ export function HomeScreen() {
             <BarChart3 className="w-3.5 h-3.5" />
             Take the Free Business Assessment
           </button>
-
-          {/* Scarcity */}
-          <p className="text-[10px] tracking-[0.15em] uppercase text-[#D4A853]/60 text-center">
-            Only 3 partnership spots per quarter
-          </p>
 
           {/* Build credit. This screen renders no footer, so the credit sits here
               to match the inner pages. JothamHall.com is this site: plain text. */}

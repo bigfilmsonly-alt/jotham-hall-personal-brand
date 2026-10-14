@@ -3,7 +3,7 @@ import { VenturesIndex } from "./ventures-index";
 
 export const metadata: Metadata = {
   title: "Ventures | Jotham Hall",
-  description: "Explore the portfolio of ventures founded and operated by Jotham Hall, including Success Upgrade, Big Films Only, Say It Build It, and more.",
+  description: "Explore the portfolio of ventures founded and operated by Jotham Hall, including Success Upgrade and Say It Build It.",
   openGraph: {
     title: "Ventures | Jotham Hall",
     description: "Portfolio of ventures founded and operated by Jotham Hall.",

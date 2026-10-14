@@ -51,7 +51,7 @@ export function LeadMagnetSection() {
             <span className="text-muted-foreground">systems, and founder insights.</span>
           </h2>
           <p className="text-muted-foreground mb-8 max-w-lg mx-auto">
-            Join 500+ founders getting weekly insights on AI automation,
+            Get practical notes on AI automation,
             revenue systems, and scaling without burnout.
           </p>
 

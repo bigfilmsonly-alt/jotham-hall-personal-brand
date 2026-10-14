@@ -12,7 +12,7 @@ export async function GET() {
       <guid isPermaLink="true">${baseUrl}/insights/${article.slug}</guid>
       <description><![CDATA[${article.excerpt}]]></description>
       <author>Jotham Hall</author>
-      <pubDate>${new Date(article.date).toUTCString()}</pubDate>
+      <pubDate>${new Date(article.publishedAt).toUTCString()}</pubDate>
       <category>${article.category}</category>
     </item>`)
     .join('')

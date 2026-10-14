@@ -19,7 +19,7 @@ function isRateLimited(ip: string): boolean {
   return false;
 }
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+function getResend() { return new Resend(process.env.RESEND_API_KEY); }
 const NOTIFY_TO = "bigfilmsonly@gmail.com";
 const FROM = "Jotham Hall <jotham@jothamhall.com>";
 
@@ -164,7 +164,7 @@ export async function POST(req: NextRequest) {
     }
 
     // Send notification to Jotham
-    const { error } = await resend.emails.send({
+    const { error } = await getResend().emails.send({
       from: FROM,
       to: NOTIFY_TO,
       subject: notifySubject,
@@ -181,7 +181,7 @@ export async function POST(req: NextRequest) {
 
     // Contact form
     if (type === "contact" && data.email) {
-      await resend.emails.send({
+      await getResend().emails.send({
         from: FROM,
         to: data.email,
         subject: "You're on my radar — here's what's next",
@@ -213,7 +213,7 @@ export async function POST(req: NextRequest) {
       };
       const resultTitle = resultTitles[data.result_type] || data.result_type;
 
-      await resend.emails.send({
+      await getResend().emails.send({
         from: FROM,
         to: data.email,
         subject: `Your Business Assessment: ${resultTitle}`,
@@ -237,7 +237,7 @@ export async function POST(req: NextRequest) {
 
     // Email capture (exit intent, footer, city pages)
     if (type === "email_capture" && data.email) {
-      await resend.emails.send({
+      await getResend().emails.send({
         from: FROM,
         to: data.email,
         subject: "Welcome — you're in",

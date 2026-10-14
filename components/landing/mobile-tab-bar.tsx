@@ -5,9 +5,8 @@ import { usePathname } from "next/navigation";
 import {
   Home,
   Briefcase,
-  BarChart3,
+  Mic,
   Rocket,
-  Newspaper,
   User,
   Phone,
   X,
@@ -29,84 +28,29 @@ interface Tab {
 }
 
 const tabs: Tab[] = [
-  {
-    name: "Home",
-    href: "/",
-    icon: Home,
-  },
-  {
-    name: "Services",
-    href: "/services",
-    icon: Briefcase,
-    submenu: [
-      { name: "AI Automation", href: "/services/ai-automation", desc: "Save 20+ hrs/week with AI systems" },
-      { name: "Revenue Systems", href: "/services/revenue-systems", desc: "3x your revenue with automated funnels" },
-      { name: "Strategic Consulting", href: "/services/strategic-consulting", desc: "Custom roadmap for your business" },
-      { name: "Systems Architecture", href: "/services/systems-architecture", desc: "Build infrastructure that scales" },
-      { name: "Fractional COO", href: "/services/fractional-coo", desc: "Executive ops, fraction of the cost" },
-      { name: "Personal Branding", href: "/services/personal-branding", desc: "Position yourself as the authority" },
-      { name: "Executive Advisory", href: "/services/executive-advisory", desc: "High level strategic guidance" },
-      { name: "All Services", href: "/services", desc: "View the full catalog" },
-    ],
-  },
-  {
-    name: "Work",
-    href: "/case-studies",
-    icon: BarChart3,
-    submenu: [
-      { name: "SaaS Revenue 3x", href: "/case-studies/saas-revenue-transformation", desc: "300% revenue increase in 90 days" },
-      { name: "Agency Systems", href: "/case-studies/agency-systems-overhaul", desc: "30 hrs/week saved with automation" },
-      { name: "E-commerce Automation", href: "/case-studies/ecommerce-automation", desc: "Full pipeline on autopilot" },
-      { name: "Personal Brand Launch", href: "/case-studies/personal-brand-launch", desc: "From zero to authority" },
-      { name: "Startup Advisory", href: "/case-studies/startup-advisory", desc: "Scaled from idea to revenue" },
-      { name: "All Case Studies", href: "/case-studies", desc: "See every result" },
-    ],
-  },
-  {
-    name: "Ventures",
-    href: "/ventures",
-    icon: Rocket,
-    submenu: [
-      { name: "Success Upgrade", href: "/ventures/success-upgrade", desc: "AI ecosystem for entrepreneurs" },
-      { name: "Say It Build It", href: "/ventures/say-it-build-it", desc: "VibeCoding platform" },
-      { name: "SaaS Agency", href: "/ventures/saas-agency", desc: "Automation systems" },
-      { name: "Electro Hydration", href: "/ventures/alkaline-water", desc: "Wellness products" },
-    ],
-  },
-  {
-    name: "Insights",
-    href: "/insights",
-    icon: Newspaper,
-    submenu: [
-      { name: "Paradise Protocol", href: "/insights/how-i-built-ai-first-ecosystem-paradise-protocol", desc: "Building an AI first ecosystem" },
-      { name: "Vibe Coding", href: "/insights/vibe-coding-future-ai-assisted-development", desc: "The future of AI development" },
-      { name: "AI Agents", href: "/insights/ai-agents-future-of-work", desc: "How AI agents change everything" },
-      { name: "Founder OS", href: "/insights/founder-os-operating-system-thinking", desc: "Operating system for founders" },
-      { name: "All Articles", href: "/insights", desc: "Read everything" },
-    ],
-  },
-  {
-    name: "About",
-    href: "/about",
-    icon: User,
-    submenu: [
-      { name: "About Jotham", href: "/about", desc: "The full story" },
-      { name: "Who is Jotham Hall", href: "/who-is-jotham-hall", desc: "Background and mission" },
-      { name: "Credits (50+)", href: "/credits", desc: "Hallmark, VH1, Food Network, MTV" },
-      { name: "Speaking", href: "/speaking", desc: "Book for your event" },
-    ],
-  },
-  {
-    name: "Contact",
-    href: "contact-modal",
-    icon: Phone,
-    submenu: [
-      { name: "Book a Call", href: "action:calendly", desc: "Free 30-min strategy session" },
-      { name: "Schedule", href: "action:calendly", desc: "Pick a time on the calendar" },
-      { name: "Text Me", href: "sms:+15106934083", desc: "(510) 693-4083" },
-      { name: "Email Me", href: "mailto:successupgradeinbox@gmail.com", desc: "successupgradeinbox@gmail.com" },
-    ],
-  },
+  { name: "Home", href: "/", icon: Home },
+  { name: "About", href: "/about", icon: User, submenu: [
+    { name: "About Jotham", href: "/about", desc: "Background and approach" },
+    { name: "TV Credits", href: "/credits", desc: "50+ credits across 7 networks" },
+  ]},
+  { name: "Services", href: "/services", icon: Briefcase, submenu: [
+    { name: "AI Automation", href: "/services/ai-automation", desc: "Automate repetitive work" },
+    { name: "Revenue Systems", href: "/services/revenue-systems", desc: "Connect lead capture and follow-up" },
+    { name: "Strategic Consulting", href: "/services/strategic-consulting", desc: "A focused plan for the next move" },
+    { name: "Systems Architecture", href: "/services/systems-architecture", desc: "Build connected business systems" },
+  ]},
+  { name: "Ventures", href: "/ventures", icon: Rocket, submenu: [
+    { name: "Success Upgrade", href: "/ventures/success-upgrade", desc: "AI systems and implementation" },
+    { name: "Say It Build It", href: "/ventures/say-it-build-it", desc: "VibeCoding platform" },
+    { name: "SaaS Agency", href: "/ventures/saas-agency", desc: "Automation systems" },
+    { name: "Electro Hydration", href: "/ventures/alkaline-water", desc: "Wellness products" },
+  ]},
+  { name: "Speaking", href: "/speaking", icon: Mic },
+  { name: "Contact", href: "contact-modal", icon: Phone, submenu: [
+    { name: "Book a Call", href: "action:calendly", desc: "Choose a time" },
+    { name: "Text Me", href: "sms:+15106934083", desc: "(510) 693-4083" },
+    { name: "Email Me", href: "mailto:bigfilmsonly@gmail.com", desc: "bigfilmsonly@gmail.com" },
+  ]},
 ];
 
 export function MobileTabBar() {

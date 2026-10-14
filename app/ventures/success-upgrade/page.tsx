@@ -31,12 +31,6 @@ export default function SuccessUpgradePage() {
         "Content creation and personal branding",
         "Community of high-performers"
       ]}
-      impact={[
-        { metric: "10K+", label: "Community Members" },
-        { metric: "4", label: "Core Pillars" },
-        { metric: "100+", label: "AI Tools Built" },
-        { metric: "24/7", label: "Always Evolving" }
-      ]}
       role="Founder & CEO"
     />
   );

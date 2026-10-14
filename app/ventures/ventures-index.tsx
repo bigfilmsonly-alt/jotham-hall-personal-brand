@@ -15,13 +15,6 @@ const ventures = [
     website: "https://www.successupgrade.ai/",
   },
   {
-    slug: "big-films-only",
-    name: "Big Films Only",
-    tagline: "Film production and creative studio",
-    status: "Active",
-    website: null,
-  },
-  {
     slug: "say-it-build-it",
     name: "Say It Build It",
     tagline: "AI development and vibe coding agency",
@@ -74,7 +67,7 @@ export function VenturesIndex() {
               Ventures
             </h1>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto lg:mx-0">
-              A portfolio of companies built on the same principles I teach: systems thinking, automation, and scalable infrastructure.
+              Projects and businesses I am building, operating, or supporting.
             </p>
           </div>
         </section>

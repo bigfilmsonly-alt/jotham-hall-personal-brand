@@ -67,7 +67,7 @@ export function CtaSection() {
                 <h2 className="text-2xl sm:text-3xl lg:text-7xl font-display tracking-tight mb-6 lg:mb-8 leading-[0.95]">
                   I only work with
                   <br />
-                  12 clients at a time.
+                  focused work, one project at a time.
                 </h2>
 
                 <p className="text-base lg:text-xl text-muted-foreground mb-8 lg:mb-12 leading-relaxed max-w-xl mx-auto lg:mx-0">

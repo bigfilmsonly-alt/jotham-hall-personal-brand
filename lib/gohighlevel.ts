@@ -79,17 +79,6 @@ export async function sendToGhl(lead: GhlLead): Promise<GhlResult> {
       email: lead.email,
       name: lead.name,
       phone: lead.phone,
-      /*
-        Top level, and separate from the customFields entry of the same name.
-
-        This is what drives original_source, original_brand, latest_source and
-        latest_brand in upsertContact, and leaving it out is why all four stayed
-        empty in production while the old last-write-wins scalars kept updating:
-        the attribution block is gated on it, so it produced nothing and every
-        write was skipped silently. The `source` inside customFields is the
-        older flat field and is a different thing; both are kept.
-      */
-      source: lead.source,
       customFields: { source: lead.source, offer: lead.offer, ...(lead.fields ?? {}) },
     })
 

@@ -33,7 +33,7 @@ const steps = [
     code: `// Results Dashboard
 {
   leads_automated: true,
-  overhead_reduced: '40%',
+  tv_credits: '50+',
   revenue_increase: '300%'
 }
 

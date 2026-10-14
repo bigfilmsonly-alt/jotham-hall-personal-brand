@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "About Jotham Hall | Strategic Consultant & Systems Architect",
   description: "Jotham Hall is a strategic consultant and systems architect specializing in AI automation, revenue system design, and operational infrastructure for founders and entrepreneurs.",
-  keywords: ["Jotham Hall", "about Jotham Hall", "strategic consultant", "systems architect", "AI automation expert", "business consultant Bay Area"],
+  keywords: ["Jotham Hall", "about Jotham Hall", "strategic consultant", "systems architect", "AI automation expert", "business consultant Miami"],
   openGraph: {
     title: "About Jotham Hall | Strategic Consultant & Systems Architect",
     description: "Jotham Hall is a strategic consultant and systems architect specializing in AI automation, revenue system design, and operational infrastructure.",

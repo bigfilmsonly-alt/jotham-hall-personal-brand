@@ -4,7 +4,7 @@ import { cities, services } from "@/lib/city-data";
 import { CityPageContent } from "./city-page-content";
 
 export function generateStaticParams() {
-  return cities.map((city) => ({ city: city.slug }));
+  return [{ city: "miami" }];
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ city: string }> }): Promise<Metadata> {
@@ -13,7 +13,7 @@ export async function generateMetadata({ params }: { params: Promise<{ city: str
   if (!city) return {};
 
   const title = `AI Automation & Business Systems ${city.name} | Jotham Hall`;
-  const description = `Jotham Hall helps ${city.name} entrepreneurs build AI-powered business systems. 50+ TV credits (Hallmark, Food Network, VH1, MTV, NBC). 500+ founders scaled. Free strategy call.`;
+  const description = `Jotham Hall helps ${city.name} entrepreneurs build AI-powered business systems. 50+ TV credits (Hallmark, Food Network, VH1, MTV, NBC). Practical AI systems and automation.`;
 
   return {
     title,
@@ -30,7 +30,7 @@ export async function generateMetadata({ params }: { params: Promise<{ city: str
     ],
     openGraph: {
       title: `AI Automation & Business Systems | ${city.name} | Jotham Hall`,
-      description: `AI-powered business systems for ${city.name} entrepreneurs. 500+ founders scaled. Free strategy call.`,
+      description: `AI-powered business systems for ${city.name} entrepreneurs. Practical AI systems and automation.`,
       url: `https://jothamhall.com/${city.slug}`,
     },
     alternates: { canonical: `https://jothamhall.com/${city.slug}` },
@@ -45,7 +45,7 @@ export async function generateMetadata({ params }: { params: Promise<{ city: str
 export default async function CityPage({ params }: { params: Promise<{ city: string }> }) {
   const { city: slug } = await params;
   const city = cities.find((c) => c.slug === slug);
-  if (!city) notFound();
+  if (!city || city.slug !== "miami") notFound();
 
   return <CityPageContent city={city} services={services} />;
 }
