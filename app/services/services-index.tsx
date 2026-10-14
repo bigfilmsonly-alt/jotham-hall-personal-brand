@@ -45,6 +45,9 @@ export function ServicesIndex() {
           showCredentials={false}
         />
 
+        {/* Right under the hero: the system behind every service, and the free training that builds it. */}
+        <BrainAndPath />
+
         <ServiceSection label="Four Services" title="Where are you stuck?">
           <ul className="space-y-2.5">
             {services.map((service) => (
@@ -68,9 +71,6 @@ export function ServicesIndex() {
             ))}
           </ul>
         </ServiceSection>
-
-        {/* The system behind every service, and the free training that builds it. */}
-        <BrainAndPath />
 
         <ServiceProof items={servicesIndex.proof} />
 

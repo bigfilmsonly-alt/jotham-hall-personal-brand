@@ -34,12 +34,8 @@ const tabs: Tab[] = [
     { name: "About Jotham", href: "/about", desc: "Background and approach" },
     { name: "TV Credits", href: "/credits", desc: "50+ credits across 7 networks" },
   ]},
-  { name: "Services", href: "/services", icon: Briefcase, submenu: [
-    { name: "AI Automation", href: "/services/ai-automation", desc: "Automate repetitive work" },
-    { name: "Revenue Systems", href: "/services/revenue-systems", desc: "A clear path from first click to client" },
-    { name: "Strategic Consulting", href: "/services/strategic-consulting", desc: "A focused plan for the next move" },
-    { name: "Systems Architecture", href: "/services/systems-architecture", desc: "Build connected business systems" },
-  ]},
+  // One tap opens the Services page: the Brain and Path, then all four services.
+  { name: "Services", href: "/services", icon: Briefcase },
   // One tap opens the full Ventures page, every venture with its phone preview.
   { name: "Ventures", href: "/ventures", icon: Rocket },
   { name: "Speaking", href: "/speaking", icon: Mic },
