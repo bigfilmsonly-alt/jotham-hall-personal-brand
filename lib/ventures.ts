@@ -32,7 +32,6 @@ export type Venture = {
   site: string;
   visitLabel: string;
   links?: { label: string; href: string }[];
-  featured?: boolean;
 };
 
 export const ventures: Venture[] = [
@@ -55,7 +54,6 @@ export const ventures: Venture[] = [
     ],
     site: "https://www.successupgrade.ai/",
     visitLabel: "Visit Success Upgrade",
-    featured: true,
   },
   {
     slug: "saas-agency",
@@ -95,7 +93,6 @@ export const ventures: Venture[] = [
     ],
     site: "https://www.sayitbuildit.com/",
     visitLabel: "Start the Free Course",
-    featured: true,
   },
   {
     slug: "ai-army",
@@ -211,7 +208,6 @@ export const ventures: Venture[] = [
     visitLabel: "Watch Verza TV",
     // Apple refuses to be framed by any site, so the store link opens normally.
     links: [{ label: "App Store", href: "https://apps.apple.com/us/app/verza-tv-vertical-drama/id6752884623" }],
-    featured: true,
   },
   {
     slug: "evolve-longevity",
@@ -230,7 +226,6 @@ export const ventures: Venture[] = [
     ],
     site: "https://www.evolvelongevity.co/",
     visitLabel: "Visit Evolve Longevity",
-    featured: true,
   },
   {
     slug: "peaceful-healing-rx",

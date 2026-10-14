@@ -55,27 +55,33 @@ export function VenturesIndex() {
               </h2>
               <ul className="space-y-2.5">
                 {members.map((venture) => (
-                  <li key={venture.slug}>
-                    <Link
-                      href={`/ventures/${venture.slug}`}
-                      className="group block p-5 bg-[#1A1A1A] border border-[#3D3A35] hover:border-[#D4A853]/40 transition-colors active:scale-[0.98]"
-                    >
-                      <div className="flex items-start justify-between gap-4">
-                        <div className="min-w-0">
-                          <h3 className="font-display text-[0.95rem] tracking-[0.12em] uppercase text-[#FAF8F5]">
-                            {venture.name}
-                          </h3>
-                          <p className="text-sm text-[#B8B0A8] leading-relaxed mt-1.5">{venture.tagline}</p>
-                        </div>
-                        <ArrowRight className="w-4 h-4 shrink-0 mt-1 text-[#5C5750] group-hover:text-[#D4A853] group-hover:translate-x-0.5 transition-all" />
-                      </div>
-                      <div className="flex items-center gap-3 mt-4">
-                        <span className="px-2 py-0.5 text-[10px] tracking-[0.15em] uppercase border border-[#D4A853]/40 text-[#D4A853]">
+                  <li
+                    key={venture.slug}
+                    className="bg-[#1A1A1A] border border-[#3D3A35] hover:border-[#D4A853]/40 transition-colors"
+                  >
+                    {/* Two links side by side, never one inside the other: the card
+                        reads about the venture, Visit opens its site in this site. */}
+                    <Link href={`/ventures/${venture.slug}`} className="block px-5 pt-5 pb-3 active:opacity-80">
+                      <h3 className="font-display text-[0.95rem] tracking-[0.12em] uppercase text-[#FAF8F5]">
+                        {venture.name}
+                      </h3>
+                      <p className="text-sm text-[#B8B0A8] leading-relaxed mt-1.5">{venture.tagline}</p>
+                    </Link>
+                    <div className="flex items-center justify-between gap-3 pl-5 pr-3 pb-2">
+                      <div className="flex items-center gap-3 min-w-0">
+                        <span className="shrink-0 px-2 py-0.5 text-[10px] tracking-[0.15em] uppercase border border-[#D4A853]/40 text-[#D4A853]">
                           {venture.status}
                         </span>
-                        <span className="text-[10px] tracking-[0.15em] uppercase text-[#5C5750]">{venture.category}</span>
+                        <span className="truncate text-[10px] tracking-[0.15em] uppercase text-[#5C5750]">{venture.category}</span>
                       </div>
-                    </Link>
+                      <Link
+                        href={`/ventures/${venture.slug}/site`}
+                        className="group shrink-0 inline-flex items-center gap-1.5 min-h-[44px] px-2 text-[11px] font-medium tracking-[0.15em] uppercase text-[#D4A853] hover:text-[#E8C97A] transition-colors"
+                      >
+                        Visit
+                        <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" />
+                      </Link>
+                    </div>
                   </li>
                 ))}
               </ul>

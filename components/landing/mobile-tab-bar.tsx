@@ -13,13 +13,15 @@ import {
   ArrowRight,
 } from "lucide-react";
 import { CalendlyModal } from "../calendly-modal";
-import { ventures } from "@/lib/ventures";
+import { ventureGroups, ventures } from "@/lib/ventures";
 import { isFullBleed } from "@/lib/full-bleed";
 
 interface SubMenuItem {
   name: string;
   href: string;
   desc?: string;
+  // A section label inside the sheet, not a link.
+  heading?: boolean;
 }
 
 interface Tab {
@@ -43,9 +45,14 @@ const tabs: Tab[] = [
   ]},
   { name: "Ventures", href: "/ventures", icon: Rocket, submenu: [
     { name: "All Ventures", href: "/ventures", desc: "The full portfolio" },
-    ...ventures
-      .filter((venture) => venture.featured)
-      .map((venture) => ({ name: venture.name, href: `/ventures/${venture.slug}`, desc: venture.category })),
+    // Every venture, grouped as on the Ventures page. Each opens its own site
+    // inside jothamhall.com at /ventures/[slug]/site, so nobody leaves.
+    ...ventureGroups.flatMap((group) => [
+      { name: group, href: "", heading: true },
+      ...ventures
+        .filter((venture) => venture.group === group)
+        .map((venture) => ({ name: venture.name, href: `/ventures/${venture.slug}/site`, desc: venture.category })),
+    ]),
   ]},
   { name: "Speaking", href: "/speaking", icon: Mic },
   { name: "Contact", href: "contact-modal", icon: Phone, submenu: [
@@ -148,7 +155,14 @@ export function MobileTabBar() {
 
                 {/* Scrollable list */}
                 <div className="max-h-[50vh] overflow-y-auto no-scrollbar space-y-1">
-                  {tab.submenu!.map((item) => (
+                  {tab.submenu!.map((item) => item.heading ? (
+                    <p
+                      key={`heading-${item.name}`}
+                      className="px-4 pt-4 pb-1 text-[10px] tracking-[0.15em] uppercase text-[#8A837B]"
+                    >
+                      {item.name}
+                    </p>
+                  ) : (
                     <a
                       key={item.href + item.name}
                       href={item.href.startsWith("action:") || item.href.startsWith("sms:") || item.href.startsWith("mailto:") ? undefined : item.href}
