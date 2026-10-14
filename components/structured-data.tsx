@@ -43,7 +43,7 @@ export function StructuredData() {
         },
         "nationality": { "@type": "Country", "name": "United States" },
         "alumniOf": { "@type": "CollegeOrUniversity", "name": "Santa Barbara City College", "url": "https://www.sbcc.edu" },
-        "jobTitle": ["AI Systems Architect", "Television Producer", "VibeCoding Pioneer", "Founder", "Business Consultant", "Fractional COO"],
+        "jobTitle": ["AI Systems Architect", "Television Producer", "App Developer", "VibeCoding Pioneer", "Founder"],
         "worksFor": [
           { "@type": "Organization", "name": "Success Upgrade", "url": "https://www.successupgrade.ai", "@id": "https://www.successupgrade.ai/#organization" },
           { "@type": "Organization", "name": "Big Films Only", "@id": "https://jothamhall.com/#bigfilmsonly" }
@@ -98,19 +98,16 @@ export function StructuredData() {
         "knowsAbout": ["VibeCoding", "No-Code Development", "AI Development", "Natural Language Programming"]
       },
       {
-        "@type": "Service", "name": "AI Automation Strategy", "description": "Custom AI automation systems that reduce overhead and scale output without scaling stress", "provider": { "@id": "https://jothamhall.com/#person" }, "serviceType": "Business Consulting", "areaServed": "Worldwide"
+        "@type": "Service", "name": "AI Automation", "url": "https://jothamhall.com/services/ai-automation", "description": "AI assistants, automated workflows, and connected tools that take repetitive work off your team.", "provider": { "@id": "https://jothamhall.com/#person" }, "serviceType": "Business Consulting", "areaServed": "Worldwide"
       },
       {
-        "@type": "Service", "name": "Revenue System Design", "description": "Infrastructure that turns attention into income. Engineering growth systems for founders.", "provider": { "@id": "https://jothamhall.com/#person" }, "serviceType": "Business Consulting", "areaServed": "Worldwide"
+        "@type": "Service", "name": "Revenue Systems", "url": "https://jothamhall.com/services/revenue-systems", "description": "Lead capture, instant follow up, booking, and tracking built as one system, so more of your leads become clients.", "provider": { "@id": "https://jothamhall.com/#person" }, "serviceType": "Business Consulting", "areaServed": "Worldwide"
       },
       {
-        "@type": "Service", "name": "Brand Positioning", "description": "Clarity that commands premium pricing. Articulate what you do and why it matters.", "provider": { "@id": "https://jothamhall.com/#person" }, "serviceType": "Business Consulting", "areaServed": "Worldwide"
+        "@type": "Service", "name": "Strategic Consulting", "url": "https://jothamhall.com/services/strategic-consulting", "description": "A clear diagnosis, a focused 90 day plan, and advice while you execute, for owners facing their next big decision.", "provider": { "@id": "https://jothamhall.com/#person" }, "serviceType": "Business Consulting", "areaServed": "Worldwide"
       },
       {
-        "@type": "Service", "name": "VibeCoding Training", "description": "Learn to build apps with natural language using v0.dev, Cursor AI, and Claude. No coding required.", "provider": { "@id": "https://jothamhall.com/#person" }, "serviceType": "Education", "areaServed": "Worldwide"
-      },
-      {
-        "@type": "Service", "name": "Fractional COO Services", "description": "Executive-level operations leadership for growing companies. Part-time COO services with full-time impact.", "provider": { "@id": "https://jothamhall.com/#person" }, "serviceType": "Executive Services", "areaServed": "Worldwide"
+        "@type": "Service", "name": "Systems Architecture", "url": "https://jothamhall.com/services/systems-architecture", "description": "Connected tools, workflows, and documented processes, designed and built so your business runs without everything going through you.", "provider": { "@id": "https://jothamhall.com/#person" }, "serviceType": "Business Consulting", "areaServed": "Worldwide"
       },
       { "@type": "TVSeries", "name": "Finding Mr. Christmas", "productionCompany": { "@type": "Organization", "name": "Hallmark Channel" }, "numberOfSeasons": 2, "contributor": { "@id": "https://jothamhall.com/#person", "roleName": "Talent Producer" } },
       { "@type": "TVSeries", "name": "Ciao House", "productionCompany": { "@type": "Organization", "name": "Food Network" }, "numberOfSeasons": 2, "contributor": { "@id": "https://jothamhall.com/#person", "roleName": "Talent Producer" } },
@@ -127,7 +124,7 @@ export function StructuredData() {
         "@type": "FAQPage",
         "mainEntity": [
           { "@type": "Question", "name": "Who is Jotham Hall?", "acceptedAnswer": { "@type": "Answer", "text": "Jotham Hall is a television producer turned AI systems architect based in Miami Beach, Florida. He has 50+ TV credits including Finding Mr. Christmas (Hallmark), Ciao House (Food Network), Temptation Island (USA Network), and Flavor of Love (VH1). He is a pioneer of VibeCoding and founder of Success Upgrade." } },
-          { "@type": "Question", "name": "What does Jotham Hall do?", "acceptedAnswer": { "@type": "Answer", "text": "Jotham Hall helps entrepreneurs and businesses build AI-powered systems that generate revenue on autopilot. His services include AI automation strategy, revenue system design, brand positioning, and operational efficiency consulting. He also runs Success Upgrade (mentorship and SaaS), Big Films Only (video production), and Say It Build It (vibe coding platform)." } },
+          { "@type": "Question", "name": "What does Jotham Hall do?", "acceptedAnswer": { "@type": "Answer", "text": "Jotham Hall builds AI systems and apps that bring in clients and save business owners time: AI automation, revenue systems, strategic consulting, and systems architecture. After 15 years producing network television, Jotham built products including the Verza TV streaming app and the Peaceful Healing Rx patient app, and runs Success Upgrade, Big Films Only, and Say It Build It." } },
           { "@type": "Question", "name": "What TV shows has Jotham Hall produced?", "acceptedAnswer": { "@type": "Answer", "text": "Jotham Hall has 50+ TV production credits including: Finding Mr. Christmas (Hallmark, Seasons 1-2), Ciao House (Food Network, Seasons 1-2), Temptation Island (USA Network), Snake in the Grass (NBC), Flavor of Love (VH1), Rock of Love (VH1), I Love Money (VH1), From G's to Gents (MTV), For the Love of Ray J (VH1), and Real Chance of Love (VH1)." } },
           { "@type": "Question", "name": "What is Success Upgrade?", "acceptedAnswer": { "@type": "Answer", "text": "Success Upgrade (successupgrade.ai) is an AI-powered ecosystem for entrepreneurs founded by Jotham Hall in 2023. It provides AI systems, implementation, and practical tools for entrepreneurs and small businesses." } },
           { "@type": "Question", "name": "What is VibeCoding?", "acceptedAnswer": { "@type": "Answer", "text": "VibeCoding (also called Vibe Coding or CodeVibe) is a natural language approach to software development where users describe what they want in plain English and AI generates the code. Jotham Hall is a pioneer of VibeCoding through his platform Say It Build It. Tools commonly used include v0.dev, Cursor AI, and Claude. It allows non-technical entrepreneurs to build apps, websites, and automations without writing code." } },

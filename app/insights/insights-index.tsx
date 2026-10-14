@@ -1,128 +1,86 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { ArrowLeft, ArrowRight, Clock } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { ContactModal } from "@/components/landing/contact-modal";
+import { useState } from "react";
 import Link from "next/link";
-import { insights } from "@/lib/insights-data";
+import { ArrowRight } from "lucide-react";
+import { CalendlyModal } from "@/components/calendly-modal";
+import { FooterSection } from "@/components/landing/footer-section";
+import type { InsightSummary } from "@/lib/insights-data";
+import { ClosingCTA, Headshot, InsightMeta, InsightRow, InsightsNav, SectionLabel } from "./insights-shared";
 
-export function InsightsIndex() {
-  const [isVisible, setIsVisible] = useState(false);
-  const [isContactOpen, setIsContactOpen] = useState(false);
+/*
+  One centered column at every screen size (see insights-shared.tsx): who
+  writes, one featured article, every other article as a single list, then
+  the call to action and the site footer (which carries the tab bar clearance).
+*/
 
-  useEffect(() => {
-    setIsVisible(true);
-    window.scrollTo(0, 0);
-  }, []);
+interface Props {
+  featured: InsightSummary | null;
+  articles: InsightSummary[];
+}
 
-  const featuredPost = insights.find(post => post.featured);
-  const regularPosts = insights.filter(post => !post.featured);
+export function InsightsIndex({ featured, articles }: Props) {
+  const [isCalendlyOpen, setIsCalendlyOpen] = useState(false);
+  const openCalendly = () => setIsCalendlyOpen(true);
 
   return (
-    <main className="min-h-screen bg-background">
-      {/* Navigation */}
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-foreground/10">
-        <div className="max-w-[1400px] mx-auto px-6 lg:px-12 h-16 flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors">
-            <ArrowLeft className="w-4 h-4" />
-            Back to Home
-          </Link>
-          <Button onClick={() => setIsContactOpen(true)} className="rounded-full">
-            Work With Me
-          </Button>
-        </div>
-      </nav>
+    <>
+      <main className="min-h-screen bg-[#0D0D0D]">
+        <InsightsNav onBook={openCalendly} />
 
-      {/* Hero */}
-      <section className="pt-10 pb-16 lg:pt-16 lg:pb-24 px-6 lg:px-12">
-        <div className="max-w-[1400px] mx-auto text-center">
-          <span className="inline-flex items-center gap-3 text-sm font-mono text-muted-foreground mb-6">
-            From the Founder
-          </span>
-          <h1 className={`text-4xl sm:text-5xl lg:text-7xl font-display tracking-tight mb-8 transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
+        <header className="px-6 pt-28 pb-12 text-center">
+          <h1 className="font-display text-[2.25rem] leading-none tracking-[0.12em] uppercase text-[#FAF8F5]">
             Insights
           </h1>
-          <p className={`text-xl text-muted-foreground max-w-2xl mx-auto transition-all duration-700 delay-100 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
-            Strategic thinking on AI, systems, and building businesses that scale without burning out.
+          <p className="mt-5 text-[15px] leading-relaxed text-[#B8B0A8] max-w-[320px] mx-auto">
+            Practical thinking for business owners on AI, systems, and building a business that scales without
+            burning out.
           </p>
-        </div>
-      </section>
+          <div className="mt-8 inline-flex items-center gap-3 text-left">
+            <Headshot size={44} />
+            <div>
+              <p className="text-[15px] font-medium text-[#FAF8F5]">By Jotham Hall</p>
+              <p className="text-[13px] text-[#8A837B]">AI systems architect &middot; 15 years in TV</p>
+            </div>
+          </div>
+        </header>
 
-      {/* Featured Post */}
-      {featuredPost && (
-        <section className="pb-16 px-6 lg:px-12">
-          <div className="max-w-[1400px] mx-auto">
-            <Link 
-              href={`/insights/${featuredPost.slug}`}
-              className={`group block p-8 lg:p-12 border border-foreground/10 hover:border-foreground/20 transition-all duration-500 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
+        {featured && (
+          <section className="px-6 pb-12">
+            <SectionLabel>Featured</SectionLabel>
+            <Link
+              href={`/insights/${featured.slug}`}
+              className="group mt-4 block p-6 bg-[#1A1A1A] border border-[#3D3A35] hover:border-[#D4A853]/40 transition-colors active:opacity-90"
             >
-              <div className="flex items-center gap-4 mb-6">
-                <span className="px-3 py-1 bg-foreground text-background text-xs font-mono uppercase tracking-wider">
-                  Featured
-                </span>
-                <span className="text-xs font-mono text-muted-foreground">
-                  {featuredPost.category}
-                </span>
-                <span className="flex items-center gap-1 text-xs font-mono text-muted-foreground">
-                  <Clock className="w-3 h-3" />
-                  {featuredPost.readTime}
-                </span>
-              </div>
-              <h2 className="text-2xl lg:text-4xl font-display tracking-tight mb-4 group-hover:text-muted-foreground transition-colors">
-                {featuredPost.title}
-              </h2>
-              <p className="text-muted-foreground leading-relaxed max-w-2xl mb-6">
-                {featuredPost.excerpt}
-              </p>
-              <div className="flex items-center gap-2 text-sm text-foreground">
-                Read article
-                <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-              </div>
+              <InsightMeta category={featured.category} readTime={featured.readTime} />
+              <h3 className="mt-3 font-display text-[1.25rem] leading-snug tracking-[0.1em] uppercase text-balance text-[#FAF8F5]">
+                {featured.title}
+              </h3>
+              <p className="mt-3 text-[15px] leading-relaxed text-[#B8B0A8] line-clamp-3">{featured.excerpt}</p>
+              <span className="mt-5 inline-flex items-center gap-2 text-[13px] font-medium tracking-[0.15em] uppercase text-[#D4A853] group-hover:text-[#E8C97A] transition-colors">
+                Read the Article
+                <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
+              </span>
             </Link>
-          </div>
-        </section>
-      )}
+          </section>
+        )}
 
-      {/* All Posts Grid */}
-      <section className="pb-20 lg:pb-32 px-6 lg:px-12">
-        <div className="max-w-[1400px] mx-auto">
-          <h2 className="text-xl font-display mb-8">All Insights</h2>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-px bg-foreground/10">
-            {regularPosts.map((post, index) => (
-              <Link
-                key={post.id}
-                href={`/insights/${post.slug}`}
-                className={`group bg-background p-6 lg:p-8 hover:bg-foreground/[0.02] transition-all duration-500 ${isVisible ? "opacity-100" : "opacity-0"}`}
-                style={{ transitionDelay: `${150 + index * 50}ms` }}
-              >
-                <div className="flex items-center gap-3 mb-4">
-                  <span className="text-xs font-mono text-muted-foreground uppercase tracking-wider">
-                    {post.category}
-                  </span>
-                  <span className="w-1 h-1 rounded-full bg-foreground/20" />
-                  <span className="flex items-center gap-1 text-xs font-mono text-muted-foreground">
-                    <Clock className="w-3 h-3" />
-                    {post.readTime}
-                  </span>
-                </div>
-                <h3 className="text-lg lg:text-xl font-display tracking-tight mb-3 group-hover:text-muted-foreground transition-colors leading-tight">
-                  {post.title}
-                </h3>
-                <p className="text-sm text-muted-foreground leading-relaxed line-clamp-3 mb-4">
-                  {post.excerpt}
-                </p>
-                <div className="flex items-center gap-2 text-sm text-foreground group-hover:text-muted-foreground transition-colors">
-                  Read
-                  <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-                </div>
-              </Link>
+        <section className="px-6 pb-16">
+          <SectionLabel>All Articles</SectionLabel>
+          <ul className="mt-2">
+            {articles.map((insight) => (
+              <InsightRow key={insight.slug} insight={insight} />
             ))}
-          </div>
-        </div>
-      </section>
+          </ul>
+        </section>
 
-      <ContactModal isOpen={isContactOpen} onClose={() => setIsContactOpen(false)} />
-    </main>
+        <ClosingCTA onBook={openCalendly} />
+        <FooterSection />
+      </main>
+
+      {/* Mounted only while open: every mounted CalendlyModal listens for
+          bookings, and the floating button already keeps one mounted. */}
+      {isCalendlyOpen && <CalendlyModal isOpen onClose={() => setIsCalendlyOpen(false)} />}
+    </>
   );
 }

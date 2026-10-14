@@ -1,14 +1,27 @@
-import { Metadata } from "next";
+import type { Metadata } from "next";
 import { ServicesIndex } from "./services-index";
 
 export const metadata: Metadata = {
-  title: "Services | Jotham Hall",
-  description: "Strategic consulting services including AI automation, systems architecture, personal branding, executive advisory, and fractional COO services. Transform your business with Jotham Hall.",
-  keywords: ["consulting services", "AI automation", "systems architecture", "personal branding", "executive advisory", "fractional COO", "Jotham Hall services"],
+  // The root layout's template appends "| Jotham Hall".
+  title: "Services",
+  description:
+    "AI automation, revenue systems, strategic consulting, and systems architecture for business owners. Pick where you're stuck, or book a free strategy call.",
+  keywords: [
+    "AI automation",
+    "revenue systems",
+    "strategic consulting",
+    "systems architecture",
+    "business systems consultant",
+    "Jotham Hall services",
+  ],
   openGraph: {
     title: "Services | Jotham Hall",
-    description: "Strategic consulting services to transform your business.",
+    description: "AI automation, revenue systems, strategy, and connected business systems for owners who want to grow without working more.",
+    type: "website",
     url: "https://jothamhall.com/services",
+  },
+  alternates: {
+    canonical: "https://jothamhall.com/services",
   },
 };
 

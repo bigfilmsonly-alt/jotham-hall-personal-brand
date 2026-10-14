@@ -18,7 +18,7 @@
   ORDER IS THE PITCH, and it is Jo's list (2026-10-14): Verza TV, Peaceful
   Healing Rx, Evolve Longevity, Lumi, MediaMD (Jo calls it Med Spa Media; its
   repo is medspamedia) and GrowDoc are `featured`, each with a phone screenshot
-  from /public/ventures. AI Army, CRNC and WebsiteWave come next. Jo said the
+  from /public/ventures like every venture. AI Army, CRNC and WebsiteWave come next. Jo said the
   order below that does not matter.
 */
 
@@ -35,8 +35,10 @@ export type Venture = {
   site: string;
   visitLabel: string;
   links?: { label: string; href: string }[];
-  // Top of the page, with a phone screenshot of the site from /public/ventures.
+  // Listed first, under Featured.
   featured?: boolean;
+  // Phone screenshot of the live site in /public/ventures (WebKit 390x844,
+  // analytics blocked). Every venture has one; re-shoot when a site changes.
   preview?: string;
 };
 
@@ -179,6 +181,7 @@ export const ventures: Venture[] = [
     ],
     site: "https://www.aiarmy.com/",
     visitLabel: "Join the Waitlist",
+    preview: "/ventures/ai-army.jpg",
   },
   {
     slug: "crnc",
@@ -195,6 +198,7 @@ export const ventures: Venture[] = [
     ],
     site: "https://crnc.ai/",
     visitLabel: "Visit CRNC",
+    preview: "/ventures/crnc.jpg",
   },
   {
     slug: "websitewave",
@@ -211,6 +215,7 @@ export const ventures: Venture[] = [
     ],
     site: "https://www.websitewave.com/",
     visitLabel: "Visit WebsiteWave",
+    preview: "/ventures/websitewave.jpg",
   },
   {
     slug: "the-boat-goat",
@@ -228,6 +233,7 @@ export const ventures: Venture[] = [
     ],
     site: "https://www.theboatgoat.co/",
     visitLabel: "Visit The Boat Goat",
+    preview: "/ventures/the-boat-goat.jpg",
   },
   {
     slug: "success-upgrade",
@@ -247,6 +253,7 @@ export const ventures: Venture[] = [
     ],
     site: "https://www.successupgrade.ai/",
     visitLabel: "Visit Success Upgrade",
+    preview: "/ventures/success-upgrade.jpg",
   },
   {
     slug: "booktalent",
@@ -264,6 +271,7 @@ export const ventures: Venture[] = [
     ],
     site: "https://www.booktalent.co/",
     visitLabel: "Visit BookTalent",
+    preview: "/ventures/booktalent.jpg",
   },
   {
     slug: "big-films-only",
@@ -283,6 +291,7 @@ export const ventures: Venture[] = [
     ],
     site: "https://www.bigfilmsonly.com/",
     visitLabel: "Visit Big Films Only",
+    preview: "/ventures/big-films-only.jpg",
   },
   {
     slug: "codevibe",
@@ -299,6 +308,7 @@ export const ventures: Venture[] = [
     ],
     site: "https://www.codevibe.com/",
     visitLabel: "Visit CodeVibe",
+    preview: "/ventures/codevibe.jpg",
   },
   {
     slug: "say-it-build-it",
@@ -317,6 +327,7 @@ export const ventures: Venture[] = [
     ],
     site: "https://www.sayitbuildit.com/",
     visitLabel: "Start the Free Course",
+    preview: "/ventures/say-it-build-it.jpg",
   },
   {
     slug: "voltage-capital",
@@ -334,6 +345,7 @@ export const ventures: Venture[] = [
     ],
     site: "https://www.voltage-cap.com/",
     visitLabel: "Visit Voltage Capital",
+    preview: "/ventures/voltage-capital.jpg",
   },
   {
     slug: "saas-agency",
@@ -353,6 +365,7 @@ export const ventures: Venture[] = [
     ],
     site: "https://www.successupgrade.ai/saas-agency",
     visitLabel: "See SaaS Agency",
+    preview: "/ventures/saas-agency.jpg",
   },
   {
     slug: "electro-hydration",
@@ -370,6 +383,7 @@ export const ventures: Venture[] = [
     ],
     site: "https://electrohydration.com/",
     visitLabel: "Visit Electro Hydration",
+    preview: "/ventures/electro-hydration.jpg",
   },
 ];
 

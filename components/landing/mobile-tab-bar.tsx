@@ -13,15 +13,12 @@ import {
   ArrowRight,
 } from "lucide-react";
 import { CalendlyModal } from "../calendly-modal";
-import { ventures, type Venture } from "@/lib/ventures";
 import { isFullBleed } from "@/lib/full-bleed";
 
 interface SubMenuItem {
   name: string;
   href: string;
   desc?: string;
-  // A section label inside the sheet, not a link.
-  heading?: boolean;
 }
 
 interface Tab {
@@ -31,12 +28,6 @@ interface Tab {
   submenu?: SubMenuItem[];
 }
 
-const ventureItem = (venture: Venture): SubMenuItem => ({
-  name: venture.name,
-  href: `/ventures/${venture.slug}/site`,
-  desc: venture.category,
-});
-
 const tabs: Tab[] = [
   { name: "Home", href: "/", icon: Home },
   { name: "About", href: "/about", icon: User, submenu: [
@@ -45,19 +36,12 @@ const tabs: Tab[] = [
   ]},
   { name: "Services", href: "/services", icon: Briefcase, submenu: [
     { name: "AI Automation", href: "/services/ai-automation", desc: "Automate repetitive work" },
-    { name: "Revenue Systems", href: "/services/revenue-systems", desc: "Connect lead capture and follow-up" },
+    { name: "Revenue Systems", href: "/services/revenue-systems", desc: "A clear path from first click to client" },
     { name: "Strategic Consulting", href: "/services/strategic-consulting", desc: "A focused plan for the next move" },
     { name: "Systems Architecture", href: "/services/systems-architecture", desc: "Build connected business systems" },
   ]},
-  { name: "Ventures", href: "/ventures", icon: Rocket, submenu: [
-    { name: "All Ventures", href: "/ventures", desc: "The full portfolio" },
-    // Every venture, in the Ventures page's order and sections. Each opens its own
-    // site inside jothamhall.com at /ventures/[slug]/site, so nobody leaves.
-    { name: "Featured", href: "", heading: true },
-    ...ventures.filter((venture) => venture.featured).map(ventureItem),
-    { name: "More Ventures", href: "", heading: true },
-    ...ventures.filter((venture) => !venture.featured).map(ventureItem),
-  ]},
+  // One tap opens the full Ventures page, every venture with its phone preview.
+  { name: "Ventures", href: "/ventures", icon: Rocket },
   { name: "Speaking", href: "/speaking", icon: Mic },
   { name: "Contact", href: "contact-modal", icon: Phone, submenu: [
     { name: "Book a Call", href: "action:calendly", desc: "Choose a time" },
@@ -159,14 +143,7 @@ export function MobileTabBar() {
 
                 {/* Scrollable list */}
                 <div className="max-h-[50vh] overflow-y-auto no-scrollbar space-y-1">
-                  {tab.submenu!.map((item) => item.heading ? (
-                    <p
-                      key={`heading-${item.name}`}
-                      className="px-4 pt-4 pb-1 text-[10px] tracking-[0.15em] uppercase text-[#8A837B]"
-                    >
-                      {item.name}
-                    </p>
-                  ) : (
+                  {tab.submenu!.map((item) => (
                     <a
                       key={item.href + item.name}
                       href={item.href.startsWith("action:") || item.href.startsWith("sms:") || item.href.startsWith("mailto:") ? undefined : item.href}

@@ -1,20 +1,10 @@
-import { Metadata } from "next";
+import type { ReactNode } from "react";
+import type { Metadata } from "next";
+import { serviceMetadata } from "../services-data";
 
-export const metadata: Metadata = {
-  title: "Revenue Systems | Jotham Hall",
-  description: "Build predictable revenue machines. Lead generation, sales automation, and client acquisition systems designed to scale your business without scaling headcount.",
-  keywords: ["revenue systems", "lead generation", "sales automation", "client acquisition", "Jotham Hall revenue", "business scaling"],
-  openGraph: {
-    title: "Revenue Systems | Jotham Hall",
-    description: "Build predictable revenue machines. Lead generation, sales automation, and client acquisition systems.",
-    type: "website",
-    url: "https://jothamhall.com/services/revenue-systems",
-  },
-  alternates: {
-    canonical: "https://jothamhall.com/services/revenue-systems",
-  },
-};
+// Title, description and canonical come from services-data.ts with the page copy.
+export const metadata: Metadata = serviceMetadata("revenue-systems");
 
-export default function Layout({ children }: { children: React.ReactNode }) {
+export default function Layout({ children }: { children: ReactNode }) {
   return children;
 }
