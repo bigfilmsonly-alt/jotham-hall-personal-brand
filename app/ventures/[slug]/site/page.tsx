@@ -3,8 +3,11 @@ import { notFound } from "next/navigation";
 import { VentureEmbed } from "@/components/venture-embed";
 import { getVenture, ventures } from "@/lib/ventures";
 import { SHARE_IMAGE, fitDescription } from "@/lib/seo";
+import { canFrameIn } from "@/lib/frame-check";
 
 export const dynamicParams = false;
+// Each viewer re-checks once an hour whether its guest still lets this site frame it.
+export const revalidate = 3600;
 
 export function generateStaticParams() {
   return ventures.map((venture) => ({ slug: venture.slug }));
@@ -36,5 +39,14 @@ export default async function VentureSitePage({ params }: { params: Promise<{ sl
   const { slug } = await params;
   const venture = getVenture(slug);
   if (!venture) notFound();
-  return <VentureEmbed name={venture.name} site={venture.site} backHref={`/ventures/${venture.slug}`} backLabel={venture.name} />;
+  const framable = await canFrameIn(venture.site);
+  return (
+    <VentureEmbed
+      name={venture.name}
+      site={venture.site}
+      backHref={`/ventures/${venture.slug}`}
+      backLabel={venture.name}
+      framable={framable}
+    />
+  );
 }

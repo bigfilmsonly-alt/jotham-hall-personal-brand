@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, ArrowUpRight } from "lucide-react";
 import { CalendlyModal } from "@/components/calendly-modal";
 
 /*
@@ -34,12 +34,16 @@ export function VentureEmbed({
   site,
   backHref,
   backLabel,
+  framable = true,
 }: {
   name: string;
   site: string;
   // The default way back: the venture's page, or the Services page for the Path.
   backHref: string;
   backLabel: string;
+  // False when the guest's own headers refuse to be framed here (lib/frame-check.ts):
+  // the viewer then offers the site in its own tab instead of showing a blank frame.
+  framable?: boolean;
 }) {
   const [src, setSrc] = useState<string>();
   const [loaded, setLoaded] = useState(false);
@@ -54,10 +58,11 @@ export function VentureEmbed({
     guest shows its own loading state rather than an empty screen.
   */
   useEffect(() => {
+    if (!framable) return;
     setSrc(site);
     const reveal = setTimeout(() => setLoaded(true), 4000);
     return () => clearTimeout(reveal);
-  }, [site]);
+  }, [site, framable]);
 
   useEffect(() => {
     const from = new URLSearchParams(window.location.search).get("from");
@@ -109,7 +114,31 @@ export function VentureEmbed({
         </div>
       </div>
 
-      {!loaded && (
+      {!framable && (
+        <div
+          className="absolute inset-x-0 bottom-0 flex items-center justify-center px-6"
+          style={{ top: CHROME_TOP }}
+        >
+          <div className="w-full max-w-md border border-[#3D3A35] bg-[#1A1A1A] px-6 py-10 text-center md:px-10 md:py-12">
+            <p className="text-xs tracking-[0.15em] uppercase text-[#D4A853]">Opens in its own tab</p>
+            <h2 className="mt-4 font-display text-2xl tracking-[0.12em] uppercase text-balance text-[#FAF8F5] md:text-3xl">{name}</h2>
+            <p className="mx-auto mt-4 max-w-xs text-[15px] leading-relaxed text-[#B8B0A8] text-pretty">
+              {name} opens in a new tab. This page stays open, so you can come right back.
+            </p>
+            <a
+              href={site}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-8 flex w-full items-center justify-center gap-2 bg-[#D4A853] py-3.5 text-sm font-medium tracking-wide text-[#0D0D0D] transition-colors hover:bg-[#E8C97A] pointer-coarse:active:scale-[0.97]"
+            >
+              Open {name}
+              <ArrowUpRight aria-hidden="true" className="h-4 w-4" />
+            </a>
+          </div>
+        </div>
+      )}
+
+      {framable && !loaded && (
         <div
           className="absolute inset-x-0 flex items-center justify-center pointer-events-none"
           style={{ top: CHROME_TOP, bottom: 0 }}
@@ -118,27 +147,29 @@ export function VentureEmbed({
         </div>
       )}
 
-      <iframe
-        src={src}
-        title={name}
-        onLoad={() => {
-          if (src) setLoaded(true);
-        }}
-        /*
-          An explicit height, not top + bottom. An iframe is a replaced element,
-          so with height left auto it falls back to its intrinsic 150px instead
-          of stretching. calc keeps it tied to the strip above.
-        */
-        className={`absolute inset-x-0 w-full border-0 transition-opacity duration-500 ${
-          loaded ? "opacity-100" : "opacity-0"
-        }`}
-        style={{ top: CHROME_TOP, height: `calc(100% - ${CHROME_TOP} - ${CHROME_BOTTOM})` }}
-        allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; payment"
-        // allow-same-origin means the guest's own origin: without it the guest's
-        // routing, storage and scripts break. It still cannot reach this page.
-        // allow-storage-access-by-user-activation lets the Path keep a visitor's progress in Safari.
-        sandbox="allow-same-origin allow-scripts allow-forms allow-popups allow-popups-to-escape-sandbox allow-top-navigation-by-user-activation allow-storage-access-by-user-activation"
-      />
+      {framable && (
+        <iframe
+          src={src}
+          title={name}
+          onLoad={() => {
+            if (src) setLoaded(true);
+          }}
+          /*
+            An explicit height, not top + bottom. An iframe is a replaced element,
+            so with height left auto it falls back to its intrinsic 150px instead
+            of stretching. calc keeps it tied to the strip above.
+          */
+          className={`absolute inset-x-0 w-full border-0 transition-opacity duration-500 ${
+            loaded ? "opacity-100" : "opacity-0"
+          }`}
+          style={{ top: CHROME_TOP, height: `calc(100% - ${CHROME_TOP} - ${CHROME_BOTTOM})` }}
+          allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; payment"
+          // allow-same-origin means the guest's own origin: without it the guest's
+          // routing, storage and scripts break. It still cannot reach this page.
+          // allow-storage-access-by-user-activation lets the Path keep a visitor's progress in Safari.
+          sandbox="allow-same-origin allow-scripts allow-forms allow-popups allow-popups-to-escape-sandbox allow-top-navigation-by-user-activation allow-storage-access-by-user-activation"
+        />
+      )}
 
       <CalendlyModal isOpen={isCalendlyOpen} onClose={() => setIsCalendlyOpen(false)} />
     </div>
