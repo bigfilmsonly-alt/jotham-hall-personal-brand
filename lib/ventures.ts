@@ -1,7 +1,7 @@
 /*
   One list feeds the Ventures index, every /ventures/[slug] page, the in site
-  viewer at /ventures/[slug]/site, the sitemap and the tab bar's Ventures sheet,
-  so a venture is added or edited in one place.
+  viewer at /ventures/[slug]/site, the sitemap and every other page that shows a
+  venture, so a venture is added or edited in one place.
 
   Copy rules for this site: no em dashes or hyphenated compounds, American
   English, no prices, and nothing a visitor cannot check on the venture's own
@@ -40,8 +40,10 @@ export type Venture = {
   links?: { label: string; href: string }[];
   // Listed first, under Featured.
   featured?: boolean;
-  // Phone screenshot of the live site in /public/ventures (WebKit 390x844,
-  // analytics blocked). Every venture has one; re-shoot when a site changes.
+  // Phone screenshot of the live site's home page in /public/ventures: a
+  // 390x844 phone at 2x with analytics blocked and the site's translucent bars
+  // made solid, saved as <slug>.jpg (312x675) and <slug>-2x.jpg (624x1350).
+  // Every venture has one; re-shoot when a site changes.
   preview?: string;
 };
 
@@ -97,9 +99,9 @@ export const ventures: Venture[] = [
     category: "Longevity clinic",
     tagline: "A longevity and recovery clinic in Miami Beach.",
     status: "Live",
-    role: "Strategic partner. Built the website and the iPhone app",
+    role: "Strategic partner who built the website and the iPhone app",
     description:
-      "Evolve Longevity is a longevity and recovery clinic in Miami Beach, founded by Connor Wade. I am a strategic partner, and I built the clinic's website and its iPhone app, which is now in private beta.",
+      "Evolve Longevity is a longevity and recovery clinic in Miami Beach, founded by Connor Wade. Its iPhone app is now in private beta.",
     searchDescription:
       "Evolve Longevity is a longevity and recovery clinic in Miami Beach, founded by Connor Wade. I built the clinic's website and its iPhone app.",
     features: [
@@ -283,7 +285,7 @@ export const ventures: Venture[] = [
       "BookTalent connects actors, models, influencers, musicians, and creators with the producers and brands who book them. Talent builds a profile for free, and bookers search by exactly what a campaign needs. It is a division of Big Films Only.",
     features: [
       "Free profiles for actors, models, influencers, musicians, and creators",
-      "Search by exactly who a campaign needs",
+      "Search for exactly the talent a campaign needs",
       "Verified talent profiles",
     ],
     site: "https://www.booktalent.co/",
@@ -338,7 +340,7 @@ export const ventures: Venture[] = [
     tagline: "Build real apps by describing them. Free.",
     status: "Live",
     year: "2024",
-    role: "Founder and instructor",
+    role: "Founder and Instructor",
     description:
       "Say It Build It is a free crash course that teaches anyone to build working apps by describing what they want in plain words. No coding, no signup, and no credit card to start.",
     features: [

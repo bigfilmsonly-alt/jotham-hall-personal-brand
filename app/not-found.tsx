@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { SiteHeader } from "@/components/site-header";
 import { BookCallButton } from "@/components/book-call-button";
+import { DocumentTitle } from "@/components/document-title";
 
 // The root layout's template appends "| Jotham Hall".
 export const metadata: Metadata = {
@@ -16,6 +17,7 @@ export const metadata: Metadata = {
 export default function NotFound() {
   return (
     <>
+      <DocumentTitle title="Page Not Found | Jotham Hall" />
       <SiteHeader />
       <main className="min-h-screen bg-[#0D0D0D] px-6 pt-28 pb-36 text-center md:px-10 md:pt-40">
         <p className="text-xs tracking-[0.15em] uppercase text-[#D4A853]">404</p>

@@ -6,6 +6,7 @@ import Link from "next/link";
 import { ArrowRight, Mail, MessageSquare, Phone } from "lucide-react";
 import { FooterSection } from "@/components/landing/footer-section";
 import { CalendlyModal } from "@/components/calendly-modal";
+import { SiteHeader } from "@/components/site-header";
 import { ventures } from "@/lib/ventures";
 
 /*
@@ -123,205 +124,215 @@ export default function AboutPage() {
   const openCalendly = () => setIsCalendlyOpen(true);
 
   return (
-    <main className="min-h-screen bg-[#0D0D0D] text-[#FAF8F5]">
-      {/* Hero: who Jo is, in one sentence, and the call. No fixed top bar on
-          this page, so the desktop hero opens on the sections' own rhythm
-          (md:pt-20) and keeps the call above the fold at 1280 by 720. */}
-      <header className="px-6 pt-14 pb-14 text-center animate-in fade-in duration-700 motion-reduce:animate-none md:px-10 md:pt-20 md:pb-20">
-        <div className="mx-auto w-fit rounded-full border border-[#D4A853]/35 p-1.5 md:p-2">
-          <Image
-            src="/jotham-hall-headshot-480.jpg"
-            alt="Jotham Hall"
-            width={136}
-            height={136}
-            priority
-            className="w-[136px] h-[136px] rounded-full object-cover md:w-40 md:h-40 lg:w-44 lg:h-44"
-          />
-        </div>
-        <h1 className="mt-7 font-display text-[1.875rem] leading-tight tracking-[0.12em] uppercase text-balance md:mt-9 md:text-5xl lg:text-6xl">
-          Jotham Hall
-        </h1>
-        <p className={`mt-3 leading-relaxed ${label} md:mt-4`}>
-          AI Systems Architect
-          <br />
-          App Developer · Strategist
-        </p>
-        <p className="mt-6 max-w-[340px] mx-auto text-[1.0625rem] leading-relaxed text-[#FAF8F5]/85 text-pretty md:mt-7 md:max-w-2xl md:text-lg lg:text-xl">
-          I spent 15 years producing network television. Now I build AI systems and apps so your business runs
-          without you in every seat.
-        </p>
-        {/* Stacked on the phone; from md up two equal buttons side by side. */}
-        <div className="mt-8 space-y-2.5 md:mx-auto md:mt-10 md:grid md:max-w-xl md:grid-cols-2 md:gap-x-3 md:gap-y-2 md:space-y-0">
-          <button type="button" onClick={openCalendly} className={primaryButton}>
-            Book a Strategy Call
-            <ArrowRight className="w-4 h-4" />
-          </button>
-          <ContactOptions />
-        </div>
-      </header>
-
-      {/* Proof: the TV career, with the full list one tap away */}
-      <section className={section}>
-        <p className={label}>Television</p>
-        <h2 className={`mt-4 ${heading}`}>Fifteen Years Behind the Camera</h2>
-        <dl className="mt-8 grid grid-cols-3 border-y border-[#3D3A35]/60 divide-x divide-[#3D3A35]/60 md:mx-auto md:mt-12 md:max-w-3xl">
-          {stats.map((stat) => (
-            <div key={stat.label} className="py-6 flex flex-col-reverse items-center gap-2 md:py-10 md:gap-3">
-              <dt className="text-[10px] tracking-[0.15em] uppercase text-[#8A837B] md:text-xs">{stat.label}</dt>
-              <dd className="font-display text-[1.75rem] leading-none text-[#FAF8F5] md:text-5xl">{stat.value}</dd>
-            </div>
-          ))}
-        </dl>
-        {/* From md up the first sentence holds its own line, so no line ends on
-            a lone "I". The span is inline on the phone. */}
-        <p className="mt-8 max-w-[340px] mx-auto text-base leading-relaxed text-[#B8B0A8] text-pretty md:mt-12 md:max-w-2xl md:text-lg">
-          <span className="md:block">I started in 2008 as a production assistant at 51 Minds Entertainment.</span>{" "}
-          I became a talent producer on shows for{" "}
-          {networks.map((network, i) => (
-            <span key={network}>
-              <span className="text-[#FAF8F5]">{network}</span>
-              {i < networks.length - 2 ? ", " : i === networks.length - 2 ? ", and " : "."}
-            </span>
-          ))}
-        </p>
-        <Link
-          href="/credits"
-          className="group mt-6 inline-flex items-center gap-1.5 min-h-[44px] px-2 text-[11px] font-medium tracking-[0.15em] uppercase text-[#D4A853] hover:text-[#E8C97A] transition-colors md:mt-8 md:text-xs"
-        >
-          See All TV Credits
-          <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" />
-        </Link>
-      </section>
-
-      {/* Story: Jo's own words, condensed from Jo's founder statement */}
-      <section className={section}>
-        <p className={label}>In My Own Words</p>
-        <h2 className={`mt-4 ${heading}`}>Why I Build Systems</h2>
-        <div className="mt-7 max-w-[340px] mx-auto space-y-5 text-base leading-relaxed text-[#B8B0A8] text-pretty md:mt-10 md:max-w-2xl md:space-y-6 md:text-lg">
-          <p>
-            Engineering is in my blood. My grandfather was a submarine engineer, and I grew up knowing that every
-            great outcome begins with a system designed well.
+    <>
+      <SiteHeader />
+      <main className="min-h-screen bg-[#0D0D0D] text-[#FAF8F5]">
+        {/* Hero: who Jo is, in one sentence, and the call. It starts below the
+            fixed top bar (56px, 64px from md). The top padding, the portrait and
+            the desktop gaps scale with the screen's height (svh: the height with
+            the browser's bars showing), so on a short screen (375x667, a laptop
+            at 1366x657) "Book a Strategy Call" still clears the tab bar on first
+            load, and a tall one gets the full size: pt-28 and 136px on a
+            390x844 phone, pt-32 and 176px on a 1080px desktop. */}
+        <header className="px-6 pt-[clamp(5.5rem,14svh,7rem)] pb-14 text-center animate-in fade-in duration-700 motion-reduce:animate-none md:px-10 md:pt-[clamp(5rem,12svh,8rem)] md:pb-20">
+          <div className="mx-auto w-fit rounded-full border border-[#D4A853]/35 p-1.5 md:p-2">
+            <Image
+              src="/jotham-hall-headshot-480.jpg"
+              alt="Jotham Hall"
+              width={176}
+              height={176}
+              priority
+              className="size-[clamp(6.5rem,19svh,8.5rem)] rounded-full object-cover md:size-[clamp(7rem,19svh,11rem)]"
+            />
+          </div>
+          <h1 className="mt-7 font-display text-[1.875rem] leading-tight tracking-[0.12em] uppercase text-balance md:mt-[clamp(1.5rem,4svh,2.25rem)] md:text-5xl lg:text-6xl">
+            Jotham Hall
+          </h1>
+          <p className={`mt-3 leading-relaxed ${label} md:mt-4`}>
+            AI Systems Architect
+            <br />
+            App Developer · Strategist
           </p>
-          <p>
-            Producing reality TV at scale taught me the same lesson: a great system keeps working when you step
-            away.
+          <p className="mt-6 max-w-[340px] mx-auto text-[1.0625rem] leading-relaxed text-[#FAF8F5]/85 text-pretty md:mt-[clamp(1.25rem,3.5svh,1.75rem)] md:max-w-2xl md:text-lg lg:text-xl">
+            I spent 15 years producing network television. Now I build AI systems and apps so your business runs
+            without you in every seat.
           </p>
-          <p>Now I build those systems for business owners, and it is the work I love.</p>
-        </div>
-        <div className="mt-9 mx-auto w-10 h-px bg-[#D4A853]/50 md:mt-12 md:w-12" />
-        <p className="mt-6 font-display text-lg leading-relaxed tracking-wide text-[#D4A853] text-balance md:mt-8 md:text-2xl">
-          Do what you love and love what you do.
-        </p>
-      </section>
+          {/* Stacked on the phone; from md up two equal buttons side by side. */}
+          <div className="mt-8 space-y-2.5 md:mx-auto md:mt-[clamp(1.75rem,5svh,2.5rem)] md:grid md:max-w-xl md:grid-cols-2 md:gap-x-3 md:gap-y-2 md:space-y-0">
+            <button type="button" onClick={openCalendly} className={primaryButton}>
+              Book a Strategy Call
+              <ArrowRight className="w-4 h-4" />
+            </button>
+            <ContactOptions />
+          </div>
+        </header>
 
-      {/* Ventures: real products, straight from lib/ventures.ts */}
-      <section className={section}>
-        <p className={label}>What I Build Now</p>
-        <h2 className={`mt-4 ${heading}`}>Real Products, Live Today</h2>
-        {/* One sentence per line from md up; inline on the phone. */}
-        <p className="mt-4 max-w-[320px] mx-auto text-base leading-relaxed text-[#B8B0A8] text-pretty md:mt-5 md:max-w-2xl md:text-lg">
-          <span className="md:block">Companies I founded, and products I built with partners.</span>{" "}
-          Verza TV is on the App Store.
-        </p>
-        {/* Three across on the phone and on a tablet (two rows), all six in one
-            row from lg. About 150px wide from md up: the screenshots are 312px
-            wide, so they stay sharp on a 2x screen. */}
-        <ul className="mt-9 grid grid-cols-3 gap-x-3 gap-y-7 md:mx-auto md:mt-12 md:max-w-lg md:gap-x-6 md:gap-y-10 lg:max-w-5xl lg:grid-cols-6">
-          {featured.map((venture) => (
-            <li key={venture.slug}>
-              <Link href={`/ventures/${venture.slug}`} className="group block pointer-coarse:active:scale-[0.98] transition-transform">
-                <span className="relative block aspect-[390/844] overflow-hidden rounded-[14px] border border-[#3D3A35] bg-black group-hover:border-[#D4A853]/50 transition-colors md:rounded-[20px]">
-                  {venture.preview && (
-                    <Image
-                      src={venture.preview}
-                      alt=""
-                      fill
-                      sizes="(min-width: 768px) 160px, 120px"
-                      className="object-cover object-top"
-                    />
-                  )}
-                </span>
-                <span className="mt-3 block text-[13px] font-medium leading-snug text-[#FAF8F5] text-balance md:mt-4 md:text-sm">
-                  {venture.name}
-                </span>
-              </Link>
-            </li>
-          ))}
-        </ul>
-        <Link
-          href="/ventures"
-          className="group mt-8 inline-flex items-center gap-1.5 min-h-[44px] px-2 text-[11px] font-medium tracking-[0.15em] uppercase text-[#D4A853] hover:text-[#E8C97A] transition-colors md:mt-12 md:text-xs"
-        >
-          See All Ventures
-          <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" />
-        </Link>
-      </section>
-
-      {/* How it works: three steps, outcome first */}
-      <section className={section}>
-        <p className={label}>The Process</p>
-        <h2 className={`mt-4 ${heading}`}>How We Work Together</h2>
-        {/* Stacked on the phone; one row of three from md, in reading order. */}
-        <ol className="mt-10 space-y-9 md:mx-auto md:mt-14 md:grid md:max-w-5xl md:grid-cols-3 md:gap-10 md:space-y-0">
-          {steps.map((step, i) => (
-            <li key={step.title}>
-              <p className="font-display text-sm tracking-[0.15em] text-[#D4A853] md:text-base">{String(i + 1).padStart(2, "0")}</p>
-              <h3 className="mt-2 font-display text-base tracking-[0.12em] uppercase text-balance text-[#FAF8F5] md:mt-3 md:text-lg">
-                {step.title}
-              </h3>
-              <p className="mt-2 max-w-[300px] mx-auto text-[15px] leading-relaxed text-[#B8B0A8] text-pretty md:mt-3 md:text-[17px]">
-                {step.body}
-              </p>
-            </li>
-          ))}
-        </ol>
-      </section>
-
-      {/* Questions a visitor has before booking */}
-      <section className={section}>
-        <p className={label}>Questions</p>
-        <h2 className={`mt-4 ${heading}`}>Before You Book</h2>
-        <dl className="mt-8 divide-y divide-[#3D3A35]/60 border-y border-[#3D3A35]/60 md:mx-auto md:mt-12 md:max-w-2xl">
-          {faqs.map((faq) => (
-            <div key={faq.q} className="py-6 md:py-8">
-              <dt className="text-base font-medium text-[#FAF8F5] text-balance md:text-lg">{faq.q}</dt>
-              <dd className="mt-2 max-w-[340px] mx-auto text-[15px] leading-relaxed text-[#B8B0A8] text-pretty md:mt-3 md:max-w-xl md:text-[17px]">
-                {faq.a}
-              </dd>
-            </div>
-          ))}
-        </dl>
-      </section>
-
-      {/* Final call to action */}
-      <section className="px-6 pt-4 pb-16 md:px-10 md:pb-20">
-        <div className="px-6 py-10 bg-[#1A1A1A] border border-[#3D3A35] text-center md:mx-auto md:max-w-3xl md:px-16 md:py-16">
-          <p className={label}>Your Next Step</p>
-          <h2 className={`mt-4 ${heading}`}>Ready to Work Together?</h2>
-          {/* Each sentence on its own line, so a narrow phone never splits one
-              across the other. */}
-          <p className="mt-4 font-display text-[15px] leading-relaxed tracking-wide text-[#D4A853] md:mt-5 md:text-lg">
-            <span className="block text-balance">Turn complexity into systems.</span>
-            <span className="block text-balance">Turn systems into freedom.</span>
+        {/* Proof: the TV career, with the full list one tap away */}
+        <section className={section}>
+          <p className={label}>Television</p>
+          <h2 className={`mt-4 ${heading}`}>Fifteen Years Behind the Camera</h2>
+          <dl className="mt-8 grid grid-cols-3 border-y border-[#3D3A35]/60 divide-x divide-[#3D3A35]/60 md:mx-auto md:mt-12 md:max-w-3xl">
+            {stats.map((stat) => (
+              <div key={stat.label} className="py-6 flex flex-col-reverse items-center gap-2 md:py-10 md:gap-3">
+                <dt className="text-xs tracking-[0.12em] uppercase text-[#8A837B]">{stat.label}</dt>
+                <dd className="font-display text-[1.75rem] leading-none text-[#FAF8F5] md:text-5xl">{stat.value}</dd>
+              </div>
+            ))}
+          </dl>
+          {/* From md up the first sentence holds its own line, so no line ends on
+              a lone "I". The span is inline on the phone. */}
+          <p className="mt-8 max-w-[340px] mx-auto text-base leading-relaxed text-[#B8B0A8] text-pretty md:mt-12 md:max-w-2xl md:text-lg">
+            <span className="md:block">I started in 2008 as a production assistant at 51 Minds Entertainment.</span>{" "}
+            I became a talent producer on shows for{" "}
+            {networks.map((network, i) => (
+              <span key={network}>
+                <span className="text-[#FAF8F5]">{network}</span>
+                {i < networks.length - 2 ? ", " : i === networks.length - 2 ? ", and " : "."}
+              </span>
+            ))}
           </p>
-          {/* One action here: the footer right below lists the call, text and
-              email details, so a second contact button would only repeat it.
-              Full width in the phone card; from md a centered button at the
-              shared desktop size. */}
-          <button
-            type="button"
-            onClick={openCalendly}
-            className={`mt-8 ${primaryButton} md:mx-auto md:mt-10 md:w-auto md:min-w-[280px] md:px-10`}
+          <Link
+            href="/credits"
+            className="mt-6 inline-flex items-center gap-1.5 min-h-[44px] px-2 text-[11px] font-medium tracking-[0.15em] uppercase text-[#D4A853] hover:text-[#E8C97A] transition-colors md:mt-8 md:text-xs"
           >
-            Book a Strategy Call
-            <ArrowRight className="w-4 h-4" />
-          </button>
-          <p className="mt-5 text-[11px] tracking-[0.15em] uppercase text-[#8A837B] md:text-xs">Free · No obligation</p>
-        </div>
-      </section>
+            See All TV Credits
+            <ArrowRight className="w-3.5 h-3.5" />
+          </Link>
+        </section>
 
-      <FooterSection />
-      <CalendlyModal isOpen={isCalendlyOpen} onClose={() => setIsCalendlyOpen(false)} />
-    </main>
+        {/* Story: Jo's own words, condensed from Jo's founder statement */}
+        <section className={section}>
+          <p className={label}>In My Own Words</p>
+          <h2 className={`mt-4 ${heading}`}>Why I Build Systems</h2>
+          <div className="mt-7 max-w-[340px] mx-auto space-y-5 text-base leading-relaxed text-[#B8B0A8] text-pretty md:mt-10 md:max-w-2xl md:space-y-6 md:text-lg">
+            <p>
+              Engineering is in my blood. My grandfather was a submarine engineer, and I grew up knowing that every
+              great outcome begins with a system designed well.
+            </p>
+            <p>
+              Producing reality TV at scale taught me the same lesson: a great system keeps working when you step
+              away.
+            </p>
+            <p>Now I build those systems for business owners, and it is the work I love.</p>
+          </div>
+          <div className="mt-9 mx-auto w-10 h-px bg-[#D4A853]/50 md:mt-12 md:w-12" />
+          <p className="mt-6 font-display text-lg leading-relaxed tracking-wide text-[#D4A853] text-balance md:mt-8 md:text-2xl">
+            Do what you love and love what you do.
+          </p>
+        </section>
+
+        {/* Ventures: real products, straight from lib/ventures.ts */}
+        <section className={section}>
+          <p className={label}>What I Build Now</p>
+          <h2 className={`mt-4 ${heading}`}>Real Products, Live Today</h2>
+          {/* One sentence per line from md up; inline on the phone. */}
+          <p className="mt-4 max-w-[320px] mx-auto text-base leading-relaxed text-[#B8B0A8] text-pretty md:mt-5 md:max-w-2xl md:text-lg">
+            <span className="md:block">Companies I founded, and products I built with partners.</span>{" "}
+            Verza TV is on the App Store.
+          </p>
+          {/* Three across on the phone and on a tablet (two rows), all six in one
+              row from lg. About 150px wide from md up: the screenshots are 312px
+              wide, so they stay sharp on a 2x screen. */}
+          <ul className="mt-9 grid grid-cols-3 gap-x-3 gap-y-7 md:mx-auto md:mt-12 md:max-w-lg md:gap-x-6 md:gap-y-10 lg:max-w-5xl lg:grid-cols-6">
+            {featured.map((venture) => (
+              <li key={venture.slug}>
+                <Link href={`/ventures/${venture.slug}`} className="group block pointer-coarse:active:scale-[0.98] transition-transform">
+                  <span className="relative block aspect-[390/844] overflow-hidden rounded-[14px] border border-[#3D3A35] bg-black group-hover:border-[#D4A853]/50 transition-colors md:rounded-[20px]">
+                    {venture.preview && (
+                      <Image
+                        src={venture.preview}
+                        alt=""
+                        fill
+                        sizes="(min-width: 768px) 160px, 120px"
+                        className="object-cover object-top"
+                      />
+                    )}
+                  </span>
+                  <span className="mt-3 block text-[13px] font-medium leading-snug text-[#FAF8F5] text-balance md:mt-4 md:text-sm">
+                    {venture.name}
+                  </span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+          <Link
+            href="/ventures"
+            className="mt-8 inline-flex items-center gap-1.5 min-h-[44px] px-2 text-[11px] font-medium tracking-[0.15em] uppercase text-[#D4A853] hover:text-[#E8C97A] transition-colors md:mt-12 md:text-xs"
+          >
+            See All Ventures
+            <ArrowRight className="w-3.5 h-3.5" />
+          </Link>
+        </section>
+
+        {/* How it works: three steps, outcome first */}
+        <section className={section}>
+          <p className={label}>The Process</p>
+          <h2 className={`mt-4 ${heading}`}>How We Work&nbsp;Together</h2>
+          {/* Stacked on the phone and on a tablet (a three column row there left
+              200px columns and wrapped titles); one row of three from lg, in
+              reading order. */}
+          <ol className="mt-10 space-y-9 md:mx-auto md:mt-14 md:max-w-xl md:space-y-12 lg:grid lg:max-w-5xl lg:grid-cols-3 lg:gap-10 lg:space-y-0">
+            {steps.map((step, i) => (
+              <li key={step.title}>
+                <p className="font-display text-sm tracking-[0.15em] text-[#D4A853] md:text-base">{String(i + 1).padStart(2, "0")}</p>
+                <h3 className="mt-2 font-display text-base tracking-[0.12em] uppercase text-balance text-[#FAF8F5] md:mt-3 md:text-lg">
+                  {step.title}
+                </h3>
+                <p className="mt-2 max-w-[300px] mx-auto text-[15px] leading-relaxed text-[#B8B0A8] text-pretty md:mt-3 md:text-[17px]">
+                  {step.body}
+                </p>
+              </li>
+            ))}
+          </ol>
+        </section>
+
+        {/* Questions a visitor has before booking */}
+        <section className={section}>
+          <p className={label}>Questions</p>
+          <h2 className={`mt-4 ${heading}`}>Before You Book</h2>
+          {/* Left aligned inside the centered column, like every other FAQ. */}
+          <dl className="mt-8 divide-y divide-[#3D3A35]/60 border-y border-[#3D3A35]/60 text-left md:mx-auto md:mt-12 md:max-w-2xl">
+            {faqs.map((faq) => (
+              <div key={faq.q} className="py-6 md:py-8">
+                <dt className="text-base font-medium text-[#FAF8F5] text-balance md:text-lg">{faq.q}</dt>
+                <dd className="mt-2 text-[15px] leading-relaxed text-[#B8B0A8] text-pretty md:mt-3 md:max-w-xl md:text-[17px]">
+                  {faq.a}
+                </dd>
+              </div>
+            ))}
+          </dl>
+        </section>
+
+        {/* Final call to action */}
+        <section className="px-6 pt-4 pb-16 md:px-10 md:pb-20">
+          <div className="px-6 py-10 bg-[#1A1A1A] border border-[#3D3A35] text-center md:mx-auto md:max-w-3xl md:px-16 md:py-16">
+            <p className={label}>Your Next Step</p>
+            <h2 className={`mt-4 ${heading}`}>Ready to Work&nbsp;Together?</h2>
+            {/* Each sentence on its own line, so a narrow phone never splits one
+                across the other. */}
+            <p className="mt-4 font-display text-[15px] leading-relaxed tracking-wide text-[#D4A853] md:mt-5 md:text-lg">
+              <span className="block text-balance">Turn complexity into systems.</span>
+              <span className="block text-balance">Turn systems into freedom.</span>
+            </p>
+            {/* One action here: the footer right below lists the call, text and
+                email details, so a second contact button would only repeat it.
+                Full width in the phone card; from md a centered button at the
+                shared desktop size. */}
+            <button
+              type="button"
+              onClick={openCalendly}
+              className={`mt-8 ${primaryButton} md:mx-auto md:mt-10 md:w-auto md:min-w-[280px] md:px-10`}
+            >
+              Book a Strategy Call
+              <ArrowRight className="w-4 h-4" />
+            </button>
+            <p className="mt-5 text-[13px] tracking-[0.15em] uppercase text-[#8A837B]">Free · No obligation</p>
+          </div>
+        </section>
+
+        <FooterSection />
+        <CalendlyModal isOpen={isCalendlyOpen} onClose={() => setIsCalendlyOpen(false)} />
+      </main>
+    </>
   );
 }

@@ -1,11 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
-import { ArrowRight } from "lucide-react";
 import { CalendlyModal } from "@/components/calendly-modal";
+import { SiteHeader } from "@/components/site-header";
+import { FooterSection } from "@/components/landing/footer-section";
 import type { Faq, ProofVenture, Step } from "@/lib/city-data";
-import { ClosingCta, FaqSection, Hero, ProofSection, StepsSection, TopNav } from "../city-sections";
+import { ClosingCta, FaqSection, Hero, ProofSection, StepsSection } from "../city-sections";
 
 export interface ServicePageCopy {
   name: string;
@@ -17,42 +17,30 @@ export interface ServicePageCopy {
   closingBody: string;
 }
 
+/*
+  A page inside the city page: the top bar's left side is the way back to it
+  (the headline already names the service and the city, so the hero's line
+  above it says where Jo is based). It ends like every other page, with the
+  closing card and then the site footer, which carries the site's links.
+*/
 export function ServicePageContent({
   city,
   copy,
   ventures,
 }: {
-  city: { slug: string; name: string };
+  city: { slug: string; name: string; eyebrow: string };
   copy: ServicePageCopy;
   ventures: ProofVenture[];
 }) {
   const [isCalendlyOpen, setIsCalendlyOpen] = useState(false);
   const openCalendly = () => setIsCalendlyOpen(true);
 
-  const related = [
-    { href: `/${city.slug}`, label: `AI Automation in ${city.name}` },
-    { href: "/services", label: "All Services" },
-  ];
-
   return (
     <>
-      <main className="min-h-screen bg-background text-foreground pb-36">
-        <TopNav onBook={openCalendly} />
+      <SiteHeader back={{ href: `/${city.slug}`, label: city.name }} />
 
-        <Hero
-          eyebrow={
-            <nav aria-label="Breadcrumb">
-              <Link href={`/${city.slug}`} className="hover:text-[#E8C97A] transition-colors">
-                {city.name}
-              </Link>
-              <span className="mx-2 text-[#5C5750]">/</span>
-              {copy.name}
-            </nav>
-          }
-          headline={copy.headline}
-          intro={copy.intro}
-          onBook={openCalendly}
-        />
+      <main className="min-h-screen bg-background text-foreground">
+        <Hero eyebrow={city.eyebrow} headline={copy.headline} intro={copy.intro} onBook={openCalendly} />
 
         <ProofSection ventures={ventures} />
 
@@ -62,31 +50,7 @@ export function ServicePageContent({
 
         <ClosingCta title={copy.closingTitle} body={copy.closingBody} onBook={openCalendly} />
 
-        {/* This block ends the page in place of the site footer. data-site-footer
-            tells the floating Book a Call (components/floating-cta.tsx) to step
-            aside once the closing card above reaches the screen. */}
-        <nav data-site-footer aria-label={`More in ${city.name}`} className="px-6 pt-14 md:px-10 md:pt-24">
-          {/* From md: at reading width, the two links side by side. */}
-          <div className="mx-auto max-w-2xl">
-            <h2 className="flex items-center gap-3 md:gap-4 mb-4 md:mb-6 text-[11px] md:text-xs tracking-[0.15em] uppercase text-[#8A837B]">
-              <span className="flex-1 h-px bg-[#3D3A35]/60" />
-              More Ways I Help
-              <span className="flex-1 h-px bg-[#3D3A35]/60" />
-            </h2>
-            <div className="space-y-2.5 md:space-y-0 md:grid md:grid-cols-2 md:gap-3">
-              {related.map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className="group flex items-center justify-between px-5 py-4 md:px-6 md:py-5 border border-[#3D3A35] text-[15px] md:text-base text-[#B8B0A8] hover:border-[#D4A853]/40 hover:text-[#FAF8F5] transition-colors pointer-coarse:active:scale-[0.99]"
-                >
-                  {link.label}
-                  <ArrowRight className="w-4 h-4 text-[#D4A853] transition-transform group-hover:translate-x-0.5" />
-                </Link>
-              ))}
-            </div>
-          </div>
-        </nav>
+        <FooterSection />
       </main>
 
       <CalendlyModal isOpen={isCalendlyOpen} onClose={() => setIsCalendlyOpen(false)} />

@@ -19,11 +19,24 @@ import { trackEvent } from "@/lib/tracking";
   free to change. Where a saved value reads badly ("$0 - $50K"), `label`
   changes what the visitor sees and the value is saved untouched.
 
+  Two sets of questions (`variant` on ContactModal):
+    business  the full application, the default for every caller
+    speaking  the Speaking page's inquiry: the service is preset to
+              "Speaking or Podcast", so that question is not asked, and the
+              bottleneck, revenue and budget questions are skipped. Those
+              fields arrive empty; the record and the notification keep the
+              same fields and the same submit path.
+
+  Choices: on a touch screen a tap answers and moves on. On a desktop
+  (pointer: fine) a click only selects, and Continue moves on, so a stray
+  click never skips a question. Back always returns.
+
   The unprefixed classes are the phone design: the modal covers the screen.
   From md: up it is a centered dialog over the dimmed page, holding the same
   height from step to step (its steps scroll inside it), and the type steps
   up a size. The inline form takes the same md: sizes inside the column its
-  page gives it.
+  page gives it, and from lg: (where /contact gives it a wider column) sets
+  the choices and the boxes three across.
 */
 
 function sanitize(str: string | null): string | null {
@@ -31,9 +44,13 @@ function sanitize(str: string | null): string | null {
   return str.replace(/[<>]/g, "").trim().slice(0, 500);
 }
 
+export type ContactVariant = "business" | "speaking";
+
 interface ContactModalProps {
   isOpen: boolean;
   onClose: () => void;
+  /** "speaking" for the Speaking page's inquiry; every other caller keeps the default, "business". */
+  variant?: ContactVariant;
 }
 
 const EMPTY_FORM = {
@@ -77,6 +94,27 @@ const EMAIL_PATTERN = /\S+@\S+\.\S+/;
 
 const choices = (...values: string[]): Option[] => values.map((value) => ({ value }));
 
+const CONTACT_STEP: Step = {
+  id: "contact",
+  kind: "fields",
+  title: "Where should I reply?",
+  hint: "Name and email are all I need.",
+  fields: [
+    { field: "name", label: "Name", placeholder: "Full name", type: "text", autoComplete: "name", required: true, autoCapitalize: "words" },
+    { field: "email", label: "Email", placeholder: "you@company.com", type: "email", autoComplete: "email", required: true, inputMode: "email", autoCapitalize: "none" },
+    { field: "phone", label: "Phone", placeholder: "(555) 000-0000", type: "tel", autoComplete: "tel", inputMode: "tel", hint: "Helpful for a quick follow up." },
+  ],
+};
+
+const SOURCE_STEP: Step = {
+  id: "source",
+  kind: "choice",
+  field: "how_found",
+  title: "How did you find me?",
+  hint: "Last question.",
+  options: choices("Google", "Social Media", "Referral", "TV / Entertainment", "Podcast", "Other"),
+};
+
 /*
   Easy taps first, contact details once the visitor has said what they need.
   Nothing is saved until the last step, so the order changes how the form
@@ -99,7 +137,7 @@ const QUESTIONS: Step[] = [
     kind: "multi",
     field: "bottlenecks",
     title: "What's slowing you down?",
-    hint: "Tap all that apply.",
+    hint: "Pick all that apply.",
     options: choices("No systems in place", "Too many manual tasks", "Can't scale past current revenue", "No leads or pipeline", "Team is overwhelmed", "Brand isn't converting", "Tech stack is a mess", "I'm the bottleneck"),
   },
   {
@@ -132,17 +170,7 @@ const QUESTIONS: Step[] = [
       { value: "Let's discuss", label: "Not sure yet, let's discuss" },
     ],
   },
-  {
-    id: "contact",
-    kind: "fields",
-    title: "Where should I reply?",
-    hint: "Name and email are all I need.",
-    fields: [
-      { field: "name", label: "Name", placeholder: "Full name", type: "text", autoComplete: "name", required: true, autoCapitalize: "words" },
-      { field: "email", label: "Email", placeholder: "you@company.com", type: "email", autoComplete: "email", required: true, inputMode: "email", autoCapitalize: "none" },
-      { field: "phone", label: "Phone", placeholder: "(555) 000-0000", type: "tel", autoComplete: "tel", inputMode: "tel", hint: "Helpful for a quick follow up." },
-    ],
-  },
+  CONTACT_STEP,
   {
     id: "business",
     kind: "fields",
@@ -154,19 +182,68 @@ const QUESTIONS: Step[] = [
       { field: "social", label: "Main social handle", placeholder: "@yourbrand", type: "text", autoComplete: "off", autoCapitalize: "none", hint: "Instagram, X, LinkedIn, or TikTok." },
     ],
   },
-  {
-    id: "source",
-    kind: "choice",
-    field: "how_found",
-    title: "How did you find me?",
-    hint: "Last question.",
-    options: choices("Google", "Social Media", "Referral", "TV / Entertainment", "Podcast", "Other"),
-  },
+  SOURCE_STEP,
 ];
 
+/*
+  The Speaking page's inquiry: the event first, then where to reply. The
+  event's name, site and handle go in the same company, website and social
+  fields the business questions use.
+*/
+const SPEAKING_QUESTIONS: Step[] = [
+  {
+    id: "event",
+    kind: "fields",
+    title: "Which event or show?",
+    hint: "All optional. It lets me look before I reply.",
+    fields: [
+      { field: "company", label: "Event or show", placeholder: "Name of the event or show", type: "text", autoComplete: "organization" },
+      { field: "website", label: "Website", placeholder: "yourevent.com", type: "text", autoComplete: "url", inputMode: "url", autoCapitalize: "none" },
+      { field: "social", label: "Main social handle", placeholder: "@yourevent", type: "text", autoComplete: "off", autoCapitalize: "none", hint: "Instagram, X, LinkedIn, or TikTok." },
+    ],
+  },
+  CONTACT_STEP,
+  SOURCE_STEP,
+];
+
+const COUNT_WORDS = ["", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine"];
+
+/* What changes between the two versions; everything else is shared. */
+type VariantSpec = {
+  questions: Step[];
+  /** Answers set before the first question (the visitor never sees these asked). */
+  preset: Partial<typeof EMPTY_FORM>;
+  dialogLabel: string;
+  kicker: string;
+  heading: string;
+  /** The small line under Get Started and Send; empty for none. */
+  reassurance: string;
+  thanks: string;
+};
+
+const VARIANTS: Record<ContactVariant, VariantSpec> = {
+  business: {
+    questions: QUESTIONS,
+    preset: {},
+    dialogLabel: "Contact Jotham Hall",
+    kicker: "Work With Me",
+    heading: "Tell me about your business",
+    reassurance: "Free consultation. No obligation.",
+    thanks: "I read every answer myself and reply within 24 hours on business days. If I am not the right person to help, I will tell you that too.",
+  },
+  speaking: {
+    questions: SPEAKING_QUESTIONS,
+    preset: { service: "Speaking or Podcast" },
+    dialogLabel: "Invite Jotham Hall to speak",
+    kicker: "Speaking",
+    heading: "Tell me about your event",
+    reassurance: "",
+    thanks: "I read every inquiry myself and reply within 24 hours on business days.",
+  },
+};
+
+const INTRO: Step = { id: "intro", kind: "intro" };
 const REVIEW: Step = { id: "review", kind: "review" };
-const MODAL_STEPS: Step[] = [{ id: "intro", kind: "intro" }, ...QUESTIONS, REVIEW];
-const INLINE_STEPS: Step[] = [...QUESTIONS, REVIEW];
 
 function labelFor(field: ChoiceField, value: string): string {
   for (const step of QUESTIONS) {
@@ -208,7 +285,7 @@ export function DirectContactList({ columns = false }: { columns?: boolean }) {
           >
             <Icon className="w-[18px] h-[18px] shrink-0 text-[#D4A853]" strokeWidth={1.5} aria-hidden />
             <span className="flex-1 min-w-0">
-              <span className="block text-[10px] tracking-[0.15em] uppercase text-[#8A837B] md:text-xs">{label}</span>
+              <span className="block text-[13px] text-[#8A837B] md:text-sm">{label}</span>
               <span className="block truncate text-[15px] text-[#FAF8F5] md:text-base">{value}</span>
             </span>
             <ArrowRight className="w-4 h-4 shrink-0 text-[#5C5750] group-hover:text-[#D4A853] transition-colors" aria-hidden />
@@ -252,13 +329,27 @@ function OptionButton({ label, selected, multi, onClick }: { label: string; sele
   );
 }
 
-function ContactFlow({ variant, onClose, onBook }: { variant: "modal" | "inline"; onClose?: () => void; onBook?: () => void }) {
-  const isModal = variant === "modal";
-  const steps = isModal ? MODAL_STEPS : INLINE_STEPS;
+function ContactFlow({
+  mode,
+  variant = "business",
+  onClose,
+  onBook,
+}: {
+  mode: "modal" | "inline";
+  variant?: ContactVariant;
+  onClose?: () => void;
+  onBook?: () => void;
+}) {
+  const isModal = mode === "modal";
+  // The inline form on /contact: from lg: its column is wide enough for three across.
+  const wide = !isModal;
+  const spec = VARIANTS[variant];
+  const questions = spec.questions;
+  const steps = isModal ? [INTRO, ...questions, REVIEW] : [...questions, REVIEW];
   const [step, setStep] = useState(0);
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [direction, setDirection] = useState<"forward" | "back">("forward");
-  const [form, setForm] = useState(EMPTY_FORM);
+  const [form, setForm] = useState(() => ({ ...EMPTY_FORM, ...spec.preset }));
   const [emailTouched, setEmailTouched] = useState(false);
   const rootRef = useRef<HTMLDivElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -267,18 +358,31 @@ function ContactFlow({ variant, onClose, onBook }: { variant: "modal" | "inline"
   const moved = useRef(false);
 
   const current = steps[step];
-  const questionNumber = QUESTIONS.indexOf(current) + 1;
+  const questionNumber = questions.indexOf(current) + 1;
   const done = status === "success";
   const Heading = isModal ? "h2" : "h3";
+  // Buttons in the inline form's wide column keep a button's width, centered.
+  const buttonWrap = wide ? "lg:mx-auto lg:max-w-xs" : "";
+  /*
+    In the desktop dialog a step's main button stays in view, pinned to the
+    dialog's bottom edge while a long list scrolls under it (the dialog is
+    at most 90% of the window, shorter than nine choices plus Continue). Its
+    background runs edge to edge and fades upward over the list. Phones keep
+    the button in the flow, as approved.
+  */
+  const actionBar = isModal
+    ? "md:sticky md:bottom-0 md:z-10 md:-mx-10 md:px-10 md:pt-4 md:pb-6 md:bg-[#0D0D0D] md:shadow-[0_-20px_20px_-4px_#0D0D0D]"
+    : "";
 
   // A new step, or the thank you, starts at its top. Nothing moves on first
   // render, so the inline form never pulls the page down on load, and an error
-  // after Send stays in view under the button.
+  // after Send stays in view under the button. Inline, a top hidden under the
+  // fixed top bar (56px, 64px from md) counts as out of view too.
   useEffect(() => {
     if (!moved.current) return;
     if (isModal) {
       scrollRef.current?.scrollTo({ top: 0 });
-    } else if (rootRef.current && rootRef.current.getBoundingClientRect().top < 0) {
+    } else if (rootRef.current && rootRef.current.getBoundingClientRect().top < 64) {
       rootRef.current.scrollIntoView({ block: "start" });
     }
   }, [step, done, isModal]);
@@ -341,6 +445,7 @@ function ContactFlow({ variant, onClose, onBook }: { variant: "modal" | "inline"
       });
     }
     if (current.kind === "multi") return form[current.field].length > 0;
+    if (current.kind === "choice") return form[current.field] !== "";
     return true;
   };
 
@@ -349,9 +454,15 @@ function ContactFlow({ variant, onClose, onBook }: { variant: "modal" | "inline"
     if (canAdvance()) goNext();
   };
 
-  // One advance per question: a second quick tap changes the answer, it never skips the next question.
+  /*
+    On a desktop a click only selects; Continue (shown only there) moves on,
+    so a mis-click is fixed with a second click instead of a trip back. On a
+    touch screen a tap answers and moves on, once per question: a second quick
+    tap changes the answer, it never skips the next question.
+  */
   const handleSelect = (field: ChoiceField, value: string) => {
     setForm((prev) => ({ ...prev, [field]: value }));
+    if (window.matchMedia("(pointer: fine)").matches) return;
     if (advanceTimer.current) return;
     advanceTimer.current = setTimeout(() => {
       advanceTimer.current = null;
@@ -417,8 +528,8 @@ function ContactFlow({ variant, onClose, onBook }: { variant: "modal" | "inline"
   };
 
   const showProgress = !done && current.kind !== "intro";
-  const progress = current.kind === "review" ? 100 : (questionNumber / QUESTIONS.length) * 100;
-  const counter = done ? "" : current.kind === "intro" ? "Jotham Hall" : current.kind === "review" ? "Review" : `${questionNumber} of ${QUESTIONS.length}`;
+  const progress = current.kind === "review" ? 100 : (questionNumber / questions.length) * 100;
+  const counter = done ? "" : current.kind === "intro" ? "Jotham Hall" : current.kind === "review" ? "Review" : `${questionNumber} of ${questions.length}`;
   const firstName = form.name.trim().split(/\s+/)[0] ?? "";
 
   const topBar = (
@@ -436,7 +547,7 @@ function ContactFlow({ variant, onClose, onBook }: { variant: "modal" | "inline"
             </button>
           )}
         </div>
-        <p className={`text-center text-[11px] tracking-[0.15em] uppercase md:text-xs ${current.kind === "intro" ? "font-display text-[#8A837B]" : "text-[#B8B0A8]"}`}>
+        <p className={`text-center text-xs tracking-[0.15em] uppercase ${current.kind === "intro" ? "font-display text-[#8A837B]" : "text-[#B8B0A8]"}`}>
           {counter}
         </p>
         <div className="flex justify-end">
@@ -473,10 +584,10 @@ function ContactFlow({ variant, onClose, onBook }: { variant: "modal" | "inline"
           {firstName ? `Thank you, ${firstName}` : "Thank you"}
         </Heading>
         <p className="text-[15px] text-[#B8B0A8] leading-relaxed text-balance max-w-[320px] mx-auto md:text-[17px] md:max-w-md">
-          I read every answer myself and reply within 24 hours on business days. If I am not the right person to help, I will tell you that too.
+          {spec.thanks}
         </p>
         {onBook && (
-          <div className="mt-8">
+          <div className={`mt-8 ${buttonWrap}`}>
             <p className="text-[13px] text-[#8A837B] mb-3 md:text-sm">Want to talk sooner?</p>
             <button type="button" onClick={onBook} className={PRIMARY}>
               Book a Strategy Call
@@ -500,18 +611,18 @@ function ContactFlow({ variant, onClose, onBook }: { variant: "modal" | "inline"
   } else if (current.kind === "intro") {
     body = (
       <div className="text-center">
-        <p className="text-[11px] tracking-[0.15em] uppercase text-[#D4A853] mb-4 md:text-xs">Work With Me</p>
+        <p className="text-[11px] tracking-[0.15em] uppercase text-[#D4A853] mb-4 md:text-xs">{spec.kicker}</p>
         <Heading className="font-display text-[1.625rem] leading-snug tracking-[0.12em] uppercase text-balance text-[#FAF8F5] mb-4 md:text-3xl">
-          Tell me about your business
+          {spec.heading}
         </Heading>
         <p className="text-[15px] text-[#B8B0A8] leading-relaxed text-balance max-w-[320px] mx-auto mb-8 md:text-[17px] md:max-w-md">
-          Seven quick questions, about a minute. I read every answer myself and reply within 24 hours.
+          {COUNT_WORDS[questions.length]} quick questions, about a minute. I read every answer myself and reply within 24 hours.
         </p>
         <button type="button" onClick={goNext} className={PRIMARY}>
           Get Started
           <ArrowRight className="w-4 h-4" />
         </button>
-        <p className="mt-3 text-[13px] text-[#8A837B] md:text-sm">Free consultation. No obligation.</p>
+        {spec.reassurance && <p className="mt-3 text-[13px] text-[#8A837B] md:text-sm">{spec.reassurance}</p>}
         <div className="mt-10 mb-4">
           <Divider label="Or reach me directly" />
         </div>
@@ -529,7 +640,7 @@ function ContactFlow({ variant, onClose, onBook }: { variant: "modal" | "inline"
           </Heading>
           <p className="mt-3 text-[15px] leading-relaxed text-balance text-[#B8B0A8] md:text-[17px]">{current.hint}</p>
         </div>
-        <div className="space-y-2">
+        <div className={`space-y-2${wide ? " lg:grid lg:grid-cols-3 lg:gap-3 lg:space-y-0" : ""}`}>
           {current.options.map((option) => (
             <OptionButton
               key={option.value}
@@ -542,12 +653,14 @@ function ContactFlow({ variant, onClose, onBook }: { variant: "modal" | "inline"
             />
           ))}
         </div>
-        {isMulti && (
-          <button type="button" onClick={goNext} disabled={!canAdvance()} className={`${PRIMARY} mt-6`}>
+        {/* A multiple choice always ends with Continue. A single choice shows it
+            only on a desktop, where a click selects without moving on. */}
+        <div className={`mt-6 ${isModal ? "md:mt-2" : ""} ${isMulti ? "" : "hidden pointer-fine:block"} ${buttonWrap} ${actionBar}`}>
+          <button type="button" onClick={goNext} disabled={!canAdvance()} className={PRIMARY}>
             Continue
             <ArrowRight className="w-4 h-4" />
           </button>
-        )}
+        </div>
       </div>
     );
   } else if (current.kind === "fields") {
@@ -566,14 +679,14 @@ function ContactFlow({ variant, onClose, onBook }: { variant: "modal" | "inline"
           </Heading>
           <p className="mt-3 text-[15px] leading-relaxed text-balance text-[#B8B0A8] md:text-[17px]">{current.hint}</p>
         </div>
-        <div className="space-y-5">
+        <div className={`space-y-5${wide ? " lg:grid lg:grid-cols-3 lg:items-start lg:gap-x-5 lg:space-y-0" : ""}`}>
           {current.fields.map((f, i) => {
             const isLast = i === current.fields.length - 1;
             return (
               <label key={f.field} className="block">
-                <span className="flex items-baseline justify-between mb-2">
-                  <span className="text-[11px] tracking-[0.15em] uppercase text-[#B8B0A8] md:text-xs">{f.label}</span>
-                  {!f.required && <span className="text-[11px] tracking-[0.15em] uppercase text-[#5C5750] md:text-xs">Optional</span>}
+                <span className="flex items-baseline justify-between gap-3 mb-2">
+                  <span className="text-xs tracking-[0.15em] uppercase text-[#B8B0A8]">{f.label}</span>
+                  {!f.required && <span className="text-xs tracking-[0.15em] uppercase text-[#8A837B]">Optional</span>}
                 </span>
                 <input
                   name={f.field}
@@ -597,7 +710,7 @@ function ContactFlow({ variant, onClose, onBook }: { variant: "modal" | "inline"
                   enterKeyHint={isLast ? "go" : "next"}
                   placeholder={f.placeholder}
                   autoComplete={f.autoComplete}
-                  className="w-full h-[52px] px-4 bg-[#1A1A1A] border border-[#3D3A35] rounded-none text-[17px] text-[#FAF8F5] placeholder:text-[#5C5750] outline-none focus:border-[#D4A853] transition-colors"
+                  className="w-full h-[52px] px-4 bg-[#1A1A1A] border border-[#3D3A35] rounded-none text-[17px] text-[#FAF8F5] placeholder:text-[#8A837B] outline-none focus:border-[#D4A853] transition-colors"
                 />
                 {f.hint && <span className="block mt-2 text-[13px] text-[#8A837B] md:text-sm">{f.hint}</span>}
               </label>
@@ -609,24 +722,36 @@ function ContactFlow({ variant, onClose, onBook }: { variant: "modal" | "inline"
             Check the email address. It should look like name@company.com.
           </p>
         )}
-        <button type="submit" disabled={!canAdvance()} className={`${PRIMARY} mt-8`}>
-          {optionalOnly && !anyFilled ? "Skip" : "Continue"}
-          <ArrowRight className="w-4 h-4" />
-        </button>
+        <div className={`mt-8 ${isModal ? "md:mt-4" : ""} ${buttonWrap} ${actionBar}`}>
+          <button type="submit" disabled={!canAdvance()} className={PRIMARY}>
+            {optionalOnly && !anyFilled ? "Skip" : "Continue"}
+            <ArrowRight className="w-4 h-4" />
+          </button>
+        </div>
       </form>
     );
   } else if (current.kind === "review") {
-    const rows: [string, string][] = [
-      ["Name", form.name],
-      ["Email", form.email],
-      ["Phone", form.phone],
-      ["Help with", form.service],
-      ["Revenue", form.revenue_range && labelFor("revenue_range", form.revenue_range)],
-      ["Budget", form.budget && labelFor("budget", form.budget)],
-      ["Website", form.website],
-    ];
+    const rows: [string, string][] =
+      variant === "speaking"
+        ? [
+            ["Name", form.name],
+            ["Email", form.email],
+            ["Phone", form.phone],
+            ["Inquiry", form.service],
+            ["Event or show", form.company],
+            ["Website", form.website],
+          ]
+        : [
+            ["Name", form.name],
+            ["Email", form.email],
+            ["Phone", form.phone],
+            ["Help with", form.service],
+            ["Revenue", form.revenue_range && labelFor("revenue_range", form.revenue_range)],
+            ["Budget", form.budget && labelFor("budget", form.budget)],
+            ["Website", form.website],
+          ];
     body = (
-      <div>
+      <div className={wide ? "lg:mx-auto lg:max-w-xl" : ""}>
         <div className="text-center mb-7">
           <Heading className="font-display text-[1.375rem] leading-snug tracking-[0.12em] uppercase text-balance text-[#FAF8F5] md:text-2xl">
             Ready to send?
@@ -638,25 +763,27 @@ function ContactFlow({ variant, onClose, onBook }: { variant: "modal" | "inline"
             .filter(([, value]) => value.trim() !== "")
             .map(([label, value]) => (
               <div key={label} className="px-4 py-3">
-                <dt className="text-[10px] tracking-[0.15em] uppercase text-[#8A837B] mb-1 md:text-xs">{label}</dt>
+                <dt className="text-[13px] text-[#8A837B] mb-0.5 md:text-sm">{label}</dt>
                 <dd className="text-[15px] text-[#FAF8F5] break-words md:text-base">{value}</dd>
               </div>
             ))}
         </dl>
-        <button type="button" onClick={handleSubmit} disabled={status === "loading"} className={PRIMARY}>
-          {status === "loading" ? "Sending..." : "Send My Answers"}
-          {status !== "loading" && <Send className="w-4 h-4" />}
-        </button>
-        {status === "error" && (
-          <p role="alert" className="mt-4 text-[14px] leading-relaxed text-[#E8C97A] text-center md:text-[15px]">
-            That did not go through. Please try again, or email me at{" "}
-            <a href="mailto:bigfilmsonly@gmail.com" className="underline underline-offset-2">
-              bigfilmsonly@gmail.com
-            </a>
-            .
-          </p>
-        )}
-        <p className="mt-4 text-[13px] text-[#8A837B] text-center md:text-sm">Free consultation. No obligation.</p>
+        <div className={isModal ? `md:-mt-4 ${actionBar}` : ""}>
+          <button type="button" onClick={handleSubmit} disabled={status === "loading"} className={PRIMARY}>
+            {status === "loading" ? "Sending..." : "Send My Answers"}
+            {status !== "loading" && <Send className="w-4 h-4" />}
+          </button>
+          {status === "error" && (
+            <p role="alert" className="mt-4 text-[14px] leading-relaxed text-[#E8C97A] text-center md:text-[15px]">
+              That did not go through. Please try again, or email me at{" "}
+              <a href="mailto:bigfilmsonly@gmail.com" className="underline underline-offset-2">
+                bigfilmsonly@gmail.com
+              </a>
+              .
+            </p>
+          )}
+          {spec.reassurance && <p className="mt-4 text-[13px] text-[#8A837B] text-center md:text-sm">{spec.reassurance}</p>}
+        </div>
       </div>
     );
   }
@@ -682,7 +809,7 @@ function ContactFlow({ variant, onClose, onBook }: { variant: "modal" | "inline"
         <div
           role="dialog"
           aria-modal="true"
-          aria-label="Contact Jotham Hall"
+          aria-label={spec.dialogLabel}
           className="fixed inset-0 z-[1001] bg-[#0D0D0D] flex flex-col md:m-auto md:w-full md:max-w-[560px] md:h-[820px] md:max-h-[90vh] md:overflow-hidden md:rounded-xl md:border md:border-[#3D3A35] md:shadow-[0_40px_120px_rgba(0,0,0,0.6)] md:animate-in md:fade-in md:zoom-in-95 md:duration-200 md:motion-reduce:animate-none"
         >
           <div className="shrink-0 px-6 pt-2 pb-1 md:px-10 md:pt-4 md:pb-2">{topBar}</div>
@@ -699,8 +826,9 @@ function ContactFlow({ variant, onClose, onBook }: { variant: "modal" | "inline"
     );
   }
 
+  // scroll-mt clears the fixed top bar when a new step brings the form's top back into view.
   return (
-    <div ref={rootRef} className="scroll-mt-6">
+    <div ref={rootRef} className="scroll-mt-20 md:scroll-mt-24">
       {!done && <div className="mb-8">{topBar}</div>}
       <div key={done ? "done" : step} className={animated}>
         {body}
@@ -709,7 +837,7 @@ function ContactFlow({ variant, onClose, onBook }: { variant: "modal" | "inline"
   );
 }
 
-export function ContactModal({ isOpen, onClose }: ContactModalProps) {
+export function ContactModal({ isOpen, onClose, variant = "business" }: ContactModalProps) {
   // While open, hold the page still. The document scrolls on <html> (globals.css
   // sets its overflow), so <html> is locked along with <body>, as the booking
   // modal does; with <body> alone, a wheel over the desktop dialog scrolled the
@@ -730,10 +858,10 @@ export function ContactModal({ isOpen, onClose }: ContactModalProps) {
   // The flow mounts fresh on every open, so each visit starts at the first screen with empty answers.
   if (!isOpen) return null;
 
-  return <ContactFlow variant="modal" onClose={onClose} />;
+  return <ContactFlow mode="modal" variant={variant} onClose={onClose} />;
 }
 
 /** The same application, inline. `onBook` lets the host page offer its own booking modal after sending. */
 export function ContactForm({ onBook }: { onBook?: () => void }) {
-  return <ContactFlow variant="inline" onBook={onBook} />;
+  return <ContactFlow mode="inline" onBook={onBook} />;
 }

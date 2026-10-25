@@ -5,21 +5,22 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { CalendlyModal } from "@/components/calendly-modal";
 import { FooterSection } from "@/components/landing/footer-section";
+import { SiteHeader } from "@/components/site-header";
 import type { InlineSegment, InsightBlock, InsightSummary } from "@/lib/insights-data";
-import { ClosingCTA, Headshot, InsightRow, InsightsNav, SectionLabel } from "../insights-shared";
+import { ClosingCTA, Headshot, InsightRow, SectionLabel } from "../insights-shared";
 
 /*
   One reading column: centered header, left aligned body at 17px with 1.7 line
   height, two related articles, then the call to action right above the site
-  footer (see ClosingCTA for why it sits there). The body arrives parsed from
-  the server.
+  footer. The body arrives parsed from the server.
 
   The unprefixed classes are the phone design, approved as it is. From md
   (768px) up the page reads as a classic long form article: the header in
-  max-w-3xl with a larger title, the body in a max-w-2xl column at 19px (under
-  80 characters a line), the two related articles side by side, and the
-  closing card centered. Desktop styling only adds md: and lg: variants and
-  wrappers that do nothing on a phone, so nothing on a phone moves.
+  max-w-4xl with a larger title (two lines for most titles), the body in a
+  max-w-2xl column at 19px (under 80 characters a line), and Keep Reading
+  and the closing card in that same column, so every left edge lines up.
+  Desktop styling only adds md: and lg: variants and wrappers that do nothing
+  on a phone, so nothing on a phone moves.
 */
 
 interface Props {
@@ -33,7 +34,7 @@ interface Props {
   showIndexLink: boolean;
 }
 
-const bodyText = "text-[1.0625rem] md:text-[1.1875rem] leading-[1.7] text-[#FAF8F5]/80";
+const bodyText = "text-[1.0625rem] md:text-[1.1875rem] leading-[1.7] text-pretty text-[#FAF8F5]/80";
 
 function Segments({ segments }: { segments: InlineSegment[] }) {
   return (
@@ -43,7 +44,8 @@ function Segments({ segments }: { segments: InlineSegment[] }) {
           <Link
             key={i}
             href={segment.href}
-            className="text-[#E8C97A] underline decoration-[#D4A853]/40 underline-offset-[5px] hover:decoration-[#E8C97A] transition-colors"
+            // Taller tap area on touch screens; the negative margin keeps the line where it was.
+            className="text-[#E8C97A] underline decoration-[#D4A853]/40 underline-offset-[5px] hover:decoration-[#E8C97A] transition-colors pointer-coarse:inline-block pointer-coarse:-my-3.5 pointer-coarse:py-3.5"
           >
             {segment.text}
           </Link>
@@ -82,7 +84,7 @@ function Block({ block, isLede }: { block: InsightBlock; isLede: boolean }) {
     case "quote":
       return (
         <p
-          className={`border-l-2 border-[#D4A853] pl-5 md:pl-7 font-light leading-[1.5] text-[#FAF8F5] ${
+          className={`border-l-2 border-[#D4A853] pl-5 md:pl-7 font-light leading-[1.5] text-pretty text-[#FAF8F5] ${
             quoteLength(block.segments) > 90 ? "text-[1.1875rem] md:text-[1.375rem]" : "text-[1.3125rem] md:text-[1.625rem]"
           }`}
         >
@@ -107,7 +109,7 @@ function Block({ block, isLede }: { block: InsightBlock; isLede: boolean }) {
               )}
               <div className="min-w-0">
                 {item.lead && (
-                  <h3 className="text-[1.0625rem] md:text-[1.1875rem] font-semibold leading-[1.7] text-[#FAF8F5]">{item.lead}</h3>
+                  <h3 className="text-[1.0625rem] md:text-[1.1875rem] font-semibold leading-[1.7] text-pretty text-[#FAF8F5]">{item.lead}</h3>
                 )}
                 <p className={`${item.lead ? "mt-1" : ""} ${bodyText}`}>
                   <Segments segments={item.segments} />
@@ -120,7 +122,7 @@ function Block({ block, isLede }: { block: InsightBlock; isLede: boolean }) {
     }
     default:
       return (
-        <p className={isLede ? "text-[1.1875rem] md:text-[1.375rem] leading-[1.65] text-[#FAF8F5]" : bodyText}>
+        <p className={isLede ? "text-[1.1875rem] md:text-[1.375rem] leading-[1.65] text-pretty text-[#FAF8F5]" : bodyText}>
           <Segments segments={block.segments} />
         </p>
       );
@@ -133,12 +135,12 @@ export function InsightContent({ title, category, readTime, publishedAt, dateLab
 
   return (
     <>
-      <main className="min-h-screen bg-[#0D0D0D]">
-        <InsightsNav onBook={openCalendly} />
+      <SiteHeader />
 
+      <main className="min-h-screen bg-[#0D0D0D]">
         <article>
           <header className="px-6 pt-28 pb-10 md:px-10 md:pt-32 md:pb-14 text-center">
-            <div className="mx-auto max-w-3xl">
+            <div className="mx-auto max-w-3xl md:max-w-4xl lg:max-w-5xl">
               <p className="text-[13px] md:text-sm tracking-[0.15em] uppercase text-[#D4A853]">{category}</p>
               {/* A sentence long title, so one step below the page title size
                   (md:text-5xl lg:text-6xl) to stay at three or four lines. */}
@@ -175,21 +177,21 @@ export function InsightContent({ title, category, readTime, publishedAt, dateLab
 
         {related.length > 0 && (
           <section className="px-6 pt-16 pb-14 md:px-10 md:pt-24 md:pb-20">
-            {/* From md: the closing card's width, the two articles side by side. */}
-            <div className="mx-auto max-w-3xl">
+            {/* From md: the reading column's width, the two articles side by side as cards. */}
+            <div className="mx-auto max-w-2xl">
               <SectionLabel>Keep Reading</SectionLabel>
-              <ul className="mt-2 md:mt-4 md:grid md:grid-cols-2 md:gap-x-12">
+              <ul className="mt-2 md:mt-6 md:grid md:grid-cols-2 md:gap-4">
                 {related.map((insight) => (
-                  <InsightRow key={insight.slug} insight={insight} />
+                  <InsightRow key={insight.slug} insight={insight} card />
                 ))}
               </ul>
               {showIndexLink && (
                 <Link
                   href="/insights"
-                  className="group mt-8 flex items-center justify-center gap-2 py-2 text-[13px] tracking-[0.15em] uppercase text-[#8A837B] hover:text-[#FAF8F5] transition-colors"
+                  className="mt-8 flex min-h-[44px] items-center justify-center gap-2 text-[13px] tracking-[0.15em] uppercase text-[#8A837B] hover:text-[#FAF8F5] transition-colors"
                 >
                   All Insights
-                  <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" />
+                  <ArrowRight aria-hidden className="w-3.5 h-3.5" />
                 </Link>
               )}
             </div>
@@ -200,8 +202,7 @@ export function InsightContent({ title, category, readTime, publishedAt, dateLab
         <FooterSection />
       </main>
 
-      {/* Mounted only while open: every mounted CalendlyModal listens for
-          bookings, and the floating button already keeps one mounted. */}
+      {/* For the closing card's button; the top bar keeps its own. Mounted only while open. */}
       {isCalendlyOpen && <CalendlyModal isOpen onClose={() => setIsCalendlyOpen(false)} />}
     </>
   );

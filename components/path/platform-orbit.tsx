@@ -4,25 +4,38 @@ import { useEffect, useRef, useState } from "react";
 
 /*
   The Brain, from successupgrade.ai/path: one brain at the centre, Jo's brands
-  on the rings around it and every platform it publishes to further out, each
-  ring turning at its own pace while its chips stay upright.
+  on the two rings around it and every platform it publishes to on the outer
+  ring, the whole picture turning slowly while every chip stays upright.
+
+  ONE TURN FOR EVERY RING.
+  The rings used to turn at their own speeds, two of them in opposite
+  directions, so chips on neighbouring rings ran through each other. Now every
+  chip rides one rotating layer: the picture turns as a whole and the space
+  between any two chips never changes. Because each chip stays upright while
+  its position turns, a pair is closest when the line between them runs corner
+  to corner. The radii, offsets and sizes below were solved for that moment:
+  at least a 4px gap between any two chips and 7px around the core on a 342px
+  phone box (3px at the smallest phone, more as the box grows), and every chip
+  inside the box at every angle.
+
+  The order tells the story: the five square brand marks closest to the brain,
+  the five wordmarks between them, the thirteen platforms on the outside. Five
+  marks and five wordmarks alternate around the circle, 36 degrees apart, which
+  is what lets those two rings sit close.
 
   SIZED FROM ITS OWN WIDTH, NOT THE VIEWPORT.
-  The original sized everything in vw for a phone. Every size below is a
-  fraction of the measured box (the original's vw values divided by its 92vw
-  width), held to the original's caps, so a phone and a desktop draw the same
-  picture at their own scale.
-
-  The box is the column's width up to 400px on a phone. From md up it grows to
-  600px, as successupgrade.ai/path draws it on a desktop, but never taller than
-  the window less 200px, so on a short laptop screen the whole circle still fits
+  Every size is a fraction of the measured box, held to the original's caps,
+  so a phone and a desktop draw the same picture at their own scale. The box
+  is the column's width up to 400px on a phone. From md up it grows to 600px,
+  as successupgrade.ai/path draws it on a desktop, but never taller than the
+  window less 200px, so on a short laptop screen the whole circle still fits
   between the top bar and the tab bar. The chips keep their capped sizes, so a
-  larger box only opens more space between the rings.
+  larger box only opens more space between them.
 
-  Positions are pixels from the measured width, never percentages: on iOS Safari
-  percentage offsets inside an aspect-ratio box did not resolve and the chips
-  fell off their rings. The outer ring leaves room for half a wordmark pill, so
-  nothing ever crosses the edge of the box at any angle.
+  Positions are pixels from the measured width, never percentages: on iOS
+  Safari percentage offsets inside an aspect-ratio box did not resolve and the
+  chips fell off their rings. The rotating layer is a point at the centre with
+  no size of its own, so turning it never widens the page.
 */
 
 const GOLD_RING = "rgba(212,168,83,.22)";
@@ -58,23 +71,24 @@ const PLATFORMS: Mark[] = [
 
 const ALL_MARKS: Mark[] = [...BRANDS, ...PLATFORMS];
 
-/*
-  Wide wordmark pills go on the outer ring, where the circumference has room
-  for them; squares and the first platforms ride inside. Three rings, because a
-  fourth has no radial gap left once the core sits in the middle.
-*/
-const SQUARE_BRANDS = BRANDS.filter((b) => !b.wide);
-const WIDE_BRANDS = BRANDS.filter((b) => b.wide);
+// One full turn, every ring together, in seconds.
+const TURN_SECONDS = 120;
 
+/*
+  Radius as a fraction of the box's width; offset in degrees clockwise from the
+  top. `fill` is how much of a square chip its logo takes: the platform glyphs
+  fill their own artwork edge to edge, while the brand files carry padding and
+  fine detail, so they get more of the chip.
+*/
 const RINGS = [
-  { size: 44, seconds: 74, reverse: false, offsetDeg: 0, items: [...SQUARE_BRANDS, ...PLATFORMS.slice(0, 3)] },
-  { size: 70, seconds: 98, reverse: true, offsetDeg: 18, items: PLATFORMS.slice(3, 13) },
-  { size: 90, seconds: 128, reverse: false, offsetDeg: 26, items: WIDE_BRANDS },
+  { radius: 0.18, offsetDeg: 0, fill: "68%", items: BRANDS.filter((b) => !b.wide) },
+  { radius: 0.277, offsetDeg: 36, fill: "54%", items: BRANDS.filter((b) => b.wide) },
+  { radius: 0.446, offsetDeg: 10, fill: "54%", items: PLATFORMS },
 ] as const;
 
 const clamp = (min: number, value: number, max: number) => Math.min(max, Math.max(min, value));
 
-function Chip({ mark, glyph, pill, font }: { mark: Mark; glyph: number; pill: number; font: number }) {
+function Chip({ mark, glyph, pill, font, fill }: { mark: Mark; glyph: number; pill: number; font: number; fill: string }) {
   const { name, src, wide, label } = mark;
   return (
     <span
@@ -89,7 +103,7 @@ function Chip({ mark, glyph, pill, font }: { mark: Mark; glyph: number; pill: nu
         background: CHIP_BG,
         border: `1px solid ${CHIP_BORDER}`,
         boxShadow: "0 2px 10px rgba(0,0,0,.45)",
-        padding: wide ? "0 5px" : 0,
+        padding: wide ? "0 4px" : 0,
       }}
     >
       {src ? (
@@ -101,8 +115,8 @@ function Chip({ mark, glyph, pill, font }: { mark: Mark; glyph: number; pill: nu
           // intrinsic width, and Verza's file is 450px wide.
           style={{
             minWidth: 0,
-            width: wide ? "100%" : "54%",
-            height: wide ? "64%" : "54%",
+            width: wide ? "100%" : fill,
+            height: wide ? "64%" : fill,
             objectFit: "contain",
             display: "block",
           }}
@@ -149,11 +163,10 @@ export default function PlatformOrbit() {
     };
   }, []);
 
-  const glyph = clamp(28, size * 0.1033, 44);
-  const pill = clamp(52, size * 0.152, 78);
-  const core = clamp(64, size * 0.239, 88);
+  const glyph = clamp(20, size * 0.09, 44);
+  const pill = clamp(34, size * 0.153, 78);
+  const core = clamp(44, size * 0.19, 88);
   const font = clamp(7, size * 0.0239, 9);
-  const usable = Math.max(0, size / 2 - pill / 2 - 2);
 
   return (
     <div
@@ -165,7 +178,7 @@ export default function PlatformOrbit() {
     >
       {size > 0 &&
         RINGS.map((r, i) => {
-          const d = usable * 2 * (r.size / 100);
+          const d = 2 * r.radius * size;
           return (
             <div
               key={`track-${i}`}
@@ -185,44 +198,30 @@ export default function PlatformOrbit() {
           );
         })}
 
-      {size > 0 &&
-        RINGS.map((r, i) => {
-          const d = usable * 2 * (r.size / 100);
-          return (
-            <div
-              key={`ring-${i}`}
-              aria-hidden
-              className={r.reverse ? "jh-orbit-ring-rev" : "jh-orbit-ring"}
-              style={{
-                position: "absolute",
-                left: "50%",
-                top: "50%",
-                width: d,
-                height: d,
-                marginLeft: -d / 2,
-                marginTop: -d / 2,
-                ["--dur" as string]: `${r.seconds}s`,
-              }}
-            >
-              {r.items.map((mark, j) => {
-                // Evenly spaced, offset per ring so the chips never line up in spokes; -90 starts at the top.
-                const angle = ((j * 360) / r.items.length + r.offsetDeg - 90) * (Math.PI / 180);
-                const x = d / 2 + (d / 2) * Math.cos(angle);
-                const y = d / 2 + (d / 2) * Math.sin(angle);
-                return (
-                  <span key={mark.name} style={{ position: "absolute", left: x, top: y, transform: "translate(-50%, -50%)" }}>
-                    <span
-                      className={r.reverse ? "jh-orbit-chip-rev" : "jh-orbit-chip"}
-                      style={{ display: "block", ["--dur" as string]: `${r.seconds}s` }}
-                    >
-                      <Chip mark={mark} glyph={glyph} pill={pill} font={font} />
-                    </span>
+      {/* The rotating layer: a point at the centre carrying every chip. */}
+      {size > 0 && (
+        <div
+          aria-hidden
+          className="jh-orbit-turn"
+          style={{ position: "absolute", left: "50%", top: "50%", width: 0, height: 0, ["--dur" as string]: `${TURN_SECONDS}s` }}
+        >
+          {RINGS.flatMap((r) =>
+            r.items.map((mark, j) => {
+              // Evenly spaced on the ring; -90 starts at the top.
+              const angle = ((j * 360) / r.items.length + r.offsetDeg - 90) * (Math.PI / 180);
+              const x = r.radius * size * Math.cos(angle);
+              const y = r.radius * size * Math.sin(angle);
+              return (
+                <span key={mark.name} style={{ position: "absolute", left: x, top: y, transform: "translate(-50%, -50%)" }}>
+                  <span className="jh-orbit-upright" style={{ display: "block", ["--dur" as string]: `${TURN_SECONDS}s` }}>
+                    <Chip mark={mark} glyph={glyph} pill={pill} font={font} fill={r.fill} />
                   </span>
-                );
-              })}
-            </div>
-          );
-        })}
+                </span>
+              );
+            })
+          )}
+        </div>
+      )}
 
       {/* The core is successupgrade.ai's hero image, so the brain at the centre is recognisably the same one. */}
       <div
@@ -246,19 +245,16 @@ export default function PlatformOrbit() {
       </div>
 
       {/*
-        Rotation only: the rings are centred by negative margins, so an animation
-        that also translated would move every ring off the shared centre. Chips
-        counter rotate at the same rate so their logos stay upright.
+        Rotation only, about the layer's own point. Each chip turns back at the
+        same rate, so its logo stays upright wherever the layer has carried it.
       */}
       <style>{`
         @keyframes jh-orbit-spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
         @keyframes jh-orbit-spin-rev { from { transform: rotate(0deg); } to { transform: rotate(-360deg); } }
-        .jh-orbit-ring { animation: jh-orbit-spin var(--dur) linear infinite; }
-        .jh-orbit-ring-rev { animation: jh-orbit-spin-rev var(--dur) linear infinite; }
-        .jh-orbit-chip { animation: jh-orbit-spin-rev var(--dur) linear infinite; }
-        .jh-orbit-chip-rev { animation: jh-orbit-spin var(--dur) linear infinite; }
+        .jh-orbit-turn { animation: jh-orbit-spin var(--dur) linear infinite; }
+        .jh-orbit-upright { animation: jh-orbit-spin-rev var(--dur) linear infinite; }
         @media (prefers-reduced-motion: reduce) {
-          .jh-orbit-ring, .jh-orbit-ring-rev, .jh-orbit-chip, .jh-orbit-chip-rev { animation: none; }
+          .jh-orbit-turn, .jh-orbit-upright { animation: none; }
         }
       `}</style>
     </div>

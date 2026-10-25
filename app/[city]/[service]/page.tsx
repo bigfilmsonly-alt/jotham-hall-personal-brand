@@ -96,7 +96,7 @@ export default async function ServicePage({ params }: { params: Promise<{ city: 
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }}
       />
       <ServicePageContent
-        city={{ slug: city.slug, name: city.name }}
+        city={{ slug: city.slug, name: city.name, eyebrow: city.eyebrow }}
         copy={{
           name: service.name,
           headline: service.headline,

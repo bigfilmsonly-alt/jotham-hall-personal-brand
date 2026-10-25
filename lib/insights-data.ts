@@ -24,14 +24,14 @@ const articles = [
     slug: "how-i-built-ai-first-ecosystem-paradise-protocol",
     category: "Strategy",
     title: "How I Built an AI First Ecosystem: The Paradise Protocol Story",
-    excerpt: "I did not set out to build a life operating system. I set out to solve my own problem. It was 2024. I was running a digital agency, consulting with high net worth individuals, producing music, managing brands.",
+    excerpt: "I did not set out to build a life operating system. I set out to solve my own problem. Earlier this year I was running a digital agency, consulting, producing music, and managing brands.",
     fullContent: `I did not set out to build a life operating system. I set out to solve my own problem.
 
-It was 2024. I was running a digital agency, consulting with high net worth individuals, producing music, managing brands. Everything was working. Nothing felt integrated. My health was climbing. My business was scaling. But I had no way to see whether the daily choices I was making were actually compounding toward something coherent.
+Earlier this year I was running a digital agency, consulting, producing music, and managing brands. Everything was working. Nothing felt connected. I had no way to see whether the daily choices I was making were actually compounding toward something coherent.
 
 So I built Paradise Protocol for myself. Four pillars: health, wealth, love, happiness. A scoring system. Habit tracking. An AI coach that understood my context and pushed back on my patterns instead of just cheerleading.
 
-Within ninety days, three other founders asked me to build it for them. That is when I knew this was not just a personal tool. This was the operating system for people who refuse to compartmentalize their lives.
+Other founders soon asked me to build it for them. That is when I knew it was more than a personal tool. This was the operating system for people who refuse to compartmentalize their lives.
 
 ## What Building It Taught Me
 
@@ -41,13 +41,13 @@ Within ninety days, three other founders asked me to build it for them. That is 
 
 1. **AI coaching accelerates self awareness.** The model has your full context. It does not give generic advice. It notices you have broken your meditation streak twice this month and asks why.
 
-The ecosystem scaled from there. [CRNC](/ventures/crnc) became the fintech layer for health entrepreneurs. [CodeVibe](/ventures/codevibe) became the vibe coding layer for building faster. [Success Upgrade](/ventures/success-upgrade) became the public brand reaching people at the beginning of their journey.
+The ecosystem grew from there. [CRNC](/ventures/crnc) became the payments layer. [CodeVibe](/ventures/codevibe) became the way to build a website by describing it. [Success Upgrade](/ventures/success-upgrade) became the public brand reaching people at the beginning of their journey.
 
 But Paradise Protocol is still the core. The proof of concept that personal operating systems work.
 
 > The future is not more apps. It is one integrated system designed around how humans actually think: holistically, emotionally, and in patterns.
 
-That is the bet I made. That is what we are building.`,
+That is the bet I made, and it is what I am building.`,
     featured: false,
     publishedAt: "2024-12-15",
     keywords: ["AI ecosystem", "Paradise Protocol", "life operating system", "personal development", "AI coaching"]
@@ -120,7 +120,7 @@ Build for the human. The metrics follow.`,
 
 > That world is over.
 
-Vibe coding has collapsed the gap between idea and product. I have watched founders with zero coding experience ship functional web apps in seventy two hours. I have done it myself, multiple times.
+Vibe coding has collapsed the gap between idea and product. I have watched founders with no coding background ship working web apps in days. I have done it myself, more than once.
 
 ## How the Workflow Actually Looks
 
@@ -134,11 +134,11 @@ Vibe coding has collapsed the gap between idea and product. I have watched found
 
 1. You iterate until it works.
 
-Tools like Cursor, Claude Code, and v0 by Vercel have made this the standard workflow for early stage product development. The developers I work with now use AI to write eighty percent of the code. Their job has shifted from writing syntax to making architectural decisions and quality checking AI output.
+Tools like Cursor and v0 by Vercel have made this a standard workflow for early stage product development. The developers I work with now let AI write much of the code, and their job has shifted to architecture and checking what it writes.
 
 For founders, this changes everything. You no longer need to translate your vision through layers of technical intermediaries. You can validate ideas at a fraction of the cost. You can ship a working MVP in weeks instead of months.
 
-This is why I built [CodeVibe](/ventures/codevibe). Not to teach people to code in the traditional sense, but to teach them to build. The skill is not learning Python or JavaScript. The skill is learning how to think in systems, communicate with AI precisely, and iterate fast.
+This is why I built [CodeVibe](/ventures/codevibe), which turns a few sentences into a website, and [Say It Build It](/ventures/say-it-build-it), my free course on building by describing. Not to teach people to code in the traditional sense, but to help them build. The skill is not learning Python or JavaScript. The skill is learning how to think in systems, communicate with AI precisely, and iterate fast.
 
 The builders who master vibe coding in the next two years will have an enormous advantage over those who are still waiting for the right technical cofounder.
 
@@ -230,9 +230,9 @@ I tried to be operationally involved in everything. I tried to personally manage
 
 1. **The twenty percent rule.** I give twenty percent of my time to strategy and vision across all ventures. The other eighty percent is protected for deep work on the one or two ventures currently in active build phase. Spreading eighty percent across six ventures produces six mediocre outcomes. Concentrating it produces one breakthrough that raises the floor for everything else.
 
-1. **People who own outcomes, not just tasks.** The shift from managing tasks to assigning ownership changed my capacity more than any productivity system. Jackson owns the agency operations. The developer team owns the [CodeVibe](/ventures/codevibe) build. My AI agents own first pass content. My job is vision, capital allocation, and removing obstacles. Not execution.
+1. **People who own outcomes, not just tasks.** The shift from managing tasks to assigning ownership changed my capacity more than any productivity system. Every venture, from the agency to [CodeVibe](/ventures/codevibe), has one clear owner. My AI agents handle first pass content. My job is vision, capital allocation, and removing obstacles. Not execution.
 
-The ventures that are running in maintenance mode still generate revenue, still serve clients, still grow. Just without my daily attention. The ventures in active build mode get everything I have.
+The ventures in maintenance mode keep running without my daily attention. The ventures in active build mode get everything I have.
 
 > Running multiple ventures is not a bandwidth problem. It is a system design problem. Design the system correctly and the bandwidth expands to meet the vision.`,
     featured: false,
@@ -244,10 +244,10 @@ The ventures that are running in maintenance mode still generate revenue, still 
     slug: "art-basel-effect-building-relationships-that-compound",
     category: "Strategy",
     title: "The Art Basel Effect: Building Relationships That Compound",
-    excerpt: "I met Jimmy at Art Basel. A chance introduction at an event I almost did not attend. He is now one of my highest priority relationships.",
-    fullContent: `I met Jimmy at Art Basel. A chance introduction at an event I almost did not attend because I was tired and had an early flight the next morning.
+    excerpt: "I met a CEO at Art Basel. A chance introduction at an event I almost did not attend. That conversation became one of my most important relationships.",
+    fullContent: `I met a CEO at Art Basel. A chance introduction at an event I almost did not attend because I was tired and had an early flight the next morning.
 
-He is now one of my highest priority relationships. A CEO whose network, thinking, and vision align exactly with where I am headed. One conversation at Art Basel opened doors that would have taken years of cold outreach to approach.
+That conversation became one of my most important relationships. His network, thinking, and vision line up with where I am headed. One evening in the right room can do what years of cold outreach rarely do.
 
 This is the Art Basel Effect: the right room at the right moment can compress years of relationship building into a single evening. But you have to be in the room, you have to be prepared, and you have to know how to make the most of the moment when it arrives.
 
@@ -255,9 +255,9 @@ This is the Art Basel Effect: the right room at the right moment can compress ye
 
 1. **Quality over volume.** Most networking advice is wrong. You do not need a thousand connections. You need twenty people who would take your call on a Sunday and mean it when they offer to help. I would rather have twenty people like that in my network than two thousand LinkedIn connections who do not remember my last name.
 
-1. **Bring value before you need it.** The worst networkers lead with what they want. The best ones lead with what they can give. When I met Jimmy, I was not pitching him. I was asking about his vision, sharing what I was building, and looking for genuine overlap.
+1. **Bring value before you need it.** The worst networkers lead with what they want. The best ones lead with what they can give. When I met him, I was not pitching. I was asking about his vision, sharing what I was building, and looking for genuine overlap.
 
-1. **Follow through immediately.** The first twenty four hours after meeting someone important are the most critical. I send a real message that references something specific from the conversation. This alone puts me in a different category from ninety percent of the people they met that week.
+1. **Follow through immediately.** The first twenty four hours after meeting someone important are the most critical. I send a real message that references something specific from the conversation. This alone sets me apart from most of the people they met that week.
 
 1. **Stay in their orbit consistently.** Relationships decay without maintenance. I have a simple system: every high priority contact gets a touchpoint at least once a month. A relevant article. A resource. A quick check in. Nothing transactional. Just presence.
 
@@ -282,7 +282,7 @@ So I built my own.
 
 The core insight was simple: humans do not optimize in silos. Health affects wealth. Relationships affect work. Energy affects decision making. Any system that treats these as separate categories is already broken.
 
-Paradise Protocol tracks four pillars: health, wealth, love, and happiness. Each pillar has its own metrics, but the system surfaces connections between them. It noticed that my wealth score drops when my sleep score falls below seven for three consecutive days. It noticed that my happiness peaks when I have had at least three deep conversations in a week.
+Paradise Protocol tracks four pillars: health, wealth, love, and happiness. Each pillar has its own metrics, but the system surfaces connections between them. It noticed that my wealth score dips after a few nights of poor sleep. It noticed that my happiness rises in weeks with more deep conversations.
 
 > These patterns were invisible to me before the system made them explicit.
 
@@ -294,7 +294,7 @@ That specificity changes behavior in a way that generic advice never could.
 
 Building this taught me that the future of personal development is not more content. It is better data infrastructure. Most people are drowning in advice but starving for self awareness. The system that wins is the one that makes self awareness automatic.
 
-That is what we are building. That is what [Success Upgrade](/ventures/success-upgrade) is about.`,
+That is what I am building. That is what [Success Upgrade](/ventures/success-upgrade) is about.`,
     featured: false,
     publishedAt: "2024-10-20",
     keywords: ["AI life system", "personal operating system", "life optimization", "AI coaching", "Paradise Protocol"]
@@ -317,7 +317,7 @@ The transition to an ecosystem was not a single moment. It was a gradual layerin
 
 - **Second layer: digital products.** I took the knowledge embedded in those frameworks and turned it into content, courses, and tools that people could use without my direct involvement.
 
-- **Third layer: software.** I took the processes that powered the products and turned them into AI powered platforms that could serve thousands of users simultaneously.
+- **Third layer: software.** I took the processes that powered the products and turned them into AI powered platforms that can serve many people at once.
 
 - **Fourth layer: ventures.** I took the credibility and capital from the first three layers and invested in building companies, not just projects.
 
@@ -342,7 +342,7 @@ Energy is the foundation of everything. When your energy is low, your decision m
 
 When your energy is high, you see opportunities others miss. You have the stamina for the difficult work. You show up consistently when others fade.
 
-I track both health and wealth metrics in Paradise Protocol specifically because the correlation is undeniable. My highest revenue months are almost always my healthiest months. My worst business decisions consistently happen during periods of poor sleep or inconsistent exercise.
+I track both health and wealth metrics in Paradise Protocol specifically because I see the connection in my own life. My best months in business tend to be my healthiest months. My worst business decisions tend to come during stretches of poor sleep or skipped workouts.
 
 ## My Health Stack
 
@@ -352,7 +352,7 @@ I track both health and wealth metrics in Paradise Protocol specifically because
 
 1. **Nutrition as fuel.** I eat for performance, not pleasure. This does not mean deprivation. It means intentionality about what goes into my body and when.
 
-1. **Hydration protocol.** Three liters of water daily, more on active days. Most people are chronically dehydrated and wonder why they feel tired.
+1. **Hydration protocol.** Three liters of water daily, more on active days. Many people drink too little water and wonder why they feel tired.
 
 1. **Weekly recovery.** One full rest day with no work, no screens, no obligations. The nervous system needs complete reset.
 
@@ -366,10 +366,8 @@ I track both health and wealth metrics in Paradise Protocol specifically because
     slug: "ai-agents-future-of-work",
     category: "AI and Tools",
     title: "AI Agents: The Future of Work Is Already Here",
-    excerpt: "I replaced three full time roles with AI agents this year. Not because I wanted to cut costs. Because the agents do the work better, faster, and more consistently.",
-    fullContent: `I replaced three full time roles with AI agents this year. Not because I wanted to cut costs. Because the agents do the work better, faster, and more consistently.
-
-The roles: content research, first draft writing, and scheduling coordination. All three were competent humans. All three have been outperformed by systems that never sleep, never have bad days, and never misunderstand a brief.
+    excerpt: "This year I handed three kinds of work to AI agents: content research, first drafts, and scheduling. They do that work faster and more consistently, and my time goes to the decisions.",
+    fullContent: `This year I handed three kinds of work to AI agents: content research, first drafts, and scheduling. They do that work faster and more consistently, and my time goes to the decisions.
 
 > This is not a prediction about the future. This is a report from the present.
 
@@ -383,9 +381,9 @@ The roles: content research, first draft writing, and scheduling coordination. A
 
 - **Layer four: agent to agent collaboration.** Multiple AI agents working together on complex projects, with human oversight at key checkpoints.
 
-I operate primarily at layers two and three now. My content agent produces first drafts that require minimal editing. My scheduling agent books meetings without my involvement. My research agent compiles analysis that would take a human team days.
+I operate primarily at layers two and three now. My content agent produces first drafts that require minimal editing. My scheduling agent books meetings without my involvement. My research agent gathers the background I used to collect by hand.
 
-The founders who figure out how to orchestrate AI agents will have an enormous competitive advantage over those still hiring humans for every role.
+The founders who learn to direct AI agents will move faster than those who do every task by hand.
 
 The question is not whether AI will change work. The question is whether you will be early enough to benefit from the change.
 
@@ -412,7 +410,7 @@ Building in public means documenting the process of creation as it happens. Not 
 
 1. **Accountability creates consistency.** Public commitments are harder to break. When I say I am going to ship something, people are watching. That pressure produces output that internal motivation alone never would.
 
-1. **Opportunities find you.** I have received partnership offers, investment interest, and client leads directly from content I posted about what I was building. The visibility compounds.
+1. **Opportunities find you.** When people can see what you are building, the right partners and clients know where to find you. The visibility compounds.
 
 The objections people raise are usually fear based. What if someone steals my idea? Ideas are not that valuable. Execution is everything. What if I fail publicly? Failure documented is more valuable than success hidden. What if I look foolish? You probably will sometimes. That is the price of authenticity.
 

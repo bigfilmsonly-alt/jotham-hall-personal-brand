@@ -70,7 +70,7 @@ export const cities: CityData[] = [
     proof: [
       { slug: "verza-tv", note: "I built the streaming website and the iPhone app." },
       { slug: "peaceful-healing-rx", note: "I built the free app that explains visits, bills, and medications." },
-      { slug: "evolve-longevity", note: "A Miami Beach clinic. I built its website and iPhone app." },
+      { slug: "evolve-longevity", note: "A Miami Beach clinic. I built its website and its iPhone app." },
       { slug: "lumi", note: "My med spa app. The live demo runs as a Miami med spa." },
       { slug: "the-boat-goat", note: "Miami yacht charters. I built the website and booking flow." },
     ],
@@ -146,7 +146,6 @@ export const cityPage = {
   ] satisfies Faq[],
   closingTitle: "Tell Me What Slows You Down",
   closingBody: "One call, and you will know what to automate first.",
-  notesTitle: "Notes for {city} Business Owners",
 };
 
 /* City service pages, for example /miami/vibe-coding. */
@@ -187,7 +186,7 @@ export const services: CityService[] = [
     proof: [
       { slug: "verza-tv", note: "I built the streaming website and the iPhone app." },
       { slug: "peaceful-healing-rx", note: "I built the free patient app that explains visits, bills, and medications." },
-      { slug: "evolve-longevity", note: "A Miami Beach clinic. I built its website and its iPhone app, now in private beta." },
+      { slug: "evolve-longevity", note: "A Miami Beach clinic. I built its website and its iPhone app." },
       { slug: "lumi", note: "My white label app for med spas, with booking, a shop, and rewards." },
       { slug: "say-it-build-it", note: "My free course that teaches anyone to build apps by describing them." },
     ],

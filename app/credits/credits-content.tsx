@@ -1,18 +1,21 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
-import { ArrowLeft, ArrowRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { CalendlyModal } from "@/components/calendly-modal";
 import { FooterSection } from "@/components/landing/footer-section";
+import { SiteHeader } from "@/components/site-header";
 
 /*
   Phone first. The unprefixed classes are the approved phone layout: one
   centered column from 360px to 430px. The site no longer sits in a 430px
   column on desktop, so md: (768px up) and lg: (1024px up) give the page its
-  desktop size: the nav row and sections held to centered widths, larger type,
-  the selected credits in two columns, the buttons at their own width. Only
-  add md: and lg: variants here; never change the phone classes.
+  desktop size: sections held to centered widths, larger type, the selected
+  credits in two columns, the buttons at their own width. Only add md: and
+  lg: variants here; never change the phone classes.
+
+  The top bar is the site's shared one (components/site-header.tsx). TV
+  Credits sits inside About, so the bar's left side is the way back there.
 
   Every fact on this page comes from the lists below. Years read "2023 to
   2025", never with a dash.
@@ -77,7 +80,7 @@ const featuredCredits = [
   },
 ];
 
-// 51 Minds Entertainment, 2008 to 2014. Talent Producer on each.
+// 51 Minds Entertainment, 2008 to 2014. Talent producer on each.
 const fiftyMindsCredits = [
   { show: "Flavor of Love", network: "VH1" },
   { show: "Rock of Love", network: "VH1" },
@@ -108,22 +111,7 @@ export function CreditsContent() {
 
   return (
     <>
-      {/* Same bar as the venture pages. The hero holds the one gold button on
-          the first screen; the site's floating Book a Call covers the middle. */}
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-background/85 backdrop-blur-md border-b border-[#3D3A35]/60">
-        <div className="mx-auto w-full max-w-6xl px-6 md:px-10 h-14 md:h-16 flex items-center justify-between">
-          <Link href="/" className="font-display text-sm tracking-[0.12em] uppercase">
-            Jotham Hall
-          </Link>
-          <Link
-            href="/about"
-            className="inline-flex items-center gap-1.5 min-h-[44px] text-[11px] md:text-xs tracking-[0.15em] uppercase text-[#8A837B] hover:text-[#FAF8F5] transition-colors"
-          >
-            <ArrowLeft className="w-3.5 h-3.5" />
-            About
-          </Link>
-        </div>
-      </nav>
+      <SiteHeader back={{ href: "/about", label: "About" }} />
 
       <main className="min-h-screen bg-background text-foreground">
         {/* Hero: the role, the range, one action. */}
@@ -134,7 +122,7 @@ export function CreditsContent() {
               Television Producer
             </h1>
             <p className="text-[1.0625rem] md:text-lg lg:text-xl leading-relaxed text-balance text-[#B8B0A8] max-w-[330px] md:max-w-xl mx-auto mb-8 md:mb-10">
-              Talent Producer on reality and competition series, from{" "}
+              Talent producer on reality and competition series, from{" "}
               <span className="whitespace-nowrap">Flavor of Love</span> to{" "}
               <span className="whitespace-nowrap">Finding Mr. Christmas</span>.
             </p>
@@ -190,20 +178,21 @@ export function CreditsContent() {
         </section>
 
         {/* Recent network credits: one card each, newest first. From md up they
-            sit two to a row, read row by row; four tracks with each card on two
-            of them let an odd last card sit centered under the pair above. */}
+            sit two to a row, read row by row, and an odd last card spans the
+            whole row, its edges on both columns' edges. Descriptions stop at a
+            reading width (max-w-2xl), which only the full row card reaches. */}
         <section className="px-6 py-14 md:px-10 md:py-20 border-t border-[#3D3A35]/60">
           <div className="mx-auto max-w-5xl">
             <SectionHeading eyebrow="2015 to 2025" title="Selected Credits" />
-            <ul className="mt-8 md:mt-12 space-y-3 md:space-y-0 md:grid md:grid-cols-4 md:gap-5">
+            <ul className="mt-8 md:mt-12 space-y-3 md:space-y-0 md:grid md:grid-cols-2 md:gap-5">
               {featuredCredits.map((credit) => (
                 <li
                   key={credit.show}
-                  className="bg-[#1A1A1A] border border-[#3D3A35] p-5 md:p-6 lg:p-8 md:col-span-2 md:odd:last:col-start-2"
+                  className="bg-[#1A1A1A] border border-[#3D3A35] p-5 md:p-6 lg:p-8 md:odd:last:col-span-2"
                 >
                   <div className="flex items-baseline justify-between gap-3">
                     <p className="text-[11px] md:text-xs tracking-[0.15em] uppercase text-[#D4A853]">{credit.network}</p>
-                    <p className="shrink-0 text-[11px] md:text-xs tracking-[0.15em] uppercase text-[#8A837B] tabular-nums">
+                    <p className="shrink-0 text-[13px] tracking-[0.12em] uppercase text-[#8A837B] tabular-nums">
                       {credit.years}
                     </p>
                   </div>
@@ -221,8 +210,8 @@ export function CreditsContent() {
                       </>
                     )}
                   </p>
-                  <p className="mt-3 pt-3 md:mt-5 md:pt-5 border-t border-[#3D3A35]/60 text-[15px] md:text-[17px] leading-relaxed text-[#B8B0A8]">
-                    {credit.description}
+                  <p className="mt-3 pt-3 md:mt-5 md:pt-5 border-t border-[#3D3A35]/60 text-[15px] md:text-[17px] leading-relaxed text-pretty text-[#B8B0A8]">
+                    <span className="block max-w-2xl">{credit.description}</span>
                   </p>
                 </li>
               ))}
@@ -237,7 +226,7 @@ export function CreditsContent() {
             <SectionHeading eyebrow="2008 to 2014" title="The 51 Minds Years" />
             <p className="mt-5 md:mt-6 text-[15px] md:text-[17px] leading-relaxed text-balance text-[#B8B0A8] text-center max-w-[340px] md:max-w-xl mx-auto">
               Six years at 51 Minds Entertainment, on the production team for more than 50 reality shows. I rose
-              from production assistant to Talent Producer on some of the most iconic dating and competition
+              from production assistant to talent producer on some of the most iconic dating and competition
               franchises of the era.
             </p>
             <ul className="mt-8 md:mt-12 border-y border-[#3D3A35]/60 divide-y divide-[#3D3A35]/60 lg:grid lg:grid-cols-2 lg:gap-x-16 lg:border-y-0">
@@ -256,7 +245,7 @@ export function CreditsContent() {
               ))}
             </ul>
             <p className="mt-5 md:mt-8 text-[15px] md:text-[17px] leading-relaxed text-balance text-[#B8B0A8] text-center">
-              Talent Producer on all six, plus more than 45 other productions in those years.
+              Talent producer on all six, plus more than 45 other productions in those years.
             </p>
           </div>
         </section>
@@ -277,33 +266,28 @@ export function CreditsContent() {
             </div>
           </div>
         </section>
-      </main>
 
-      {/*
-        Final ask. It sits outside <main>, right before the footer, on purpose:
-        the site's floating Book a Call treats the element just before
-        [data-site-footer] as the closing block and steps aside when it shows,
-        so the two booking buttons never stack.
-      */}
-      <section aria-labelledby="credits-final-cta" className="px-6 pt-2 pb-16 md:px-10 md:pb-24 bg-background">
-        <div className="mx-auto max-w-3xl px-6 py-10 md:px-16 md:py-16 bg-[#1A1A1A] border border-[#3D3A35] text-center">
-          <h2
-            id="credits-final-cta"
-            className="font-display text-[1.25rem] md:text-3xl leading-snug tracking-[0.12em] uppercase text-balance text-[#FAF8F5] mb-4 md:mb-5"
-          >
-            Work With a Producer Who Builds Systems
-          </h2>
-          <p className="text-[15px] md:text-[17px] leading-relaxed text-balance text-[#B8B0A8] mb-7 md:mb-9 max-w-[290px] md:max-w-md mx-auto">
-            A 30 minute call about your business: what still runs through you, and what a system could run
-            instead.
-          </p>
-          {/* One action. Call, text and email sit right below in the footer. */}
-          <button onClick={openCalendly} className={primaryButton}>
-            Book a Strategy Call
-            <ArrowRight className="w-4 h-4" />
-          </button>
-        </div>
-      </section>
+        {/* Final ask, right before the footer. */}
+        <section aria-labelledby="credits-final-cta" className="px-6 pt-2 pb-16 md:px-10 md:pb-24">
+          <div className="mx-auto max-w-3xl px-6 py-10 md:px-16 md:py-16 bg-[#1A1A1A] border border-[#3D3A35] text-center">
+            <h2
+              id="credits-final-cta"
+              className="font-display text-[1.25rem] md:text-3xl leading-snug tracking-[0.12em] uppercase text-balance text-[#FAF8F5] mb-4 md:mb-5"
+            >
+              Work With a Producer Who Builds Systems
+            </h2>
+            <p className="text-[15px] md:text-[17px] leading-relaxed text-balance text-[#B8B0A8] mb-7 md:mb-9 max-w-[290px] md:max-w-md mx-auto">
+              A 30 minute call about your business: what still runs through you, and what a system could run
+              instead.
+            </p>
+            {/* One action. Call, text and email sit right below in the footer. */}
+            <button onClick={openCalendly} className={primaryButton}>
+              Book a Strategy Call
+              <ArrowRight className="w-4 h-4" />
+            </button>
+          </div>
+        </section>
+      </main>
 
       <FooterSection />
       <CalendlyModal isOpen={isCalendlyOpen} onClose={() => setIsCalendlyOpen(false)} />

@@ -10,28 +10,10 @@ import type { InsightSummary } from "@/lib/insights-data";
   Shared by /insights and /insights/[slug]. The unprefixed classes are the
   phone design, approved as it is. From md (768px) up the same blocks take a
   desktop size through md: and lg: variants only, so nothing on a phone moves:
-  the bar's row sits in a centered max-w-6xl container, list rows can stand
-  side by side (the article page's Keep Reading), and the closing card is
-  centered at max-w-3xl.
+  list rows can stand side by side (the article page's Keep Reading), and the
+  closing card shares the article body's max-w-2xl column. The top bar is the
+  site's shared SiteHeader.
 */
-
-export function InsightsNav({ onBook }: { onBook: () => void }) {
-  return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-[#0D0D0D]/85 backdrop-blur-md border-b border-[#3D3A35]/60">
-      <div className="mx-auto w-full max-w-6xl px-6 md:px-10 h-14 md:h-16 flex items-center justify-between">
-        <Link href="/" className="font-display text-sm tracking-[0.12em] uppercase text-[#FAF8F5]">
-          Jotham Hall
-        </Link>
-        <button
-          onClick={onBook}
-          className="px-4 py-2 bg-[#D4A853] text-[#0D0D0D] text-[13px] font-medium tracking-wide hover:bg-[#E8C97A] transition-colors pointer-coarse:active:scale-[0.97]"
-        >
-          Book a Call
-        </button>
-      </div>
-    </nav>
-  );
-}
 
 export function Headshot({ size }: { size: number }) {
   return (
@@ -70,16 +52,26 @@ export function InsightMeta({ category, readTime }: { category: string; readTime
   );
 }
 
-/** One article in a list: category and read time, title, one line of excerpt. */
-export function InsightRow({ insight }: { insight: InsightSummary }) {
+/**
+  One article in a list: category and read time, title, one line of excerpt.
+  `card` (Keep Reading, where two stand side by side from md) makes each one a
+  bordered card from md up, so two neighboring links read as two separate
+  things; on a phone it stays a row under a hairline.
+*/
+export function InsightRow({ insight, card = false }: { insight: InsightSummary; card?: boolean }) {
   return (
-    <li className="border-b border-[#3D3A35]/60">
-      <Link href={`/insights/${insight.slug}`} className="group block py-5 md:py-7 active:opacity-80">
+    <li className={`border-b border-[#3D3A35]/60${card ? " md:border-b-0" : ""}`}>
+      <Link
+        href={`/insights/${insight.slug}`}
+        className={`group block py-5 md:py-7 active:opacity-80${
+          card ? " md:h-full md:px-5 md:bg-[#1A1A1A] md:border md:border-[#3D3A35] md:hover:border-[#D4A853]/40 md:transition-colors" : ""
+        }`}
+      >
         <InsightMeta category={insight.category} readTime={insight.readTime} />
         <h3 className="mt-2 md:mt-3 text-[1.0625rem] md:text-xl font-medium leading-snug text-balance text-[#FAF8F5] group-hover:text-[#E8C97A] transition-colors">
           {insight.title}
         </h3>
-        <p className="mt-1.5 md:mt-2.5 text-[15px] md:text-base leading-relaxed text-[#B8B0A8] line-clamp-1 md:line-clamp-2">
+        <p className="mt-1.5 md:mt-2.5 text-[15px] md:text-base leading-relaxed text-pretty text-[#B8B0A8] line-clamp-1 md:line-clamp-2">
           {insight.excerpt}
         </p>
       </Link>
@@ -88,16 +80,14 @@ export function InsightRow({ insight }: { insight: InsightSummary }) {
 }
 
 /**
-  The closing block on both pages. It sits directly above FooterSection: the
-  site's floating Book a Call treats the element right before the footer as the
-  closing block and steps aside when it shows, so two booking buttons never
-  stack. One action only, as on the other pages; call, text and email are
-  listed in the footer right below.
+  The closing block on both pages, directly above FooterSection. One action
+  only, as on the other pages; call, text and email are listed in the footer
+  right below.
 */
 export function ClosingCTA({ onBook }: { onBook: () => void }) {
   return (
     <section className="px-6 pb-16 md:px-10 md:pb-24">
-      <div className="px-6 py-10 md:px-16 md:py-16 md:mx-auto md:max-w-3xl bg-[#1A1A1A] border border-[#3D3A35] text-center">
+      <div className="px-6 py-10 md:px-16 md:py-16 md:mx-auto md:max-w-2xl bg-[#1A1A1A] border border-[#3D3A35] text-center">
         <div className="flex justify-center mb-5 md:mb-6">
           <Headshot size={64} />
         </div>
@@ -105,11 +95,12 @@ export function ClosingCTA({ onBook }: { onBook: () => void }) {
         <h2 className="font-display text-[1.375rem] md:text-3xl leading-snug tracking-[0.12em] uppercase text-balance text-[#FAF8F5] mb-4 md:mb-5">
           Put These Ideas to Work
         </h2>
-        <p className="text-[15px] md:text-[17px] leading-relaxed text-[#B8B0A8] mb-7 md:mb-9 max-w-[300px] md:max-w-md mx-auto">
+        <p className="text-[15px] md:text-[17px] leading-relaxed text-pretty text-[#B8B0A8] mb-7 md:mb-9 max-w-[300px] md:max-w-md mx-auto">
           I build AI systems and apps for business owners, after 15 years producing TV. Book a free strategy call and
           I will show you the first system worth building.
         </p>
         <button
+          type="button"
           onClick={onBook}
           className="w-full py-3.5 bg-[#D4A853] text-[#0D0D0D] text-sm font-medium tracking-wide hover:bg-[#E8C97A] transition-colors flex items-center justify-center gap-2 pointer-coarse:active:scale-[0.97] md:w-fit md:min-w-[280px] md:px-10 md:mx-auto"
         >

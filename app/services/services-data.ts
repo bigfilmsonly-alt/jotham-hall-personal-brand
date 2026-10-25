@@ -48,13 +48,7 @@ export type Service = {
   meta: { description: string; keywords: string[] };
 };
 
-// Verified on /credits: 50+ credits, 2008 to present, seven networks.
-export const credentials = [
-  { value: "50+", label: "TV Credits" },
-  { value: "15", label: "Years in TV" },
-  { value: "7", label: "Networks" },
-];
-
+// The TV record on every proof grid. Verified on /credits: 50+ credits, 2008 to present.
 export const tvProof = {
   label: "15 Years · 50+ Credits",
   name: "Network TV",
@@ -121,8 +115,8 @@ export const services: Service[] = [
     proof: [
       { slug: "lumi", note: "My app for med spas, with an assistant that answers client questions." },
       { slug: "peaceful-healing-rx", note: "I built this free app. It interprets for patients and explains bills in plain words." },
-      { slug: "verza-tv", note: verzaNote },
-      { slug: "evolve-longevity", note: "I built the clinic's website and its iPhone app, now in private beta." },
+      { slug: "saas-agency", note: "My agency builds CRM, email, and SMS automation." },
+      { slug: "ai-army", note: "My training for owners who want to automate their work. The waitlist is open." },
     ],
     faqs: [
       technicalFaq,
@@ -132,7 +126,7 @@ export const services: Service[] = [
       },
       {
         question: "Will AI replace my team?",
-        answer: "No. It takes repetitive work off their plate, so they can spend more time with clients.",
+        answer: "No. It takes over the routine tasks, and your team keeps the work that needs a person.",
       },
       costFaq,
     ],
@@ -153,13 +147,13 @@ export const services: Service[] = [
     summary: "A clear path from first click to paying client.",
     headline: "Turn more of your leads into clients",
     intro:
-      "I build the path from first click to paying client: capture, instant follow up, booking, and tracking, so leads stop slipping through the cracks.",
+      "I build the path from first click to paying client: capture, instant follow up, booking, and tracking, so every lead gets a fast reply.",
     forWho: [
-      "Leads come in, but follow up is hit or miss.",
+      "Leads come in, but some never hear back.",
       "Booking a call takes a string of messages.",
       "You can't see which marketing brings in clients.",
     ],
-    deliverablesTitle: "From first click to client",
+    deliverablesTitle: "The whole path, built",
     deliverables: [
       { title: "Lead capture", detail: "Pages and forms built to turn visitors into leads." },
       {
@@ -176,15 +170,15 @@ export const services: Service[] = [
       },
     ],
     steps: [
-      { title: "Strategy Call", detail: "Free, 30 minutes. We trace where your leads come from and where they drop off." },
-      { title: "Plan", detail: "I map the full path from first click to paying client, with a clear scope." },
+      { title: "Strategy Call", detail: "Free, 30 minutes. We trace where your leads come from and what happens to each one." },
+      { title: "Plan", detail: "I map every step a lead takes, with a clear scope." },
       { title: "Build", detail: "I build the pages, follow up, and pipeline, test every step, and launch." },
     ],
     proof: [
       { slug: "evolve-longevity", note: "I built the clinic's website, with treatment pages and consultation booking." },
       { slug: "lumi", note: "Booking, a skincare shop, and rewards on every visit, in each spa's own app." },
       { slug: "the-boat-goat", note: "I built the site and booking flow. Guests book by text, call, or a short form." },
-      { slug: "voltage-capital", note: "I built the site and its owner diagnostic, with strategy calls booked from it." },
+      { slug: "voltage-capital", note: "I built the site and its free diagnostic for owners. Strategy calls book from the site." },
     ],
     faqs: [
       {
@@ -196,7 +190,7 @@ export const services: Service[] = [
     ],
     closing: {
       headline: "Ready to stop losing leads?",
-      line: "Book a free 30 minute call, and we'll find where your leads slip away.",
+      line: "Book a free 30 minute call, and we'll find the gaps in your follow up.",
     },
     meta: {
       description:
@@ -211,34 +205,33 @@ export const services: Service[] = [
     summary: "A focused plan for what to do next, in the right order.",
     headline: "Know exactly what to do next",
     intro:
-      "I help owners cut through the noise, choose the right priorities, and turn them into a plan the team can execute.",
+      "I help owners cut through the noise, choose the right priorities, and turn them into a plan the team can run.",
     forWho: [
       "You're busy every day, but not sure it's on the right things.",
-      "You have more ideas than time, and no clear order.",
+      "You have more ideas than time, and no way to rank them.",
       "A big decision is coming: a launch, a hire, a new market, or a sale.",
     ],
     deliverablesTitle: "Clarity you can act on",
     deliverables: [
       { title: "A clear diagnosis", detail: "Where the business stands, and the bottleneck holding it back." },
-      { title: "A focused plan", detail: "Priorities for the next 90 days, in order, with clear milestones." },
+      { title: "A focused plan", detail: "Priorities for the next 90 days, in order, with milestones." },
       { title: "Positioning and revenue model", detail: "How you stand out, who you sell to, and how you make money." },
-      { title: "Advice while you execute", detail: "We meet regularly, so the plan actually gets done." },
+      { title: "Advice along the way", detail: "Answers as decisions come up, so the plan actually gets done." },
     ],
     steps: [
       { title: "Strategy Call", detail: "Free, 30 minutes. You walk me through the business and the decision in front of you." },
-      { title: "Plan", detail: "I study the numbers and the market, then deliver a written plan with clear priorities." },
-      { title: "Advise", detail: "We meet on a steady rhythm while you execute, and adjust as results come in." },
+      { title: "Plan", detail: "I study the numbers and the market, then write your plan." },
+      { title: "Advise", detail: "We meet on a steady rhythm and adjust as results come in." },
     ],
     proof: [
       { slug: "evolve-longevity", note: "Strategic partner to the clinic, from growth strategy to its website and app." },
       { slug: "success-upgrade", note: "My company for entrepreneurs: agency, AI training, mentorship, and strategy calls." },
       { slug: "mediamd", note: "Creative Director for a company that helps medical practices get found." },
-      { slug: "verza-tv", note: verzaNote },
     ],
     faqs: [
       {
         question: "Is this a one time plan or ongoing?",
-        answer: "Either. Some owners want a plan to run on their own. Others want me alongside them while they execute.",
+        answer: "Either. Some owners want a plan to run on their own. Others want me alongside them as they go.",
       },
       {
         question: "Can you also build what the plan calls for?",
@@ -248,8 +241,8 @@ export const services: Service[] = [
       costFaq,
     ],
     closing: {
-      headline: "Ready for a clear plan?",
-      line: "Book a free 30 minute call, and bring the decision in front of you.",
+      headline: "Ready for a plan?",
+      line: "Book a free 30 minute call, and bring your next big decision.",
     },
     meta: {
       description:
@@ -264,7 +257,7 @@ export const services: Service[] = [
     summary: "One connected system your team can run without you.",
     headline: "Run the business on systems, not on you",
     intro:
-      "I design and build the connected tools, workflows, and processes that let your business grow without everything running through you.",
+      "I design and build the connected tools, workflows, and processes that let your business grow without you in the middle of everything.",
     forWho: [
       "Your tools don't talk to each other.",
       "Every decision and handoff runs through you.",
@@ -278,7 +271,7 @@ export const services: Service[] = [
       { title: "Documented processes", detail: "Clear written steps, so the work doesn't depend on you." },
     ],
     steps: [
-      { title: "Strategy Call", detail: "Free, 30 minutes. We walk through how work moves through your business today." },
+      { title: "Strategy Call", detail: "Free, 30 minutes. You show me how work moves around the business today." },
       { title: "Design", detail: "I map the current systems and design the new ones around your team." },
       { title: "Build", detail: "I build and connect everything, document it, and hand it over." },
     ],
@@ -291,7 +284,7 @@ export const services: Service[] = [
     faqs: [
       {
         question: "Do you design it, or build it too?",
-        answer: "Both. I design the system, then build it with your team or mine.",
+        answer: "Both. I design the system, then build it.",
       },
       technicalFaq,
       costFaq,
@@ -327,14 +320,14 @@ export const servicesIndex = {
   faqs: [
     {
       question: "Which service is right for me?",
-      answer: "Start with the problem that costs you the most today. If you're not sure, book the call and I'll tell you where to start.",
+      answer: "Start with the problem that costs you the most today. The others can come later.",
     },
     callFaq,
     costFaq,
   ] as ServiceFaq[],
   closing: {
     headline: "Not sure which one fits?",
-    line: "Book a free 30 minute call, and I'll tell you where to start.",
+    line: "Book a free 30 minute call, and we'll pick your first fix.",
   },
 };
 

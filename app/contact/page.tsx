@@ -6,6 +6,7 @@ import { ArrowRight } from "lucide-react";
 import { FooterSection } from "@/components/landing/footer-section";
 import { CalendlyModal } from "@/components/calendly-modal";
 import { ContactForm, DirectContactList } from "@/components/landing/contact-modal";
+import { SiteHeader } from "@/components/site-header";
 
 /*
   The fastest ways to reach Jo, in order: book a call, then call, text or
@@ -14,7 +15,11 @@ import { ContactForm, DirectContactList } from "@/components/landing/contact-mod
   The unprefixed classes are the phone design. From md: up the page fills the
   window with each block centered at its own measure: the hero at max-w-3xl,
   call, text and email as a centered list (three columns from lg:), the form
-  at max-w-xl, the questions at reading width, then the closing card.
+  at max-w-xl (max-w-4xl from lg:, its choices three across), the questions
+  at reading width, then the closing card.
+
+  The hero's top space and portrait follow the window's height from md: up,
+  so Book a Strategy Call stays above the tab bar on short laptop screens.
 */
 
 const faqs = [
@@ -46,15 +51,17 @@ export default function ContactPage() {
 
   return (
     <>
-      <main className="min-h-screen bg-background pb-36">
-        <header className="px-6 pt-14 pb-10 text-center md:mx-auto md:max-w-3xl md:px-10 md:pt-24 md:pb-16 lg:pt-28">
+      <SiteHeader />
+      {/* The footer ends the page with its own clearance for the tab bar. */}
+      <main className="min-h-screen bg-background">
+        <header className="px-6 pt-28 pb-10 text-center md:mx-auto md:max-w-3xl md:px-10 md:pt-[clamp(5rem,13vh,8rem)] md:pb-16">
           <Image
             src="/jotham-hall-headshot-480.jpg"
             alt="Jotham Hall"
             width={160}
             height={160}
             priority
-            className="w-20 h-20 rounded-full object-cover border-2 border-[#D4A853]/30 shadow-[0_0_30px_rgba(212,168,83,0.15)] mx-auto mb-6 md:w-28 md:h-28 md:mb-8"
+            className="w-20 h-20 rounded-full object-cover border-2 border-[#D4A853]/30 shadow-[0_0_30px_rgba(212,168,83,0.15)] mx-auto mb-6 md:w-[clamp(4.5rem,11vh,7rem)] md:h-[clamp(4.5rem,11vh,7rem)] md:mb-8"
           />
           <p className="text-[11px] tracking-[0.15em] uppercase text-[#D4A853] mb-3 md:text-xs md:mb-4">Contact</p>
           <h1 className="font-display text-[2.25rem] leading-tight tracking-[0.12em] uppercase text-balance text-[#FAF8F5] mb-4 md:text-5xl lg:text-6xl md:mb-6">
@@ -94,10 +101,10 @@ export default function ContactPage() {
               Tell Me About Your Business
             </h2>
             <p className="text-[15px] text-[#B8B0A8] leading-relaxed text-balance max-w-[320px] mx-auto md:text-[17px] md:max-w-xl">
-              Seven quick questions, about a minute. Most take one tap.
+              Seven quick questions, about a minute. Most are multiple choice.
             </p>
           </div>
-          <div className="md:mx-auto md:max-w-xl">
+          <div className="md:mx-auto md:max-w-xl lg:max-w-4xl">
             <ContactForm onBook={openCalendly} />
           </div>
         </section>
@@ -113,7 +120,7 @@ export default function ContactPage() {
             {faqs.map((faq) => (
               <div key={faq.question} className="py-6 md:py-8">
                 <dt className="text-base font-medium text-[#FAF8F5] mb-2 md:text-lg md:mb-3">{faq.question}</dt>
-                <dd className="text-[15px] text-[#B8B0A8] leading-relaxed text-pretty md:text-[17px]">{faq.answer}</dd>
+                <dd className="text-[15px] text-[#B8B0A8] leading-relaxed text-pretty md:max-w-xl md:text-[17px]">{faq.answer}</dd>
               </div>
             ))}
           </dl>

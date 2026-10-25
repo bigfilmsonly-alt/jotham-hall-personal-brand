@@ -148,7 +148,7 @@ export function FooterSection() {
               {contactLines.map((line) => (
                 <li key={line.label}>
                   <a href={line.href} className="group flex min-h-[52px] items-center justify-between gap-4">
-                    <span className="text-[11px] tracking-[0.15em] uppercase text-[#8A837B] md:text-xs">{line.label}</span>
+                    <span className="text-xs tracking-[0.15em] uppercase text-[#8A837B]">{line.label}</span>
                     <span className="text-[15px] text-[#FAF8F5] transition-colors group-hover:text-[#E8C97A] md:text-base">
                       {line.value}
                     </span>
@@ -229,7 +229,8 @@ export function FooterSection() {
                 href="https://successupgrade.ai"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-[#B8B0A8] transition-colors hover:text-[#D4A853]"
+                // Taller tap area on touch screens; the negative margin keeps the line where it was.
+                className="text-[#B8B0A8] transition-colors hover:text-[#D4A853] pointer-coarse:inline-block pointer-coarse:-my-3.5 pointer-coarse:py-3.5"
               >
                 SuccessUpgrade.ai
               </a>

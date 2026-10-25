@@ -6,7 +6,8 @@ import { ArrowRight } from "lucide-react";
 import { CalendlyModal } from "@/components/calendly-modal";
 import { FooterSection } from "@/components/landing/footer-section";
 import type { InsightSummary } from "@/lib/insights-data";
-import { ClosingCTA, Headshot, InsightMeta, InsightRow, InsightsNav, SectionLabel } from "./insights-shared";
+import { SiteHeader } from "@/components/site-header";
+import { ClosingCTA, Headshot, InsightMeta, InsightRow, SectionLabel } from "./insights-shared";
 
 /*
   One centered column at every screen size (see insights-shared.tsx): who
@@ -26,7 +27,7 @@ export function InsightsIndex({ featured, articles }: Props) {
   return (
     <>
       <main className="min-h-screen bg-[#0D0D0D]">
-        <InsightsNav onBook={openCalendly} />
+        <SiteHeader />
 
         <header className="px-6 pt-28 pb-12 text-center">
           <h1 className="font-display text-[2.25rem] leading-none tracking-[0.12em] uppercase text-[#FAF8F5]">

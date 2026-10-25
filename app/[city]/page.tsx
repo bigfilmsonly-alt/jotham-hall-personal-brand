@@ -98,7 +98,6 @@ export default async function CityPage({ params }: { params: Promise<{ city: str
           faqs: [...copy.faqs, city.localFaq],
           closingTitle: copy.closingTitle,
           closingBody: copy.closingBody,
-          notesTitle: copy.notesTitle,
         }}
         ventures={proofVentures(city.proof)}
       />

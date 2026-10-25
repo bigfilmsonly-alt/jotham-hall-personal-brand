@@ -6,6 +6,7 @@ import Link from "next/link";
 import { ArrowRight, Check, Copy, Download, Mail, MessageSquare, Phone } from "lucide-react";
 import { ContactModal } from "@/components/landing/contact-modal";
 import { FooterSection } from "@/components/landing/footer-section";
+import { SiteHeader } from "@/components/site-header";
 import { ventures } from "@/lib/ventures";
 
 /*
@@ -26,7 +27,9 @@ const stats = [
   { value: "7", label: "Networks" },
 ];
 
-// One show per network, newest first. Jo was Talent Producer on each.
+// Every network, newest first, with Rock of Love beside Flavor of Love so the
+// eight fill four even rows of two on desktop. Jo was talent producer on each
+// (app/credits/credits-content.tsx).
 const shows = [
   { show: "Finding Mr. Christmas", network: "Hallmark" },
   { show: "Ciao House", network: "Food Network" },
@@ -34,6 +37,7 @@ const shows = [
   { show: "Temptation Island", network: "USA Network" },
   { show: "After Happily Ever After", network: "BET" },
   { show: "Flavor of Love", network: "VH1" },
+  { show: "Rock of Love", network: "VH1" },
   { show: "From G’s to Gents", network: "MTV" },
 ];
 
@@ -46,7 +50,7 @@ const topics = [
     text: "How AI agents and automation take over repetitive work, so a small team can grow without adding headcount.",
   },
   {
-    title: "The Vibe Coding Revolution",
+    title: "The Vibe Coding\u00A0Revolution",
     text: "How anyone can build working apps by describing them in plain words, and what that changes for every team.",
   },
   {
@@ -60,15 +64,15 @@ const topics = [
 ];
 
 const formats = [
-  { name: "Keynote", duration: "45 to 60 min", text: "A focused talk for conferences, summits, and company events." },
+  { name: "Keynote", duration: "45 to 60 minutes", text: "A focused talk for conferences, summits, and company events." },
   { name: "Workshop", duration: "2 to 4 hours", text: "A working session for teams, with exercises and clear takeaways." },
-  { name: "Fireside Chat", duration: "30 to 45 min", text: "A guided conversation on stage, with time for audience questions." },
-  { name: "Podcast Guest", duration: "60 to 90 min", text: "A conversation on AI, business, and entrepreneurship for your show." },
+  { name: "Fireside Chat", duration: "30 to 45 minutes", text: "A guided conversation on stage, with time for audience questions." },
+  { name: "Podcast Guest", duration: "60 to 90 minutes", text: "A conversation on AI, business, and entrepreneurship for your show." },
 ];
 
 // Third person, ready to paste into a program. Every fact is on /credits or /ventures.
 const BIO =
-  "Jotham Hall is a television producer turned AI systems architect. Over 15 years in TV, Jotham earned more than 50 credits on Hallmark, Food Network, VH1, MTV, USA Network, NBC, and BET, including Finding Mr. Christmas, Ciao House, and Temptation Island. Today Jotham builds apps and AI systems for businesses, including the Verza TV app on the App Store, and is the founder of Success Upgrade, based in Miami Beach.";
+  "Jotham Hall is a television producer turned AI systems architect. Across 15 years in TV, Jotham earned more than 50 credits on Hallmark, Food Network, VH1, MTV, USA Network, NBC, and BET, including Finding Mr. Christmas, Ciao House, and Temptation Island. Today Jotham builds apps and AI systems for businesses, including the Verza TV app on the App Store, and is the founder of Success Upgrade, based in Miami Beach.";
 
 // Opens the visitor's mail app with the details an organizer would send anyway.
 const EMAIL_HREF = `mailto:bigfilmsonly@gmail.com?subject=${encodeURIComponent(
@@ -123,7 +127,7 @@ function ContactOptions({ id }: { id: string }) {
         </a>
         <a href={EMAIL_HREF} className={row}>
           <Mail className="w-4 h-4 shrink-0 text-[#D4A853]" />
-          bigfilmsonly@gmail.com
+          Email bigfilmsonly@gmail.com
         </a>
       </div>
     </div>
@@ -152,28 +156,33 @@ export function SpeakingPage() {
 
   return (
     <>
+      <SiteHeader />
       <main className="min-h-screen bg-background">
-        {/* Hero: who Jo is, where, and one way to book */}
-        <header className="px-6 pt-14 pb-14 text-center md:mx-auto md:max-w-3xl md:px-10 md:pt-24 md:pb-20">
+        {/* Hero: who Jo is, what an audience gets, and one way to book. It
+            starts below the fixed top bar (56px, 64px from md); the top
+            padding, the desktop portrait and gaps scale with the screen's
+            height (svh), so the inquiry button clears the tab bar on first load
+            on short screens (375x667, a laptop at 1366x657) too. */}
+        <header className="px-6 pt-[clamp(5.5rem,14svh,7rem)] pb-14 text-center md:mx-auto md:max-w-3xl md:px-10 md:pt-[clamp(5rem,12svh,8rem)] md:pb-20">
           <Image
             src="/jotham-hall-headshot-480.jpg"
             alt="Jotham Hall"
             width={224}
             height={224}
             preload
-            className="w-28 h-28 md:w-40 md:h-40 rounded-full object-cover border-2 border-[#D4A853]/30 shadow-[0_0_30px_rgba(212,168,83,0.15)] md:shadow-[0_0_44px_rgba(212,168,83,0.15)] mx-auto mb-6 md:mb-8"
+            className="size-28 md:size-[clamp(7rem,18svh,10rem)] rounded-full object-cover border-2 border-[#D4A853]/30 shadow-[0_0_30px_rgba(212,168,83,0.15)] md:shadow-[0_0_44px_rgba(212,168,83,0.15)] mx-auto mb-6 md:mb-[clamp(1.25rem,3.5svh,2rem)]"
           />
           <p className={`${label} mb-3 md:mb-4`}>Keynotes · Workshops · Podcasts</p>
           <h1 className="font-display text-[2rem] md:text-5xl lg:text-6xl leading-tight tracking-[0.12em] uppercase text-balance text-[#FAF8F5]">
             Jotham Hall
           </h1>
-          <p className="mt-4 md:mt-6 text-[1.0625rem] md:text-lg lg:text-xl leading-relaxed text-[#FAF8F5]/90 text-balance max-w-[320px] md:max-w-xl mx-auto">
-            TV producer of 15 years turned AI systems architect.
+          <p className="mt-4 md:mt-[clamp(1rem,3svh,1.5rem)] text-[1.0625rem] md:text-lg lg:text-xl leading-relaxed text-[#FAF8F5]/90 text-balance max-w-[340px] md:max-w-xl mx-auto">
+            Talks for founders and teams on running a business with AI, from a TV producer of 15 years.
           </p>
           <p className="mt-2 md:mt-3 text-[15px] md:text-[17px] leading-relaxed text-[#8A837B]">
             Based in Miami Beach. Available worldwide.
           </p>
-          <div className={`mt-8 md:mt-10 ${actions}`}>
+          <div className={`mt-8 md:mt-[clamp(1.75rem,5svh,2.5rem)] ${actions}`}>
             <button type="button" onClick={openInquiry} aria-haspopup="dialog" className={primaryButton}>
               Inquire About Speaking
               <ArrowRight className="w-4 h-4" />
@@ -190,12 +199,12 @@ export function SpeakingPage() {
             Talent producer on reality and competition shows across seven networks.
           </p>
           <div
-            className={`grid grid-cols-3 gap-2 mt-8 py-5 border-y ${hairline} md:mt-12 md:py-10 md:gap-0 md:max-w-5xl md:mx-auto md:divide-x md:divide-[#3D3A35]/60`}
+            className={`grid grid-cols-3 mt-8 py-5 border-y ${hairline} md:mt-12 md:py-10 md:max-w-5xl md:mx-auto md:divide-x md:divide-[#3D3A35]/60`}
           >
             {stats.map((stat) => (
               <div key={stat.label}>
                 <p className="font-display text-2xl md:text-5xl text-[#FAF8F5] tracking-wide">{stat.value}</p>
-                <p className="mt-1 md:mt-3 text-[10px] md:text-xs tracking-[0.15em] uppercase text-[#8A837B]">
+                <p className="mt-1 md:mt-3 text-xs tracking-[0.12em] uppercase text-[#8A837B]">
                   {stat.label}
                 </p>
               </div>
@@ -208,7 +217,7 @@ export function SpeakingPage() {
                 className={`flex items-baseline justify-between gap-4 py-3.5 border-b ${hairline} md:py-5`}
               >
                 <span className="text-[15px] md:text-[17px] text-[#FAF8F5]">{item.show}</span>
-                <span className="shrink-0 text-[11px] md:text-xs tracking-[0.15em] uppercase text-[#8A837B]">
+                <span className="shrink-0 text-[13px] tracking-[0.12em] uppercase text-[#8A837B]">
                   {item.network}
                 </span>
               </li>
@@ -249,7 +258,7 @@ export function SpeakingPage() {
                       {venture.category}
                     </span>
                   </span>
-                  <span className="shrink-0 px-2 py-0.5 text-[10px] md:text-xs tracking-[0.15em] uppercase border border-[#D4A853]/40 text-[#D4A853]">
+                  <span className="shrink-0 px-2 py-0.5 text-xs tracking-[0.12em] uppercase border border-[#D4A853]/40 text-[#D4A853]">
                     {venture.status}
                   </span>
                 </Link>
@@ -269,10 +278,11 @@ export function SpeakingPage() {
           <ol className="mt-8 space-y-3 text-left md:mt-12 md:max-w-5xl md:mx-auto md:grid md:grid-cols-2 md:gap-4 md:space-y-0">
             {topics.map((topic, index) => (
               <li key={topic.title} className="bg-[#1A1A1A] border border-[#3D3A35] p-6 md:p-8 lg:p-10">
-                <span className="font-mono text-xs md:text-sm text-[#D4A853]/80">
+                <span className="font-display text-sm tracking-[0.15em] text-[#D4A853] md:text-base">
                   {String(index + 1).padStart(2, "0")}
                 </span>
-                <h3 className="mt-3 md:mt-4 font-display text-[1.0625rem] md:text-xl leading-snug tracking-[0.12em] uppercase text-balance text-[#FAF8F5]">
+                {/* Two lines tall from md, so the descriptions in a row start level. */}
+                <h3 className="mt-3 md:mt-4 md:min-h-[2lh] font-display text-[1.0625rem] md:text-xl leading-snug tracking-[0.12em] uppercase text-balance text-[#FAF8F5]">
                   {topic.title}
                 </h3>
                 <p className="mt-2.5 md:mt-3 text-[15px] md:text-[17px] leading-relaxed text-pretty text-[#B8B0A8]">
@@ -330,7 +340,7 @@ export function SpeakingPage() {
                 <p className="font-display text-[0.95rem] md:text-xl tracking-[0.12em] uppercase text-[#FAF8F5]">
                   Jotham Hall
                 </p>
-                <p className="mt-1 md:mt-1.5 text-[10px] md:text-xs tracking-[0.15em] uppercase text-[#8A837B]">
+                <p className="mt-1 md:mt-1.5 text-xs tracking-[0.15em] uppercase text-[#8A837B]">
                   Short Bio
                 </p>
               </div>
@@ -366,11 +376,7 @@ export function SpeakingPage() {
           </p>
         </section>
 
-        {/*
-          Closing: the same action as the hero. It sits right before the footer
-          on purpose: the floating Book a Call button steps aside when the
-          footer's previous sibling reaches the screen, so it never covers this.
-        */}
+        {/* Closing: the same action as the hero, right before the footer. */}
         <section className="mx-6 mb-14 px-6 py-10 bg-[#1A1A1A] border border-[#3D3A35] text-center md:mx-auto md:mb-20 md:max-w-2xl md:px-12 md:py-16">
           <p className={`${label} mb-3 md:mb-4`}>Bookings</p>
           <h2 className="font-display text-xl md:text-3xl leading-snug tracking-[0.12em] uppercase text-balance text-[#FAF8F5] mb-3 md:mb-4">
@@ -392,7 +398,9 @@ export function SpeakingPage() {
         <FooterSection />
       </main>
 
-      <ContactModal isOpen={isContactOpen} onClose={() => setIsContactOpen(false)} />
+      {/* Both "Inquire About Speaking" buttons open this: the event inquiry
+          (the speaking questions), not the business application. */}
+      <ContactModal variant="speaking" isOpen={isContactOpen} onClose={() => setIsContactOpen(false)} />
     </>
   );
 }
