@@ -36,7 +36,7 @@ export function InsightsNav({ onBook }: { onBook: () => void }) {
 export function Headshot({ size }: { size: number }) {
   return (
     <Image
-      src="/jotham-hall-headshot.jpg"
+      src="/jotham-hall-headshot-480.jpg"
       alt="Jotham Hall"
       width={size * 2}
       height={size * 2}

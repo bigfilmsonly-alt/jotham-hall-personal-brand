@@ -11,7 +11,8 @@ export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
   maximumScale: 5,
-  themeColor: '#0a0a0a',
+  // The page background, so the browser's own bars run into the page.
+  themeColor: '#0D0D0D',
   colorScheme: 'dark',
 }
 
@@ -31,7 +32,7 @@ export const metadata: Metadata = {
     default: 'Jotham Hall | AI Systems Architect & TV Producer | VibeCoding Pioneer',
     template: '%s | Jotham Hall'
   },
-  description: 'Jotham Hall is an AI systems architect, television producer (50+ credits: Hallmark, Food Network, VH1, MTV, NBC), and pioneer of VibeCoding. Founder of Success Upgrade. Builds practical business systems with AI and automation.',
+  description: 'Jotham Hall builds AI systems that grow businesses, drawing on 15 years as a TV producer with 50+ credits on Hallmark, Food Network, VH1, MTV, and NBC.',
   generator: 'v0.app',
   keywords: [
     'Jotham Hall', 'Who is Jotham Hall', 'Jotham Hall entrepreneur', 'Jotham Hall founder', 'Jotham Hall Miami',
@@ -78,12 +79,12 @@ export const metadata: Metadata = {
       },
     ],
   },
+  // No title or description: Next fills them from each page's openGraph, so a
+  // link shared on X shows that page rather than the home page's words.
   twitter: {
     card: 'summary_large_image',
     site: '@successupgrade_',
     creator: '@successupgrade_',
-    title: 'Jotham Hall | AI Systems Architect & TV Producer',
-    description: 'I help founders build revenue systems that scale. 15 years in TV. Book a strategy call.',
     images: {
       url: '/og-jotham-hall.jpg',
       alt: 'Jotham Hall, AI Systems Architect',
@@ -119,8 +120,7 @@ export const metadata: Metadata = {
     },
   },
   other: {
-    'theme-color': '#0a0a0a',
-    'msapplication-TileColor': '#0a0a0a',
+    'msapplication-TileColor': '#0D0D0D',
     'apple-mobile-web-app-capable': 'yes',
     'apple-mobile-web-app-status-bar-style': 'black-translucent',
     'geo.region': 'US-FL',
@@ -139,15 +139,8 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${cinzel.variable} ${inter.variable}`}>
       <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
         <meta name="format-detection" content="telephone=no" />
         <meta name="mobile-web-app-capable" content="yes" />
-        <link rel="alternate" type="application/rss+xml" title="Jotham Hall - Insights" href="/feed.xml" />
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <meta name="author" content="Jotham Hall" />
-        <meta name="geo.region" content="US-FL" />
-        <meta name="geo.placename" content="Miami Beach" />
         <StructuredData />
         {/* Google Tag Manager */}
         <script

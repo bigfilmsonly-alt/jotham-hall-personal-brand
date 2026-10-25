@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import { fitDescription } from "@/lib/seo";
 import type { Metadata } from "next";
 import {
   INSIGHTS_INDEX_LIVE,
@@ -24,6 +25,7 @@ export async function generateStaticParams() {
 }
 
 // The root layout's title template adds "| Jotham Hall", so titles here stay bare.
+// A title that would pass 65 characters with it drops it, so search shows it whole.
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const insight = getInsightBySlug(slug);
@@ -34,13 +36,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   const url = `${SITE}/insights/${insight.slug}`;
   return {
-    title: insight.title,
-    description: insight.excerpt,
+    title: `${insight.title} | Jotham Hall`.length > 65 ? { absolute: insight.title } : insight.title,
+    description: fitDescription(insight.excerpt),
     keywords: insight.keywords,
     authors: [{ name: "Jotham Hall", url: SITE }],
     openGraph: {
       title: insight.title,
-      description: insight.excerpt,
+      description: fitDescription(insight.excerpt),
       type: "article",
       publishedTime: insight.publishedAt,
       authors: ["Jotham Hall"],
@@ -53,7 +55,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     twitter: {
       card: "summary_large_image",
       title: insight.title,
-      description: insight.excerpt,
+      description: fitDescription(insight.excerpt),
       images: ["/og-jotham-hall.jpg"],
     },
     alternates: {

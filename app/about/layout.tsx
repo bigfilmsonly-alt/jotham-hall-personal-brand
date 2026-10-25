@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 const description =
-  "Jotham Hall spent 15 years producing network TV, with 50+ credits on Hallmark, Food Network, NBC, VH1, and MTV, and now builds AI systems and apps for businesses.";
+  "Jotham Hall spent 15 years producing network TV, with 50+ credits on Hallmark, Food Network, NBC, VH1, and MTV, and now builds AI systems and apps.";
 
 // The square headshot as the share image: this is the profile page.
 // openGraph and twitter here replace the root layout's blocks rather than

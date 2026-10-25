@@ -1,11 +1,11 @@
 {
   "name": "Jotham Hall",
   "short_name": "Jotham Hall",
-  "description": "Jotham Hall is an entrepreneur, AI strategist, and creative technologist based in Miami Beach. Founder of Success Upgrade, Big Films Only, and Say It Build It.",
+  "description": "Jotham Hall builds AI systems that grow businesses, drawing on 15 years as a TV producer with 50+ credits on Hallmark, Food Network, VH1, MTV, and NBC.",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#0a0a0a",
-  "theme_color": "#0a0a0a",
+  "background_color": "#0D0D0D",
+  "theme_color": "#0D0D0D",
   "icons": [
     {
       "src": "/icon-192.png",

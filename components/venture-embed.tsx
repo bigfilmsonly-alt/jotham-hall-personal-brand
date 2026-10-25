@@ -40,6 +40,7 @@ export function VentureEmbed({ name, site, backHref }: { name: string; site: str
 
   return (
     <div className="fixed inset-0 z-[60] bg-[#0D0D0D]">
+      <h1 className="sr-only">{name}</h1>
       {/*
         A returning strip, not a title bar. The guest's own full width header
         sits directly underneath, so anything with weight here reads as two

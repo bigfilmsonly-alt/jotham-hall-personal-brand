@@ -130,7 +130,7 @@ export default function AboutPage() {
       <header className="px-6 pt-14 pb-14 text-center animate-in fade-in duration-700 motion-reduce:animate-none md:px-10 md:pt-20 md:pb-20">
         <div className="mx-auto w-fit rounded-full border border-[#D4A853]/35 p-1.5 md:p-2">
           <Image
-            src="/jotham-hall-headshot.jpg"
+            src="/jotham-hall-headshot-480.jpg"
             alt="Jotham Hall"
             width={136}
             height={136}

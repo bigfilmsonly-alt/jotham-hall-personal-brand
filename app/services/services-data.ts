@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { SHARE_IMAGE } from "@/lib/seo";
 
 /*
   One list feeds /services, the four service pages, their metadata, and the
@@ -356,6 +357,7 @@ export function serviceMetadata(slug: ServiceSlug): Metadata {
       description: service.summary,
       type: "website",
       url,
+      images: [SHARE_IMAGE],
     },
     alternates: { canonical: url },
   };

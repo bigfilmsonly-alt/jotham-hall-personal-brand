@@ -27,6 +27,7 @@ export function PathRoom() {
   // On a desktop the strip's link lines up with the site's centered max-w-6xl bar row, and the join centers below it.
   return (
     <div className="fixed inset-0 z-[60] overflow-y-auto bg-[#0D0D0D]">
+      <h1 className="sr-only">The Path</h1>
       <div className="sticky top-0 z-10 flex items-center h-11 pl-2 md:pl-0 bg-black/85 backdrop-blur-xl border-b border-white/[0.04]">
         <div className="flex md:mx-auto md:w-full md:max-w-6xl md:px-8">
           <Link

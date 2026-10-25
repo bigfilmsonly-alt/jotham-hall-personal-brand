@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { VenturePageTemplate } from "@/components/venture-page-template";
 import { getVenture, ventures } from "@/lib/ventures";
+import { SHARE_IMAGE, fitDescription } from "@/lib/seo";
 
 export const dynamicParams = false;
 
@@ -17,11 +18,12 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   return {
     // The root layout's template appends "| Jotham Hall".
     title: `${venture.name} | Ventures`,
-    description: venture.description,
+    description: venture.searchDescription ?? fitDescription(venture.description),
     openGraph: {
       title: `${venture.name} | Jotham Hall Ventures`,
       description: venture.tagline,
       url,
+      images: [SHARE_IMAGE],
     },
     alternates: { canonical: url },
   };

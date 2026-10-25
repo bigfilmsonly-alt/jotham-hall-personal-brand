@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { SHARE_IMAGE } from "@/lib/seo";
 
 // The root template appends "| Jotham Hall", so the page title leaves the name out.
 export const metadata: Metadata = {
@@ -10,11 +11,13 @@ export const metadata: Metadata = {
     description: "Book a free strategy call, or call, text, or email Jotham Hall directly.",
     url: "https://jothamhall.com/contact",
     type: "website",
+    images: [SHARE_IMAGE],
   },
   twitter: {
     card: "summary_large_image",
     title: "Contact Jotham Hall | Book a Strategy Call",
     description: "Book a free strategy call, or call, text, or email Jotham Hall directly.",
+    images: [SHARE_IMAGE.url],
   },
   alternates: {
     canonical: "https://jothamhall.com/contact",

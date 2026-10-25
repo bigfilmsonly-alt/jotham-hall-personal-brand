@@ -351,7 +351,7 @@ export function HomeScreen() {
           {/* Who: photo, name, role */}
           <div className="animate-in fade-in zoom-in-95 duration-700 motion-reduce:animate-none">
             <Image
-              src="/jotham-hall-headshot.jpg"
+              src="/jotham-hall-headshot-480.jpg"
               alt="Jotham Hall"
               width={272}
               height={272}

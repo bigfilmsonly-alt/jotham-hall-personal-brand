@@ -119,7 +119,7 @@ export function Hero({
     <header className="px-6 pt-24 pb-14 md:px-10 md:pt-32 md:pb-20 text-center">
       <div className="mx-auto max-w-3xl">
         <Image
-          src="/jotham-hall-headshot.jpg"
+          src="/jotham-hall-headshot-480.jpg"
           alt="Jotham Hall"
           width={160}
           height={160}

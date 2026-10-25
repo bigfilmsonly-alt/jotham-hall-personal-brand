@@ -31,6 +31,9 @@ export type Venture = {
   year?: string;
   role?: string;
   description: string;
+  // What search results show, 155 characters or fewer. Without it the page uses
+  // as many whole sentences of `description` as fit (lib/seo.ts).
+  searchDescription?: string;
   features: string[];
   site: string;
   visitLabel: string;
@@ -53,6 +56,8 @@ export const ventures: Venture[] = [
     role: "Built the website and iPhone app, and ships its releases",
     description:
       "Verza TV is a streaming service for short vertical series, founded by Alan Mruvka. Viewers watch dramas, reality, anime, and music on the web and in the iPhone app.",
+    searchDescription:
+      "Verza TV is a streaming service for short vertical series, founded by Alan Mruvka: dramas, reality, anime, and music on the web and in the iPhone app.",
     features: [
       "Vertical episodes made for watching on a phone",
       "Drama, reality, anime, music, and Spanish language collections",
@@ -95,6 +100,8 @@ export const ventures: Venture[] = [
     role: "Strategic partner. Built the website and the iPhone app",
     description:
       "Evolve Longevity is a longevity and recovery clinic in Miami Beach, founded by Connor Wade. I am a strategic partner, and I built the clinic's website and its iPhone app, which is now in private beta.",
+    searchDescription:
+      "Evolve Longevity is a longevity and recovery clinic in Miami Beach, founded by Connor Wade. I built the clinic's website and its iPhone app.",
     features: [
       "Clinic website with treatment pages and consultation booking",
       "An iPhone app for clients, now in private beta",
@@ -135,6 +142,8 @@ export const ventures: Venture[] = [
     role: "Creative Director",
     description:
       "MediaMD helps medical practices get found in search and AI answers, and gives their patients one branded app to book visits, shop, collect rewards, and refer friends.",
+    searchDescription:
+      "MediaMD helps medical practices get found in search and AI answers, and gives patients one branded app to book visits, shop, and collect rewards.",
     features: [
       "Custom patient apps built around each practice's brand",
       "SEO and AI search visibility",
@@ -191,6 +200,8 @@ export const ventures: Venture[] = [
     status: "Private Beta",
     description:
       "CRNC is a payments platform where transactions cost almost nothing and settle in seconds. Customers earn rewards on every payment, and creators and customers share in the revenue.",
+    searchDescription:
+      "CRNC is a payments platform where transactions cost almost nothing and settle in seconds, and customers earn rewards on every payment.",
     features: [
       "Payments that settle in seconds",
       "Rewards earned on every transaction",
@@ -208,6 +219,8 @@ export const ventures: Venture[] = [
     status: "Live",
     description:
       "WebsiteWave builds custom websites designed to rank in local search and turn visitors into customers, along with mobile apps for the businesses behind them.",
+    searchDescription:
+      "WebsiteWave builds custom websites designed to rank in local search and turn visitors into customers, plus mobile apps for the businesses behind them.",
     features: [
       "Custom website design",
       "Local search pages for every service and city",
@@ -226,6 +239,8 @@ export const ventures: Venture[] = [
     role: "Built the website and booking flow",
     description:
       "The Boat Goat is Lex Lindquist's Miami yacht charter company. Guests browse boats by size and budget, then book directly with Lex by text, call, or a short request form.",
+    searchDescription:
+      "The Boat Goat is Lex Lindquist's Miami yacht charter company. Browse boats by size and budget, then book directly with Lex by text, call, or form.",
     features: [
       "Boats grouped by size, style, and budget",
       "Direct text and call booking with the owner",
@@ -245,6 +260,8 @@ export const ventures: Venture[] = [
     role: "Founder and CEO",
     description:
       "Success Upgrade is my home base for entrepreneurs. It brings my agency, my AI training path, mentorship, strategy calls, and every one of my brands together in one app.",
+    searchDescription:
+      "Success Upgrade is my home base for entrepreneurs: my agency, AI training path, mentorship, strategy calls, and every one of my brands in one app.",
     features: [
       "SaaS Agency: websites, apps, video, and follow up systems from one team",
       "The Path: a guided AI training program",
@@ -282,6 +299,8 @@ export const ventures: Venture[] = [
     role: "Founder",
     description:
       "Big Films Only is my production company. It shoots commercials, music videos, and branded content, and its team has worked on network shows including Finding Mr. Christmas on Hallmark, Temptation Island on USA Network, and Ciao House on Food Network.",
+    searchDescription:
+      "Big Films Only is my production company: commercials, music videos, and branded content, from a team credited on Hallmark, USA Network, and Food Network.",
     features: [
       "Commercials and branded content",
       "Music videos",
@@ -301,6 +320,8 @@ export const ventures: Venture[] = [
     status: "Live",
     description:
       "CodeVibe turns a few sentences into a website or an interactive app prototype. Describe the business, shape the design by asking, and publish, with no coding.",
+    searchDescription:
+      "CodeVibe turns a few sentences into a website or an interactive app prototype. Describe the business, shape the design by asking, and publish.",
     features: [
       "Websites written from a short description",
       "Interactive app prototypes",
@@ -338,6 +359,8 @@ export const ventures: Venture[] = [
     role: "Built the website and its diagnostic",
     description:
       "Voltage Capital is a private investment firm that helps profitable operators grow enterprise value, strengthen recurring revenue, and prepare their companies for a sale.",
+    searchDescription:
+      "Voltage Capital is a private investment firm that helps profitable operators grow enterprise value, strengthen recurring revenue, and prepare to sell.",
     features: [
       "A free Scale to Sell diagnostic for owners",
       "Growth packages and a transformation roadmap",
@@ -356,6 +379,8 @@ export const ventures: Venture[] = [
     role: "Founder and Managing Director",
     description:
       "SaaS Agency is the build arm of Success Upgrade. One team designs and builds a business's website, video, and follow up system, with itemized pricing shown before any work begins.",
+    searchDescription:
+      "SaaS Agency is the build arm of Success Upgrade: one team designs and builds your website, video, and follow up system, with itemized pricing up front.",
     features: [
       "Websites and mobile web apps, including App Store submission",
       "Search and AI answer engine visibility",

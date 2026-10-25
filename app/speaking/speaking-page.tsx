@@ -156,7 +156,7 @@ export function SpeakingPage() {
         {/* Hero: who Jo is, where, and one way to book */}
         <header className="px-6 pt-14 pb-14 text-center md:mx-auto md:max-w-3xl md:px-10 md:pt-24 md:pb-20">
           <Image
-            src="/jotham-hall-headshot.jpg"
+            src="/jotham-hall-headshot-480.jpg"
             alt="Jotham Hall"
             width={224}
             height={224}
@@ -320,7 +320,7 @@ export function SpeakingPage() {
           <div className="mt-8 bg-[#1A1A1A] border border-[#3D3A35] text-left md:mt-12 md:max-w-2xl md:mx-auto">
             <div className="flex items-center gap-4 px-6 pt-6 md:gap-5 md:px-10 md:pt-10">
               <Image
-                src="/jotham-hall-headshot.jpg"
+                src="/jotham-hall-headshot-480.jpg"
                 alt=""
                 width={112}
                 height={112}

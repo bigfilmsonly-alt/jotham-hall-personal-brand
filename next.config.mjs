@@ -1,5 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = { async redirects() { return [
+      // One address: www.jothamhall.com sends visitors and search engines to the bare domain.
+      { source: "/:path*", has: [{ type: "host", value: "www.jothamhall.com" }], destination: "https://jothamhall.com/:path*", permanent: true },
       { source: "/new-york", destination: "/", permanent: true },
       { source: "/new-york/ai-automation", destination: "/services", permanent: true },
       { source: "/new-york/revenue-systems", destination: "/services", permanent: true },

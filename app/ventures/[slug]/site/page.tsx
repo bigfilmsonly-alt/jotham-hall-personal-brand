@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { VentureEmbed } from "@/components/venture-embed";
 import { getVenture, ventures } from "@/lib/ventures";
+import { SHARE_IMAGE, fitDescription } from "@/lib/seo";
 
 export const dynamicParams = false;
 
@@ -13,13 +14,21 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const { slug } = await params;
   const venture = getVenture(slug);
   if (!venture) return {};
+  const url = `https://jothamhall.com/ventures/${venture.slug}`;
   return {
     // The root layout's template appends "| Jotham Hall".
     title: venture.name,
+    description: venture.searchDescription ?? fitDescription(venture.description),
+    openGraph: {
+      title: `${venture.name} | Jotham Hall Ventures`,
+      description: venture.tagline,
+      url,
+      images: [SHARE_IMAGE],
+    },
     // A frame around another site has nothing of its own to index. The venture's
     // page is the one search should find, so this points there and stays out.
     robots: { index: false, follow: true },
-    alternates: { canonical: `https://jothamhall.com/ventures/${venture.slug}` },
+    alternates: { canonical: url },
   };
 }
 

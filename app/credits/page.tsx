@@ -6,7 +6,7 @@ import { CreditsContent } from "./credits-content";
 export const metadata: Metadata = {
   title: "Television Credits & Filmography",
   description:
-    "Jotham Hall's television credits: 50+ credits across 15 years for Hallmark, Food Network, VH1, MTV, USA Network, NBC, and BET, including Temptation Island and Finding Mr. Christmas.",
+    "Jotham Hall's TV credits: 50+ across 15 years for Hallmark, Food Network, VH1, MTV, USA Network, NBC, and BET, including Temptation Island.",
   keywords: [
     "Jotham Hall credits",
     "Jotham Hall filmography",

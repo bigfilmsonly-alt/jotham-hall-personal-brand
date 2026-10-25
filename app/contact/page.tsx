@@ -49,7 +49,7 @@ export default function ContactPage() {
       <main className="min-h-screen bg-background pb-36">
         <header className="px-6 pt-14 pb-10 text-center md:mx-auto md:max-w-3xl md:px-10 md:pt-24 md:pb-16 lg:pt-28">
           <Image
-            src="/jotham-hall-headshot.jpg"
+            src="/jotham-hall-headshot-480.jpg"
             alt="Jotham Hall"
             width={160}
             height={160}

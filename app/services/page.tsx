@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { ServicesIndex } from "./services-index";
+import { SHARE_IMAGE } from "@/lib/seo";
 
 export const metadata: Metadata = {
   // The root layout's template appends "| Jotham Hall".
@@ -19,6 +20,7 @@ export const metadata: Metadata = {
     description: "AI automation, revenue systems, strategy, and connected business systems for owners who want to grow without working more.",
     type: "website",
     url: "https://jothamhall.com/services",
+    images: [SHARE_IMAGE],
   },
   alternates: {
     canonical: "https://jothamhall.com/services",
