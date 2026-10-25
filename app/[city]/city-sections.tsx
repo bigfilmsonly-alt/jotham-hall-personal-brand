@@ -44,7 +44,7 @@ export function TopNav({ onBook }: { onBook: () => void }) {
         </Link>
         <button
           onClick={onBook}
-          className="px-4 py-2 bg-[#D4A853] text-[#0D0D0D] text-xs font-medium tracking-wide hover:bg-[#E8C97A] transition-colors active:scale-[0.97]"
+          className="px-4 py-2 bg-[#D4A853] text-[#0D0D0D] text-xs font-medium tracking-wide hover:bg-[#E8C97A] transition-colors pointer-coarse:active:scale-[0.97]"
         >
           Book a Call
         </button>
@@ -57,7 +57,7 @@ export function BookButton({ onBook }: { onBook: () => void }) {
   return (
     <button
       onClick={onBook}
-      className="w-full py-3.5 bg-[#D4A853] text-[#0D0D0D] text-sm font-medium tracking-wide hover:bg-[#E8C97A] transition-colors flex items-center justify-center gap-2 active:scale-[0.97]"
+      className="w-full py-3.5 bg-[#D4A853] text-[#0D0D0D] text-sm font-medium tracking-wide hover:bg-[#E8C97A] transition-colors flex items-center justify-center gap-2 pointer-coarse:active:scale-[0.97]"
     >
       Book a Strategy Call
       <ArrowRight className="w-4 h-4" />
@@ -84,7 +84,7 @@ export function DirectContact() {
       <button
         onClick={() => setOpen(!open)}
         aria-expanded={open}
-        className="w-full py-3.5 border border-[#3D3A35] text-sm font-medium tracking-wide text-[#B8B0A8] hover:border-[#D4A853]/40 hover:text-[#FAF8F5] transition-colors flex items-center justify-center gap-2 active:scale-[0.97]"
+        className="w-full py-3.5 border border-[#3D3A35] text-sm font-medium tracking-wide text-[#B8B0A8] hover:border-[#D4A853]/40 hover:text-[#FAF8F5] transition-colors flex items-center justify-center gap-2 pointer-coarse:active:scale-[0.97]"
       >
         <Phone className="w-3.5 h-3.5" />
         Call, Text, or Email
@@ -94,7 +94,7 @@ export function DirectContact() {
           <a
             key={href}
             href={href}
-            className="flex items-center justify-center gap-3 py-3 border border-[#3D3A35]/60 bg-[#1A1A1A] text-[15px] text-[#FAF8F5] hover:border-[#D4A853]/40 transition-colors active:scale-[0.98] md:col-span-2"
+            className="flex items-center justify-center gap-3 py-3 border border-[#3D3A35]/60 bg-[#1A1A1A] text-[15px] text-[#FAF8F5] hover:border-[#D4A853]/40 transition-colors pointer-coarse:active:scale-[0.98] md:col-span-2"
           >
             <Icon className="w-4 h-4 text-[#D4A853] shrink-0" />
             {label}
@@ -195,7 +195,7 @@ export function ProofSection({ ventures }: { ventures: ProofVenture[] }) {
             <li key={venture.slug} className={cardItem}>
               <Link
                 href={`/ventures/${venture.slug}`}
-                className="block md:h-full px-5 py-4 md:px-6 md:py-5 bg-[#1A1A1A] border border-[#3D3A35] hover:border-[#D4A853]/40 transition-colors active:scale-[0.99]"
+                className="block md:h-full px-5 py-4 md:px-6 md:py-5 bg-[#1A1A1A] border border-[#3D3A35] hover:border-[#D4A853]/40 transition-colors pointer-coarse:active:scale-[0.99]"
               >
                 <span className="flex items-center justify-between gap-3">
                   <span className="min-w-0 font-display text-[0.95rem] tracking-[0.12em] uppercase text-[#FAF8F5]">
@@ -241,7 +241,7 @@ export function OffersSection({ title, offers }: { title: string; offers: Offer[
             <li key={offer.href} className={cardItem}>
               <Link
                 href={offer.href}
-                className="group flex md:h-full items-center gap-4 px-5 py-4 md:px-6 md:py-6 bg-[#1A1A1A] border border-[#3D3A35] hover:border-[#D4A853]/40 transition-colors active:scale-[0.99]"
+                className="group flex md:h-full items-center gap-4 px-5 py-4 md:px-6 md:py-6 bg-[#1A1A1A] border border-[#3D3A35] hover:border-[#D4A853]/40 transition-colors pointer-coarse:active:scale-[0.99]"
               >
                 <span className="min-w-0 flex-1">
                   <span className="block font-display text-[0.95rem] tracking-[0.12em] uppercase text-[#FAF8F5]">

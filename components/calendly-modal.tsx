@@ -20,9 +20,8 @@ interface CalendlyModalProps {
   contact dialog's desktop style (components/landing/contact-modal.tsx): a
   centered 560px dialog of one height (820px, at most 90% of the window) with
   a hairline border and 8px corners, over a black backdrop that also covers
-  the tab bar. Clicking the backdrop closes it until a time is picked in the
-  calendar; after that only Close or Escape do, so a stray click never throws
-  away a booking in progress.
+  the tab bar. Only Close and Escape close it: a click on the dimmed page does
+  nothing, so a stray click beside the calendar never throws away a booking.
 */
 
 const directLines = [
@@ -59,9 +58,6 @@ function CalendarLoading() {
 
 export function CalendlyModal({ isOpen, onClose }: CalendlyModalProps) {
   const [booked, setBooked] = useState(false);
-  // True once a time is picked in the calendar: from then on the desktop
-  // backdrop no longer closes the dialog.
-  const [timePicked, setTimePicked] = useState(false);
   const [mounted, setMounted] = useState(false);
   // False until Calendly's frame has loaded. Until then the frame stays
   // transparent, so an empty or still loading frame never flashes white.
@@ -83,11 +79,6 @@ export function CalendlyModal({ isOpen, onClose }: CalendlyModalProps) {
   }, [isOpen]);
 
   useCalendlyEventListener({
-    onDateAndTimeSelected: (e) => {
-      if (!isOpenRef.current) return;
-      if (!/^https:\/\/([a-z0-9-]+\.)?calendly\.com$/.test(e.origin)) return;
-      setTimePicked(true);
-    },
     onEventScheduled: (e) => {
       if (!isOpenRef.current) return;
       if (!/^https:\/\/([a-z0-9-]+\.)?calendly\.com$/.test(e.origin)) return;
@@ -121,7 +112,6 @@ export function CalendlyModal({ isOpen, onClose }: CalendlyModalProps) {
   useEffect(() => {
     if (!isOpen) return;
     setBooked(false);
-    setTimePicked(false);
     const html = document.documentElement;
     const body = document.body;
     const previous = { html: html.style.overflow, body: body.style.overflow };
@@ -157,7 +147,6 @@ export function CalendlyModal({ isOpen, onClose }: CalendlyModalProps) {
     {/* Desktop only: the dimmed page behind the centered dialog. */}
     <div
       aria-hidden="true"
-      onClick={timePicked && !booked ? undefined : onClose}
       className="fixed inset-0 z-[1001] hidden bg-black/85 backdrop-blur-sm animate-in fade-in duration-200 motion-reduce:animate-none md:block"
     />
     <div
@@ -174,7 +163,7 @@ export function CalendlyModal({ isOpen, onClose }: CalendlyModalProps) {
         <div className="grid grid-cols-[2.75rem_1fr_2.75rem] items-center gap-3 px-4 py-3">
           <span aria-hidden="true" />
           <div className="min-w-0 text-center">
-            <p className="text-[10px] tracking-[0.15em] uppercase text-[#D4A853] md:text-xs">
+            <p className="text-xs tracking-[0.15em] uppercase text-[#D4A853]">
               {booked ? "You're Booked" : "Book a Strategy Call"}
             </p>
             <h2
@@ -189,7 +178,7 @@ export function CalendlyModal({ isOpen, onClose }: CalendlyModalProps) {
             type="button"
             onClick={onClose}
             aria-label="Close"
-            className="flex h-11 w-11 items-center justify-center rounded-full border border-[#3D3A35] bg-[#1A1A1A] text-[#FAF8F5] transition-colors hover:border-[#D4A853]/60 hover:text-[#E8C97A] active:scale-[0.94] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#D4A853]"
+            className="flex h-11 w-11 items-center justify-center rounded-full border border-[#3D3A35] bg-[#1A1A1A] text-[#FAF8F5] transition-colors hover:border-[#D4A853]/60 hover:text-[#E8C97A] pointer-coarse:active:scale-[0.94] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#D4A853]"
           >
             <X className="h-5 w-5" strokeWidth={1.75} />
           </button>
@@ -219,7 +208,7 @@ export function CalendlyModal({ isOpen, onClose }: CalendlyModalProps) {
                 <a
                   key={href}
                   href={href}
-                  className="flex items-center gap-4 border border-[#3D3A35] px-5 py-3.5 transition-colors hover:border-[#D4A853]/40 active:scale-[0.98]"
+                  className="flex items-center gap-4 border border-[#3D3A35] px-5 py-3.5 transition-colors hover:border-[#D4A853]/40 pointer-coarse:active:scale-[0.98]"
                 >
                   <Icon className="h-4 w-4 shrink-0 text-[#D4A853]" />
                   <span className="min-w-0 flex-1">
@@ -234,7 +223,7 @@ export function CalendlyModal({ isOpen, onClose }: CalendlyModalProps) {
             <button
               type="button"
               onClick={onClose}
-              className="w-full bg-[#D4A853] py-3.5 text-sm font-medium tracking-wide text-[#0D0D0D] transition-colors hover:bg-[#E8C97A] active:scale-[0.97]"
+              className="w-full bg-[#D4A853] py-3.5 text-sm font-medium tracking-wide text-[#0D0D0D] transition-colors hover:bg-[#E8C97A] pointer-coarse:active:scale-[0.97]"
             >
               Done
             </button>
@@ -251,7 +240,7 @@ export function CalendlyModal({ isOpen, onClose }: CalendlyModalProps) {
           >
             <InlineWidget
               url="https://calendly.com/bigfilmsonly/30min"
-              styles={{ height: "100%", minHeight: "700px" }}
+              styles={{ height: "100%", minHeight: "0" }}
               iframeTitle="Book a strategy call with Jotham Hall"
               LoadingSpinner={CalendarLoading}
               pageSettings={{
@@ -260,7 +249,8 @@ export function CalendlyModal({ isOpen, onClose }: CalendlyModalProps) {
                 textColor: "FAF8F5",
                 hideLandingPageDetails: true,
                 hideGdprBanner: true,
-                hideEventTypeDetails: false,
+                // The dialog's own header names the call, so Calendly's account header stays hidden.
+                hideEventTypeDetails: true,
               }}
             />
           </div>
@@ -271,7 +261,7 @@ export function CalendlyModal({ isOpen, onClose }: CalendlyModalProps) {
             className="shrink-0 border-t border-[#3D3A35]/60 bg-[#0D0D0D]"
             style={{ paddingBottom: "env(safe-area-inset-bottom, 0px)" }}
           >
-            <p className="pt-3 text-center text-[10px] tracking-[0.15em] uppercase text-[#8A837B] md:text-xs">
+            <p className="pt-3 text-center text-xs tracking-[0.15em] uppercase text-[#8A837B]">
               Prefer to talk now?
             </p>
             <div className="grid grid-cols-3">

@@ -10,8 +10,8 @@ import { CalendlyModal } from "@/components/calendly-modal";
   through never leaves. Built like successupgrade.ai's Hydrate tab.
 
   The guest keeps its own navigation. lib/full-bleed.ts makes the root layout's
-  tab bar and floating CTA stand down on this route, because two stacked tab
-  bars is not one page; the back link in the strip is the way out.
+  tab bar stand down on this route, because two stacked tab bars is not one
+  page; the back link in the strip is the way out, and it names where it goes.
 
   Every guest allowlists jothamhall.com with frame-ancestors on its enforcing
   CSP, and nothing else. On localhost that means Chrome's broken frame
@@ -20,10 +20,49 @@ import { CalendlyModal } from "@/components/calendly-modal";
 const CHROME_TOP = "calc(44px + env(safe-area-inset-top, 0px))";
 const CHROME_BOTTOM = "env(safe-area-inset-bottom, 0px)";
 
-// backHref is where the strip returns to: the venture's page, or /services for the Path.
-export function VentureEmbed({ name, site, backHref }: { name: string; site: string; backHref: string }) {
+// Where a link into the viewer can ask the strip to return (?from=/ventures),
+// so a visitor who came from the Ventures list goes back to the list.
+const RETURNS: Record<string, string> = {
+  "/": "Home",
+  "/ventures": "Ventures",
+  "/services": "Services",
+  "/about": "About",
+};
+
+export function VentureEmbed({
+  name,
+  site,
+  backHref,
+  backLabel,
+}: {
+  name: string;
+  site: string;
+  // The default way back: the venture's page, or the Services page for the Path.
+  backHref: string;
+  backLabel: string;
+}) {
+  const [src, setSrc] = useState<string>();
   const [loaded, setLoaded] = useState(false);
+  const [back, setBack] = useState({ href: backHref, label: backLabel });
   const [isCalendlyOpen, setIsCalendlyOpen] = useState(false);
+
+  /*
+    The frame's address is set only once this page is running. A guest that
+    finished loading before the page's script had started fired its load event
+    to nobody, and the frame stayed hidden behind "Loading" for good. As a
+    second guard the frame shows after four seconds whatever happens, so a slow
+    guest shows its own loading state rather than an empty screen.
+  */
+  useEffect(() => {
+    setSrc(site);
+    const reveal = setTimeout(() => setLoaded(true), 4000);
+    return () => clearTimeout(reveal);
+  }, [site]);
+
+  useEffect(() => {
+    const from = new URLSearchParams(window.location.search).get("from");
+    if (from && from in RETURNS) setBack({ href: from, label: RETURNS[from] });
+  }, []);
 
   /*
     The overlay covers the page, but the document behind it could still scroll,
@@ -54,17 +93,18 @@ export function VentureEmbed({ name, site, backHref }: { name: string; site: str
       >
         <div className="flex w-full items-center justify-between md:mx-auto md:max-w-6xl md:px-10">
           <Link
-            href={backHref}
-            className="group inline-flex items-center gap-1.5 min-h-[44px] px-2 text-[12px] font-medium text-white/50 hover:text-white/90 transition-colors whitespace-nowrap md:-ml-2"
+            href={back.href}
+            className="inline-flex items-center gap-1.5 min-h-[44px] px-2 text-[13px] font-medium text-white/70 hover:text-white transition-colors whitespace-nowrap md:-ml-2"
           >
-            <ArrowLeft className="w-4 h-4 shrink-0 transition-transform group-hover:-translate-x-0.5" />
-            JothamHall.com
+            <ArrowLeft aria-hidden="true" className="w-4 h-4 shrink-0" />
+            {back.label}
           </Link>
           <button
+            type="button"
             onClick={() => setIsCalendlyOpen(true)}
-            className="inline-flex items-center min-h-[44px] px-2.5 text-[12px] font-semibold whitespace-nowrap text-[#D4A853] hover:text-[#E8C97A] transition-colors md:-mr-2.5"
+            className="inline-flex items-center min-h-[44px] px-2.5 text-[13px] font-semibold whitespace-nowrap text-[#D4A853] hover:text-[#E8C97A] transition-colors md:-mr-2.5"
           >
-            Book a call
+            Book a Call
           </button>
         </div>
       </div>
@@ -74,14 +114,16 @@ export function VentureEmbed({ name, site, backHref }: { name: string; site: str
           className="absolute inset-x-0 flex items-center justify-center pointer-events-none"
           style={{ top: CHROME_TOP, bottom: 0 }}
         >
-          <p className="text-white/25 text-[10px] tracking-[0.35em] uppercase animate-pulse">Loading {name}</p>
+          <p className="text-white/40 text-xs tracking-[0.3em] uppercase animate-pulse motion-reduce:animate-none">Loading {name}</p>
         </div>
       )}
 
       <iframe
-        src={site}
+        src={src}
         title={name}
-        onLoad={() => setLoaded(true)}
+        onLoad={() => {
+          if (src) setLoaded(true);
+        }}
         /*
           An explicit height, not top + bottom. An iframe is a replaced element,
           so with height left auto it falls back to its intrinsic 150px instead

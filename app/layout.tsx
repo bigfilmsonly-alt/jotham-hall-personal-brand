@@ -4,7 +4,6 @@ import { Cinzel, Inter } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 import { StructuredData } from '@/components/structured-data'
 import { MobileTabBar } from '@/components/landing/mobile-tab-bar'
-import { FloatingCTA } from '@/components/floating-cta'
 import './globals.css'
 
 export const viewport: Viewport = {
@@ -186,8 +185,8 @@ export default function RootLayout({
       <body className="antialiased">
         <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NSML6K9F" height="0" width="0" style={{ display: 'none', visibility: 'hidden' }} /></noscript>
         {children}
+        {/* Booking lives in every page's top bar now, so no floating button rides over the content. */}
         <MobileTabBar />
-        <FloatingCTA />
         <Analytics />
       </body>
     </html>

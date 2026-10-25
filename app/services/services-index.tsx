@@ -32,7 +32,7 @@ export function ServicesIndex() {
           <button
             type="button"
             onClick={book}
-            className="px-4 py-2 md:px-5 md:py-2.5 bg-[#D4A853] text-[#0D0D0D] text-xs md:text-[13px] font-medium tracking-wide hover:bg-[#E8C97A] transition-colors active:scale-[0.97] md:cursor-pointer"
+            className="px-4 py-2 md:px-5 md:py-2.5 bg-[#D4A853] text-[#0D0D0D] text-xs md:text-[13px] font-medium tracking-wide hover:bg-[#E8C97A] transition-colors pointer-coarse:active:scale-[0.97] md:cursor-pointer"
           >
             Book a Call
           </button>
@@ -55,7 +55,7 @@ export function ServicesIndex() {
               <li key={service.slug}>
                 <Link
                   href={`/services/${service.slug}`}
-                  className="group flex items-center gap-4 p-5 md:h-full md:items-start md:gap-6 md:p-8 bg-[#1A1A1A] border border-[#3D3A35] hover:border-[#D4A853]/40 transition-colors active:scale-[0.99]"
+                  className="group flex items-center gap-4 p-5 md:h-full md:items-start md:gap-6 md:p-8 bg-[#1A1A1A] border border-[#3D3A35] hover:border-[#D4A853]/40 transition-colors pointer-coarse:active:scale-[0.99]"
                 >
                   {/* Text from the top on a desktop, so the labels in a row line up however the summaries wrap. */}
                   <span className="min-w-0 flex-1">

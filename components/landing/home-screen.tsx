@@ -212,7 +212,7 @@ export function HomeScreen() {
                         <button
                           key={opt.text}
                           onClick={() => handleAnswer(opt.score)}
-                          className="w-full min-h-14 flex items-center gap-4 px-4 py-3.5 text-left bg-[#1A1A1A] border border-[#3D3A35] hover:border-[#D4A853]/50 active:border-[#D4A853] active:bg-[#D4A853]/10 active:scale-[0.98] transition-colors md:min-h-16 md:gap-5 md:px-5 md:py-4"
+                          className="w-full min-h-14 flex items-center gap-4 px-4 py-3.5 text-left bg-[#1A1A1A] border border-[#3D3A35] hover:border-[#D4A853]/50 active:border-[#D4A853] active:bg-[#D4A853]/10 pointer-coarse:active:scale-[0.98] transition-colors md:min-h-16 md:gap-5 md:px-5 md:py-4"
                         >
                           <span className="shrink-0 w-7 h-7 flex items-center justify-center border border-[#3D3A35] text-[11px] font-medium text-[#D4A853] md:w-8 md:h-8 md:text-xs">
                             {String.fromCharCode(65 + i)}
@@ -260,7 +260,7 @@ export function HomeScreen() {
                       </label>
                       <button
                         type="submit"
-                        className="w-full !mt-8 py-3.5 bg-[#D4A853] text-[#0D0D0D] text-sm font-medium tracking-wide hover:bg-[#E8C97A] transition-colors flex items-center justify-center gap-2 active:scale-[0.97] md:!mt-10 md:py-4 md:text-[15px]"
+                        className="w-full !mt-8 py-3.5 bg-[#D4A853] text-[#0D0D0D] text-sm font-medium tracking-wide hover:bg-[#E8C97A] transition-colors flex items-center justify-center gap-2 pointer-coarse:active:scale-[0.97] md:!mt-10 md:py-4 md:text-[15px]"
                       >
                         See My Results <ArrowRight className="w-4 h-4" />
                       </button>
@@ -296,7 +296,7 @@ export function HomeScreen() {
                     {/* On a desktop the actions match the home screen's width. */}
                     <button
                       onClick={() => setIsCalendlyOpen(true)}
-                      className="w-full py-3.5 bg-[#D4A853] text-[#0D0D0D] text-sm font-medium tracking-wide hover:bg-[#E8C97A] transition-colors flex items-center justify-center gap-2 active:scale-[0.97] md:mx-auto md:max-w-[22rem] md:py-4 md:text-[15px]"
+                      className="w-full py-3.5 bg-[#D4A853] text-[#0D0D0D] text-sm font-medium tracking-wide hover:bg-[#E8C97A] transition-colors flex items-center justify-center gap-2 pointer-coarse:active:scale-[0.97] md:mx-auto md:max-w-[22rem] md:py-4 md:text-[15px]"
                     >
                       Book a Strategy Call <ArrowRight className="w-4 h-4" />
                     </button>
@@ -307,7 +307,7 @@ export function HomeScreen() {
                           href={href}
                           aria-label={detail}
                           title={detail}
-                          className="h-11 flex items-center justify-center gap-2 border border-[#3D3A35] text-sm text-[#B8B0A8] hover:border-[#D4A853]/40 hover:text-[#FAF8F5] transition-colors active:scale-[0.97]"
+                          className="h-11 flex items-center justify-center gap-2 border border-[#3D3A35] text-sm text-[#B8B0A8] hover:border-[#D4A853]/40 hover:text-[#FAF8F5] transition-colors pointer-coarse:active:scale-[0.97]"
                         >
                           <Icon className="w-4 h-4 text-[#D4A853]" />
                           {label}
@@ -418,7 +418,7 @@ export function HomeScreen() {
           <div className="mt-(--gap-l) animate-in fade-in slide-in-from-bottom-2 duration-700 delay-300 fill-mode-both motion-reduce:animate-none md:mt-(--gap-l-d)">
             <button
               onClick={() => setIsCalendlyOpen(true)}
-              className="w-full py-3.5 bg-[#D4A853] text-[#0D0D0D] text-sm font-medium tracking-wide hover:bg-[#E8C97A] transition-colors flex items-center justify-center gap-2 active:scale-[0.97] md:mx-auto md:max-w-[22rem] md:py-4 md:text-[15px]"
+              className="w-full py-3.5 bg-[#D4A853] text-[#0D0D0D] text-sm font-medium tracking-wide hover:bg-[#E8C97A] transition-colors flex items-center justify-center gap-2 pointer-coarse:active:scale-[0.97] md:mx-auto md:max-w-[22rem] md:py-4 md:text-[15px]"
             >
               Book a Strategy Call
               <ArrowRight className="w-4 h-4" />
@@ -437,7 +437,7 @@ export function HomeScreen() {
                       href={href}
                       aria-label={detail}
                       title={detail}
-                      className="flex items-center justify-center gap-2 border border-[#3D3A35] text-sm text-[#FAF8F5] hover:border-[#D4A853]/40 transition-colors active:scale-[0.97]"
+                      className="flex items-center justify-center gap-2 border border-[#3D3A35] text-sm text-[#FAF8F5] hover:border-[#D4A853]/40 transition-colors pointer-coarse:active:scale-[0.97]"
                     >
                       <Icon className="w-4 h-4 text-[#D4A853]" />
                       {label}
@@ -447,7 +447,7 @@ export function HomeScreen() {
               ) : (
                 <button
                   onClick={() => setShowContact(true)}
-                  className="w-full h-full border border-[#3D3A35] text-sm font-medium text-[#B8B0A8] hover:border-[#D4A853]/40 hover:text-[#FAF8F5] transition-colors flex items-center justify-center gap-2 active:scale-[0.97]"
+                  className="w-full h-full border border-[#3D3A35] text-sm font-medium text-[#B8B0A8] hover:border-[#D4A853]/40 hover:text-[#FAF8F5] transition-colors flex items-center justify-center gap-2 pointer-coarse:active:scale-[0.97]"
                 >
                   <Phone className="w-3.5 h-3.5" />
                   Call, Text, or Email

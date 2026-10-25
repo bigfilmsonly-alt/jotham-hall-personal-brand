@@ -99,6 +99,17 @@
     background-color: #D4A853;
     color: #0D0D0D;
   }
+  /* On a desktop everything that acts shows the hand. */
+  button:not(:disabled),
+  [role="button"]:not([aria-disabled="true"]),
+  summary {
+    cursor: pointer;
+  }
+  /* Keyboard focus: a clear gold ring, which a mouse click never shows. */
+  :where(a, button, [role="button"], [role="tab"], summary):focus-visible {
+    outline: 2px solid #D4A853;
+    outline-offset: 3px;
+  }
   /*
     No phone column on desktop (Jo, 2026-10-14: fill the screen). The site used
     to hold <body> at 430px from 768px up and force every .fixed element to that

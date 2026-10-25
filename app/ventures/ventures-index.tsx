@@ -61,7 +61,7 @@ function VentureCard({ venture }: { venture: Venture }) {
           <Link
             href={`/ventures/${venture.slug}/site`}
             aria-label={`Open ${venture.name}`}
-            className="relative shrink-0 w-[104px] aspect-[390/844] overflow-hidden rounded-[16px] border border-[#3D3A35] bg-black shadow-[0_10px_30px_rgba(0,0,0,0.5)] active:scale-[0.98] transition-transform"
+            className="relative shrink-0 w-[104px] aspect-[390/844] overflow-hidden rounded-[16px] border border-[#3D3A35] bg-black shadow-[0_10px_30px_rgba(0,0,0,0.5)] pointer-coarse:active:scale-[0.98] transition-transform"
           >
             <Image src={venture.preview} alt="" fill sizes="104px" className="object-cover object-top" />
           </Link>
@@ -115,7 +115,7 @@ export function VenturesIndex() {
             </Link>
             <button
               onClick={() => setIsContactOpen(true)}
-              className="px-4 py-2 bg-[#D4A853] text-[#0D0D0D] text-xs font-medium tracking-wide hover:bg-[#E8C97A] transition-colors active:scale-[0.97]"
+              className="px-4 py-2 bg-[#D4A853] text-[#0D0D0D] text-xs font-medium tracking-wide hover:bg-[#E8C97A] transition-colors pointer-coarse:active:scale-[0.97]"
             >
               Book a Call
             </button>
@@ -148,7 +148,7 @@ export function VenturesIndex() {
                 <Link
                   key={link.href}
                   href={link.href}
-                  className="flex items-center justify-between px-5 py-3.5 border border-[#3D3A35] text-sm text-[#B8B0A8] hover:border-[#D4A853]/40 hover:text-[#FAF8F5] transition-colors active:scale-[0.98] md:py-4 md:text-[15px]"
+                  className="flex items-center justify-between px-5 py-3.5 border border-[#3D3A35] text-sm text-[#B8B0A8] hover:border-[#D4A853]/40 hover:text-[#FAF8F5] transition-colors pointer-coarse:active:scale-[0.98] md:py-4 md:text-[15px]"
                 >
                   {link.name}
                   <ArrowRight className="w-4 h-4" />
@@ -159,7 +159,7 @@ export function VenturesIndex() {
                   href={link.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center justify-between px-5 py-3.5 border border-[#3D3A35] text-sm text-[#B8B0A8] hover:border-[#D4A853]/40 hover:text-[#FAF8F5] transition-colors active:scale-[0.98] md:py-4 md:text-[15px]"
+                  className="flex items-center justify-between px-5 py-3.5 border border-[#3D3A35] text-sm text-[#B8B0A8] hover:border-[#D4A853]/40 hover:text-[#FAF8F5] transition-colors pointer-coarse:active:scale-[0.98] md:py-4 md:text-[15px]"
                 >
                   {link.name}
                   <ArrowUpRight className="w-4 h-4" />
@@ -178,7 +178,7 @@ export function VenturesIndex() {
             </p>
             <button
               onClick={() => setIsContactOpen(true)}
-              className="w-full py-3.5 bg-[#D4A853] text-[#0D0D0D] text-sm font-medium tracking-wide hover:bg-[#E8C97A] transition-colors flex items-center justify-center gap-2 active:scale-[0.97] md:mx-auto md:w-auto md:min-w-[280px] md:px-10"
+              className="w-full py-3.5 bg-[#D4A853] text-[#0D0D0D] text-sm font-medium tracking-wide hover:bg-[#E8C97A] transition-colors flex items-center justify-center gap-2 pointer-coarse:active:scale-[0.97] md:mx-auto md:w-auto md:min-w-[280px] md:px-10"
             >
               Get in Touch
               <ArrowRight className="w-4 h-4" />

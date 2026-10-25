@@ -128,7 +128,7 @@ export function PathJoin({ onUnlock }: { onUnlock: () => void }) {
           <button
             type="submit"
             disabled={busy}
-            className="w-full mt-1 py-3.5 rounded-full bg-[#D4A853] text-[#0D0D0D] text-sm font-medium tracking-wide hover:bg-[#E8C97A] transition-colors flex items-center justify-center gap-2 active:scale-[0.97] disabled:opacity-60 md:cursor-pointer md:disabled:cursor-default"
+            className="w-full mt-1 py-3.5 rounded-full bg-[#D4A853] text-[#0D0D0D] text-sm font-medium tracking-wide hover:bg-[#E8C97A] transition-colors flex items-center justify-center gap-2 pointer-coarse:active:scale-[0.97] disabled:opacity-60 md:cursor-pointer md:disabled:cursor-default"
           >
             {busy ? "Opening" : "Open the Path"}
             {!busy && <ArrowRight className="w-4 h-4" />}

@@ -180,7 +180,7 @@ export function QuizSection() {
             </p>
             <button
               onClick={() => setIsOpen(true)}
-              className="px-8 py-4 bg-foreground text-background text-sm font-medium hover:bg-foreground/90 transition-colors inline-flex items-center gap-2 active:scale-[0.97]"
+              className="px-8 py-4 bg-foreground text-background text-sm font-medium hover:bg-foreground/90 transition-colors inline-flex items-center gap-2 pointer-coarse:active:scale-[0.97]"
             >
               <BarChart3 className="w-4 h-4" />
               Take the Assessment
@@ -227,7 +227,7 @@ export function QuizSection() {
                       <button
                         key={opt.text}
                         onClick={() => handleAnswer(opt.score)}
-                        className="w-full text-left px-5 py-4 border border-foreground/10 hover:border-foreground/30 transition-all duration-150 flex items-center justify-between active:scale-[0.98] active:bg-foreground active:text-background"
+                        className="w-full text-left px-5 py-4 border border-foreground/10 hover:border-foreground/30 transition-all duration-150 flex items-center justify-between pointer-coarse:active:scale-[0.98] active:bg-foreground active:text-background"
                       >
                         <span className="text-sm font-medium">{opt.text}</span>
                         <span className="text-xs font-mono text-muted-foreground">{String.fromCharCode(65 + i)}</span>
@@ -268,7 +268,7 @@ export function QuizSection() {
                     />
                     <button
                       type="submit"
-                      className="w-full mt-6 px-8 py-4 bg-foreground text-background text-sm font-medium hover:bg-foreground/90 transition-colors flex items-center justify-center gap-2 active:scale-[0.97]"
+                      className="w-full mt-6 px-8 py-4 bg-foreground text-background text-sm font-medium hover:bg-foreground/90 transition-colors flex items-center justify-center gap-2 pointer-coarse:active:scale-[0.97]"
                     >
                       See My Results
                       <ArrowRight className="w-4 h-4" />
@@ -311,7 +311,7 @@ export function QuizSection() {
                   <div className="space-y-2 mb-6 max-w-sm mx-auto">
                     <a
                       href="tel:+15106809100"
-                      className="w-full flex items-center justify-between px-5 py-3.5 border border-foreground/10 hover:border-foreground/30 transition-all text-left active:scale-[0.98]"
+                      className="w-full flex items-center justify-between px-5 py-3.5 border border-foreground/10 hover:border-foreground/30 transition-all text-left pointer-coarse:active:scale-[0.98]"
                     >
                       <div>
                         <span className="text-sm font-medium block">Call me directly</span>
@@ -321,7 +321,7 @@ export function QuizSection() {
                     </a>
                     <a
                       href="sms:+15106934083"
-                      className="w-full flex items-center justify-between px-5 py-3.5 border border-foreground/10 hover:border-foreground/30 transition-all text-left active:scale-[0.98]"
+                      className="w-full flex items-center justify-between px-5 py-3.5 border border-foreground/10 hover:border-foreground/30 transition-all text-left pointer-coarse:active:scale-[0.98]"
                     >
                       <div>
                         <span className="text-sm font-medium block">Send a text</span>
@@ -331,7 +331,7 @@ export function QuizSection() {
                     </a>
                     <a
                       href="mailto:bigfilmsonly@gmail.com"
-                      className="w-full flex items-center justify-between px-5 py-3.5 border border-foreground/10 hover:border-foreground/30 transition-all text-left active:scale-[0.98]"
+                      className="w-full flex items-center justify-between px-5 py-3.5 border border-foreground/10 hover:border-foreground/30 transition-all text-left pointer-coarse:active:scale-[0.98]"
                     >
                       <div>
                         <span className="text-sm font-medium block">Email me</span>
@@ -343,7 +343,7 @@ export function QuizSection() {
 
                   <button
                     onClick={handleClose}
-                    className="px-8 py-3 border border-foreground/20 text-foreground text-sm font-medium hover:bg-foreground/5 transition-colors active:scale-[0.97]"
+                    className="px-8 py-3 border border-foreground/20 text-foreground text-sm font-medium hover:bg-foreground/5 transition-colors pointer-coarse:active:scale-[0.97]"
                   >
                     Close
                   </button>

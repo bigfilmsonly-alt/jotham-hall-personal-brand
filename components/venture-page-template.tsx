@@ -89,7 +89,7 @@ export function VenturePageTemplate({ venture }: { venture: Venture }) {
               >
                 <Link
                   href={`/ventures/${venture.slug}/site`}
-                  className="py-3.5 px-3 text-sm font-medium tracking-wide flex items-center justify-center gap-2 bg-[#D4A853] text-[#0D0D0D] hover:bg-[#E8C97A] transition-colors active:scale-[0.97] md:px-10"
+                  className="py-3.5 px-3 text-sm font-medium tracking-wide flex items-center justify-center gap-2 bg-[#D4A853] text-[#0D0D0D] hover:bg-[#E8C97A] transition-colors pointer-coarse:active:scale-[0.97] md:px-10"
                 >
                   {venture.visitLabel}
                   <ArrowRight className="w-4 h-4 shrink-0" />
@@ -100,7 +100,7 @@ export function VenturePageTemplate({ venture }: { venture: Venture }) {
                     href={link.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="py-3.5 px-3 text-sm font-medium tracking-wide flex items-center justify-center gap-2 border border-[#3D3A35] text-[#B8B0A8] hover:border-[#D4A853]/40 hover:text-[#FAF8F5] transition-colors active:scale-[0.97] md:px-10"
+                    className="py-3.5 px-3 text-sm font-medium tracking-wide flex items-center justify-center gap-2 border border-[#3D3A35] text-[#B8B0A8] hover:border-[#D4A853]/40 hover:text-[#FAF8F5] transition-colors pointer-coarse:active:scale-[0.97] md:px-10"
                   >
                     {link.label}
                     <ArrowUpRight className="w-4 h-4 shrink-0" />
@@ -165,7 +165,7 @@ export function VenturePageTemplate({ venture }: { venture: Venture }) {
             </p>
             <button
               onClick={() => setIsContactOpen(true)}
-              className="w-full py-3.5 bg-[#D4A853] text-[#0D0D0D] text-sm font-medium tracking-wide hover:bg-[#E8C97A] transition-colors flex items-center justify-center gap-2 active:scale-[0.97] md:mx-auto md:w-auto md:min-w-[280px] md:px-10"
+              className="w-full py-3.5 bg-[#D4A853] text-[#0D0D0D] text-sm font-medium tracking-wide hover:bg-[#E8C97A] transition-colors flex items-center justify-center gap-2 pointer-coarse:active:scale-[0.97] md:mx-auto md:w-auto md:min-w-[280px] md:px-10"
             >
               Get in Touch
               <ArrowRight className="w-4 h-4" />

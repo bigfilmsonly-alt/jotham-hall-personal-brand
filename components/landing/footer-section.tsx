@@ -94,7 +94,8 @@ function FooterEmailForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="flex gap-2">
+    // At lg the newsletter column is narrow, so the field and button stack; side by side again from xl.
+    <form onSubmit={handleSubmit} className="flex gap-2 lg:flex-col xl:flex-row">
       <input
         type="email"
         required
@@ -234,7 +235,7 @@ export function FooterSection() {
               </a>
             </span>
           </p>
-          <p className="text-[11px] tracking-[0.15em] uppercase text-[#5C5750] md:text-xs">
+          <p className="text-xs tracking-[0.15em] uppercase text-[#8A837B]">
             &copy; {new Date().getFullYear()} Jotham Hall
           </p>
         </div>

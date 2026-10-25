@@ -84,7 +84,7 @@ const hairline = "border-[#3D3A35]/60";
 // Section shell: full width hairline on top, the content centered inside.
 const section = `px-6 py-14 md:px-10 md:py-20 border-t ${hairline} text-center`;
 const primaryButton =
-  "w-full py-3.5 bg-[#D4A853] border border-[#D4A853] text-[#0D0D0D] text-sm font-medium tracking-wide hover:bg-[#E8C97A] hover:border-[#E8C97A] transition-colors flex items-center justify-center gap-2 active:scale-[0.97]";
+  "w-full py-3.5 bg-[#D4A853] border border-[#D4A853] text-[#0D0D0D] text-sm font-medium tracking-wide hover:bg-[#E8C97A] hover:border-[#E8C97A] transition-colors flex items-center justify-center gap-2 pointer-coarse:active:scale-[0.97]";
 // Stacked on the phone; on desktop the two buttons sit side by side at equal
 // width, and the direct lines open in a full row beneath both.
 const actions =
@@ -96,7 +96,7 @@ const textLink =
 function ContactOptions({ id }: { id: string }) {
   const [open, setOpen] = useState(false);
   const row =
-    "flex items-center gap-3 px-4 min-h-[44px] border border-[#3D3A35] text-sm text-[#B8B0A8] hover:border-[#D4A853]/40 hover:text-[#FAF8F5] transition-colors active:scale-[0.98]";
+    "flex items-center gap-3 px-4 min-h-[44px] border border-[#3D3A35] text-sm text-[#B8B0A8] hover:border-[#D4A853]/40 hover:text-[#FAF8F5] transition-colors pointer-coarse:active:scale-[0.98]";
 
   // md:contents lets the button and its panel join the parent's two column
   // grid on desktop: the button beside the gold one, the panel spanning both.
@@ -107,7 +107,7 @@ function ContactOptions({ id }: { id: string }) {
         onClick={() => setOpen((value) => !value)}
         aria-expanded={open}
         aria-controls={id}
-        className="w-full py-3.5 border border-[#3D3A35] text-sm font-medium tracking-wide text-[#B8B0A8] hover:border-[#D4A853]/40 hover:text-[#FAF8F5] transition-colors flex items-center justify-center gap-2 active:scale-[0.97]"
+        className="w-full py-3.5 border border-[#3D3A35] text-sm font-medium tracking-wide text-[#B8B0A8] hover:border-[#D4A853]/40 hover:text-[#FAF8F5] transition-colors flex items-center justify-center gap-2 pointer-coarse:active:scale-[0.97]"
       >
         <Phone className="w-3.5 h-3.5" />
         Call, Text, or Email

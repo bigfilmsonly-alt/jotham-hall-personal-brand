@@ -89,7 +89,7 @@ export function CityPageContent({ copy, ventures }: { copy: CityPageCopy; ventur
                 <button
                   type="submit"
                   disabled={captureStatus === "loading"}
-                  className="w-full py-3.5 border border-[#D4A853]/50 text-sm font-medium tracking-wide text-[#D4A853] hover:bg-[#D4A853]/10 transition-colors disabled:opacity-50 active:scale-[0.97] md:w-auto md:shrink-0 md:px-8"
+                  className="w-full py-3.5 border border-[#D4A853]/50 text-sm font-medium tracking-wide text-[#D4A853] hover:bg-[#D4A853]/10 transition-colors disabled:opacity-50 pointer-coarse:active:scale-[0.97] md:w-auto md:shrink-0 md:px-8"
                 >
                   {captureStatus === "loading" ? "Sending..." : "Send Me the Notes"}
                 </button>

@@ -78,7 +78,7 @@ export function ServicePageContent({
                 <Link
                   key={link.href}
                   href={link.href}
-                  className="group flex items-center justify-between px-5 py-4 md:px-6 md:py-5 border border-[#3D3A35] text-[15px] md:text-base text-[#B8B0A8] hover:border-[#D4A853]/40 hover:text-[#FAF8F5] transition-colors active:scale-[0.99]"
+                  className="group flex items-center justify-between px-5 py-4 md:px-6 md:py-5 border border-[#3D3A35] text-[15px] md:text-base text-[#B8B0A8] hover:border-[#D4A853]/40 hover:text-[#FAF8F5] transition-colors pointer-coarse:active:scale-[0.99]"
                 >
                   {link.label}
                   <ArrowRight className="w-4 h-4 text-[#D4A853] transition-transform group-hover:translate-x-0.5" />

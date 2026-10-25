@@ -50,14 +50,14 @@ export function BrainAndPath() {
             <div className="mt-6 md:mt-10 grid grid-cols-2 gap-2.5 md:gap-3 md:mx-auto md:max-w-xl">
               <Link
                 href="/ventures"
-                className="min-h-[48px] md:min-h-[52px] flex items-center justify-center border border-[#3D3A35] text-sm text-[#B8B0A8] hover:border-[#D4A853]/40 hover:text-[#FAF8F5] transition-colors active:scale-[0.97]"
+                className="min-h-[48px] md:min-h-[52px] flex items-center justify-center border border-[#3D3A35] text-sm text-[#B8B0A8] hover:border-[#D4A853]/40 hover:text-[#FAF8F5] transition-colors pointer-coarse:active:scale-[0.97]"
               >
                 See the Ventures
               </Link>
               <button
                 type="button"
                 onClick={() => setTab("path")}
-                className="min-h-[48px] md:min-h-[52px] flex items-center justify-center gap-1.5 bg-[#D4A853] text-[#0D0D0D] text-sm font-medium hover:bg-[#E8C97A] transition-colors active:scale-[0.97] md:cursor-pointer"
+                className="min-h-[48px] md:min-h-[52px] flex items-center justify-center gap-1.5 bg-[#D4A853] text-[#0D0D0D] text-sm font-medium hover:bg-[#E8C97A] transition-colors pointer-coarse:active:scale-[0.97] md:cursor-pointer"
               >
                 Build It
                 <ArrowRight className="w-4 h-4" />
@@ -77,7 +77,7 @@ export function BrainAndPath() {
                 </p>
                 <Link
                   href="/services/path"
-                  className="mt-7 md:mt-10 w-full py-3.5 bg-[#D4A853] text-[#0D0D0D] text-sm font-medium tracking-wide hover:bg-[#E8C97A] transition-colors flex items-center justify-center gap-2 active:scale-[0.97] md:w-fit md:min-w-[280px] md:px-10 md:mx-auto"
+                  className="mt-7 md:mt-10 w-full py-3.5 bg-[#D4A853] text-[#0D0D0D] text-sm font-medium tracking-wide hover:bg-[#E8C97A] transition-colors flex items-center justify-center gap-2 pointer-coarse:active:scale-[0.97] md:w-fit md:min-w-[280px] md:px-10 md:mx-auto"
                 >
                   Open the Path
                   <ArrowRight className="w-4 h-4" />

@@ -36,5 +36,5 @@ export default async function VentureSitePage({ params }: { params: Promise<{ sl
   const { slug } = await params;
   const venture = getVenture(slug);
   if (!venture) notFound();
-  return <VentureEmbed name={venture.name} site={venture.site} backHref={`/ventures/${venture.slug}`} />;
+  return <VentureEmbed name={venture.name} site={venture.site} backHref={`/ventures/${venture.slug}`} backLabel={venture.name} />;
 }

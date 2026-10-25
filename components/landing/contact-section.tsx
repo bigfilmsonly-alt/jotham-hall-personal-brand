@@ -38,7 +38,7 @@ export function ContactSection() {
           <div className="space-y-3 max-w-md mx-auto mb-8">
             <a
               href="tel:+15106809100"
-              className="group flex items-center gap-4 px-5 py-4 border border-foreground/10 hover:border-foreground/30 transition-all active:scale-[0.98]"
+              className="group flex items-center gap-4 px-5 py-4 border border-foreground/10 hover:border-foreground/30 transition-all pointer-coarse:active:scale-[0.98]"
             >
               <div className="w-11 h-11 flex items-center justify-center border border-foreground/10 group-hover:border-foreground/30 transition-colors shrink-0">
                 <Phone className="w-5 h-5 text-muted-foreground group-hover:text-foreground transition-colors" />
@@ -52,7 +52,7 @@ export function ContactSection() {
 
             <a
               href="sms:+15106934083"
-              className="group flex items-center gap-4 px-5 py-4 border border-foreground/10 hover:border-foreground/30 transition-all active:scale-[0.98]"
+              className="group flex items-center gap-4 px-5 py-4 border border-foreground/10 hover:border-foreground/30 transition-all pointer-coarse:active:scale-[0.98]"
             >
               <div className="w-11 h-11 flex items-center justify-center border border-foreground/10 group-hover:border-foreground/30 transition-colors shrink-0">
                 <MessageSquare className="w-5 h-5 text-muted-foreground group-hover:text-foreground transition-colors" />
@@ -66,7 +66,7 @@ export function ContactSection() {
 
             <a
               href="mailto:bigfilmsonly@gmail.com"
-              className="group flex items-center gap-4 px-5 py-4 border border-foreground/10 hover:border-foreground/30 transition-all active:scale-[0.98]"
+              className="group flex items-center gap-4 px-5 py-4 border border-foreground/10 hover:border-foreground/30 transition-all pointer-coarse:active:scale-[0.98]"
             >
               <div className="w-11 h-11 flex items-center justify-center border border-foreground/10 group-hover:border-foreground/30 transition-colors shrink-0">
                 <Mail className="w-5 h-5 text-muted-foreground group-hover:text-foreground transition-colors" />
@@ -83,7 +83,7 @@ export function ContactSection() {
             <p className="text-xs text-muted-foreground mb-4 font-mono">Or apply with full details</p>
             <button
               onClick={() => setIsContactOpen(true)}
-              className="px-8 py-4 bg-foreground text-background text-sm font-medium hover:bg-foreground/90 transition-colors inline-flex items-center gap-2 active:scale-[0.97]"
+              className="px-8 py-4 bg-foreground text-background text-sm font-medium hover:bg-foreground/90 transition-colors inline-flex items-center gap-2 pointer-coarse:active:scale-[0.97]"
             >
               Fill Out the Application
               <ArrowRight className="w-4 h-4" />

@@ -22,7 +22,7 @@ export function PathRoom() {
   useEffect(() => setUnlocked(readPathUnlocked()), []);
 
   if (unlocked === null) return <div className="fixed inset-0 bg-[#0D0D0D]" />;
-  if (unlocked) return <VentureEmbed name="The Path" site={PATH_SITE} backHref="/services" />;
+  if (unlocked) return <VentureEmbed name="The Path" site={PATH_SITE} backHref="/services#the-path" backLabel="Services" />;
 
   // On a desktop the strip's link lines up with the site's centered max-w-6xl bar row, and the join centers below it.
   return (

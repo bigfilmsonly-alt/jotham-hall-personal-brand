@@ -178,7 +178,7 @@ function labelFor(field: ChoiceField, value: string): string {
 }
 
 const PRIMARY =
-  "w-full py-3.5 px-4 bg-[#D4A853] text-[#0D0D0D] text-sm font-medium tracking-wide hover:bg-[#E8C97A] transition-colors flex items-center justify-center gap-2 active:scale-[0.97] disabled:opacity-40 disabled:pointer-events-none";
+  "w-full py-3.5 px-4 bg-[#D4A853] text-[#0D0D0D] text-sm font-medium tracking-wide hover:bg-[#E8C97A] transition-colors flex items-center justify-center gap-2 pointer-coarse:active:scale-[0.97] disabled:opacity-40 disabled:pointer-events-none";
 
 const DIRECT = [
   { icon: Phone, label: "Call", value: "(510) 680-9100", href: "tel:+15106809100" },
@@ -235,7 +235,7 @@ function OptionButton({ label, selected, multi, onClick }: { label: string; sele
       type="button"
       onClick={onClick}
       aria-pressed={selected}
-      className={`w-full min-h-[52px] px-4 py-3 flex items-center gap-3 text-left border transition-colors active:scale-[0.99] ${
+      className={`w-full min-h-[52px] px-4 py-3 flex items-center gap-3 text-left border transition-colors pointer-coarse:active:scale-[0.99] ${
         selected ? "border-[#D4A853] bg-[#D4A853]/10" : "border-[#3D3A35] bg-[#1A1A1A] hover:border-[#D4A853]/40"
       }`}
     >

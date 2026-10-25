@@ -78,7 +78,7 @@ const heading =
 // Every section: phone padding, then the shared desktop padding and rhythm.
 const section = "px-6 py-14 border-t border-[#3D3A35]/60 text-center md:px-10 md:py-20";
 const primaryButton =
-  "w-full py-3.5 bg-[#D4A853] text-[#0D0D0D] text-sm font-medium tracking-wide hover:bg-[#E8C97A] transition-colors flex items-center justify-center gap-2 active:scale-[0.97]";
+  "w-full py-3.5 bg-[#D4A853] text-[#0D0D0D] text-sm font-medium tracking-wide hover:bg-[#E8C97A] transition-colors flex items-center justify-center gap-2 pointer-coarse:active:scale-[0.97]";
 
 // The secondary action: opens direct call, text and email links in place.
 // The numbers stay visible because tel: and sms: do nothing on most desktops.
@@ -94,7 +94,7 @@ function ContactOptions() {
         type="button"
         onClick={() => setIsOpen((open) => !open)}
         aria-expanded={isOpen}
-        className="w-full py-3.5 border border-[#3D3A35] text-sm font-medium tracking-wide text-[#B8B0A8] hover:border-[#D4A853]/40 hover:text-[#FAF8F5] transition-colors flex items-center justify-center gap-2 active:scale-[0.97]"
+        className="w-full py-3.5 border border-[#3D3A35] text-sm font-medium tracking-wide text-[#B8B0A8] hover:border-[#D4A853]/40 hover:text-[#FAF8F5] transition-colors flex items-center justify-center gap-2 pointer-coarse:active:scale-[0.97]"
       >
         <Phone className="w-3.5 h-3.5" />
         Call, Text, or Email
@@ -105,7 +105,7 @@ function ContactOptions() {
             <li key={name}>
               <a
                 href={href}
-                className="flex items-center justify-center gap-2.5 py-3 border border-[#3D3A35]/60 text-sm text-[#B8B0A8] hover:border-[#D4A853]/40 hover:text-[#FAF8F5] transition-colors active:scale-[0.98]"
+                className="flex items-center justify-center gap-2.5 py-3 border border-[#3D3A35]/60 text-sm text-[#B8B0A8] hover:border-[#D4A853]/40 hover:text-[#FAF8F5] transition-colors pointer-coarse:active:scale-[0.98]"
               >
                 <Icon className="w-4 h-4 text-[#D4A853]" />
                 {name} {detail}
@@ -229,7 +229,7 @@ export default function AboutPage() {
         <ul className="mt-9 grid grid-cols-3 gap-x-3 gap-y-7 md:mx-auto md:mt-12 md:max-w-lg md:gap-x-6 md:gap-y-10 lg:max-w-5xl lg:grid-cols-6">
           {featured.map((venture) => (
             <li key={venture.slug}>
-              <Link href={`/ventures/${venture.slug}`} className="group block active:scale-[0.98] transition-transform">
+              <Link href={`/ventures/${venture.slug}`} className="group block pointer-coarse:active:scale-[0.98] transition-transform">
                 <span className="relative block aspect-[390/844] overflow-hidden rounded-[14px] border border-[#3D3A35] bg-black group-hover:border-[#D4A853]/50 transition-colors md:rounded-[20px]">
                   {venture.preview && (
                     <Image

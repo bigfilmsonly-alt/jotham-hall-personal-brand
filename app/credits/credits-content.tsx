@@ -89,7 +89,7 @@ const fiftyMindsCredits = [
 
 // Full width on the phone; its own width, centered, from md up.
 const primaryButton =
-  "w-full py-3.5 bg-[#D4A853] text-[#0D0D0D] text-sm font-medium tracking-wide hover:bg-[#E8C97A] transition-colors flex items-center justify-center gap-2 active:scale-[0.97] md:w-auto md:min-w-[280px] md:px-10 md:mx-auto";
+  "w-full py-3.5 bg-[#D4A853] text-[#0D0D0D] text-sm font-medium tracking-wide hover:bg-[#E8C97A] transition-colors flex items-center justify-center gap-2 pointer-coarse:active:scale-[0.97] md:w-auto md:min-w-[280px] md:px-10 md:mx-auto";
 
 function SectionHeading({ eyebrow, title }: { eyebrow: string; title: string }) {
   return (

@@ -35,9 +35,9 @@ import {
 */
 
 const primaryButton =
-  "w-full py-3.5 bg-[#D4A853] text-[#0D0D0D] text-sm font-medium tracking-wide hover:bg-[#E8C97A] transition-colors flex items-center justify-center gap-2 active:scale-[0.97] md:cursor-pointer";
+  "w-full py-3.5 bg-[#D4A853] text-[#0D0D0D] text-sm font-medium tracking-wide hover:bg-[#E8C97A] transition-colors flex items-center justify-center gap-2 pointer-coarse:active:scale-[0.97] md:cursor-pointer";
 const secondaryButton =
-  "w-full py-3.5 border border-[#3D3A35] text-[#B8B0A8] text-sm font-medium tracking-wide hover:border-[#D4A853]/40 hover:text-[#FAF8F5] transition-colors flex items-center justify-center gap-2 active:scale-[0.97] md:cursor-pointer";
+  "w-full py-3.5 border border-[#3D3A35] text-[#B8B0A8] text-sm font-medium tracking-wide hover:border-[#D4A853]/40 hover:text-[#FAF8F5] transition-colors flex items-center justify-center gap-2 pointer-coarse:active:scale-[0.97] md:cursor-pointer";
 // A button standing alone on a desktop: its own width, at least 280px, centered, never the full row.
 const desktopButton = "md:w-fit md:min-w-[280px] md:px-10 md:mx-auto";
 
@@ -233,7 +233,7 @@ function ProofCard({
   return (
     <Link
       href={href}
-      className="flex items-center gap-4 p-4 md:h-full md:items-start md:gap-6 md:p-6 bg-[#1A1A1A] border border-[#3D3A35] hover:border-[#D4A853]/40 transition-colors active:scale-[0.99]"
+      className="flex items-center gap-4 p-4 md:h-full md:items-start md:gap-6 md:p-6 bg-[#1A1A1A] border border-[#3D3A35] hover:border-[#D4A853]/40 transition-colors pointer-coarse:active:scale-[0.99]"
     >
       <span
         className={`relative shrink-0 w-12 h-[76px] md:w-[72px] md:h-[114px] overflow-hidden rounded-[10px] md:rounded-[15px] border flex items-center justify-center ${
@@ -358,7 +358,7 @@ export function ServiceClosing({ headline, line, onBook }: { headline: string; l
               <a
                 key={contact.href}
                 href={contact.href}
-                className="flex items-center gap-3 px-4 py-3 border border-[#3D3A35] hover:border-[#D4A853]/40 transition-colors active:scale-[0.98]"
+                className="flex items-center gap-3 px-4 py-3 border border-[#3D3A35] hover:border-[#D4A853]/40 transition-colors pointer-coarse:active:scale-[0.98]"
               >
                 <contact.icon className="w-4 h-4 shrink-0 text-[#D4A853]" />
                 <span className="min-w-0 text-sm text-[#B8B0A8]">{contact.label}</span>
@@ -384,7 +384,7 @@ function OtherServices({ current }: { current: ServiceSlug }) {
               <li key={service.slug}>
                 <Link
                   href={`/services/${service.slug}`}
-                  className="group flex items-center justify-between gap-4 px-5 py-4 md:px-6 md:py-5 lg:h-full lg:p-6 border border-[#3D3A35] hover:border-[#D4A853]/40 transition-colors active:scale-[0.98]"
+                  className="group flex items-center justify-between gap-4 px-5 py-4 md:px-6 md:py-5 lg:h-full lg:p-6 border border-[#3D3A35] hover:border-[#D4A853]/40 transition-colors pointer-coarse:active:scale-[0.98]"
                 >
                   <span className="min-w-0">
                     <span className="block font-display text-[0.9rem] md:text-base tracking-[0.12em] uppercase text-[#FAF8F5]">

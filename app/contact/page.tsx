@@ -66,7 +66,7 @@ export default function ContactPage() {
           <button
             type="button"
             onClick={openCalendly}
-            className="w-full py-3.5 bg-[#D4A853] text-[#0D0D0D] text-sm font-medium tracking-wide hover:bg-[#E8C97A] transition-colors flex items-center justify-center gap-2 active:scale-[0.97] md:w-fit md:min-w-[280px] md:px-10 md:mx-auto"
+            className="w-full py-3.5 bg-[#D4A853] text-[#0D0D0D] text-sm font-medium tracking-wide hover:bg-[#E8C97A] transition-colors flex items-center justify-center gap-2 pointer-coarse:active:scale-[0.97] md:w-fit md:min-w-[280px] md:px-10 md:mx-auto"
           >
             Book a Strategy Call
             <ArrowRight className="w-4 h-4" />
@@ -127,7 +127,7 @@ export default function ContactPage() {
           <button
             type="button"
             onClick={openCalendly}
-            className="w-full py-3.5 bg-[#D4A853] text-[#0D0D0D] text-sm font-medium tracking-wide hover:bg-[#E8C97A] transition-colors flex items-center justify-center gap-2 active:scale-[0.97] md:w-fit md:min-w-[280px] md:px-10 md:mx-auto"
+            className="w-full py-3.5 bg-[#D4A853] text-[#0D0D0D] text-sm font-medium tracking-wide hover:bg-[#E8C97A] transition-colors flex items-center justify-center gap-2 pointer-coarse:active:scale-[0.97] md:w-fit md:min-w-[280px] md:px-10 md:mx-auto"
           >
             Book a Strategy Call
             <ArrowRight className="w-4 h-4" />
